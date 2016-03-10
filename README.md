@@ -1,1 +1,1 @@
-### Thunder..Thunder..Thunder..Thundercats, GOOOOOOOO!
+### Thunder..Thunder..Thunder..Thundercats, HOOOOOOOO!
