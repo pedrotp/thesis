@@ -17,6 +17,10 @@ var getHabits = function (success, fail) {
 var addHabit = function (habit, success, fail) {
   Habit.create(habit)
     .then(function (data) {
+      var instances = new Instances;
+      data.instancesId = instances.id
+      instances.save();
+      data.save();
       success(data);
     })
     .catch(function (err) {
@@ -35,19 +39,37 @@ var deleteHabit = function (id, success, fail) {
 };
 
 var updateHabit = function (habitid, habitDetails, success, fail) {
-  Habit.findByIdAndUpdate(habitid, habitDetails)
+  Habit.findByIdAndUpdate(habitid, habitDetails, {new: true})
     .then(function (habit) {
       success(habit);
     })
     .catch(function (err) {
-      console.error(err)
+      console.error(err);
       fail(err);
     })
 };
 
+var createInstance = function (habitid, success, fail) {
+  Habit.findById(habitid)
+    .then(function (habit) {
+      return Instances.findById(habit.instancesId)
+    })
+    .then(function (instances) {
+      var instance = new Instance;
+      return instances.store.addToSet(instance);
+    })
+    .then(function (instance) {
+      success(instance);
+    })
+    .catch(function (err) {
+      console.error(err);
+      fail(err);
+    })
+}
 module.exports = {
   updateHabit: updateHabit,
   addHabit: addHabit,
   deleteHabit: deleteHabit,
-  getHabits: getHabits
+  getHabits: getHabits,
+  createInstance: createInstance
 };

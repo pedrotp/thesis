@@ -27,17 +27,21 @@ var routes = [{
 },
 {
   path: '/habits/:habitid',
+  post: function (req, res) {
+    var habitid = req.params.habitid;
+    helpers.createInstance(habitid,
+      function (data) {
+        res.status(201).send(data);
+      },
+      function (err) {
+        console.error(err);
+        res.status(400)
+      });
+  },
   put: function (req, res) {
     var habitid = req.params.habitid;
-    var habitDetails = {};
-    habitDetails.action = req.body.action;
-    habitDetails.frequency = req.body.frequency;
-    habitDetails.unit = req.body.unit;
-    habitDetails.currentGoal = req.body.currentGoal;
-    habitDetails.schedule = req.body.schedule;
-
+    var habitDetails = req.body;
     helpers.updateHabit(habitid, habitDetails, function (data) {
-        console.log('got back', data, 'from updateHabit helper');
         res.status(200).send(data);
       },
       function (err) {
