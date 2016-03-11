@@ -1,10 +1,9 @@
 var mongoose = require('mongoose');
 
-var instanceSchema = mongoose.Schema({
-});
+var instanceSchema = mongoose.Schema({});
 
 var instancesSchema = mongoose.Schema({
-  store: [ instanceSchema ]
+  store: [instanceSchema]
 });
 
 var habitSchema = mongoose.Schema({
@@ -19,7 +18,7 @@ var habitSchema = mongoose.Schema({
 var userSchema = mongoose.Schema({
   username: { type: String, required: true },
   fullName: { type: String },
-  habits: [ habitSchema ]
+  habits: [habitSchema]
 });
 
 var Habit = mongoose.model('Habit', habitSchema);
