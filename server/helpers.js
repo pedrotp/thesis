@@ -22,13 +22,13 @@ var addHabit = function (habit, success, fail) {
 };
 
 var deleteHabit = function (id, success, fail) {
-  Habit.findByIdAndRemove(id, function (err, habit) {
-    if (err) {
+  Habit.findByIdAndRemove(id)
+    .then(function (data) {
+      success(data);
+    })
+    .catch(function (err) {
       fail(err);
-    } else {
-      success(habit);
-    }
-  });
+    });
 };
 
 var updateHabit = function (habitid, habitDetails, success, fail) {
