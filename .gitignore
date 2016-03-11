@@ -4,4 +4,8 @@ bower_components/
 
 build/
 dist/
+<<<<<<< 929f2cb37c715d6c536586ee91fb811b4ab10ea7
+=======
+
+>>>>>>> (feat) Adds update habit PUT route at /habits/:habitid
 .DS_Store
