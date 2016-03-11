@@ -11,13 +11,13 @@ var getHabits = function (success, fail) {
 };
 
 var addHabit = function (habit, success, fail) {
-  Habit.create(habit, function (err, habit) {
-    if (err) {
+  Habit.create(habit)
+    .then(function (data) {
+      success(data);
+    })
+    .catch(function (err) {
       fail(err);
-    } else {
-      success(habit);
-    }
-  });
+    });
 };
 
 var deleteHabit = function (id, success, fail) {
