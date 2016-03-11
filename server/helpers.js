@@ -1,6 +1,5 @@
 var db = require('db');
 
-
 var getHabits = function (success, fail) {
   db.Habits.find({})
     .then(function (data) {

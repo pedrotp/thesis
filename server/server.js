@@ -2,6 +2,7 @@ var express = require('express');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var routes = require('./routes');
+var db = require('../db/db');
 
 var app = express();
 
