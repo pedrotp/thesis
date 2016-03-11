@@ -13,7 +13,16 @@ var routes = [
             console.error(error);
             res.sendStatus(400);
       });
+    },
+    delete: function (req, res) {
+      Habit.findByIdAndRemove(req.params.id, function (err, habit) {
+        if (err) {
+          console.error('Server error: ', err);
+          res.sendStatus(500);
+        } else {
+          res.send('Habit removed.');
+        }
+      });
     }
   }
-  
 ];
