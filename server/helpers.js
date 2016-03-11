@@ -1,20 +1,35 @@
+var db = require('db');
 
-module.exports.addHabit = function (habit, success, fail) {
-  Habit.create(habit, function (err, habit) {
-    if(err) {
-      fail(err);
-    } else {
-      success(habit);
-    }
-  });
-};
+module.exports = {
 
-module.exports.deleteHabit = function (id, success, fail) {
-  Habit.findByIdAndRemove(id, function (err, habit) {
-    if (err) {
+  getHabits: function (success, fail) {
+    db.Habits.find({})
+    .then(function (data) {
+      success(data);
+    })
+    .catch(function (err) {
       fail(err);
-    } else {
-      success(habit);
-    }
-  });
+    });
+  },
+
+  addHabit = function (habit, success, fail) {
+    Habit.createHabit(habit, function (err, habit) {
+      if(err) {
+        fail(err);
+      } else {
+        success(habit);
+      }
+    });
+  },
+
+  deleteHabit = function (id, success, fail) {
+    Habit.findByIdAndRemove(id, function (err, habit) {
+      if (err) {
+        fail(err);
+      } else {
+        success(habit);
+      }
+    });
+  }
+
 };
