@@ -50,7 +50,7 @@ var routes = [{
       });
   },
   delete: function (req, res) {
-    helpers.deleteHabit(req.params.id, function () {
+    helpers.deleteHabit(req.params.habitid, function (err) {
       console.error('Server error: ', err);
       res.sendStatus(500);
     }, function () {
