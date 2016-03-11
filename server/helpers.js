@@ -1,7 +1,10 @@
 var Habit = require('../db/models').Habit;
+var Instance = require('../db/models').Instance;
+var Instances = require('../db/models').Instances;
+var User = require('../db/models').User;
 
 var getHabits = function (success, fail) {
-  db.Habits.find({})
+  Habit.find({})
     .then(function (data) {
       success(data);
     })

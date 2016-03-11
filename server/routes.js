@@ -5,7 +5,6 @@ var routes = [{
   get: function (req, res) {
     // query db for user's habits
     helpers.getHabits(
-      // on success
       function (success) {
         res.json(success);
       },
