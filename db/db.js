@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var uri = process.env.MONGOLAB_URI || 'mongodb://localhost/betterdb'; 
 
 mongoose.connect(uri);
+mongoose.Promise = require('bluebird');
 
 var db = mongoose.connection;
 

@@ -4,7 +4,7 @@ var instanceSchema = mongoose.Schema({
 });
 
 var instancesSchema = mongoose.Schema({
-  collection: [ instanceSchema ]
+  store: [ instanceSchema ]
 });
 
 var habitSchema = mongoose.Schema({
