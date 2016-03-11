@@ -35,7 +35,7 @@ var routes = [{
     console.log('details', habitDetails);
     helpers.updateHabit(habitid, habitDetails, function (data) {
         console.log('got back', data, 'from updateHabit helper');
-        res.send(data);
+        res.status(200).send(data);
       },
       function (err) {
         console.err(err);

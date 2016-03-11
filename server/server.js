@@ -1,7 +1,7 @@
 var express = require('express');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
-var routes = require('./routes')
+var routes = require('./routes');
 
 var app = express();
 
