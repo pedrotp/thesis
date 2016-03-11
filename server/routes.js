@@ -1,5 +1,4 @@
-var app = require('../server.js');
-var helpers = require('./helpers.js');
+var helpers = require('./helpers');
 
 var routes = [
   {
@@ -15,13 +14,11 @@ var routes = [
       });
     },
     delete: function (req, res) {
-      Habit.findByIdAndRemove(req.params.id, function (err, habit) {
-        if (err) {
-          console.error('Server error: ', err);
-          res.sendStatus(500);
-        } else {
-          res.send('Habit removed.');
-        }
+      helpers.deleteHabit(req.params.id, function () {
+        console.error('Server error: ', err);
+        res.sendStatus(500);
+      }, function () {
+        res.send('Habit removed.');
       });
     }
   }
