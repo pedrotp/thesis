@@ -9,7 +9,7 @@ var routes = [
         // res.json(data);
       // on Error
         // console.error(err);
-        // res.statusCode(500);
+        // res.sendStatus(400);
     },
     post: function(req, res) {
       var habit = req.body;
