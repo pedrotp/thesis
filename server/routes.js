@@ -5,20 +5,24 @@ var routes = [
     path: '/habits',
     get: function (req, res) {
       // query db for user's habits
+      helpers.getHabits(
       // on success
-        // res.json(data);
+      function (success) {
+        res.json(success);
+      },
       // on Error
         // console.error(err);
         // res.sendStatus(400);
     },
     post: function(req, res) {
       var habit = req.body;
-      helpers.addHabit(habit, function(data) {
-            res.status(201).send(data);
-          },
-          function(error) {
-            console.error(error);
-            res.sendStatus(400);
+      helpers.addHabit(habit,
+      function(data) {
+        res.status(201).send(data);
+      },
+      function (err) {
+        console.error(err);
+        res.sendStatus(400);
       });
     },
     delete: function (req, res) {
