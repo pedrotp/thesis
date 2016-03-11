@@ -1,4 +1,5 @@
 var db = require('db');
+var Habit = require('../db/models').Habit;
 
 var getHabits = function (success, fail) {
   db.Habits.find({})
