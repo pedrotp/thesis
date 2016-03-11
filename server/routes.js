@@ -29,15 +29,19 @@ var routes = [{
   path: '/habits/:habitid',
   put: function (req, res) {
     var habitid = req.params.habitid;
-    var habitDetails = req.body.habitDetails;
-    console.log('id', habitid);
-    console.log('details', habitDetails);
+    var habitDetails = {};
+    habitDetails.action = req.body.action;
+    habitDetails.frequency = req.body.frequency;
+    habitDetails.unit = req.body.unit;
+    habitDetails.currentGoal = req.body.currentGoal;
+    habitDetails.schedule = req.body.schedule;
+
     helpers.updateHabit(habitid, habitDetails, function (data) {
         console.log('got back', data, 'from updateHabit helper');
         res.status(200).send(data);
       },
       function (err) {
-        console.err(err);
+        console.error(err);
         res.sendStatus(400);
       });
   },

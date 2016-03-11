@@ -1,8 +1,11 @@
 var mongoose = require('mongoose');
-var uri = process.env.MONGOLAB_URI || 'mongodb://localhost/betterdb'; 
+var uri = process.env.MONGOLAB_URI || 'mongodb://localhost/betterdb';
 
 mongoose.connect(uri);
 mongoose.Promise = require('bluebird');
+
+// test mongoose bluebird import
+// assert.equal(query.exec().constructor, require('bluebird'));
 
 var db = mongoose.connection;
 

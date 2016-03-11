@@ -3,6 +3,7 @@ var Instance = require('../db/models').Instance;
 var Instances = require('../db/models').Instances;
 var User = require('../db/models').User;
 
+
 var getHabits = function (success, fail) {
   Habit.find({})
     .then(function (data) {
@@ -34,12 +35,14 @@ var deleteHabit = function (id, success, fail) {
 };
 
 var updateHabit = function (habitid, habitDetails, success, fail) {
-  // mongo stuff
-  console.log('updating', habitid, 'with', habitDetails);
-  // if mongo success
-  success(habitDetails);
-  // if mongo fail
-  // fail(err);
+  Habit.findByIdAndUpdate(habitid, habitDetails)
+    .then(function (habit) {
+      success(habit);
+    })
+    .catch(function (err) {
+      console.error(err)
+      fail(err);
+    })
 };
 
 module.exports = {
