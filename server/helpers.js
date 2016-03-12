@@ -3,7 +3,6 @@ var Instance = require('../db/models').Instance;
 var Instances = require('../db/models').Instances;
 var User = require('../db/models').User;
 
-
 var getHabits = function (success, fail) {
   Habit.find({})
     .then(function (data) {
@@ -18,7 +17,7 @@ var addHabit = function (habit, success, fail) {
   Habit.create(habit)
     .then(function (data) {
       var instances = new Instances;
-      data.instancesId = instances.id
+      data.instancesId = instances.id;
       instances.save();
       data.save();
       success(data);
@@ -46,13 +45,13 @@ var updateHabit = function (habitid, habitDetails, success, fail) {
     .catch(function (err) {
       console.error(err);
       fail(err);
-    })
+    });
 };
 
 var createInstance = function (habitid, success, fail) {
   Habit.findById(habitid)
     .then(function (habit) {
-      return Instances.findById(habit.instancesId)
+      return Instances.findById(habit.instancesId);
     })
     .then(function (instances) {
       var instance = new Instance;
@@ -64,8 +63,9 @@ var createInstance = function (habitid, success, fail) {
     .catch(function (err) {
       console.error(err);
       fail(err);
-    })
-}
+    });
+};
+
 module.exports = {
   updateHabit: updateHabit,
   addHabit: addHabit,

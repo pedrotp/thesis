@@ -35,7 +35,7 @@ var routes = [{
       },
       function (err) {
         console.error(err);
-        res.status(400)
+        res.status(400);
       });
   },
   put: function (req, res) {
@@ -50,17 +50,17 @@ var routes = [{
       });
   },
   delete: function (req, res) {
-    helpers.deleteHabit(req.params.habitid, function (err) {
+    var habitid = req.params.habitid;
+    helpers.deleteHabit(habitid, function (data) {
+      res.status(202).send(data);
+    }, function (err) {
       console.error('Server error: ', err);
       res.sendStatus(500);
-    }, function () {
-      res.send('Habit removed.');
     });
   }
 }];
 
 module.exports = function (app, express) {
-
   routes.forEach(function (route) {
     for (var key in route) {
       if (key === 'path') {
