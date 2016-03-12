@@ -1,6 +1,7 @@
 {
   "name": "thesis",
   "version": "0.1.0",
+  "private": true,
   "description": "Build better habits",
   "main": "server.js",
   "scripts": {
@@ -27,6 +28,7 @@
     "mongoose": "^4.4.6",
     "morgan": "^1.7.0",
     "nodemon": "^1.9.1",
+    "react-native": "^0.21.0",
     "request": "^2.69.0"
   }
 }
