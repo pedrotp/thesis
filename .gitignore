@@ -4,7 +4,6 @@
 
 # Xcode
 #
-build/
 *.pbxuser
 !default.pbxuser
 *.mode1v3
@@ -31,4 +30,13 @@ local.properties
 # node.js
 #
 node_modules/
-npm-debug.log
+*.log
+
+# bower
+#
+bower_components/
+
+# build files
+#
+build/
+dist/
