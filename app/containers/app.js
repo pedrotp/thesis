@@ -1,19 +1,15 @@
-'use strict';
-import React, {
-  Component,
-  StyleSheet,
-  Text,
-  TextInput,
-  View
-} from 'react-native';
+var React = require('react');
+var StyleSheet = require('react-native').StyleSheet;
+var Text = require('react-native').Text;
+var TextInput = require('react-native').TextInput;
+var View = require('react-native').View;
 
-export default class thesis extends Component {
-  constructor (props) {
-    super(props);
-    this.state = {
+var App = React.createClass({
+  getInitialState: function () {
+    return {
       text: 'DEFAULT TEST TEXT'
-    };
-  }
+    }
+  },
 
   render() {
     return (
@@ -30,11 +26,11 @@ export default class thesis extends Component {
           value={this.state.text}
         />
       </View>
-    );
+    )
   }
-}
+});
 
-const styles = StyleSheet.create({
+var styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -52,3 +48,5 @@ const styles = StyleSheet.create({
     marginBottom: 5
   }
 });
+
+module.exports = App;
