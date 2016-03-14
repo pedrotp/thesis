@@ -1,4 +1,3 @@
-// logic call for the inbox
 var React = require('react-native');
 var Inbox = require('../components/inbox');
 var Welcome = require('../components/welcome');
@@ -6,6 +5,7 @@ var View = React.View;
 var Text = React.Text;
 var Navigator = React.Navigator;
 var TouchableOpacity = React.TouchableOpacity;
+var StyleSheet = React.StyleSheet;
 
 
 var Habits = React.createClass({
@@ -27,7 +27,7 @@ var Habits = React.createClass({
       _this.setState({habits: responseJSON});
     })
     .catch(function (error) {
-      console.warn(error);
+      console.warn(error); // TODO: double check console.warn
     });
   },
   componentWillMount: function () {
@@ -44,9 +44,23 @@ var Habits = React.createClass({
   },
   renderScene: function (route, navigator) {
     return (
-      <Inbox
-        habits={this.state.habits} />
+      <View style={styles.container}>
+        <Text style={styles.header}>BETTER</Text>
+        <Inbox habits={this.state.habits} />
+      </View>
     );
+  }
+});
+
+var styles = StyleSheet.create({
+  container: {
+    marginTop: 30,
+    padding: 10
+  },
+  header: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    textAlign: 'center',
   }
 });
 

@@ -1,4 +1,3 @@
-// actions/helpers for inbox stuff
 var React = require('react-native');
 var Swipeout = require('react-native-swipeout');
 var Text = React.Text;
@@ -14,14 +13,12 @@ var swipeButtons = [
 var Inbox = React.createClass({
   render: function () {
     return (
-      // header?
-      // habit list
-      <View style={styles.container}>
-        <Text>Habit Inbox</Text>
+      <View>
         {this.props.habits.map(function (habit) {
           return <Swipeout key={habit._id} right={swipeButtons}>
             <View>
               <Text>{habit.action}</Text>
+              <Text>{habit.count}</Text>
             </View>
           </Swipeout>
         })}
@@ -31,11 +28,11 @@ var Inbox = React.createClass({
   }
 });
 
-var styles = StyleSheet.create({
-  container: {
-    marginTop: 30,
-    padding: 10
-  }
-});
+// var styles = StyleSheet.create({
+//   container: {
+//     marginTop: 30,
+//     padding: 10
+//   }
+// });
 
 module.exports = Inbox;
