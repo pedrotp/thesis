@@ -6,44 +6,44 @@ var Component = require('react-native').Component;
 var StyleSheet = require('react-native').StyleSheet;
 var TouchableHighlight = require('react-native').TouchableHighlight;
 
-var App = React.createClass({
-  getInitialState: function () {
-    return {
-      text: 'DEFAULT TEST TEXT'
-    }
-  },
-
-  render() {
-    return (
-      <Habits />
-    )
-  }
-});
-
 // var App = React.createClass({
-//   onPressButton: function () {
-//     console.log('Add Habit is being clicked!');
+//   getInitialState: function () {
+//     return {
+//       text: ''
+//     }
 //   },
+//
 //   render () {
 //     return (
-//       <View style={styles.container}>
-//         <Text style={styles.welcome}>
-//           Ready to be Better?
-//         </Text>
-//         <Text style={styles.instructions}>
-//           Tap the button below to create your first habit!
-//         </Text>
-//         <TouchableHighlight onPress={this.onPressButton}>
-//           <View style={styles.button}>
-//             <Text>
-//               Add Habit
-//             </Text>
-//           </View>
-//         </TouchableHighlight>
-//       </View>
-//     );
+//       <Habits />
+//     )
 //   }
 // });
+
+var App = React.createClass({
+  onPressButton: function () {
+    console.log('Add Habit is being clicked!');
+  },
+  render () {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.welcome}>
+          Ready to be Better?
+        </Text>
+        <Text style={styles.instructions}>
+          Tap the button below to create your first habit!
+        </Text>
+        <TouchableHighlight onPress={this.onPressButton}>
+          <View style={styles.button}>
+            <Text>
+              Add Habit
+            </Text>
+          </View>
+        </TouchableHighlight>
+      </View>
+    );
+  }
+});
 
 var styles = StyleSheet.create({
   container: {

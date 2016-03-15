@@ -1,4 +1,3 @@
-// logic call for create
 var React = require('react');
 var Create = require('../components/create.js');
 var Alert = require('react-native').Alert;
@@ -6,9 +5,22 @@ var Alert = require('react-native').Alert;
 var AddHabit = React.createClass({
   getInitialState: function () {
     return {
-      // initial state
+      action: null,
+      frequency: null,
+      unit: null,
+      goal: null,
+      schedule: null
     }
   },
+
+  fields: {
+    action: null,
+    frequency: null,
+    unit: null,
+    goal: null,
+    schedule: null
+  },
+
   sendHabit: function (reqbody) {
     fetch('http://localhost:3000/habits', {
       method: 'POST',
@@ -33,5 +45,39 @@ var AddHabit = React.createClass({
     .catch(function (error) {
       console.warn(error);
     });
+  },
+
+  handleClick: function () {
+    var action = this.fields.action;
+    var frequency = this.fields.frequency;
+    var unit = this.fields.unit;
+    var goal = this.fields.goal;
+    var schedule = this.fields.schedule;
+
+    this.setState({
+      action,
+      frequency,
+      unit,
+      goal,
+      schedule
+    });
+
+    this.sendHabit({
+      action: action,
+      frequency: frequency,
+      unit: unit,
+      goal: goal,
+      schedule: schedule
+    });
+  },
+
+  render: function () {
+    return (
+      <Create
+        fields={this.fields}
+        handleClick={this.handleClick}/>
+    );
   }
 });
+
+module.exports = AddHabit;
