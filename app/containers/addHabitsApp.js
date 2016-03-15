@@ -1,6 +1,7 @@
 var React = require('react');
 var Create = require('../components/create.js');
 var Alert = require('react-native').Alert;
+var Navigator = require('react-native').Navigator;
 
 var AddHabit = React.createClass({
   getInitialState: function () {
@@ -35,15 +36,23 @@ var AddHabit = React.createClass({
     })
     .then(function (responseJSON) {
       console.log('success responseJSON:', responseJSON);
-      Alert.alert(
-        'Habit created!',
-        'Thank you!',
-        [
-          { text: 'Ok'}
-        ])
+      // Alert.alert(
+      //   'Habit created!',
+      //   'Thank you!',
+      //   [
+      //     { text: 'Ok'}
+      //   ])
     })
     .catch(function (error) {
       console.warn(error);
+    });
+  },
+  
+  goToNext: function() {
+    console.log('redirected');
+    this.props.navigator.push({
+      id: 'Habits',
+      name: 'HabitsView'
     });
   },
 
@@ -69,13 +78,21 @@ var AddHabit = React.createClass({
       goal: goal,
       schedule: schedule
     });
+    
+    this.goToNext();
   },
-
   render: function () {
+    return (
+      <Navigator
+        renderScene={this.renderScene}
+      />
+      )
+  },
+  renderScene: function (route, navigator) {
     return (
       <Create
         fields={this.fields}
-        handleClick={this.handleClick}/>
+        handleClick={this.handleClick} />
     );
   }
 });

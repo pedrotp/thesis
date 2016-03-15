@@ -6,39 +6,41 @@ var StyleSheet = require('react-native').StyleSheet;
 var TouchableHighlight = require('react-native').TouchableHighlight;
 var Navigator = require('react-native').Navigator;
 
-var Welcome = require('../components/welcome');
-var AddHabit = require('./addHabitsApp');
-var Habits = require('./habitsApp');
+var Habits = require('../containers/habitsApp');
 
-var App = React.createClass({
-  render: function () {
-    return (
-     <Navigator
-        initialRoute = {{id: 'Welcome', name: 'Index'}}
-        renderScene = {this.renderScene}
-     />
-     )
+var Welcome = React.createClass({
+  onPressButton: function () {
+    console.log('Add Habit is being clicked!');
+    this.props.navigator.push({
+      id: 'AddHabit',
+      name: 'Add Habit'
+    })
   },
   renderScene: function (route, navigator) {
-    var routeId = route.id;
-    if(routeId === 'Welcome') {
-      return (
-        <Welcome 
-            navigator={navigator} />
-        )
-    }
-    if(routeId === 'AddHabit') {
-      return (
-        <AddHabit 
-            navigator={navigator} />
-        )
-    }
-    if(routeId === 'Habits') {
-      return(
-        <Habits 
-            navigator={navigator} />
-        )
-    }
+    return (
+      <View style={styles.container}>
+        <Text style={styles.welcome}>
+          Ready to be Better?
+        </Text>
+        <Text style={styles.instructions}>
+          Tap the button below to create your first habit!
+        </Text>
+        <TouchableHighlight onPress={this.onPressButton}>
+          <View style={styles.button}>
+            <Text>
+              Add Habit
+            </Text>
+          </View>
+        </TouchableHighlight>
+      </View>
+    );
+  },
+  render: function () {
+    return (
+      <Navigator 
+        renderScene={this.renderScene}
+      />
+      )
   }
 });
 
@@ -72,4 +74,4 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = App;
+module.exports = Welcome;
