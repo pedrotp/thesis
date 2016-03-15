@@ -15,12 +15,13 @@ var Inbox = React.createClass({
     return (
       <View>
         {this.props.habits.map(function (habit) {
-          return <Swipeout key={habit._id} right={swipeButtons}>
-            <View>
-              <Text>{habit.action}</Text>
-              <Text>{habit.count}</Text>
-            </View>
-          </Swipeout>
+          return <View style={styles.habit} key={habit._id}>
+            <Swipeout right={swipeButtons}>
+              <View style={styles.swipe}>
+                <Text>{habit.action} {habit.currentGoal} {habit.unit} {habit.frequency}</Text>
+              </View>
+            </Swipeout>
+          </View>
         })}
       </View>
       // add button
@@ -28,11 +29,16 @@ var Inbox = React.createClass({
   }
 });
 
-// var styles = StyleSheet.create({
-//   container: {
-//     marginTop: 30,
-//     padding: 10
-//   }
-// });
+var styles = StyleSheet.create({
+  habit: {
+    flex: 1
+  },
+  swipe: {
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingTop: 15,
+    paddingBottom: 15
+  }
+});
 
 module.exports = Inbox;
