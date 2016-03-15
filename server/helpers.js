@@ -1,6 +1,7 @@
 var Habit = require('../db/models').Habit;
 var Instances = require('../db/models').Instances;
 var User = require('../db/models').User;
+var moment = require('moment');
 
 var getHabits = function (success, fail) {
   Habit.find({})
@@ -67,10 +68,27 @@ var createInstance = function (habitid, success, fail) {
     });
 };
 
+var isDone = function (habitid, success, fail) {
+  Habit.findById(habitid)
+    .then(function (habit) {
+      Instances.findById(habit.instancesId)
+        .then(function (instances) {
+          var last = instances.store[instances.store.length - 1].createdAt;
+          var now = new Date();
+          var freq = habit.frequency;
+          success(moment(last).isSame(now, freq));
+        });
+    })
+    .catch(function (err) {
+      console.error(err);
+    });
+};
+
 module.exports = {
   updateHabit: updateHabit,
   addHabit: addHabit,
   deleteHabit: deleteHabit,
   getHabits: getHabits,
-  createInstance: createInstance
+  createInstance: createInstance,
+  isDone: isDone
 };
