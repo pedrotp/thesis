@@ -1,5 +1,4 @@
 var Habit = require('../db/models').Habit;
-var Instance = require('../db/models').Instance;
 var Instances = require('../db/models').Instances;
 var User = require('../db/models').User;
 
@@ -54,8 +53,10 @@ var createInstance = function (habitid, success, fail) {
       return Instances.findById(habit.instancesId);
     })
     .then(function (instances) {
-      var instance = new Instance;
-      return instances.store.addToSet(instance);
+      var instance = instances.store.create({});
+      instances.store.push(instance);
+      instances.save();
+      return instance;
     })
     .then(function (instance) {
       success(instance);
