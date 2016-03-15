@@ -58,6 +58,18 @@ var routes = [{
       res.sendStatus(500);
     });
   }
+}, 
+{
+  path: '/done/:habitid',
+  get: function (req, res) {
+    var habitid = req.params.habitid;
+    helpers.isDone(habitid, function (done) {
+      res.send(done);
+    }, function (err) {
+      console.error('Server error: ', err);
+      res.sendStatus(500);
+    });
+  }
 }];
 
 module.exports = function (app, express) {
