@@ -30,6 +30,9 @@ var Habits = React.createClass({
       console.warn(error); // TODO: double check console.warn
     });
   },
+  deleteHabit: function () {
+    console.log("deleteHabit called");
+  },
   componentWillMount: function () {
     this.getHabits();
   },
@@ -46,7 +49,7 @@ var Habits = React.createClass({
     return (
       <View style={styles.container}>
         <Text style={styles.header}>BETTER</Text>
-        <Inbox habits={this.state.habits} />
+        <Inbox habits={this.state.habits} deleteHabit={this.deleteHabit}/>
       </View>
     );
   }

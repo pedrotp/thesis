@@ -4,30 +4,41 @@ var Text = React.Text;
 var View = React.View;
 var StyleSheet = React.StyleSheet;
 
-var swipeButtons = [
-  {text: 'Delete'},
-  {text: 'Edit'},
-  {text: 'Record'} // TODO: name this better
-];
+function Inbox (props) {
+  var swipeButtons = [
+    {
+      text: 'Delete',
+      onPress: props.deleteHabit,
+      backgroundColor: '#FF0000'
+    },
+    {
+      text: 'Edit',
+      color: '#000000',
+      backgroundColor: "#FFFFFF"
+    },
+    {
+      text: 'Did It!', // TODO: name this better
+      color: '#FFFFFF',
+      backgroundColor: '#006600'
+    }
+  ];
 
-var Inbox = React.createClass({
-  render: function () {
-    return (
-      <View>
-        {this.props.habits.map(function (habit) {
-          return <View style={styles.habit} key={habit._id}>
-            <Swipeout right={swipeButtons}>
-              <View style={styles.swipe}>
-                <Text>{habit.action} {habit.currentGoal} {habit.unit} {habit.frequency}</Text>
-              </View>
-            </Swipeout>
-          </View>
-        })}
-      </View>
-      // add button
-    )
-  }
-});
+  return (
+    // header?
+    // habit list
+    <View>
+      {props.habits.map(function (habit) {
+        return <View style={styles.habit} key={habit._id}>
+          <Swipeout  right={swipeButtons}>
+            <View style={styles.swipe}>
+              <Text>{habit.action} {habit.currentGoal} {habit.unit} {habit.frequency}</Text>
+            </View>
+          </Swipeout>
+        </View>
+      }, this)}
+    </View>
+  )
+};
 
 var styles = StyleSheet.create({
   habit: {
