@@ -6,7 +6,7 @@
   "main": "server.js",
   "scripts": {
     "test": "node server/server.js & mocha test/ServerSpec.js; RES=$?; kill %1; exit $RES",
-    "start": "nodemon server/server.js; node node_modules/react-native/local-cli/cli.js start"
+    "start": "nodemon server/server.js"
   },
   "repository": {
     "type": "git",
@@ -19,7 +19,6 @@
   },
   "homepage": "https://github.com/hrr12-thundercats/thesis#readme",
   "dependencies": {
-    "react-native": "^0.21.0",
     "bluebird": "^3.3.4",
     "body-parser": "^1.15.0",
     "chai": "^3.5.0",
@@ -29,6 +28,7 @@
     "morgan": "^1.7.0",
     "nodemon": "^1.9.1",
     "react-native": "^0.21.0",
+    "react-native-swipeout": "^2.0.12",
     "request": "^2.69.0"
   }
 }
