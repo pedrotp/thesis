@@ -13,11 +13,11 @@ var Habits = React.createClass({
   getInitialState: function () {
     var ds = new ListView.DataSource({
       rowHasChanged: function (row1, row2) {
-        row1 !== row2
+        return row1 !== row2
       }
     })
-    console.log("DS:", ds);
     return {
+      habits: {},
       dataSource: ds.cloneWithRows([]),
     }
   },
@@ -27,23 +27,15 @@ var Habits = React.createClass({
       method: 'GET',
     })
     .then(function (response) {
-      return response.json()
+      return response.json();
     })
-    .then(function (responseJSON) {
-      console.log('Habit Array:', responseJSON)
-      var rowIds = [];
-      for (var i = 0; i < responseJSON.length; i++) {
-        rowIds.push(responseJSON[i]._id);
-      }
-      var newDataSource = _this.state.dataSource.cloneWithRows(responseJSON, rowIds);
-      console.log(newDataSource);
+    .then(function (responseData) {
+      console.log("RESPONSE DATA:", responseData);
       _this.setState({
-        dataSource: newDataSource
+        dataSource: _this.state.dataSource.cloneWithRows(responseData)
       });
     })
-    .catch(function (error) {
-      console.warn(error); // TODO: double check console.warn
-    });
+    .done();
   },
   deleteHabit: function (habitId) {
     console.log("deleteHabit called on", habitId);
@@ -51,14 +43,9 @@ var Habits = React.createClass({
   componentWillMount: function () {
     this.getHabits();
   },
-  renderRow: function (rowData, sectionID, rowID) {
-    console.log(rowData);
-    return <View>
-      <Text>{rowID}</Text>
-      <Text>{rowData}</Text>
-    </View>
-
-    // <Inbox habits={this.state.habits} deleteHabit={this.deleteHabit}/>
+  renderHabit: function (habit) {
+    console.log("ROWDATA:", habit);
+    return <Inbox habit={habit} deleteHabit={this.deleteHabit} />
   },
   render: function () {
     return (
@@ -73,9 +60,9 @@ var Habits = React.createClass({
     return (
       <View style={styles.container}>
         <Text style={styles.header}>BETTER</Text>
-       <ListView
-        dataSource={this.state.dataSource}
-        renderRow={this.renderRow}
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this.renderHabit}
         />
       </View>
     );
