@@ -1,5 +1,4 @@
 var React = require('react-native');
-<<<<<<< 395ee75836ebf7586b90f9d1ddb689c8447a97f1:app/containers/CreateContainer.js
 var Habits = require('./InboxContainer');
 var Create = require('../components/create');
 var View = React.View;
@@ -7,10 +6,6 @@ var Text = React.Text;
 var Alert = React.Alert;
 var Navigator = React.Navigator;
 var TouchableOpacity = React.TouchableOpacity;
-=======
-var Alert = React.Alert;
-var Create = require('../components/create.js');
->>>>>>> (refactor) Changes Inbox component to functional stateless:app/containers/addHabitsApp.js
 
 var AddHabit = React.createClass({
   getInitialState: function () {
