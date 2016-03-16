@@ -43,7 +43,7 @@ var Habits = React.createClass({
   componentWillMount: function () {
     this.getHabits();
   },
-  renderHabit: function (habit) {
+  renderInbox: function (habit) {
     console.log("ROWDATA:", habit);
     return <Inbox habit={habit} deleteHabit={this.deleteHabit} />
   },
@@ -62,7 +62,7 @@ var Habits = React.createClass({
         <Text style={styles.header}>BETTER</Text>
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={this.renderHabit}
+          renderRow={this.renderInbox}
         />
       </View>
     );
