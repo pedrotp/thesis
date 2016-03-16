@@ -1,32 +1,28 @@
 var React = require('react-native');
-var Habits = require('./InboxContainer');
-var Create = require('../components/Create');
 var View = React.View;
 var Text = React.Text;
 var Alert = React.Alert;
 var Navigator = React.Navigator;
 var TouchableOpacity = React.TouchableOpacity;
 
+var Habits = require('./InboxContainer');
+var Create = require('../components/Create');
+
 var AddHabit = React.createClass({
   getInitialState: function () {
     return {
-      action: null,
-      frequency: null,
-      unit: null,
-      goal: null,
-      schedule: null
+      fields: {
+        action: null,
+        frequency: null,
+        unit: null,
+        goal: null,
+        schedule: null
+      }
     }
   },
 
-  fields: {
-    action: null,
-    frequency: null,
-    unit: null,
-    goal: null,
-    schedule: null
-  },
-
   sendHabit: function (reqbody) {
+    var _this = this;
     fetch('http://localhost:3000/habits', {
       method: 'POST',
       headers: {
@@ -40,10 +36,30 @@ var AddHabit = React.createClass({
     })
     .then(function (responseJSON) {
       console.log('Add Habit success:', responseJSON);
-      // Alert.alert('Habit created!', null,[{ text: 'Ok'}]);
+      Alert.alert(
+        'Habit created!',
+        null,
+        [
+          {
+            text: 'Ok',
+            onPress: function () {
+              _this.goToNext();
+            }
+          }
+        ]
+      );
     })
     .catch(function (error) {
       console.warn(error);
+      Alert.alert(
+        'Error!',
+        null,
+        [
+          {
+            text: 'Ok'
+          }
+        ]
+      );
     });
   },
 
@@ -54,18 +70,20 @@ var AddHabit = React.createClass({
   },
 
   handleClick: function () {
-    var action = this.fields.action;
-    var frequency = this.fields.frequency;
-    var unit = this.fields.unit;
-    var goal = this.fields.goal;
-    var schedule = this.fields.schedule;
+    var action = this.state.fields.action;
+    var frequency = this.state.fields.frequency;
+    var unit = this.state.fields.unit;
+    var goal = this.state.fields.goal;
+    var schedule = this.state.fields.schedule;
 
     this.setState({
-      action,
-      frequency,
-      unit,
-      goal,
-      schedule
+      fields: {
+        action: "",
+        frequency: "",
+        unit: "",
+        goal: "",
+        schedule: ""
+      }
     });
 
     this.sendHabit({
@@ -75,8 +93,6 @@ var AddHabit = React.createClass({
       goal: goal,
       schedule: schedule
     });
-
-    this.goToNext();
   },
 
   render: function () {
@@ -84,7 +100,8 @@ var AddHabit = React.createClass({
       <View style={{ flex: 1 }}>
         <Navigator
           renderScene={this.renderScene}
-          navigator={this.props.navigator} />
+          navigator={this.props.navigator}
+        />
       </View>
     );
   },
@@ -92,8 +109,9 @@ var AddHabit = React.createClass({
   renderScene: function (route, navigator) {
     return (
       <Create
-        fields={this.fields}
-        handleClick={this.handleClick} />
+        fields={this.state.fields}
+        handleClick={this.handleClick}
+      />
     );
   }
 });

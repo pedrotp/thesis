@@ -10,11 +10,11 @@ var TouchableOpacity = React.TouchableOpacity;
 function Create (props) {
   return (
     <View style={styles.container}>
-      <TextField title='Action:' onChange={function (text) { props.fields.action = text; }}></TextField>
-      <TextField title='Frequency:' onChange={function (text) { props.fields.frequency = text; }}></TextField>
-      <TextField title='Unit:' onChange={function (text) { props.fields.unit = text; }}></TextField>
-      <TextField title='Goal:' onChange={function (text) { props.fields.goal = text; }}></TextField>
-      <TextField title='Schedule:' onChange={function (text) { props.fields.schedule = text; }}></TextField>
+      <TextField title='Action:' onChange={function (text) { props.fields.action = text; }} value={ props.fields.action }></TextField>
+      <TextField title='Frequency:' onChange={function (text) { props.fields.frequency = text; }} value={ props.fields.frequency }></TextField>
+      <TextField title='Unit:' onChange={function (text) { props.fields.unit = text; }} value={ props.fields.unit }></TextField>
+      <TextField title='Goal:' onChange={function (text) { props.fields.goal = text; }} value={ props.fields.goal }></TextField>
+      <TextField title='Schedule:' onChange={function (text) { props.fields.schedule = text; }} value={ props.fields.schedule }></TextField>
       <SubmitButton
         onClick={props.handleClick}/>
     </View>
@@ -30,6 +30,7 @@ function TextField (props) {
       <TextInput
         style={styles.textInput}
         onChangeText={props.onChange}
+        value={props.value}
       />
     </View>
   );
