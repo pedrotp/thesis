@@ -53,6 +53,9 @@ var Habits = React.createClass({
   componentDidMount: function () {
     this.getHabits();
   },
+  componentDidUpdate: function () {
+    this.getHabits();
+  },
   renderInbox: function (habit) {
     console.log("ROWDATA:", habit);
     return <Inbox habit={habit} deleteHabit={this.deleteHabit} />
