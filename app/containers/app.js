@@ -4,7 +4,7 @@ var View = React.View;
 var Navigator = React.Navigator;
 var Component = React.Component;
 var StyleSheet = React.StyleSheet;
-var TouchableHighlight = React.TouchableHighlight;
+var TouchableOpacity = React.TouchableOpacity;
 
 var Welcome = require('../components/welcome');
 var AddHabit = require('./addHabitsApp');
@@ -13,9 +13,16 @@ var Habits = require('./habitsApp');
 var App = React.createClass({
   render: function () {
     return (
-     <Navigator
-        initialRoute = {{id: 'Welcome', name: 'Index'}}
-        renderScene = {this.renderScene} />
+      <View style={{ flex: 1 }}>
+        <Navigator
+          initialRoute = {{id: 'Welcome'}}
+          renderScene = {this.renderScene}
+          navigationBar={
+            <Navigator.NavigationBar
+              style={{backgroundColor: '#6399DC', alignItems: 'center'}}
+              routeMapper={NavigationBarRouteMapper} />
+          } />
+      </View>
     );
   },
   renderScene: function (route, navigator) {
@@ -70,5 +77,60 @@ var styles = StyleSheet.create({
     margin: 20
   }
 });
+
+var NavigationBarRouteMapper = {
+  LeftButton: function (route, navigator, index, navState) {
+    if (index === 0) {
+      return null;
+    }
+    return (
+      <TouchableOpacity
+        onPress={function () { navigator.pop(); }}
+        style={{ flex: 1, justifyContent: 'center' }}>
+        <Text style={{color: 'white', margin: 10}}>
+          Back
+        </Text>
+      </TouchableOpacity>
+    );
+  },
+
+  RightButton: function (route, navigator, index, navState) {
+    // if (index === navState.routeStack.length - 1) {
+    //   return null;
+    // }
+    if (route.id === 'Habits' || index === 0) {
+      return null;
+    } else {
+      return (
+        <TouchableOpacity
+          onPress={function () { navigator.push({ id: 'Habits' }); }}
+          style={{ flex: 1, justifyContent: 'center' }}>
+          <Text style={{color: 'white', margin: 10}}>
+            Inbox
+          </Text>
+        </TouchableOpacity>
+      );
+    }
+  },
+
+  Title: function (route, navigator, index, navState) {
+    var title;
+    if (route.id === 'AddHabit') {
+      title = 'Create Habit';
+    } else if (route.id === 'Habits') {
+      title = 'Inbox';
+    } else {
+      title = 'Welcome';
+    }
+    return (
+      <TouchableOpacity style={{ flex: 1, justifyContent: 'center' }}>
+        <Text style={{color: 'white', margin: 10, fontSize: 16}}>
+          {title}
+        </Text>
+      </TouchableOpacity>
+    );
+  }
+};
+
 
 module.exports = App;
