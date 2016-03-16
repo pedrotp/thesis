@@ -1,6 +1,7 @@
 var React = require('react-native');
 var Habits = require('./habitsApp');
 var Create = require('../components/create.js');
+var View = React.View;
 var Text = React.Text;
 var Alert = React.Alert;
 var Navigator = React.Navigator;
@@ -47,10 +48,8 @@ var AddHabit = React.createClass({
   },
 
   goToNext: function () {
-    console.log('redirected');
     this.props.navigator.push({
-      id: 'Habits',
-      name: 'Habits View'
+      id: 'Habits'
     });
   },
 
@@ -82,14 +81,11 @@ var AddHabit = React.createClass({
 
   render: function () {
     return (
-      <Navigator
-        renderScene={this.renderScene}
-        navigator={this.props.navigator}
-        navigationBar={
-            <Navigator.NavigationBar
-              style={{backgroundColor: '#6399DC', alignItems: 'center'}}
-              routeMapper={NavigationBarRouteMapper} />
-        } />
+      <View style={{ flex: 1 }}>
+        <Navigator
+          renderScene={this.renderScene}
+          navigator={this.props.navigator} />
+      </View>
     );
   },
 
@@ -101,39 +97,5 @@ var AddHabit = React.createClass({
     );
   }
 });
-
-var NavigationBarRouteMapper = {
-  LeftButton: function (route, navigator, index, navState) {
-    return (
-      <TouchableOpacity onPress={function (){ navigator.pop() }} style={{flex: 1, justifyContent: 'center'}}>
-        <Text style={{color: 'white', margin: 10}}>
-          Back
-        </Text>
-      </TouchableOpacity>
-    );
-  },
-
-  RightButton: function (route, navigator, index, navState) {
-    console.log('NAV:', navigator);
-    console.log('NAVSTATE:', navState);
-    return (
-      <TouchableOpacity onPress={function (){ navigator.push({id: 'Habits', name: 'Habits View'}); }} style={{flex: 1, justifyContent: 'center'}}>
-        <Text style={{color: 'white', margin: 10}}>
-          Inbox
-        </Text>
-      </TouchableOpacity>
-    );
-  },
-
-  Title: function (route, navigator, index, navState) {
-    return (
-      <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
-        <Text style={{color: 'white', margin: 10, fontSize: 16}}>
-          Create Habit
-        </Text>
-      </TouchableOpacity>
-    );
-  }
-};
 
 module.exports = AddHabit;

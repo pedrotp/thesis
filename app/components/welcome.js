@@ -10,9 +10,17 @@ var Welcome = React.createClass({
   onPressButton: function () {
     // console.log('Add Habit is being clicked!');
     this.props.navigator.push({
-      id: 'AddHabit',
-      name: 'Add Habbit'
+      id: 'AddHabit'
     });
+  },
+  render: function () {
+    return (
+      <View style={{ flex: 1 }}>
+        <Navigator
+          renderScene={this.renderScene}
+          navigator={this.props.navigator} />
+      </View>
+    );
   },
   renderScene: function (route, navigator) {
     return (
@@ -31,13 +39,6 @@ var Welcome = React.createClass({
           </View>
         </TouchableOpacity>
       </View>
-    );
-  },
-  render: function () {
-    return (
-      <Navigator
-        renderScene={this.renderScene}
-      />
     );
   }
 });
