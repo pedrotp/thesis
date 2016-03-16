@@ -13,7 +13,6 @@ var swipeButtons = [
 
 var Inbox = React.createClass({
   render: function () {
-    console.log('habits...')
     return (
       // header?
       // habit list

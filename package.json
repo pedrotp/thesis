@@ -28,7 +28,6 @@
     "mongoose": "^4.4.6",
     "morgan": "^1.7.0",
     "nodemon": "^1.9.1",
-    "react-dom": "^0.14.7",
     "react-native": "^0.21.0",
     "react-native-swipeout": "^2.0.12",
     "request": "^2.69.0"

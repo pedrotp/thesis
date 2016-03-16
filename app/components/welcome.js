@@ -1,21 +1,20 @@
-var React = require('react');
-var Text = require('react-native').Text;
-var View = require('react-native').View;
-var Component = require('react-native').Component;
-var StyleSheet = require('react-native').StyleSheet;
-var TouchableHighlight = require('react-native').TouchableHighlight;
-var Navigator = require('react-native').Navigator;
-
-var Habits = require('../containers/habitsApp');
+var React = require('react-native');
+var Text = React.Text;
+var View = React.View;
+var Navigator = React.Navigator;
+var Component = React.Component;
+var StyleSheet = React.StyleSheet;
+var TouchableOpacity = React.TouchableOpacity;
 
 var Welcome = React.createClass({
+  
   onPressButton: function () {
-    console.log('Add Habit is being clicked!');
     this.props.navigator.push({
       id: 'AddHabit',
-      name: 'Add Habit'
-    })
+      name: 'Add Habbit'
+    });
   },
+  
   renderScene: function (route, navigator) {
     return (
       <View style={styles.container}>
@@ -23,55 +22,63 @@ var Welcome = React.createClass({
           Ready to be Better?
         </Text>
         <Text style={styles.instructions}>
-          Tap the button below to create your first habit!
+          Create your first habit!
         </Text>
-        <TouchableHighlight onPress={this.onPressButton}>
+        <TouchableOpacity onPress={this.onPressButton}>
           <View style={styles.button}>
-            <Text>
-              Add Habit
+            <Text style={{color: '#FFF'}}>
+              Get Started
             </Text>
           </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   },
+  
   render: function () {
     return (
-      <Navigator 
+      <Navigator
         renderScene={this.renderScene}
       />
-      )
+    );
   }
+  
 });
 
 var styles = StyleSheet.create({
+  
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF'
+    backgroundColor: '#EDBE40'
   },
+  
   welcome: {
-    fontSize: 20,
+    fontSize: 28,
     textAlign: 'center',
-    margin: 10
+    margin: 10,
+    color: '#FFF'
   },
+  
   instructions: {
     textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5
+    marginBottom: 5,
+    color: '#FFF'
   },
+  
   button: {
     height: 30,
-    width: 80,
+    width: 100,
     alignItems: 'center',
     alignSelf: 'center',
-    borderColor: 'gray',
+    borderColor: '#FFF',
     borderWidth: 1,
     borderRadius: 5,
     padding: 5,
     margin: 20
   }
+  
 });
 
 module.exports = Welcome;
