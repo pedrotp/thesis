@@ -1,13 +1,13 @@
 // logic call for create
 var React = require('react-native');
-var Create = require('../components/Create.js');
+var Create = require('../components/create');
 var Text = React.Text;
 var Alert = React.Alert;
 var Navigator = React.Navigator;
 var TouchableOpacity = React.TouchableOpacity;
 
 var AddHabit = React.createClass({
-  
+
   getInitialState: function () {
     return {
       action: null,
@@ -100,11 +100,11 @@ var AddHabit = React.createClass({
         handleClick={this.handleClick} />
     );
   }
-   
+
 });
 
 var NavigationBarRouteMapper = {
-  
+
   LeftButton: function (route, navigator, index, navState) {
     return (
       <TouchableOpacity onPress={function (){ navigator.parentNavigator.pop(); }} style={{flex: 1, justifyContent: 'center'}}>
@@ -134,7 +134,7 @@ var NavigationBarRouteMapper = {
       </TouchableOpacity>
     );
   }
-  
+
 };
 
 module.exports = AddHabit;

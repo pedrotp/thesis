@@ -2,12 +2,12 @@ var React = require('react-native');
 var Navigator = React.Navigator;
 var StyleSheet = React.StyleSheet;
 
-var Welcome = require('../components/Welcome');
+var Welcome = require('../components/welcome');
 var AddHabit = require('./CreateContainer');
 var Habits = require('./InboxContainer');
 
 var AppContainer = React.createClass({
-  
+
   render: function () {
     return (
      <Navigator
@@ -15,7 +15,7 @@ var AppContainer = React.createClass({
         renderScene = {this.renderScene} />
     );
   },
-  
+
   renderScene: function (route, navigator) {
     var routeId = route.id;
     if (routeId === 'Welcome') {
@@ -37,7 +37,7 @@ var AppContainer = React.createClass({
       );
     }
   }
-  
+
 });
 
 var styles = StyleSheet.create({

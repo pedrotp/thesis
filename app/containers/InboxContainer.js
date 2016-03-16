@@ -1,19 +1,19 @@
 // logic call for the inbox
 var React = require('react-native');
-var Inbox = require('../components/Inbox.js');
+var Inbox = require('../components/inbox');
 var Text = React.Text;
 var Navigator = React.Navigator;
 var TouchableOpacity = React.TouchableOpacity;
 
 
 var Habits = React.createClass({
-  
+
   getInitialState: function () {
     return {
       habits: []
     }
   },
-  
+
   getHabits: function () {
     var _this = this;
     fetch('http://localhost:3000/habits', {
@@ -30,11 +30,11 @@ var Habits = React.createClass({
       console.warn(error);
     });
   },
-  
+
   componentWillMount: function () {
     this.getHabits();
   },
-  
+
   render: function () {
     return (
       <Navigator
@@ -47,17 +47,17 @@ var Habits = React.createClass({
         } />
     );
   },
-  
+
   renderScene: function () {
     return <Inbox
       habits={this.state.habits}
     />
   }
-  
+
 });
 
 var NavigationBarRouteMapper = {
-  
+
   LeftButton: function (route, navigator, index, navState) {
     return (
       <TouchableOpacity onPress={function () {navigator.parentNavigator.pop();} } style={{flex: 1, justifyContent: 'center'}}>
@@ -81,7 +81,7 @@ var NavigationBarRouteMapper = {
       </TouchableOpacity>
     );
   }
-  
+
 };
 
 module.exports = Habits;
