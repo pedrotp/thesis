@@ -1,6 +1,6 @@
 var React = require('react-native');
-var Inbox = require('../components/inbox');
-var Welcome = require('../components/welcome');
+var Inbox = require('../components/Inbox');
+var Welcome = require('../components/Welcome');
 var View = React.View;
 var Text = React.Text;
 var Navigator = React.Navigator;
@@ -58,8 +58,10 @@ var Habits = React.createClass({
   },
   renderScene: function (route, navigator) {
     return (
-      <View style={styles.container}>
-        <Text style={styles.header}>BETTER</Text>
+      <View>
+        <View style={styles.container}>
+          <Text style={styles.header}>BETTER</Text>
+        </View>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderInbox}
@@ -71,6 +73,7 @@ var Habits = React.createClass({
 
 var styles = StyleSheet.create({
   container: {
+    flex: 1,
     marginTop: 30,
     padding: 10
   },
