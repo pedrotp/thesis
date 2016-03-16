@@ -1,7 +1,6 @@
 var AppRegistry = require('react-native').AppRegistry;
-var App = require('./app/containers/app');
-var addHabitsApp = require('./app/containers/addHabitsApp');
+var AppContainer = require('./app/containers/AppContainer');
 
 AppRegistry.registerComponent('thesis', function () {
-  return App;
+  return AppContainer;
 });
