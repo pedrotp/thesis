@@ -8,18 +8,19 @@ function Inbox (props) {
   var swipeButtons = [
     {
       text: 'Delete',
+      backgroundColor: '#FF0000',
       onPress: function () {props.deleteHabit(props.habit._id)},
-      backgroundColor: '#FF0000'
     },
     {
       text: 'Edit',
       color: '#000000',
-      backgroundColor: "#FFFFFF"
+      backgroundColor: "#FFFFFF",
     },
     {
       text: 'Did It!', // TODO: name this better
       color: '#FFFFFF',
-      backgroundColor: '#006600'
+      backgroundColor: '#006600',
+      onPress: function () {props.createInstance(props.habit._id)}
     }
   ];
 
