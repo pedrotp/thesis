@@ -1,0 +1,78 @@
+var React = require('react-native');
+var Text = React.Text;
+var View = React.View;
+var Navigator = React.Navigator;
+var Component = React.Component;
+var StyleSheet = React.StyleSheet;
+var TouchableOpacity = React.TouchableOpacity;
+
+var Habits = require('../containers/habitsApp');
+
+var Welcome = React.createClass({
+  onPressButton: function () {
+    // console.log('Add Habit is being clicked!');
+    this.props.navigator.push({
+      id: 'AddHabit',
+      name: 'Add Habbit'
+    });
+  },
+  renderScene: function (route, navigator) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.welcome}>
+          Ready to be Better?
+        </Text>
+        <Text style={styles.instructions}>
+          Create your first habit!
+        </Text>
+        <TouchableOpacity onPress={this.onPressButton}>
+          <View style={styles.button}>
+            <Text style={{color: '#FFF'}}>
+              Get Started
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+    );
+  },
+  render: function () {
+    return (
+      <Navigator
+        renderScene={this.renderScene}
+      />
+    );
+  }
+});
+
+var styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#EDBE40'
+  },
+  welcome: {
+    fontSize: 28,
+    textAlign: 'center',
+    margin: 10,
+    color: '#FFF'
+  },
+  instructions: {
+    textAlign: 'center',
+    marginBottom: 5,
+    color: '#FFF'
+  },
+  button: {
+    height: 30,
+    width: 100,
+    alignItems: 'center',
+    alignSelf: 'center',
+    borderColor: '#FFF',
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 5,
+    margin: 20
+  }
+});
+
+module.exports = Welcome;

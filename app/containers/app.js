@@ -1,47 +1,43 @@
-var React = require('react');
-var Habits = require('./habitsApp.js');
-var Text = require('react-native').Text;
-var View = require('react-native').View;
-var Component = require('react-native').Component;
-var StyleSheet = require('react-native').StyleSheet;
-var TouchableHighlight = require('react-native').TouchableHighlight;
+var React = require('react-native');
+var Text = React.Text;
+var View = React.View;
+var Navigator = React.Navigator;
+var Component = React.Component;
+var StyleSheet = React.StyleSheet;
+var TouchableHighlight = React.TouchableHighlight;
 
-// var App = React.createClass({
-//   getInitialState: function () {
-//     return {
-//       text: ''
-//     }
-//   },
-//
-//   render () {
-//     return (
-//       <Habits />
-//     )
-//   }
-// });
+var Welcome = require('../components/welcome');
+var AddHabit = require('./addHabitsApp');
+var Habits = require('./habitsApp');
 
 var App = React.createClass({
-  onPressButton: function () {
-    console.log('Add Habit is being clicked!');
-  },
-  render () {
+  render: function () {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Ready to be Better?
-        </Text>
-        <Text style={styles.instructions}>
-          Tap the button below to create your first habit!
-        </Text>
-        <TouchableHighlight onPress={this.onPressButton}>
-          <View style={styles.button}>
-            <Text>
-              Add Habit
-            </Text>
-          </View>
-        </TouchableHighlight>
-      </View>
+     <Navigator
+        initialRoute = {{id: 'Welcome', name: 'Index'}}
+        renderScene = {this.renderScene} />
     );
+  },
+  renderScene: function (route, navigator) {
+    var routeId = route.id;
+    if (routeId === 'Welcome') {
+      return (
+        <Welcome
+          navigator={navigator} />
+      );
+    }
+    if (routeId === 'AddHabit') {
+      return (
+        <AddHabit
+          navigator={navigator} />
+      );
+    }
+    if (routeId === 'Habits') {
+      return (
+        <Habits
+          navigator={navigator} />
+      );
+    }
   }
 });
 

@@ -17,6 +17,7 @@ var Inbox = React.createClass({
       // header?
       // habit list
       <View style={styles.container}>
+        <Text>Habit Inbox</Text>
         {this.props.habits.map(function (habit) {
           return <Swipeout key={habit._id} right={swipeButtons}>
             <View>

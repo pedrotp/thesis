@@ -1,15 +1,14 @@
-var React = require('react');
-var Text = require('react-native').Text;
-var View = require('react-native').View;
-var TextInput = require('react-native').TextInput;
-var PropTypes = require('react-native').PropTypes;
-var StyleSheet = require('react-native').StyleSheet;
-var TouchableHighlight = require('react-native').TouchableHighlight;
+var React = require('react-native');
+var Text = React.Text;
+var View = React.View;
+var TextInput = React.TextInput;
+var PropTypes = React.PropTypes;
+var StyleSheet = React.StyleSheet;
+var TouchableOpacity = React.TouchableOpacity;
 
 function Create (props) {
   return (
     <View style={styles.container}>
-      <Text style={styles.welcome}>Create and add a habit!</Text>
       <TextField title='Action:' onChange={function (text) { props.fields.action = text; }}></TextField>
       <TextField title='Frequency:' onChange={function (text) { props.fields.frequency = text; }}></TextField>
       <TextField title='Unit:' onChange={function (text) { props.fields.unit = text; }}></TextField>
@@ -37,11 +36,11 @@ function TextField (props) {
 
 function SubmitButton (props) {
   return (
-    <TouchableHighlight onPress={props.onClick} style={styles.button}>
+    <TouchableOpacity onPress={props.onClick} style={styles.button}>
         <Text>
           Submit
         </Text>
-    </TouchableHighlight>
+    </TouchableOpacity>
   );
 }
 
@@ -66,13 +65,13 @@ var styles = StyleSheet.create({
     backgroundColor: '#FFFFFF'
   },
   welcome: {
-    fontSize: 20,
+    fontSize: 14,
     textAlign: 'center',
     margin: 10
   },
   textInput: {
-    height: 40,
-    width: 300,
+    height: 35,
+    width: 250,
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 10,
