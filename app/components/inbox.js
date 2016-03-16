@@ -8,7 +8,7 @@ function Inbox (props) {
   var swipeButtons = [
     {
       text: 'Delete',
-      onPress: props.deleteHabit,
+      onPress: function () {props.deleteHabit(key)},
       backgroundColor: '#FF0000'
     },
     {
@@ -24,18 +24,12 @@ function Inbox (props) {
   ];
 
   return (
-    // header?
-    // habit list
-    <View>
-      {props.habits.map(function (habit) {
-        return <View style={styles.habit} key={habit._id}>
-          <Swipeout  right={swipeButtons}>
-            <View style={styles.swipe}>
-              <Text>{habit.action} {habit.currentGoal} {habit.unit} {habit.frequency}</Text>
-            </View>
-          </Swipeout>
+    <View style={styles.habit}>
+      <Swipeout  right={swipeButtons}>
+        <View style={styles.swipe}>
+          <Text>{habit.action} {habit.currentGoal} {habit.unit} {habit.frequency}</Text>
         </View>
-      }, this)}
+      </Swipeout>
     </View>
   )
 };

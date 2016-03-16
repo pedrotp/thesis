@@ -5,13 +5,20 @@ var View = React.View;
 var Text = React.Text;
 var Navigator = React.Navigator;
 var TouchableOpacity = React.TouchableOpacity;
+var ListView = React.ListView;
 var StyleSheet = React.StyleSheet;
 
 
 var Habits = React.createClass({
   getInitialState: function () {
+    var ds = new ListView.DataSource({
+      rowHasChanged: function (row1, row2) {
+        row1 !== row2
+      }
+    })
+    console.log("DS:", ds);
     return {
-      habits: []
+      dataSource: ds.cloneWithRows([]),
     }
   },
   getHabits: function () {
@@ -23,18 +30,35 @@ var Habits = React.createClass({
       return response.json()
     })
     .then(function (responseJSON) {
-      // console.log('TEXT:', responseJSON);
-      _this.setState({habits: responseJSON});
+      console.log('Habit Array:', responseJSON)
+      var rowIds = [];
+      for (var i = 0; i < responseJSON.length; i++) {
+        rowIds.push(responseJSON[i]._id);
+      }
+      var newDataSource = _this.state.dataSource.cloneWithRows(responseJSON, rowIds);
+      console.log(newDataSource);
+      _this.setState({
+        dataSource: newDataSource
+      });
     })
     .catch(function (error) {
       console.warn(error); // TODO: double check console.warn
     });
   },
-  deleteHabit: function () {
-    console.log("deleteHabit called");
+  deleteHabit: function (habitId) {
+    console.log("deleteHabit called on", habitId);
   },
   componentWillMount: function () {
     this.getHabits();
+  },
+  renderRow: function (rowData, sectionID, rowID) {
+    console.log(rowData);
+    return <View>
+      <Text>{rowID}</Text>
+      <Text>{rowData}</Text>
+    </View>
+
+    // <Inbox habits={this.state.habits} deleteHabit={this.deleteHabit}/>
   },
   render: function () {
     return (
@@ -49,7 +73,10 @@ var Habits = React.createClass({
     return (
       <View style={styles.container}>
         <Text style={styles.header}>BETTER</Text>
-        <Inbox habits={this.state.habits} deleteHabit={this.deleteHabit}/>
+       <ListView
+        dataSource={this.state.dataSource}
+        renderRow={this.renderRow}
+        />
       </View>
     );
   }
