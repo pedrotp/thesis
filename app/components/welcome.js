@@ -7,14 +7,13 @@ var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
 
 var Welcome = React.createClass({
-  
   onPressButton: function () {
+    // console.log('Add Habit is being clicked!');
     this.props.navigator.push({
       id: 'AddHabit',
       name: 'Add Habbit'
     });
   },
-  
   renderScene: function (route, navigator) {
     return (
       <View style={styles.container}>
@@ -34,7 +33,6 @@ var Welcome = React.createClass({
       </View>
     );
   },
-  
   render: function () {
     return (
       <Navigator
@@ -42,31 +40,26 @@ var Welcome = React.createClass({
       />
     );
   }
-  
 });
 
 var styles = StyleSheet.create({
-  
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#EDBE40'
   },
-  
   welcome: {
     fontSize: 28,
     textAlign: 'center',
     margin: 10,
     color: '#FFF'
   },
-  
   instructions: {
     textAlign: 'center',
     marginBottom: 5,
     color: '#FFF'
   },
-  
   button: {
     height: 30,
     width: 100,
@@ -78,7 +71,6 @@ var styles = StyleSheet.create({
     padding: 5,
     margin: 20
   }
-  
 });
 
 module.exports = Welcome;
