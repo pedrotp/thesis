@@ -25,7 +25,7 @@ function Inbox (props) {
 
   return (
     <View style={styles.habit}>
-      <Swipeout  right={swipeButtons}>
+      <Swipeout autoClose={true} right={swipeButtons}>
         <View style={styles.swipe}>
           <Text>{props.habit.action} {props.habit.currentGoal} {props.habit.unit} {props.habit.frequency}</Text>
         </View>
