@@ -1,6 +1,6 @@
 var React = require('react-native');
 var Habits = require('./InboxContainer');
-var Create = require('../components/create');
+var Create = require('../components/Create');
 var View = React.View;
 var Text = React.Text;
 var Alert = React.Alert;

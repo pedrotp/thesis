@@ -6,7 +6,7 @@ var Component = React.Component;
 var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
 
-var Welcome = require('../components/welcome');
+var Welcome = require('../components/Welcome');
 var AddHabit = require('./CreateContainer');
 var Habits = require('./InboxContainer');
 
