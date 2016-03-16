@@ -1,6 +1,6 @@
 // logic call for the inbox
 var React = require('react-native');
-var Inbox = require('../components/inbox.js');
+var Inbox = require('../components/inbox');
 var Welcome = require('../components/welcome');
 var View = React.View;
 var Text = React.Text;

@@ -1,12 +1,11 @@
 var React = require('react-native');
+var Habits = require('../containers/CreateContainer');
 var Text = React.Text;
 var View = React.View;
 var Navigator = React.Navigator;
 var Component = React.Component;
 var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
-
-var Habits = require('../containers/habitsApp');
 
 var Welcome = React.createClass({
   onPressButton: function () {

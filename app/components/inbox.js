@@ -1,9 +1,9 @@
 // actions/helpers for inbox stuff
-var React = require('react');
-var StyleSheet = require('react-native').StyleSheet;
-var Text = require('react-native').Text;
-var View = require('react-native').View;
+var React = require('react-native');
 var Swipeout = require('react-native-swipeout');
+var Text = React.Text;
+var View = React.View;
+var StyleSheet = React.StyleSheet;
 
 var swipeButtons = [
   {text: 'Delete'},

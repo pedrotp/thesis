@@ -7,10 +7,10 @@ var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
 
 var Welcome = require('../components/welcome');
-var AddHabit = require('./addHabitsApp');
-var Habits = require('./habitsApp');
+var AddHabit = require('./CreateContainer');
+var Habits = require('./InboxContainer');
 
-var App = React.createClass({
+var AppContainer = React.createClass({
   render: function () {
     return (
       <View style={{ flex: 1 }}>
@@ -132,5 +132,4 @@ var NavigationBarRouteMapper = {
   }
 };
 
-
-module.exports = App;
+module.exports = AppContainer;
