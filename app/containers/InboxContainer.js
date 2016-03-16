@@ -39,9 +39,16 @@ var Habits = React.createClass({
   },
   deleteHabit: function (habitId) {
     console.log("deleteHabit called on", habitId);
+    // remove from server
     fetch('http://localhost:3000/habits/' +habitId, {
-      mathod: 'DELETE',
+      method: 'DELETE',
     })
+    .then(function (response) {
+      console.log("DELETE RESPONSE:", response)
+    })
+    .done();
+    // remove from local display
+
   },
   componentDidMount: function () {
     this.getHabits();
