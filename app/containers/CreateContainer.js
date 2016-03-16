@@ -1,13 +1,13 @@
-// logic call for create
 var React = require('react-native');
-var Create = require('../components/Create.js');
+var Habits = require('./InboxContainer');
+var Create = require('../components/create');
+var View = React.View;
 var Text = React.Text;
 var Alert = React.Alert;
 var Navigator = React.Navigator;
 var TouchableOpacity = React.TouchableOpacity;
 
 var AddHabit = React.createClass({
-  
   getInitialState: function () {
     return {
       action: null,
@@ -40,7 +40,7 @@ var AddHabit = React.createClass({
     })
     .then(function (responseJSON) {
       console.log('Add Habit success:', responseJSON);
-      Alert.alert('Habit created!', null,[{ text: 'Ok'}]);
+      // Alert.alert('Habit created!', null,[{ text: 'Ok'}]);
     })
     .catch(function (error) {
       console.warn(error);
@@ -49,8 +49,7 @@ var AddHabit = React.createClass({
 
   goToNext: function () {
     this.props.navigator.push({
-      id: 'Habits',
-      name: 'Habits View'
+      id: 'Habits'
     });
   },
 
@@ -82,14 +81,11 @@ var AddHabit = React.createClass({
 
   render: function () {
     return (
-      <Navigator
-        renderScene={this.renderScene}
-        navigator={this.props.navigator}
-        navigationBar={
-            <Navigator.NavigationBar
-              style={{backgroundColor: '#6399DC', alignItems: 'center'}}
-              routeMapper={NavigationBarRouteMapper} />
-        } />
+      <View style={{ flex: 1 }}>
+        <Navigator
+          renderScene={this.renderScene}
+          navigator={this.props.navigator} />
+      </View>
     );
   },
 
@@ -100,41 +96,6 @@ var AddHabit = React.createClass({
         handleClick={this.handleClick} />
     );
   }
-   
 });
-
-var NavigationBarRouteMapper = {
-  
-  LeftButton: function (route, navigator, index, navState) {
-    return (
-      <TouchableOpacity onPress={function (){ navigator.parentNavigator.pop(); }} style={{flex: 1, justifyContent: 'center'}}>
-        <Text style={{color: 'white', margin: 10}}>
-          Back
-        </Text>
-      </TouchableOpacity>
-    );
-  },
-
-  RightButton: function (route, navigator, index, navState) {
-    return (
-      <TouchableOpacity onPress={function (){ navigator.parentNavigator.push({id: 'Habits'}); }} style={{flex: 1, justifyContent: 'center'}}>
-        <Text style={{color: 'white', margin: 10}}>
-          Inbox
-        </Text>
-      </TouchableOpacity>
-    );
-  },
-
-  Title: function (route, navigator, index, navState) {
-    return (
-      <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
-        <Text style={{color: 'white', margin: 10, fontSize: 16}}>
-          Create Habit
-        </Text>
-      </TouchableOpacity>
-    );
-  }
-  
-};
 
 module.exports = AddHabit;
