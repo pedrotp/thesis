@@ -38,28 +38,37 @@ var Habits = React.createClass({
     .done();
   },
   deleteHabit: function (habitId) {
+    var _this = this;
     // TODO: refactor server call to api library
-    // remove from server
+    // Remove from server
     fetch('http://localhost:3000/habits/' +habitId, {
       method: 'DELETE',
     })
+    // Get updated habit list
     .then(function (response) {
+      _this.getHabits();
       console.log("DELETE RESPONSE:", response)
     })
     .done();
   },
-  // Get habits from server on load
-  componentDidMount: function () {
-    this.getHabits();
+  createInstance: function (habitId) {
+    // Ask server to create a new instance of this habit
+    fetch('http://localhost:3000/habits/' +habitId, {
+      method: 'POST',
+    })
+    .then(function (response) {
+      console.log("createInstance RESPONSE:", response)
+    })
+    .done();
   },
-  // Get habits from server after change
-  componentDidUpdate: function () {
+  // Get habits from server on load
+  componentWillMount: function () {
     this.getHabits();
   },
   // Render each row of the inbox as an Inbox component
   renderInbox: function (habit) {
     console.log("ROWDATA:", habit);
-    return <Inbox habit={habit} deleteHabit={this.deleteHabit} />
+    return <Inbox habit={habit} deleteHabit={this.deleteHabit} createInstance={this.createInstance} />
   },
   render: function () {
     return (
