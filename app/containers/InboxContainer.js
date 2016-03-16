@@ -7,7 +7,7 @@ var Navigator = React.Navigator;
 var TouchableOpacity = React.TouchableOpacity;
 var ListView = React.ListView;
 var StyleSheet = React.StyleSheet;
-
+var Alert = React.Alert;
 
 var Habits = React.createClass({
   getInitialState: function () {
@@ -51,9 +51,13 @@ var Habits = React.createClass({
     .done();
   },
   createInstance: function (habitId) {
+    // TODO: refactor server call to api library
     // Ask server to create a new instance of this habit
     fetch('http://localhost:3000/habits/' +habitId, {
       method: 'POST',
+    })
+    .then(function (response) {
+      Alert.alert('You Did It', 'Great Job!');
     })
     .done();
   },
