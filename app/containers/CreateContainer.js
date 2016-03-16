@@ -1,4 +1,5 @@
 var React = require('react-native');
+var Create = require('../components/Create.js');
 var View = React.View;
 var Text = React.Text;
 var Alert = React.Alert;
