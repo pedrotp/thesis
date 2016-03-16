@@ -17,10 +17,10 @@ var Habits = React.createClass({
       }
     })
     return {
-      habits: {},
       dataSource: ds.cloneWithRows([]),
     }
   },
+  // TODO: refactor server call to api library
   getHabits: function () {
     var _this = this;
     fetch('http://localhost:3000/habits', {
@@ -38,11 +38,25 @@ var Habits = React.createClass({
     .done();
   },
   deleteHabit: function (habitId) {
-    console.log("deleteHabit called on", habitId);
+    // TODO: refactor server call to api library
+    // remove from server
+    fetch('http://localhost:3000/habits/' +habitId, {
+      method: 'DELETE',
+    })
+    .then(function (response) {
+      console.log("DELETE RESPONSE:", response)
+    })
+    .done();
   },
-  componentWillMount: function () {
+  // Get habits from server on load
+  componentDidMount: function () {
     this.getHabits();
   },
+  // Get habits from server after change
+  componentDidUpdate: function () {
+    this.getHabits();
+  },
+  // Render each row of the inbox as an Inbox component
   renderInbox: function (habit) {
     console.log("ROWDATA:", habit);
     return <Inbox habit={habit} deleteHabit={this.deleteHabit} />
