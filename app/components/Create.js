@@ -1,4 +1,5 @@
 var React = require('react-native');
+var SegmentedControls = require('react-native-radio-buttons').SegmentedControls;
 var Text = React.Text;
 var View = React.View;
 var TextInput = React.TextInput;
@@ -14,16 +15,19 @@ function Create (props) {
         onChange={function (text) { props.fields.action = text; }}
         defaultValue={props.fields.action}
       />
-      <TextField
+      <Frequency
         title='How often?'
-        onChange={function (text) { props.fields.frequency = text; }}
-        defaultValue={props.fields.frequency}
+        tint={'#6399DC'}
+        selectedTint={'#FFFFFF'}
+        options={['Hourly', 'Daily', 'Weekly', 'Monthly']}
+        onSelection={function (val) { props.fields.frequency = val; }}
+        selectedOption={props.fields.frequency}
       />
       {/*<TextField
         title='Unit:'
         onChange={function (text) { props.fields.unit = text; }}
         value={ props.fields.unit }
-      /
+      />
       <TextField
         title='Goal:'
         onChange={function (text) { props.fields.goal = text; }}
@@ -49,7 +53,24 @@ function TextField (props) {
       <TextInput
         style={styles.textInput}
         onChangeText={props.onChange}
-        defaultValue={props.defaultValue}
+      />
+    </View>
+  );
+}
+
+// Sub-component of Create
+function Frequency (props) {
+  return (
+    <View style={styles.radio}>
+      <Text style={styles.welcome}>
+        {props.title}
+      </Text>
+      <SegmentedControls
+        onSelection={props.onSelection}
+        selectedOption={props.selectedOption}
+        options={props.options}
+        tint={props.tint}
+        selectedTint={props.selectedTint}
       />
     </View>
   );
@@ -85,6 +106,12 @@ var styles = StyleSheet.create({
     flex: 0.90,
     justifyContent: 'center',
     backgroundColor: '#EDBE40'
+  },
+  radio: {
+    width: 325,
+    marginTop: 18,
+    marginBottom: 15,
+    alignSelf: 'center'
   },
   welcome: {
     fontSize: 18,

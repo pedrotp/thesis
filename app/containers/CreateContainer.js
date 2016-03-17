@@ -178,11 +178,12 @@ var NavigationBarRouteMapper = {
     } else {
       return null;
     }
-    
   },
+
   RightButton(route, navigator, index, navState) {
     return null;
   },
+
   Title(route, navigator, index, navState) {
     var title;
     var routeStack = navigator.parentNavigator.state.routeStack;
