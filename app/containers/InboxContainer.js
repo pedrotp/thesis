@@ -57,6 +57,7 @@ var Habits = React.createClass({
     });
   },
   createInstance: function (habitId) {
+    var _this = this;
     // TODO: refactor server call to api library
     // Ask server to create a new instance of this habit
     fetch('http://localhost:3000/habits/' +habitId, {
@@ -64,6 +65,7 @@ var Habits = React.createClass({
     })
     .then(function (response) {
       Alert.alert('You Did It', 'Great Job!');
+      _this.getHabits();
     })
     .done();
   },

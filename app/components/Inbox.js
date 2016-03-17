@@ -30,7 +30,8 @@ function Inbox (props) {
     <View style={styles.habit}>
       <Swipeout autoClose={true} right={swipeButtons} backgroundColor={'#EDBE40'}>
         <View style={styles.swipe}>
-          <Text >{props.habit.action} {props.habit.currentGoal} {props.habit.unit} {props.habit.frequency}</Text>
+          <Text >{props.habit.action} {props.habit.frequency}</Text>
+          <Text>You've done this {props.habit.instanceCount} times.</Text>
         </View>
       </Swipeout>
     </View>
