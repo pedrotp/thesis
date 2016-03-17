@@ -15,6 +15,7 @@ function Inbox (props) {
       text: 'Edit',
       color: '#000000',
       backgroundColor: "#FFFFFF",
+      onPress: function () {props.editHabit(props.habit)}
     },
     {
       text: 'Did It!', // TODO: name this better

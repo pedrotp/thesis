@@ -9,7 +9,6 @@ var TouchableOpacity = React.TouchableOpacity;
 
 var Welcome = React.createClass({
   onPressButton: function () {
-    console.log('Add Habit is being clicked!');
     this.props.navigator.push({
       id: 'AddHabit'
     });
