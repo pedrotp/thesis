@@ -28,6 +28,7 @@
     "morgan": "^1.7.0",
     "nodemon": "^1.9.1",
     "react-native": "^0.21.0",
+    "react-native-radio-buttons": "^0.9.1",
     "react-native-swipeout": "^2.0.12",
     "request": "^2.69.0"
   }
