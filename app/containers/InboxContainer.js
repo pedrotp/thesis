@@ -1,13 +1,14 @@
 var React = require('react-native');
-var Inbox = require('../components/Inbox');
-var Welcome = require('../components/Welcome');
 var View = React.View;
 var Text = React.Text;
-var Navigator = React.Navigator;
-var TouchableOpacity = React.TouchableOpacity;
-var ListView = React.ListView;
-var StyleSheet = React.StyleSheet;
 var Alert = React.Alert;
+var ListView = React.ListView;
+var Navigator = React.Navigator;
+var StyleSheet = React.StyleSheet;
+var TouchableOpacity = React.TouchableOpacity;
+
+var Inbox = require('../components/Inbox');
+var Welcome = require('../components/Welcome');
 
 var Habits = React.createClass({
   getInitialState: function () {
@@ -52,7 +53,7 @@ var Habits = React.createClass({
   editHabit: function (habit) {
     this.props.navigator.push({
       id: 'AddHabit',
-      habit: habit,
+      habit: habit
     });
   },
   createInstance: function (habitId) {

@@ -1,8 +1,8 @@
 var React = require('react-native');
-var Loading = require('../components/Loading');
-var Navigator = React.Navigator;
 var View = React.View;
-
+var Navigator = React.Navigator;
+// App components
+var Loading = require('../components/Loading');
 
 var LoadingContainer = React.createClass({
   getHabits: function () {
