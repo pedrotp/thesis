@@ -5,8 +5,7 @@ var Text = React.Text;
 var Alert = React.Alert;
 var Navigator = React.Navigator;
 var TouchableOpacity = React.TouchableOpacity;
-// App components
-var Habits = require('./InboxContainer');
+
 var Create = require('../components/Create');
 
 var AddHabit = React.createClass({
@@ -166,10 +165,8 @@ var NavigationBarRouteMapper = {
   LeftButton(route, navigator, index, navState) {
     var routeStack = navigator.parentNavigator.state.routeStack;
     var previousRoute = routeStack[routeStack.length - 2].id;
-    
-    if(previousRoute !== 'Habits') {
-      return null;
-    } else {
+
+    if(previousRoute === 'Habits' || previousRoute === 'Welcome') {
       return (
         <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
             onPress={function () {navigator.parentNavigator.pop()}}>
@@ -178,6 +175,8 @@ var NavigationBarRouteMapper = {
           </Text>
         </TouchableOpacity>
         )
+    } else {
+      return null;
     }
     
   },
