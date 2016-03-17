@@ -5,11 +5,11 @@ var Navigator = React.Navigator;
 var Component = React.Component;
 var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
-
+// App components
+var Habits = require('./InboxContainer');
+var AddHabit = require('./CreateContainer');
 var Welcome = require('../components/Welcome');
 var LoadingContainer = require('./LoadingContainer');
-var AddHabit = require('./CreateContainer');
-var Habits = require('./InboxContainer');
 
 var AppContainer = React.createClass({
   render: function () {
@@ -22,34 +22,40 @@ var AppContainer = React.createClass({
               <Navigator.NavigationBar
                 style={{backgroundColor: '#6399DC', borderBottomWidth: 1, borderColor: '#090f16', alignItems: 'center'}}
                 routeMapper={NavigationBarRouteMapper} />
-            } />
+            }
+          />
         </View>
-      )
+      );
   },
   renderScene: function (route, navigator) {
     var routeId = route.id;
     if (routeId === 'Loading') {
       return (
         <LoadingContainer
-          navigator={navigator} />
-        );
+          navigator={navigator}
+        />
+      );
     }
     if (routeId === 'Welcome') {
       return (
         <Welcome
-          navigator={navigator} />
+          navigator={navigator}
+        />
       );
     }
     if (routeId === 'AddHabit') {
       return (
         <AddHabit
-          navigator={navigator} habit={route.habit} />
+          navigator={navigator}
+          habit={route.habit}
+        />
       );
     }
     if (routeId === 'Habits') {
       return (
         <Habits
-          navigator={navigator} />
+          navigator={navigator}
+        />
       );
     }
   }
@@ -90,10 +96,13 @@ var NavigationBarRouteMapper = {
     if (route.id === 'Habits') {
       return null;
     }
-    if (index === 0) {
+    if (route.id === 'Welcome') {
       return null;
     }
-    if (route.id === 'Welcome') {
+    if (route.id === 'AddHabit') {
+      return null;
+    }
+    if (index === 0) {
       return null;
     }
     return (
@@ -108,10 +117,7 @@ var NavigationBarRouteMapper = {
   },
 
   RightButton: function (route, navigator, index, navState) {
-    // if (index === navState.routeStack.length - 1) {
-    //   return null;
-    // }
-    if (route.id === 'Habits' || index === 0) {
+    if (route.id === 'Habits' || route.id === 'Welcome') {
       return null;
     } else {
       return (
@@ -129,11 +135,22 @@ var NavigationBarRouteMapper = {
   Title: function (route, navigator, index, navState) {
     var title;
     if (route.id === 'AddHabit') {
-      title = 'Create Habit';
+
+    // If route.habit exists, that means its being edited
+      if (route.habit) {
+        title = 'Edit Habit';
+
+    // Else, it's being created
+      } else {
+        title = 'Create Habit';
+      }
     } else if (route.id === 'Habits') {
       title = 'Inbox';
+
+    // If none of the previous if blocks were triggered,
+    // the user is at the welcome screen
     } else {
-      title = 'Welcome';
+      title = 'Better';
     }
     return (
       <TouchableOpacity style={{ flex: 1, justifyContent: 'center' }}>

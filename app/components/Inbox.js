@@ -1,8 +1,9 @@
 var React = require('react-native');
-var Swipeout = require('react-native-swipeout');
 var Text = React.Text;
 var View = React.View;
 var StyleSheet = React.StyleSheet;
+// App components
+var Swipeout = require('react-native-swipeout');
 
 function Inbox (props) {
   var swipeButtons = [

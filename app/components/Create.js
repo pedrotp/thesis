@@ -6,20 +6,40 @@ var PropTypes = React.PropTypes;
 var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
 
-
 function Create (props) {
   return (
     <View style={styles.container}>
-      <TextField title='What do you want do do?' onChange={function (text) { props.fields.action = text; }} value={ props.fields.action }></TextField>
-      <TextField title='How often would you like to do it?' onChange={function (text) { props.fields.frequency = text; }} value={ props.fields.frequency }></TextField>
-{/*   <TextField title='Unit:' onChange={function (text) { props.fields.unit = text; }} value={ props.fields.unit }></TextField>
-      <TextField title='Goal:' onChange={function (text) { props.fields.goal = text; }} value={ props.fields.goal }></TextField>  */}
-      <SubmitButton
-        onClick={props.handleClick}/>
+      <TextField
+        title='What do you want to do?'
+        onChange={function (text) { props.fields.action = text; }}
+        defaultValue={props.fields.action}
+      />
+      <TextField
+        title='How often?'
+        onChange={function (text) { props.fields.frequency = text; }}
+        defaultValue={props.fields.frequency}
+      />
+      {/*<TextField
+        title='Unit:'
+        onChange={function (text) { props.fields.unit = text; }}
+        value={ props.fields.unit }
+      /
+      <TextField
+        title='Goal:'
+        onChange={function (text) { props.fields.goal = text; }}
+        value={ props.fields.goal }
+      />
+      <TextField
+        title='Schedule:'
+        onChange={function (text) { props.fields.schedule = text; }}
+        value={ props.fields.schedule }
+      />*/}
+      <SubmitButton onClick={props.handleClick} />
     </View>
   );
 }
 
+// Sub-component of Create
 function TextField (props) {
   return (
     <View>
@@ -29,12 +49,13 @@ function TextField (props) {
       <TextInput
         style={styles.textInput}
         onChangeText={props.onChange}
-        value={props.value}
+        defaultValue={props.defaultValue}
       />
     </View>
   );
 }
 
+// Sub-component of Create
 function SubmitButton (props) {
   return (
     <TouchableOpacity onPress={props.onClick} style={styles.button}>
