@@ -7,26 +7,33 @@ var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
 
 var Welcome = require('../components/Welcome');
+var LoadingContainer = require('./LoadingContainer');
 var AddHabit = require('./CreateContainer');
 var Habits = require('./InboxContainer');
 
 var AppContainer = React.createClass({
   render: function () {
-    return (
-      <View style={{ flex: 1 }}>
-        <Navigator
-          initialRoute = {{id: 'Welcome'}}
-          renderScene = {this.renderScene}
-          navigationBar={
-            <Navigator.NavigationBar
-              style={{backgroundColor: '#6399DC', alignItems: 'center'}}
-              routeMapper={NavigationBarRouteMapper} />
-          } />
-      </View>
-    );
+      return (
+        <View style={{ flex: 1 }}>
+          <Navigator
+            initialRoute = {{id: 'Loading'}}
+            renderScene = {this.renderScene}
+            navigationBar={
+              <Navigator.NavigationBar
+                style={{backgroundColor: '#6399DC', alignItems: 'center'}}
+                routeMapper={NavigationBarRouteMapper} />
+            } />
+        </View>
+      )
   },
   renderScene: function (route, navigator) {
     var routeId = route.id;
+    if (routeId === 'Loading') {
+      return (
+        <LoadingContainer
+          navigator={navigator} />
+        );
+    }
     if (routeId === 'Welcome') {
       return (
         <Welcome
@@ -81,6 +88,9 @@ var styles = StyleSheet.create({
 var NavigationBarRouteMapper = {
   LeftButton: function (route, navigator, index, navState) {
     if (index === 0) {
+      return null;
+    }
+    if (route.id === 'Welcome') {
       return null;
     }
     return (
