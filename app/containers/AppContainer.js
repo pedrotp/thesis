@@ -87,6 +87,9 @@ var styles = StyleSheet.create({
 
 var NavigationBarRouteMapper = {
   LeftButton: function (route, navigator, index, navState) {
+    if (route.id === 'Habits') {
+      return null;
+    }
     if (index === 0) {
       return null;
     }
