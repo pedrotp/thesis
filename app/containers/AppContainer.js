@@ -91,75 +91,65 @@ var styles = StyleSheet.create({
   }
 });
 
-var NavigationBarRouteMapper = {
-  LeftButton: function (route, navigator, index, navState) {
-    if (route.id === 'Habits') {
-      return null;
-    }
-    if (route.id === 'Welcome') {
-      return null;
-    }
-    if (route.id === 'AddHabit') {
-      return null;
-    }
-    if (index === 0) {
-      return null;
-    }
-    return (
-      <TouchableOpacity
-        onPress={function () { navigator.pop(); }}
-        style={{ flex: 1, justifyContent: 'center' }}>
-        <Text style={{color: 'white', margin: 10}}>
-          Back
-        </Text>
-      </TouchableOpacity>
-    );
-  },
 
-  RightButton: function (route, navigator, index, navState) {
-    if (route.id === 'Habits' || route.id === 'Welcome') {
-      return null;
-    } else {
-      return (
-        <TouchableOpacity
-          onPress={function () { navigator.push({ id: 'Habits' }); }}
-          style={{ flex: 1, justifyContent: 'center' }}>
-          <Text style={{color: 'white', margin: 10}}>
-            Inbox
-          </Text>
-        </TouchableOpacity>
-      );
-    }
-  },
+// var NavigationBarRouteMapper = {
+//   LeftButton: function (route, navigator, index, navState) {
+//     if (route.id === 'Habits') {
+//       return null;
+//     }
+//     if (index === 0) {
+//       return null;
+//     }
+//     if (route.id === 'Welcome') {
+//       return null;
+//     }
+//     return (
+//       <TouchableOpacity
+//         onPress={function () { navigator.pop(); }}
+//         style={{ flex: 1, justifyContent: 'center' }}>
+//         <Text style={{color: 'white', margin: 10}}>
+//           Back
+//         </Text>
+//       </TouchableOpacity>
+//     );
+//   },
 
-  Title: function (route, navigator, index, navState) {
-    var title;
-    if (route.id === 'AddHabit') {
+//   RightButton: function (route, navigator, index, navState) {
+//     // if (index === navState.routeStack.length - 1) {
+//     //   return null;
+//     // }
+//     if (route.id === 'Habits' || index === 0) {
+//       return null;
+//     } else {
+//       return (
+//         <TouchableOpacity
+//           onPress={function () { navigator.push({ id: 'Habits' }); }}
+//           style={{ flex: 1, justifyContent: 'center' }}>
+//           <Text style={{color: 'white', margin: 10}}>
+//             Inbox
+//           </Text>
+//         </TouchableOpacity>
+//       );
+//     }
+//   },
 
-    // If route.habit exists, that means its being edited
-      if (route.habit) {
-        title = 'Edit Habit';
-
-    // Else, it's being created
-      } else {
-        title = 'Create Habit';
-      }
-    } else if (route.id === 'Habits') {
-      title = 'Inbox';
-
-    // If none of the previous if blocks were triggered,
-    // the user is at the welcome screen
-    } else {
-      title = 'Better';
-    }
-    return (
-      <TouchableOpacity style={{ flex: 1, justifyContent: 'center' }}>
-        <Text style={{color: 'white', margin: 10, fontSize: 16}}>
-          {title}
-        </Text>
-      </TouchableOpacity>
-    );
-  }
-};
+//   Title: function (route, navigator, index, navState) {
+//     var title;
+//     if (route.id === 'AddHabit') {
+//       title = 'Create Habit';
+//     } else if (route.id === 'Habits') {
+//       title = 'Inbox';
+//     } else {
+//       title = 'Welcome';
+//     }
+//     return (
+//       <TouchableOpacity style={{ flex: 1, justifyContent: 'center' }}>
+//         <Text style={{color: 'white', margin: 10, fontSize: 16}}>
+//           {title}
+//         </Text>
+//       </TouchableOpacity>
+//     );
+//   }
+// };
 
 module.exports = AppContainer;

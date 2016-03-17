@@ -144,7 +144,10 @@ var AddHabit = React.createClass({
         <Navigator
           renderScene={this.renderScene}
           navigator={this.props.navigator}
-        />
+          navigationBar={
+            <Navigator.NavigationBar style={{backgroundColor: '#6399DC', alignItems: 'center'}}
+                routeMapper={NavigationBarRouteMapper} />
+          } />
       </View>
     );
   },
@@ -158,5 +161,38 @@ var AddHabit = React.createClass({
     );
   }
 });
+
+var NavigationBarRouteMapper = {
+  LeftButton(route, navigator, index, navState) {
+    var routeStack = navigator.parentNavigator.state.routeStack;
+    var previousRoute = routeStack[routeStack.length - 2].id;
+    
+    if(previousRoute !== 'Habits') {
+      return null;
+    } else {
+      return (
+        <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
+            onPress={function () {navigator.parentNavigator.pop()}}>
+          <Text style={{color: 'white', margin: 10}}>
+            Back
+          </Text>
+        </TouchableOpacity>
+        )
+    }
+    
+  },
+  RightButton(route, navigator, index, navState) {
+    return null;
+  },
+  Title(route, navigator, index, navState) {
+    return (
+      <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
+        <Text style={{color: 'white', margin: 10, fontSize: 16}}>
+          Create Habit
+        </Text>
+      </TouchableOpacity>
+    );
+  }
+};
 
 module.exports = AddHabit;
