@@ -94,7 +94,9 @@ var Habits = React.createClass({
           renderRow={this.renderInbox}
         />
         <TouchableOpacity onPress={this.handlePress}>
-          <Text style={styles.circleButton}>Add</Text>
+          <View style={styles.circleButton}>
+            <Text style={styles.buttonText}>New</Text>
+          </View>
         </TouchableOpacity>
       </View>
     );
@@ -108,7 +110,6 @@ var styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     backgroundColor: '#f9ebc5',
->>>>>>> (style) Styles all views with basic color scheme
   },
   header: {
     fontSize: 25,
@@ -116,14 +117,30 @@ var styles = StyleSheet.create({
     textAlign: 'center',
   },
   circleButton: {
+    flex: 1,
     height: 50,
     width: 50,
-    borderWidth: 1,
+    borderWidth: 0,
     borderRadius: 25,
+    borderColor: '#090f16',
     alignItems: 'center',
-    alignSelf: 'center',
+    justifyContent: 'center',
+    alignSelf: 'flex-end',
     padding: 5,
-    margin: 20
+    margin: 20,
+    backgroundColor: '#6399DC',
+    shadowColor: '#000000',
+    shadowOpacity: 0.6,
+    shadowRadius: 3,
+    shadowOffset: {
+      height: 3.5,
+      width: 2
+    }
+
+  },
+  buttonText: {
+    fontSize: 15,
+    color: '#FFFFFF',
   }
 });
 
