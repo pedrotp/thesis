@@ -27,11 +27,11 @@ function Inbox (props) {
   ];
 
   return (
-    <View style={styles.habit}>
+    <View style={styles.inboxitem}>
       <Swipeout autoClose={true} right={swipeButtons} backgroundColor={'#EDBE40'}>
         <View style={styles.swipe}>
-          <Text >{props.habit.action} {props.habit.frequency}</Text>
-          <Text>You've done this {props.habit.instanceCount} times.</Text>
+          <Text style={styles.habit}>{props.habit.action} {props.habit.frequency}</Text>
+          <Text style={styles.count}>You've done this {props.habit.instanceCount} times.</Text>
         </View>
       </Swipeout>
     </View>
@@ -39,10 +39,17 @@ function Inbox (props) {
 };
 
 var styles = StyleSheet.create({
+  count: {
+    fontSize: 10
+  },
   habit: {
+    fontSize: 14,
+    fontWeight: 'bold'
+  },
+  inboxitem: {
     flex: 1,
     borderBottomWidth: 1,
-    borderColor: '#090f16',
+    borderColor: '#090f16'
   },
   swipe: {
     paddingLeft: 5,
