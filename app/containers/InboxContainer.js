@@ -70,6 +70,9 @@ var Habits = React.createClass({
   componentWillMount: function () {
     this.getHabits();
   },
+  handlePress: function () {
+    this.props.navigator.push({id:'AddHabit'});
+  },
   // Render each row of the inbox as an Inbox component
   renderInbox: function (habit) {
     return <Inbox habit={habit} deleteHabit={this.deleteHabit} editHabit={this.editHabit} createInstance={this.createInstance} />
@@ -93,6 +96,9 @@ var Habits = React.createClass({
           dataSource={this.state.dataSource}
           renderRow={this.renderInbox}
         />
+        <TouchableOpacity onPress={this.handlePress}>
+          <Text style={styles.circleButton}>Add</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -102,12 +108,22 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 30,
-    padding: 10
+    padding: 10,
   },
   header: {
     fontSize: 25,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  circleButton: {
+    height: 50,
+    width: 50,
+    borderWidth: 1,
+    borderRadius: 25,
+    alignItems: 'center',
+    alignSelf: 'center',
+    padding: 5,
+    margin: 20
   }
 });
 
