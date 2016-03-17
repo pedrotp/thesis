@@ -16,10 +16,12 @@ var styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#EDBE40'
   },
   text: {
     fontSize: 20,
     alignItems: 'center',
+    color: '#FFFFFF',
   }
 });
 

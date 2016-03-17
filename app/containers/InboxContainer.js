@@ -88,10 +88,7 @@ var Habits = React.createClass({
   },
   renderScene: function (route, navigator) {
     return (
-      <View>
-        <View style={styles.container}>
-          <Text style={styles.header}>BETTER</Text>
-        </View>
+      <View style={styles.container}>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderInbox}
@@ -107,8 +104,11 @@ var Habits = React.createClass({
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 30,
-    padding: 10,
+    marginTop: 54,
+    paddingTop: 10,
+    paddingBottom: 10,
+    backgroundColor: '#f9ebc5',
+>>>>>>> (style) Styles all views with basic color scheme
   },
   header: {
     fontSize: 25,
