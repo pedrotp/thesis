@@ -43,7 +43,7 @@ var AppContainer = React.createClass({
     if (routeId === 'AddHabit') {
       return (
         <AddHabit
-          navigator={navigator} />
+          navigator={navigator} habit={route.habit} />
       );
     }
     if (routeId === 'Habits') {

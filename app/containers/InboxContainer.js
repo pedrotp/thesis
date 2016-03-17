@@ -30,7 +30,6 @@ var Habits = React.createClass({
       return response.json();
     })
     .then(function (responseData) {
-      console.log("RESPONSE DATA:", responseData);
       _this.setState({
         dataSource: _this.state.dataSource.cloneWithRows(responseData)
       });
@@ -50,6 +49,12 @@ var Habits = React.createClass({
     })
     .done();
   },
+  editHabit: function (habit) {
+    this.props.navigator.push({
+      id: 'AddHabit',
+      habit: habit,
+    });
+  },
   createInstance: function (habitId) {
     // TODO: refactor server call to api library
     // Ask server to create a new instance of this habit
@@ -67,7 +72,7 @@ var Habits = React.createClass({
   },
   // Render each row of the inbox as an Inbox component
   renderInbox: function (habit) {
-    return <Inbox habit={habit} deleteHabit={this.deleteHabit} createInstance={this.createInstance} />
+    return <Inbox habit={habit} deleteHabit={this.deleteHabit} editHabit={this.editHabit} createInstance={this.createInstance} />
   },
   render: function () {
     return (
