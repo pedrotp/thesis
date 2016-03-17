@@ -52,12 +52,15 @@ var styles = StyleSheet.create({
     backgroundColor: '#EDBE40'
   },
   welcome: {
-    fontSize: 28,
+    fontSize: 30,
+    fontWeight: 'bold',
     textAlign: 'center',
     margin: 10,
     color: '#FFF'
   },
   instructions: {
+    fontSize: 18,
+    fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 5,
     color: '#FFF'
@@ -68,10 +71,18 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
     borderColor: '#FFF',
-    borderWidth: 1,
+    borderWidth: 0,
     borderRadius: 5,
     padding: 5,
-    margin: 20
+    margin: 20,
+    backgroundColor: '#6399DC',
+    shadowColor: '#000000',
+    shadowOpacity: 0.6,
+    shadowRadius: 3,
+    shadowOffset: {
+      height: 3.5,
+      width: 2
+    }
   }
 });
 

@@ -53,6 +53,7 @@ function TextField (props) {
       <TextInput
         style={styles.textInput}
         onChangeText={props.onChange}
+        defaultValue={props.defaultValue}
       />
     </View>
   );
