@@ -13,23 +13,23 @@ function Inbox (props) {
     },
     {
       text: 'Edit',
-      color: '#000000',
-      backgroundColor: "#FFFFFF",
+      color: '#FFFFFF',
+      backgroundColor: "#b1cced",
       onPress: function () {props.editHabit(props.habit)}
     },
     {
       text: 'Did It!', // TODO: name this better
-      color: '#FFFFFF',
-      backgroundColor: '#006600',
+      color: '#EDBE40',
+      backgroundColor: '#273d58',
       onPress: function () {props.createInstance(props.habit._id)}
     }
   ];
 
   return (
     <View style={styles.habit}>
-      <Swipeout autoClose={true} right={swipeButtons}>
+      <Swipeout autoClose={true} right={swipeButtons} backgroundColor={'#EDBE40'}>
         <View style={styles.swipe}>
-          <Text>{props.habit.action} {props.habit.currentGoal} {props.habit.unit} {props.habit.frequency}</Text>
+          <Text >{props.habit.action} {props.habit.currentGoal} {props.habit.unit} {props.habit.frequency}</Text>
         </View>
       </Swipeout>
     </View>
@@ -38,7 +38,9 @@ function Inbox (props) {
 
 var styles = StyleSheet.create({
   habit: {
-    flex: 1
+    flex: 1,
+    borderBottomWidth: 1,
+    borderColor: '#090f16',
   },
   swipe: {
     paddingLeft: 5,

@@ -10,6 +10,7 @@ var Create = require('../components/Create');
 
 var AddHabit = React.createClass({
   getInitialState: function () {
+    console.log("CREATE INITIAL STATE:", this.props.habit);
     return {
       fields: {
         action: null,

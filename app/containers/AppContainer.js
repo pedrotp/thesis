@@ -20,7 +20,7 @@ var AppContainer = React.createClass({
             renderScene = {this.renderScene}
             navigationBar={
               <Navigator.NavigationBar
-                style={{backgroundColor: '#6399DC', alignItems: 'center'}}
+                style={{backgroundColor: '#6399DC', borderBottomWidth: 1, borderColor: '#090f16', alignItems: 'center'}}
                 routeMapper={NavigationBarRouteMapper} />
             } />
         </View>
