@@ -60,7 +60,7 @@ var Habits = React.createClass({
     var _this = this;
     // TODO: refactor server call to api library
     // Ask server to create a new instance of this habit
-    fetch('http://localhost:3000/habits/' +habitId, {
+    fetch('http://localhost:3000/habits/' + habitId, {
       method: 'POST',
     })
     .then(function (response) {
@@ -69,6 +69,17 @@ var Habits = React.createClass({
     })
     .done();
   },
+  // checkIfDone: function (habitId) {
+  //   var _this = this;
+  //   // TODO: refactor server call to api library
+  //   // Ask server whether this habit has been done in the goal frequency
+  //   fetch('http://localhost:3000/done/' + habitId, {
+  //     method: 'GET',
+  //   })
+  //   .then(function (response) {
+  //     return response.json();
+  //   })
+  // },
   // Get habits from server on load
   componentWillMount: function () {
     this.getHabits();
