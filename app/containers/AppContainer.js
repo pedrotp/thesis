@@ -18,11 +18,6 @@ var AppContainer = React.createClass({
           <Navigator
             initialRoute = {{id: 'Loading'}}
             renderScene = {this.renderScene}
-            navigationBar={
-              <Navigator.NavigationBar
-                style={{backgroundColor: '#6399DC', borderBottomWidth: 1, borderColor: '#090f16', alignItems: 'center'}}
-                routeMapper={NavigationBarRouteMapper} />
-            }
           />
         </View>
       );

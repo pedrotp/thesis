@@ -166,7 +166,7 @@ var NavigationBarRouteMapper = {
     var routeStack = navigator.parentNavigator.state.routeStack;
     var previousRoute = routeStack[routeStack.length - 2].id;
 
-    if(previousRoute === 'Habits' || previousRoute === 'Welcome') {
+    if(previousRoute === 'Habits') {
       return (
         <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
             onPress={function () {navigator.parentNavigator.pop()}}>
