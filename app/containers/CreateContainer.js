@@ -1,11 +1,11 @@
 var React = require('react-native');
+var Create = require('../components/Create.js');
 var View = React.View;
 var Text = React.Text;
 var Alert = React.Alert;
 var Navigator = React.Navigator;
 var TouchableOpacity = React.TouchableOpacity;
-// App components
-var Habits = require('./InboxContainer');
+
 var Create = require('../components/Create');
 
 var AddHabit = React.createClass({
@@ -143,7 +143,10 @@ var AddHabit = React.createClass({
         <Navigator
           renderScene={this.renderScene}
           navigator={this.props.navigator}
-        />
+          navigationBar={
+            <Navigator.NavigationBar style={{backgroundColor: '#6399DC', alignItems: 'center'}}
+                routeMapper={NavigationBarRouteMapper} />
+          } />
       </View>
     );
   },
@@ -157,5 +160,47 @@ var AddHabit = React.createClass({
     );
   }
 });
+
+var NavigationBarRouteMapper = {
+  LeftButton(route, navigator, index, navState) {
+    var routeStack = navigator.parentNavigator.state.routeStack;
+    var previousRoute = routeStack[routeStack.length - 2];
+
+    if(previousRoute.id === 'Habits') {
+      return (
+        <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
+            onPress={function () {navigator.parentNavigator.pop()}}>
+          <Text style={{color: 'white', margin: 10}}>
+            Back
+          </Text>
+        </TouchableOpacity>
+        )
+    } else {
+      return null;
+    }
+    
+  },
+  RightButton(route, navigator, index, navState) {
+    return null;
+  },
+  Title(route, navigator, index, navState) {
+    var title;
+    var routeStack = navigator.parentNavigator.state.routeStack;
+    var currentRoute = routeStack[routeStack.length - 1];
+
+    if(currentRoute.habit) {
+      title = 'Edit Habit';
+    } else {
+      title = 'Create Habit';
+    }
+    return (
+      <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
+        <Text style={{color: 'white', margin: 10, fontSize: 16}}>
+          { title }
+        </Text>
+      </TouchableOpacity>
+    );
+  }
+};
 
 module.exports = AddHabit;

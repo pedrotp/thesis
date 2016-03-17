@@ -6,7 +6,7 @@ var StyleSheet = React.StyleSheet;
 function Loading (props) {
   return(
     <View style={styles.container}>
-      <Text style={styles.text}>Loading...</Text>
+      <Text style={styles.text}>BETTER.</Text>
     </View>
     )
 }
@@ -19,7 +19,8 @@ var styles = StyleSheet.create({
     backgroundColor: '#EDBE40'
   },
   text: {
-    fontSize: 20,
+    fontSize: 60,
+    fontWeight: '800',
     alignItems: 'center',
     color: '#FFFFFF',
   }

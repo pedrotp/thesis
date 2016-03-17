@@ -18,11 +18,6 @@ var AppContainer = React.createClass({
           <Navigator
             initialRoute = {{id: 'Loading'}}
             renderScene = {this.renderScene}
-            navigationBar={
-              <Navigator.NavigationBar
-                style={{backgroundColor: '#6399DC', borderBottomWidth: 1, borderColor: '#090f16', alignItems: 'center'}}
-                routeMapper={NavigationBarRouteMapper} />
-            }
           />
         </View>
       );
@@ -90,76 +85,5 @@ var styles = StyleSheet.create({
     margin: 20
   }
 });
-
-var NavigationBarRouteMapper = {
-  LeftButton: function (route, navigator, index, navState) {
-    if (route.id === 'Habits') {
-      return null;
-    }
-    if (route.id === 'Welcome') {
-      return null;
-    }
-    if (route.id === 'AddHabit') {
-      return null;
-    }
-    if (index === 0) {
-      return null;
-    }
-    return (
-      <TouchableOpacity
-        onPress={function () { navigator.pop(); }}
-        style={{ flex: 1, justifyContent: 'center' }}>
-        <Text style={{color: 'white', margin: 10}}>
-          Back
-        </Text>
-      </TouchableOpacity>
-    );
-  },
-
-  RightButton: function (route, navigator, index, navState) {
-    if (route.id === 'Habits' || route.id === 'Welcome') {
-      return null;
-    } else {
-      return (
-        <TouchableOpacity
-          onPress={function () { navigator.push({ id: 'Habits' }); }}
-          style={{ flex: 1, justifyContent: 'center' }}>
-          <Text style={{color: 'white', margin: 10}}>
-            Inbox
-          </Text>
-        </TouchableOpacity>
-      );
-    }
-  },
-
-  Title: function (route, navigator, index, navState) {
-    var title;
-    if (route.id === 'AddHabit') {
-
-    // If route.habit exists, that means its being edited
-      if (route.habit) {
-        title = 'Edit Habit';
-
-    // Else, it's being created
-      } else {
-        title = 'Create Habit';
-      }
-    } else if (route.id === 'Habits') {
-      title = 'Inbox';
-
-    // If none of the previous if blocks were triggered,
-    // the user is at the welcome screen
-    } else {
-      title = 'Better';
-    }
-    return (
-      <TouchableOpacity style={{ flex: 1, justifyContent: 'center' }}>
-        <Text style={{color: 'white', margin: 10, fontSize: 16}}>
-          {title}
-        </Text>
-      </TouchableOpacity>
-    );
-  }
-};
 
 module.exports = AppContainer;
