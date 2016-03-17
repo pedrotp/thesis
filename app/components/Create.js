@@ -87,7 +87,8 @@ var styles = StyleSheet.create({
     backgroundColor: '#EDBE40'
   },
   welcome: {
-    fontSize: 14,
+    fontSize: 18,
+    fontWeight: 'bold',
     textAlign: 'center',
     margin: 10,
     color: '#FFFFFF'
@@ -95,9 +96,11 @@ var styles = StyleSheet.create({
   textInput: {
     height: 35,
     width: 250,
-    borderColor: '#FFFFFF',
-    color: '#FFFFFF',
-    borderWidth: 1,
+    padding: 5,
+    backgroundColor: '#FFFFFF',
+    borderColor: '#6399DC',
+    color: '#6399DC',
+    borderWidth: 0,
     borderRadius: 10,
     alignSelf: 'center',
     alignItems: 'center'
@@ -108,10 +111,18 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
     borderColor: '#FFFFFF',
-    borderWidth: 1,
+    borderWidth: 0,
     borderRadius: 5,
     padding: 5,
-    margin: 20
+    margin: 20,
+    backgroundColor: '#6399DC',
+    shadowColor: '#000000',
+    shadowOpacity: 0.6,
+    shadowRadius: 3,
+    shadowOffset: {
+      height: 3.5,
+      width: 2
+    }
   }
 });
 
