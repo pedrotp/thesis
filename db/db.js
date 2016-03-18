@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
-var testing = process.env.NODE_ENV === 'test';
 var uri = process.env.MONGOLAB_URI || 'mongodb://localhost/betterdb';
+
+// For suppressing logging when testing
+var testing = process.env.NODE_ENV === 'test';
 
 mongoose.connect(uri);
 mongoose.Promise = require('bluebird');

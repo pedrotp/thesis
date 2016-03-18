@@ -49,7 +49,6 @@ var updateHabit = function (habitid, habitDetails, success, fail) {
       success(habit);
     })
     .catch(function (err) {
-      console.error(err);
       fail(err);
     });
 };
@@ -69,7 +68,6 @@ var createInstance = function (habitid, success, fail) {
       success(instance);
     })
     .catch(function (err) {
-      console.error(err);
       fail(err);
     });
 };
@@ -86,7 +84,7 @@ var isDone = function (habitid, success, fail) {
         });
     })
     .catch(function (err) {
-      console.error(err);
+      fail(err);
     });
 };
 

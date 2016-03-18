@@ -3,6 +3,8 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var routes = require('./routes');
 var db = require('../db/db');
+
+// For suppressing logging when testing
 var testing = process.env.NODE_ENV === 'test';
 
 var app = express();

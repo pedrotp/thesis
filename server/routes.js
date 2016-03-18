@@ -1,6 +1,6 @@
 var helpers = require('./helpers');
 
-// Suppresses console.errors logging in tests (purposeful errors)
+// For suppressing (purposeful) error logging in tests
 var testing = process.env.NODE_ENV === 'test';
 
 var routes = [{
