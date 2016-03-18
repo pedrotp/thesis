@@ -9,6 +9,7 @@ var expect = require('chai').expect;
 var app = require('../server/server');
 
 // DB Models
+var mongoose = require('mongoose');
 var Habit = require('../db/models').Habit;
 var Instances = require('../db/models').Instances;
 
@@ -25,20 +26,16 @@ xdescribe('Basic Server', function () {
   };
 
   beforeEach(function (done) {
-    Habit.create(habit1)
-      .then(function (success) {
-        // console.log('First habit success:', success);
-      })
-      .catch(function (err) {
-        console.error(err);
-      });
-
-    Habit.create(habit2)
-      .then(function (success) {
-        // console.log('Second habit success:', success);
-      })
-      .catch(function (err) {
-        console.error(err);
+    request(app)
+      .post('/habits')
+      .send(habit1)
+      .expect(201)
+      .end(function () {
+        request(app)
+          .post('/habits')
+          .send(habit2)
+          .expect(201)
+          .end(done);
       });
 
     done();
@@ -61,6 +58,12 @@ xdescribe('Basic Server', function () {
         console.error(err);
       });
 
+    done();
+  });
+
+  // After tests run, close DB connection
+  after(function (done) {
+    mongoose.connection.close();
     done();
   });
 
