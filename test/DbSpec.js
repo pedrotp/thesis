@@ -2,107 +2,95 @@
 process.env.NODE_ENV = 'test';
 
 // Test
-var request = require('request');
+var request = require('supertest');
 var expect = require('chai').expect;
 
-// DB connection
-var db = require('../db/db');
+// Server
+var app = require('../server/server');
 
 // DB Models
-var User = require('../db/models').User;
+var mongoose = require('mongoose');
 var Habit = require('../db/models').Habit;
-var Instance = require('../db/models').Instance;
 var Instances = require('../db/models').Instances;
 
-describe('Basic Server', function () {
+// Helpers
+var helpers = require('../server/helpers');
 
-  // To store ID from POST response to use in PUT/DELETE tests
-  var habitid;
+describe('Database', function () {
 
-  describe('GET /habits', function () {
-    it('should return status code 200', function (done) {
-      request('http://localhost:3000/habits', function (err, res) {
-        if (err) {
-          console.error(err);
-        }
-        expect(res.statusCode).to.equal(200);
-        done();
+  // Example habits
+  var habit1 = {
+    action: 'Write tests',
+    frequency: 'Daily'
+  };
+  var habit2 = {
+    action: 'Floss',
+    frequency: 'Daily'
+  };
+
+  describe('Helpers', function () {
+
+    beforeEach(function (done) {
+      request(app)
+      .post('/habits')
+      .send(habit1)
+      .expect(201)
+      .end(function () {
+        request(app)
+        .post('/habits')
+        .send(habit2)
+        .expect(201)
+        .end(done);
       });
     });
-  });
 
-  describe('POST /habits', function () {
     afterEach(function (done) {
       Habit.remove({})
-        .then(function (success) {
-          // console.log('Habits successfully removed');
-        })
-        .catch(function (err) {
-          console.error(err);
-        });
+      .then(function (success) {
+        // console.log('Habits successfully removed:', success.result);
+      })
+      .catch(function (err) {
+        console.error(err);
+      });
+
+      Instances.remove({})
+      .then(function (success) {
+        // console.log('Instances successfully removed');
+      })
+      .catch(function (err) {
+        console.error(err);
+      });
 
       done();
     });
 
-    it('should return status code 201', function (done) {
-      var reqParams = {
-        method: 'POST',
-        uri: 'http://localhost:3000/habits',
-        json: {
-          action: "floss",
-          frequency: "every night",
-          unit: "one tooth",
-          schedule: "9 PM"
-        }
-      };
+    // After tests run, close DB connection
+    after(function (done) {
+      mongoose.connection.close();
+      done();
+    });
 
-      request(reqParams, function (err, res) {
-        if (err) {
-          console.error(err);
-        }
+    describe('getHabits', function () {
 
-        // Storing ID to be used in PUT/DELETE requests
-        habitid = res.body._id;
-        expect(res.statusCode).to.equal(201);
+      it('should be a function', function (done) {
+        expect(helpers.getHabits).to.be.a('function');
         done();
       });
-    });
-  });
 
-  describe('PUT /habits/:habitid', function () {
-    it('should return status code 200', function (done) {
-      var reqParams = {
-        method: 'PUT',
-        uri: 'http://localhost:3000/habits/' + habitid,
-        json: {
-          schedule: '8 PM'
-        }
-      };
-
-      request(reqParams, function (err, res) {
-        if (err) {
-          console.error(err);
-        }
-        expect(res.statusCode).to.equal(200);
+      it('should fetch habits from database', function (done) {
+        helpers.getHabits(
+          function(success) {
+            expect(success).to.be.a('array');
+            expect(success.length).to.equal(2);
+          },
+          function (fail) {
+            console.error('getHabits error:', fail);
+          });
         done();
       });
+
     });
+
   });
 
-  describe ('DELETE /habits:habitid', function () {
-    it('should return status code 202', function (done) {
-      var reqParams = {
-        method: 'DELETE',
-        uri: 'http://localhost:3000/habits/' + habitid
-      };
-
-      request(reqParams, function (err, res) {
-        if (err) {
-          console.error(err);
-        }
-        expect(res.statusCode).to.equal(202);
-        done();
-      });
-    });
-  });
 });
