@@ -11,10 +11,14 @@
 
 #import "RCTRootView.h"
 
+#import <LockReactNative/A0LockReact.h>
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [[[A0LockReact sharedInstance] lock] applicationLaunchedWithOptions:launchOptions];
+
   NSURL *jsCodeLocation;
 
   /**
@@ -52,6 +56,15 @@
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   return YES;
+}
+
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+  return [[[A0LockReact sharedInstance] lock] handleURL:url sourceApplication:sourceApplication];
+}
+
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler {
+  return [[[A0LockReact sharedInstance] lock] continueUserActivity:userActivity restorationHandler:restorationHandler];
 }
 
 @end
