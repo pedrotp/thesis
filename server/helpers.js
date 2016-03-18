@@ -16,7 +16,7 @@ var getHabits = function (success, fail) {
 var addHabit = function (habit, success, fail) {
   if (habit.currentGoal) {
     habit.currentGoal = parseInt(habit.currentGoal);
-  } 
+  }
   Habit.create(habit)
     .then(function (data) {
       var instances = new Instances;
@@ -43,13 +43,12 @@ var deleteHabit = function (id, success, fail) {
 var updateHabit = function (habitid, habitDetails, success, fail) {
   if (habitDetails.currentGoal) {
     habitDetails.currentGoal = parseInt(habitDetails.currentGoal);
-  } 
+  }
   Habit.findByIdAndUpdate(habitid, habitDetails, {new: true})
     .then(function (habit) {
       success(habit);
     })
     .catch(function (err) {
-      console.error(err);
       fail(err);
     });
 };
@@ -69,7 +68,6 @@ var createInstance = function (habitid, success, fail) {
       success(instance);
     })
     .catch(function (err) {
-      console.error(err);
       fail(err);
     });
 };
@@ -86,7 +84,7 @@ var isDone = function (habitid, success, fail) {
         });
     })
     .catch(function (err) {
-      console.error(err);
+      fail(err);
     });
 };
 

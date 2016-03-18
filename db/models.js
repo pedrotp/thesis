@@ -35,8 +35,8 @@ var User = mongoose.model('User', userSchema);
 
 instancesSchema.post('save', function (doc) {
   Habit.findOneAndUpdate({ instancesId: doc._id }, { instanceCount: doc.store.length })
-    .then(function () {
-      console.log('success');
+    .then(function (success) {
+      // console.log('Success:', success);
     });
 });
 

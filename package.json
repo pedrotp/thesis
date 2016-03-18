@@ -5,7 +5,7 @@
   "description": "Build better habits",
   "main": "server.js",
   "scripts": {
-    "test": "node server/server.js & mocha test/ServerSpec.js; RES=$?; kill %1; exit $RES",
+    "test": "mocha test/ServerSpec.js; RES=$?; exit $RES",
     "start": "nodemon server/server.js"
   },
   "repository": {
@@ -20,16 +20,19 @@
   "dependencies": {
     "bluebird": "^3.3.4",
     "body-parser": "^1.15.0",
-    "chai": "^3.5.0",
     "express": "^4.13.4",
-    "mocha": "^2.4.5",
     "moment": "^2.12.0",
     "mongoose": "^4.4.6",
-    "morgan": "^1.7.0",
-    "nodemon": "^1.9.1",
     "react-native": "^0.21.0",
     "react-native-radio-buttons": "^0.9.1",
-    "react-native-swipeout": "^2.0.12",
-    "request": "^2.69.0"
+    "react-native-swipeout": "^2.0.12"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5",
+    "morgan": "^1.7.0",
+    "nodemon": "^1.9.1",
+    "request": "^2.69.0",
+    "supertest": "^1.2.0"
   }
 }
