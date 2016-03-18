@@ -12,7 +12,7 @@ var app = require('../server/server');
 var Habit = require('../db/models').Habit;
 var Instances = require('../db/models').Instances;
 
-describe('Basic Server', function () {
+xdescribe('Basic Server', function () {
 
   // Example habits to be used in POST and PUT tests
   var habit1 = {
@@ -64,7 +64,7 @@ describe('Basic Server', function () {
     done();
   });
 
-  describe('GET /habits', function () {
+  xdescribe('GET /habits', function () {
 
     it('should return 200 on success', function (done) {
       request(app)
@@ -94,7 +94,7 @@ describe('Basic Server', function () {
 
   });
 
-  describe('POST /habits', function () {
+  xdescribe('POST /habits', function () {
 
     // Habit to send in POST requests
     var habit3 = {
@@ -158,7 +158,7 @@ describe('Basic Server', function () {
 
   });
 
-  describe('PUT /habits/:habitid', function () {
+  xdescribe('PUT /habits/:habitid', function () {
 
     // Updates to be used in requests
     var updates = {
@@ -218,7 +218,7 @@ describe('Basic Server', function () {
 
   });
 
-  describe('DELETE /habits/:habitid', function () {
+  xdescribe('DELETE /habits/:habitid', function () {
 
     // Used to store habit ID to be used in requests
     var habitId;
