@@ -6,7 +6,8 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha test/ServerSpec.js; RES=$?; exit $RES",
-    "start": "nodemon server/server.js"
+    "start": "node server/server.js",
+    "local": "nodemon server/server.js"
   },
   "repository": {
     "type": "git",
