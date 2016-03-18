@@ -16,7 +16,7 @@ var getHabits = function (success, fail) {
 var addHabit = function (habit, success, fail) {
   if (habit.currentGoal) {
     habit.currentGoal = parseInt(habit.currentGoal);
-  } 
+  }
   Habit.create(habit)
     .then(function (data) {
       var instances = new Instances;
@@ -43,7 +43,7 @@ var deleteHabit = function (id, success, fail) {
 var updateHabit = function (habitid, habitDetails, success, fail) {
   if (habitDetails.currentGoal) {
     habitDetails.currentGoal = parseInt(habitDetails.currentGoal);
-  } 
+  }
   Habit.findByIdAndUpdate(habitid, habitDetails, {new: true})
     .then(function (habit) {
       success(habit);

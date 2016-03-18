@@ -3,9 +3,7 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var routes = require('./routes');
 var db = require('../db/db');
-
-// Flag to turn off loggers (morgan, console.logs, etc) when testing
-var testing = require('../test/ServerSpec').testing;
+var testing = process.env.NODE_ENV === 'test';
 
 var app = express();
 

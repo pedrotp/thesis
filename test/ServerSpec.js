@@ -1,12 +1,11 @@
-// Signals tests being run to turn off logger(s)
-exports.testing = true;
+// Sets NODE_ENV to suppress loggers (morgan)
+process.env.NODE_ENV = 'test';
 
 // Test
 var request = require('supertest');
 var expect = require('chai').expect;
 
 // Server
-var express = require('express');
 var app = require('../server/server');
 
 // DB Models
@@ -69,6 +68,17 @@ describe('Basic Server', function () {
         .end(done);
     });
 
+    it('should return status code 400 if any required fields are missing', function (done) {
+      var errHabit = {
+        action: 'Run'
+      };
+      request(app)
+        .post('/habits')
+        .send(errHabit)
+        .expect(400)
+        .end(done);
+    });
+
     it('should respond with new habit on success', function (done) {
       request(app)
         .post('/habits')
@@ -87,7 +97,6 @@ describe('Basic Server', function () {
 
     it('should create new instance for each new habit', function (done) {
       var instanceId;
-
       request(app)
         .post('/habits')
         .send(habit)
@@ -104,6 +113,7 @@ describe('Basic Server', function () {
         })
         .end(done);
     });
+
   });
 
   describe('PUT /habits/:habitid', function () {
@@ -177,6 +187,7 @@ describe('Basic Server', function () {
           console.error(err);
         });
     });
+
   });
 
 });

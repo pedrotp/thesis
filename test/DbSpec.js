@@ -1,3 +1,6 @@
+// Sets NODE_ENV to suppress loggers (morgan)
+process.env.NODE_ENV = 'test';
+
 // Test
 var request = require('request');
 var expect = require('chai').expect;
