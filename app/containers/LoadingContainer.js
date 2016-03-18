@@ -7,7 +7,7 @@ var Loading = require('../components/Loading');
 var LoadingContainer = React.createClass({
   getHabits: function () {
     var _this = this;
-    fetch('http://localhost:3000/habits', {
+    fetch('http://thundercats-thesis.herokuapp.com/habits', {
       method: 'GET',
     })
     .then(function (response) {

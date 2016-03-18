@@ -24,7 +24,7 @@ var Habits = React.createClass({
   // TODO: refactor server call to api library
   getHabits: function () {
     var _this = this;
-    fetch('http://localhost:3000/habits', {
+    fetch('http://thundercats-thesis.herokuapp.com/habits', {
       method: 'GET',
     })
     .then(function (response) {
@@ -41,7 +41,7 @@ var Habits = React.createClass({
     var _this = this;
     // TODO: refactor server call to api library
     // Remove from server
-    fetch('http://localhost:3000/habits/' +habitId, {
+    fetch('http://thundercats-thesis.herokuapp.com/habits/' +habitId, {
       method: 'DELETE',
     })
     // Get updated habit list
@@ -60,7 +60,7 @@ var Habits = React.createClass({
     var _this = this;
     // TODO: refactor server call to api library
     // Ask server to create a new instance of this habit
-    fetch('http://localhost:3000/habits/' + habitId, {
+    fetch('http://thundercats-thesis.herokuapp.com/habits/' + habitId, {
       method: 'POST',
     })
     .then(function (response) {
@@ -73,7 +73,7 @@ var Habits = React.createClass({
   //   var _this = this;
   //   // TODO: refactor server call to api library
   //   // Ask server whether this habit has been done in the goal frequency
-  //   fetch('http://localhost:3000/done/' + habitId, {
+  //   fetch('http://thundercats-thesis.herokuapp.com/done/' + habitId, {
   //     method: 'GET',
   //   })
   //   .then(function (response) {
