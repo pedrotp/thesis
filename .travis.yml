@@ -4,7 +4,7 @@ node_js:
 before_install:
 - if [[ `npm -v` != 3* ]]; then npm i -g npm@3; fi
 deploy:
-  app: thundercats-thesis
+  app: better-habits
   provider: heroku
   api_key:
     secure: Csd8Vo7jDJFPE9ksAHDY2XtFmN6/LInJHAYfufzarKqIR+tNVKf1/Rs2nOl5YqS3r4kOlAzTFfMlQgAk6CV1InbG13V796/DsQ8eMWF+eIduGO6aVDAU1smVeuB4O9IbCRpfC4EAW1R5eGUHedex/eKTR9u16Xkwj+kdqH8VBLSYcdR9xfPueuUYdS3DABXSp9uWrh9UZTcvJwiMYbV3+WT7SEyb8axrQBJ5w8+2x29PvfTJe6d/f1kWDmJQHkNpAAd0mKKjIiv/VKrhn+HW+MBYjOBnT9DaNJVZnZ1EzKNshCKjRSrBmmgKXJCqwxNB9PPn+kDdKvlmt02WX54Ag2QczuLqPRqx45rsYlM1+WJEjmVVoglGj+aP0F6ciUGEOMwU6XaCy2h4GU4XlQ24JJtS6rqs9S9USqlt/G/uV96/ol/oIfFsSt0HY9YfQAVbF9hU3U+xX8nxuDjSQZuSCkqIjJOLX0mEtFMHQj1Ff+X1cSSTpsNWVLbaQPCVZqDvCgRNowi8K9DZkkWt6uX6y2P4h1xzjgSMblbex6em0dQsYilMd5vpleOflStn9vrE5S2CxAw71qoTT6DOtEPDbTMSQVo0OEBl8ZFTh9x9Qj0QQuQOpaBrE4WuAVskx6fj+VLGNL5Z8GB9KD8a7iPuWn0m5E+NNkrAYnton8H0234=
