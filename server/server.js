@@ -1,3 +1,6 @@
+// load environment variables from .env
+require('dotenv').config();
+
 var express = require('express');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');

@@ -1,7 +1,20 @@
+
+var jwt = require('express-jwt');
 var helpers = require('./helpers');
 
 // For suppressing (purposeful) error logging in tests
 var testing = process.env.NODE_ENV === 'test';
+
+var jwtCheck = jwt({
+  secret: new Buffer(process.env.AUTH_SECRET, 'base64'),
+  audience: process.env.AUTH_ID
+});
+
+// routes requiring auth for use
+var authReqRoutes = [
+  '/habits',
+  '/done'
+]
 
 var routes = [
   {
@@ -95,6 +108,12 @@ var routes = [
 ];
 
 module.exports = function (app, express) {
+  // require auth on all routes in authReqRoutes
+  authReqRoutes.forEach(function (route) {
+    app.use(route, jwtCheck)
+  })
+
+  // export routes
   routes.forEach(function (route) {
     for (var key in route) {
       if (key === 'path') {
