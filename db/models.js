@@ -1,13 +1,17 @@
 var mongoose = require('mongoose');
 
+// Instance
 var instanceSchema = mongoose.Schema({}, { timestamps: true });
 
+
+// Instance store
 var instancesSchema = mongoose.Schema({
   store: [instanceSchema]
 });
-
 var Instances = mongoose.model('Instances', instancesSchema);
 
+
+// Habits
 var habitSchema = mongoose.Schema({
   action: { type: String, required: true }, // name of the activity habit
   frequency: { type: String, required: true }, // how often user wants to do the action (year, month, week, day, hour)
@@ -20,25 +24,43 @@ var habitSchema = mongoose.Schema({
 {
   timestamps: true
 });
+var Habit = mongoose.model('Habit', habitSchema);
 
+
+// Users
 var userSchema = mongoose.Schema({
-  username: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
   fullName: { type: String },
   habits: [habitSchema]
 },
 {
   timestamps: true
 });
-
-var Habit = mongoose.model('Habit', habitSchema);
 var User = mongoose.model('User', userSchema);
+
+
+// Middleware
+habitSchema.post('remove', function (doc) {
+  var instanceId = doc.instancesId;
+  Instances.findByIdAndRemove(instanceId)
+    .then(function (success) {
+      // console.log('Post habit instance deletion success:', success);
+    })
+    .catch(function (err) {
+      console.error(err);
+    });
+});
 
 instancesSchema.post('save', function (doc) {
   Habit.findOneAndUpdate({ instancesId: doc._id }, { instanceCount: doc.store.length })
     .then(function (success) {
-      // console.log('Success:', success);
+      // console.log('Post instance creation habit update success:', success);
+    })
+    .catch(function (err) {
+      console.error(err);
     });
 });
+
 
 module.exports = {
   Habit: Habit,
