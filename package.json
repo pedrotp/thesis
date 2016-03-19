@@ -26,6 +26,7 @@
     "morgan": "^1.7.0",
     "mongoose": "^4.4.6",
     "react-native": "^0.21.0",
+    "react-native-lock-ios": "0.0.5",
     "react-native-radio-buttons": "^0.9.1",
     "react-native-swipeout": "^2.0.12"
   },
