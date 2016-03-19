@@ -31,9 +31,21 @@ var addHabit = function (habit, success, fail) {
 };
 
 var deleteHabit = function (id, success, fail) {
+  var instanceId;
   Habit.findByIdAndRemove(id)
     .then(function (data) {
-      success(data);
+      instanceId = data.instancesId;
+      return Instances.findByIdAndRemove(instanceId);
+    })
+    .then(function (deletedInstance) {
+
+      // deletedIds obj allows for both the deleted habit ID
+      // as well as the deleted instance ID to be sent back
+      var deletedIds = {
+        habitId: id,
+        instanceId: deletedInstance._id
+      };
+      success(deletedIds);
     })
     .catch(function (err) {
       fail(err);

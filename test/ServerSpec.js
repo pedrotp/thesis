@@ -5,6 +5,9 @@ process.env.NODE_ENV = 'test';
 var request = require('supertest');
 var expect = require('chai').expect;
 
+// Bluebird 'join' method used in afterEach function
+var Join = require('bluebird').join;
+
 // Server
 var app = require('../server/server');
 
@@ -15,7 +18,9 @@ var Instances = require('../db/models').Instances;
 
 xdescribe('Basic Server', function () {
 
-  // Example habits to be used in POST and PUT tests
+  // Example habits with habit1Id to be assigned in
+  // beforeEach and used in habit PUT/DELETE
+  var habit1Id;
   var habit1 = {
     action: 'Write tests',
     frequency: 'Daily'
@@ -25,11 +30,19 @@ xdescribe('Basic Server', function () {
     frequency: 'Daily'
   };
 
+  // Instance ID to be assigned in beforeEach
+  // to habit1 and used in deleteHabit
+  var instance1Id;
+
   beforeEach(function (done) {
     request(app)
       .post('/habits')
       .send(habit1)
       .expect(201)
+      .expect(function (res) {
+        habit1Id = res.body._id;
+        instance1Id = res.body.instancesId;
+      })
       .end(function () {
         request(app)
           .post('/habits')
@@ -37,42 +50,37 @@ xdescribe('Basic Server', function () {
           .expect(201)
           .end(done);
       });
-
-    done();
   });
 
   afterEach(function (done) {
-    Habit.remove({})
+    var dropHabits = Habit.remove({});
+    var dropInstances = Instances.remove({});
+
+    // Promise.join coordinates a fixed number of promises concurrently
+    Join(dropHabits, dropInstances)
       .then(function (success) {
-        // console.log('Habits successfully removed:', success.result);
+        // console.log('dropHabits success:', success[0].result);
+        // console.log('dropInstances success:', success[1].result);
+        done();
       })
       .catch(function (err) {
-        console.error(err);
+        console.error('DbSpec afterEach error:', err);
       });
-
-    Instances.remove({})
-      .then(function (success) {
-        // console.log('Instances successfully removed');
-      })
-      .catch(function (err) {
-        console.error(err);
-      });
-
-    done();
   });
 
-  // After tests run, close DB connection
+  // Close DB connection after tests complete
   after(function (done) {
     mongoose.connection.close();
     done();
   });
 
-  xdescribe('GET /habits', function () {
+  describe('GET /habits', function () {
 
     it('should return 200 on success', function (done) {
       request(app)
         .get('/habits')
-        .expect(200, done);
+        .expect(200)
+        .end(done);
     });
 
     it('should respond with JSON', function (done) {
@@ -80,7 +88,8 @@ xdescribe('Basic Server', function () {
         .get('/habits')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(200, done);
+        .expect(200)
+        .end(done);
     });
 
     it('should retrieve habits', function (done) {
@@ -97,7 +106,7 @@ xdescribe('Basic Server', function () {
 
   });
 
-  xdescribe('POST /habits', function () {
+  describe('POST /habits', function () {
 
     // Habit to send in POST requests
     var habit3 = {
@@ -130,27 +139,26 @@ xdescribe('Basic Server', function () {
         .send(habit3)
         .expect(201)
         .expect(function (res) {
-          var newUser = {
+          var newHabit = {
             action: res.body.action,
             frequency: res.body.frequency
           };
-          expect(newUser.action).to.equal(habit3.action);
-          expect(newUser.frequency).to.equal(habit3.frequency);
+          expect(newHabit.action).to.equal(habit3.action);
+          expect(newHabit.frequency).to.equal(habit3.frequency);
         })
         .end(done);
     });
 
     it('should create new instance for each new habit', function (done) {
-      var instanceId;
       request(app)
         .post('/habits')
         .send(habit3)
         .expect(201)
         .expect(function (res) {
-          instanceId = res.body.instancesId;
-          Instances.findById(instanceId)
+          instance1Id = res.body.instancesId;
+          Instances.findById(instance1Id)
             .then(function (success) {
-              expect(instanceId).to.equal(success._id.toString());
+              expect(instance1Id).to.equal(success._id.toString());
             })
             .catch(function (err) {
               console.error('instance fail:', err);
@@ -161,33 +169,20 @@ xdescribe('Basic Server', function () {
 
   });
 
-  xdescribe('PUT /habits/:habitid', function () {
+  describe('PUT /habits/:habitid', function () {
 
-    // Updates to be used in requests
-    var updates = {
+    // Updates to be used in request
+    var update1 = {
       action: 'Write BETTER tests',
       frequency: 'Weekly'
     };
 
-    // Used to store habit ID to be used in requests
-    var habitId;
-
     it('should return 200 on success', function (done) {
       request(app)
-        .get('/habits')
+        .put('/habits/' + habit1Id)
+        .send(update1)
         .expect(200)
-        .expect(function (res) {
-
-          // habit1 { action: 'Write tests', frequency: 'Daily' }
-          habitId = res.body[0]._id;
-        })
-        .end(function () {
-          request(app)
-            .put('/habits/' + habitId)
-            .send(updates)
-            .expect(200)
-            .end(done);
-        });
+        .end(done);
     });
 
     it('should return 400 on error (incorrect ID)', function (done) {
@@ -199,48 +194,25 @@ xdescribe('Basic Server', function () {
 
     it('should return updated habit', function (done) {
       request(app)
-        .get('/habits')
+        .put('/habits/' + habit1Id)
+        .send(update1)
         .expect(200)
         .expect(function (res) {
-
-          // habit1 { action: 'Write tests', frequency: 'Daily' }
-          habitId = res.body[0]._id;
+          expect(update1.action).to.equal(res.body.action);
+          expect(update1.frequency).to.equal(res.body.frequency);
         })
-        .end(function () {
-          request(app)
-            .put('/habits/' + habitId)
-            .send(updates)
-            .expect(200)
-            .expect(function (res) {
-              expect(updates.action).to.equal(res.body.action);
-              expect(updates.frequency).to.equal(res.body.frequency);
-            })
-            .end(done);
-        });
+        .end(done);
     });
 
   });
 
-  xdescribe('DELETE /habits/:habitid', function () {
-
-    // Used to store habit ID to be used in requests
-    var habitId;
+  describe('DELETE /habits/:habitid', function () {
 
     it('should return 202 on success', function (done) {
       request(app)
-        .get('/habits')
-        .expect(200)
-        .expect(function (res) {
-
-          // habit2 { action: 'Floss', frequency: 'Daily' }
-          habitId = res.body[1]._id;
-        })
-        .end(function () {
-          request(app)
-            .delete('/habits/' + habitId)
-            .expect(202)
-            .end(done);
-        });
+        .delete('/habits/' + habit1Id)
+        .expect(202)
+        .end(done);
     });
 
     it('should return 500 on error (incorrect ID)', function (done) {
@@ -252,47 +224,26 @@ xdescribe('Basic Server', function () {
 
     it('should return deleted habit', function (done) {
       request(app)
-        .get('/habits')
-        .expect(200)
+        .delete('/habits/' + habit1Id)
+        .expect(202)
         .expect(function (res) {
-
-          // habit2 { action: 'Floss', frequency: 'Daily' }
-          habitId = res.body[1]._id;
+          expect(habit1Id).to.equal(res.body.habitId);
         })
-        .end(function () {
-          request(app)
-            .delete('/habits/' + habitId)
-            .expect(202)
-            .expect(function (res) {
-              expect(habit2.action).to.equal(res.body.action);
-              expect(habit2.frequency).to.equal(res.body.frequency);
-            })
-            .end(done);
-        });
+        .end(done);
     });
 
     it('should delete habit from database', function (done) {
       request(app)
-        .get('/habits')
-        .expect(200)
-        .expect(function (res) {
-
-          // habit2 { action: 'Floss', frequency: 'Daily' }
-          habitId = res.body[1]._id;
-        })
+        .delete('/habits/' + habit1Id)
+        .expect(202)
         .end(function () {
           request(app)
-            .delete('/habits/' + habitId)
-            .expect(202)
-            .end(function () {
-              request(app)
-                .get('/habits')
-                .expect(200)
-                .expect(function (res) {
-                  expect(res.body.length).to.equal(1);
-                })
-                .end(done);
-            });
+            .get('/habits')
+            .expect(200)
+            .expect(function (res) {
+              expect(res.body.length).to.equal(1);
+            })
+            .end(done);
         });
     });
 
