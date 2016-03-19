@@ -19,7 +19,7 @@ var Instances = require('../db/models').Instances;
 // Helper functions which query db
 var helpers = require('../server/helpers');
 
-xdescribe('Database', function () {
+describe('Database', function () {
 
   describe('Helpers', function () {
 

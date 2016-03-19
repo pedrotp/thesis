@@ -16,7 +16,7 @@ var mongoose = require('mongoose');
 var Habit = require('../db/models').Habit;
 var Instances = require('../db/models').Instances;
 
-xdescribe('Basic Server', function () {
+describe('Basic Server', function () {
 
   // Example habits with habit1Id to be assigned in
   // beforeEach and used in habit PUT/DELETE
