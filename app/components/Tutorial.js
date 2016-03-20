@@ -6,12 +6,11 @@ var Component = React.Component;
 var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
 // App components
-var Habits = require('../containers/CreateContainer');
 
-var Welcome = React.createClass({
+var Tutorial = React.createClass({
   onPressButton: function () {
     this.props.navigator.push({
-      id: 'Tutorial'
+      id: 'AddHabit'
     });
   },
   render: function () {
@@ -27,10 +26,10 @@ var Welcome = React.createClass({
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Ready to be Better?
+          Some Text
         </Text>
         <Text style={styles.instructions}>
-          Create your first habit!
+          Some Text
         </Text>
         <TouchableOpacity onPress={this.onPressButton}>
           <View style={styles.button}>
@@ -86,4 +85,4 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = Welcome;
+module.exports = Tutorial;
