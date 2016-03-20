@@ -5,7 +5,7 @@
   "description": "Build better habits",
   "main": "server.js",
   "scripts": {
-    "test": "mocha test/ServerSpec.js && mocha test/DbSpec.js; RES=$?; exit $RES;",
+    "test": "mocha --require setup.js --compilers js:babel-core/register --recursive test/*.js",
     "start": "node server/server.js",
     "local": "nodemon server/server.js"
   },
