@@ -1,4 +1,5 @@
 var React = require('react-native');
+var api = require('../lib/api');
 var View = React.View;
 var Navigator = React.Navigator;
 // App components
@@ -7,10 +8,13 @@ var Loading = require('../components/Loading');
 var LoadingContainer = React.createClass({
   getHabits: function () {
     var _this = this;
-    // fetch('http://better-habits.herokuapp.com/habits', {
-    fetch('http://localhost:3000/habits', {
+    fetch(process.env.SERVER + '/habits', {
       method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + this.props.token.idToken
+      }
     })
+    .then(api.handleErrors)
     .then(function (response) {
       return response.json();
     })
@@ -21,7 +25,9 @@ var LoadingContainer = React.createClass({
         _this.goToInbox();
       }
     })
-    .done();
+    .catch(function (err) {
+      console.warn(err);
+    });
   },
   goToOnboard: function () {
     this.props.navigator.push({id: 'Onboard'})

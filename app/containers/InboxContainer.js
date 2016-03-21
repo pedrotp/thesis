@@ -1,4 +1,5 @@
 var React = require('react-native');
+var api = require('../lib/api');
 var View = React.View;
 var Text = React.Text;
 var Alert = React.Alert;
@@ -24,10 +25,13 @@ var Habits = React.createClass({
   // TODO: refactor server call to api library
   getHabits: function () {
     var _this = this;
-    // fetch('http://better-habits.herokuapp.com/habits', {
-    fetch('http://localhost:3000/habits', {
+    fetch(process.env.SERVER + '/habits', {
       method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + this.props.token.idToken
+      }
     })
+    .then(api.handleErrors)
     .then(function (response) {
       return response.json();
     })
@@ -36,21 +40,28 @@ var Habits = React.createClass({
         dataSource: _this.state.dataSource.cloneWithRows(responseData)
       });
     })
-    .done();
+    .catch(function (err) {
+      console.warn(err);
+    });
   },
   deleteHabit: function (habitId) {
     var _this = this;
     // TODO: refactor server call to api library
     // Remove from server
-    // fetch('http://better-habits.herokuapp.com/habits/' +habitId, {
-    fetch('http://localhost:3000/habits/' +habitId, {
+    fetch(process.env.SERVER + '/habits/' + habitId, {
       method: 'DELETE',
+      headers: {
+        'Authorization': 'Bearer ' + this.props.token.idToken
+      }
     })
+    .then(api.handleErrors)
     // Get updated habit list
     .then(function (response) {
       _this.getHabits();
     })
-    .done();
+    .catch(function (err) {
+      console.warn(err);
+    });
   },
   editHabit: function (habit) {
     this.props.navigator.push({
@@ -62,15 +73,20 @@ var Habits = React.createClass({
     var _this = this;
     // TODO: refactor server call to api library
     // Ask server to create a new instance of this habit
-    // fetch('http://better-habits.herokuapp.com/habits/' + habitId, {
-    fetch('http://localhost:3000/habits/' + habitId, {
+    fetch(process.env.SERVER + '/habits/' + habitId, {
       method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + this.props.token.idToken
+      }
     })
+    .then(api.handleErrors)
     .then(function (response) {
       Alert.alert('You Did It', 'Great Job!');
       _this.getHabits();
     })
-    .done();
+    .catch(function (err) {
+      console.warn(err);
+    });
   },
   // checkIfDone: function (habitId) {
   //   var _this = this;

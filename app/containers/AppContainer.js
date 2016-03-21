@@ -4,6 +4,9 @@ var View = React.View;
 var Navigator = React.Navigator;
 var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
+var Auth0credentials = require('../../auth0_credentials');
+var Auth0Lock = require('react-native-lock-ios');
+
 // App components
 var LoadingContainer = require('./LoadingContainer');
 var Onboard = require('./OnboardContainer');
@@ -12,8 +15,37 @@ var AddHabit = require('./CreateContainer');
 var Habits = require('./InboxContainer');
 
 
+// Instantiate a new Lock
+var lock = new Auth0Lock({clientId: Auth0credentials.clientId, domain: Auth0credentials.domain});
+
 var AppContainer = React.createClass({
+  getInitialState: function () {
+    return {
+      auth: false,
+      token: null,
+      profile: null
+    };
+  },
   render: function () {
+    var _this = this;
+    if (!this.state.auth) {
+      // Display login widget
+      lock.show({}, function (err, profile, token) {
+        // TODO: pass profile/token to component
+        if (err) {
+          console.log(err);
+          return;
+        }
+        // Auth works
+        console.log('Logged in with Auth0!');
+        _this.setState({
+          auth: true,
+          token: token,
+          profile: profile,
+        });
+      });
+    }
+    if (this.state.auth) {
       return (
         <View style={{ flex: 1 }}>
           <Navigator
@@ -22,6 +54,11 @@ var AppContainer = React.createClass({
           />
         </View>
       );
+    } else {
+      return (
+        <View></View>
+      );
+    }
   },
   renderScene: function (route, navigator) {
     var routeId = route.id;
@@ -30,6 +67,7 @@ var AppContainer = React.createClass({
       return (
         <LoadingContainer
           navigator={navigator}
+          token={this.state.token}
         />
       );
     }
@@ -45,6 +83,8 @@ var AppContainer = React.createClass({
         <AddHabit
           navigator={navigator}
           habit={route.habit}
+          token={this.state.token}
+          profile={this.state.profile}
         />
       );
     }
@@ -52,6 +92,8 @@ var AppContainer = React.createClass({
       return (
         <Habits
           navigator={navigator}
+          token={this.state.token}
+          profile={this.state.profile}
         />
       );
     }
