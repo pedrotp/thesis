@@ -1,4 +1,3 @@
-
 var jwt = require('express-jwt');
 var helpers = require('./helpers');
 

@@ -1,4 +1,5 @@
 var React = require('react-native');
+var api = require('../lib/api');
 var View = React.View;
 var Text = React.Text;
 var Alert = React.Alert;
@@ -24,10 +25,13 @@ var Habits = React.createClass({
   // TODO: refactor server call to api library
   getHabits: function () {
     var _this = this;
-    // fetch('http://better-habits.herokuapp.com/habits', {
     fetch('http://localhost:3000/habits', {
       method: 'GET',
     })
+    // fetch('http://better-habits.herokuapp.com/habits', {
+    //   method: 'GET',
+    // })
+    .then(api.handleErrors)
     .then(function (response) {
       return response.json();
     })
@@ -36,7 +40,9 @@ var Habits = React.createClass({
         dataSource: _this.state.dataSource.cloneWithRows(responseData)
       });
     })
-    .done();
+    .catch(function (err) {
+      console.warn(err);
+    });
   },
   deleteHabit: function (habitId) {
     var _this = this;
@@ -46,11 +52,14 @@ var Habits = React.createClass({
     fetch('http://localhost:3000/habits/' +habitId, {
       method: 'DELETE',
     })
+    .then(api.handleErrors)
     // Get updated habit list
     .then(function (response) {
       _this.getHabits();
     })
-    .done();
+    .catch(function (err) {
+      console.warn(err);
+    });
   },
   editHabit: function (habit) {
     this.props.navigator.push({
@@ -66,11 +75,14 @@ var Habits = React.createClass({
     fetch('http://localhost:3000/habits/' + habitId, {
       method: 'POST',
     })
+    .then(api.handleErrors)
     .then(function (response) {
       Alert.alert('You Did It', 'Great Job!');
       _this.getHabits();
     })
-    .done();
+    .catch(function (err) {
+      console.warn(err);
+    });
   },
   // checkIfDone: function (habitId) {
   //   var _this = this;

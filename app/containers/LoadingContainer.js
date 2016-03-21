@@ -1,4 +1,5 @@
 var React = require('react-native');
+var api = require('../lib/api');
 var View = React.View;
 var Navigator = React.Navigator;
 // App components
@@ -11,6 +12,7 @@ var LoadingContainer = React.createClass({
     fetch('http://localhost:3000/habits', {
       method: 'GET',
     })
+    .then(api.handleErrors)
     .then(function (response) {
       return response.json();
     })
@@ -21,7 +23,9 @@ var LoadingContainer = React.createClass({
         _this.goToInbox();
       }
     })
-    .done();
+    .catch(function (err) {
+      console.warn(err);
+    });
   },
   goToOnboard: function () {
     this.props.navigator.push({id: 'Onboard'})

@@ -1,5 +1,6 @@
 var React = require('react-native');
 var Create = require('../components/Create.js');
+var api = require('../lib/api.js');
 var View = React.View;
 var Text = React.Text;
 var Alert = React.Alert;
@@ -69,6 +70,7 @@ var AddHabit = React.createClass({
       },
       body: JSON.stringify(reqbody)
     })
+    .then(api.handleErrors)
     .then(function (response) {
       return response.json();
     })
@@ -89,20 +91,10 @@ var AddHabit = React.createClass({
         ]
       );
     })
-    .catch(function (error) {
-      console.warn(error);
-      Alert.alert(
-        'Error!',
-        null,
-        [
-          {
-            text: 'Ok'
-          }
-        ]
-      );
+    .catch(function (err) {
+      console.warn(err);
     });
   },
-
   goToNext: function () {
     this.props.navigator.push({
       id: 'Habits'
