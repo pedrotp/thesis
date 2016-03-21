@@ -5,6 +5,7 @@ var View = React.View;
 var Navigator = React.Navigator;
 var OnboardPageOne = require('../components/OnboardPageOne');
 var OnboardPageTwo = require('../components/OnboardPageTwo');
+var Welcome = require('../components/Welcome');
 
 var OnboardContainer = React.createClass({
     render: function () {
@@ -18,9 +19,10 @@ var OnboardContainer = React.createClass({
     },
     renderScene: function (route, navigator) {
       return (
-        <Swiper showsButtons={true} loop={false}>
+        <Swiper loop={false}>
           <OnboardPageOne />
-          <OnboardPageTwo navigator={this.props.navigator} />
+          <OnboardPageTwo />
+          <Welcome navigator={this.props.navigator} />
         </Swiper>
       );
     }

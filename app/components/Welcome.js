@@ -11,7 +11,7 @@ var Habits = require('../containers/CreateContainer');
 var Welcome = React.createClass({
   onPressButton: function () {
     this.props.navigator.push({
-      id: 'Onboard'
+      id: 'AddHabit'
     });
   },
   render: function () {

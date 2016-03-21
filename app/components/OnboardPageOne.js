@@ -8,11 +8,6 @@ var TouchableOpacity = React.TouchableOpacity;
 // App components
 
 var OnboardPageOne = React.createClass({
-  onPressButton: function () {
-    this.props.navigator.push({
-      id: 'OnboardPageTwo'
-    });
-  },
   render: function () {
     return (
       <View style={{ flex: 1 }}>

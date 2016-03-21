@@ -8,11 +8,6 @@ var TouchableOpacity = React.TouchableOpacity;
 // App components
 
 var OnboardPageTwo = React.createClass({
-  onPressButton: function () {
-    this.props.navigator.push({
-      id: 'AddHabit'
-    });
-  },
   render: function () {
     return (
       <View style={{ flex: 1 }}>
@@ -31,13 +26,6 @@ var OnboardPageTwo = React.createClass({
         <Text style={styles.instructions}>
           Some Text
         </Text>
-        <TouchableOpacity onPress={this.onPressButton}>
-          <View style={styles.button}>
-            <Text style={{color: '#FFF'}}>
-              Got it
-            </Text>
-          </View>
-        </TouchableOpacity>
       </View>
     );
   }

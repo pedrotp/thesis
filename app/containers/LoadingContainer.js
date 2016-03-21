@@ -16,15 +16,15 @@ var LoadingContainer = React.createClass({
     })
     .then(function (responseData) {
       if(!responseData.length) {
-        _this.goToWelcome();
+        _this.goToOnboard();
       } else {
         _this.goToInbox();
       }
     })
     .done();
   },
-  goToWelcome: function () {
-    this.props.navigator.push({id: 'Welcome'})
+  goToOnboard: function () {
+    this.props.navigator.push({id: 'Onboard'})
   },
   goToInbox: function () {
     this.props.navigator.push({id: 'Habits'})
