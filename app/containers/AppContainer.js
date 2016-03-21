@@ -9,6 +9,7 @@ var TouchableOpacity = React.TouchableOpacity;
 var Habits = require('./InboxContainer');
 var AddHabit = require('./CreateContainer');
 var Welcome = require('../components/Welcome');
+var Tutorial = require('../components/Tutorial');
 var LoadingContainer = require('./LoadingContainer');
 
 var AppContainer = React.createClass({
@@ -24,6 +25,13 @@ var AppContainer = React.createClass({
   },
   renderScene: function (route, navigator) {
     var routeId = route.id;
+    if (routeId === 'Tutorial') {
+      return (
+        <Tutorial
+          navigator={navigator}
+        />
+      );
+    }
     if (routeId === 'Loading') {
       return (
         <LoadingContainer
