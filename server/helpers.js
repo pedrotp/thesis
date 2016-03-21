@@ -57,7 +57,13 @@ var addHabit = function (habit, success, fail) {
 // };
 
 var deleteHabit = function (id, success, fail) {
-  Habit.findByIdAndRemove(id)
+  Habit.find({ _id: id })
+    .then(function (data) {
+
+      // Mongoose post 'remove' middleware will
+      // not trigger on remove() calls to Habit model
+      return data[0].remove();
+    })
     .then(function (data) {
       success(data);
     })
@@ -67,7 +73,8 @@ var deleteHabit = function (id, success, fail) {
 };
 // var deleteHabit = function (email, habitId, success, fail) {
 //   User.findOneAndUpdate(
-//     { email: email }, { $pull: { habits: { _id: habitId } }}
+//   TODO: test if $pull triggers post 'remove' middleware
+//     { email: email }, { $pull: { habits._id: habitId } }
 //   )
 //   .then(function (data) {
 //     success(data);
@@ -95,7 +102,7 @@ var updateHabit = function (habitid, habitDetails, success, fail) {
 //   }
 //
 //   // TODO: try 'habits.$' if 'habits.$.' doesn't work
-//   // Updates object allows for partial updates
+//   // updates object allows for partial updates
 //   var updates = {};
 //   for (var key in habitDetails) {
 //     updates['habits.$.' + key] = habitDetails[key];
@@ -146,6 +153,7 @@ var isDone = function (habitid, success, fail) {
     });
 };
 
+// TODO: modify as needed once user info is available
 var addUser = function (email, success, fail) {
   User.create(email)
     .then(function (data) {
