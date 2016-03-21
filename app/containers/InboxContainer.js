@@ -24,7 +24,8 @@ var Habits = React.createClass({
   // TODO: refactor server call to api library
   getHabits: function () {
     var _this = this;
-    fetch('http://better-habits.herokuapp.com/habits', {
+    // fetch('http://better-habits.herokuapp.com/habits', {
+    fetch('http://localhost:3000/habits', {
       method: 'GET',
     })
     .then(function (response) {
@@ -41,7 +42,8 @@ var Habits = React.createClass({
     var _this = this;
     // TODO: refactor server call to api library
     // Remove from server
-    fetch('http://better-habits.herokuapp.com/habits/' +habitId, {
+    // fetch('http://better-habits.herokuapp.com/habits/' +habitId, {
+    fetch('http://localhost:3000/habits/' +habitId, {
       method: 'DELETE',
     })
     // Get updated habit list
@@ -60,7 +62,8 @@ var Habits = React.createClass({
     var _this = this;
     // TODO: refactor server call to api library
     // Ask server to create a new instance of this habit
-    fetch('http://better-habits.herokuapp.com/habits/' + habitId, {
+    // fetch('http://better-habits.herokuapp.com/habits/' + habitId, {
+    fetch('http://localhost:3000/habits/' + habitId, {
       method: 'POST',
     })
     .then(function (response) {

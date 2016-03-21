@@ -60,7 +60,8 @@ var AddHabit = React.createClass({
     var alertmsg = options.method === 'PUT' ?
     'Habit updated!' :
     'Habit created!';
-    fetch('http://better-habits.herokuapp.com/habits/' + options.id, {
+    // fetch('http://better-habits.herokuapp.com/habits/' + options.id, {
+    fetch('http://localhost:3000/habits/' + options.id, {
       method: options.method,
       headers: {
         'Accept': 'application/json',
