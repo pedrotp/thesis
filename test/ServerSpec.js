@@ -227,7 +227,7 @@ describe('Basic Server', function () {
         .delete('/habits/' + habit1Id)
         .expect(202)
         .expect(function (res) {
-          expect(habit1Id).to.equal(res.body.habitId);
+          expect(habit1Id).to.equal(res.body._id);
         })
         .end(done);
     });
