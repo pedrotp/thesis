@@ -11,8 +11,7 @@ var jwtCheck = jwt({
 
 // routes requiring auth for use
 var authReqRoutes = [
-  '/habits',
-  '/done'
+  '/habits'
 ];
 
 var routes = [
@@ -79,22 +78,6 @@ var routes = [
       helpers.deleteHabit(habitid,
         function (data) {
           res.status(202).send(data);
-        },
-        function (err) {
-          if (!testing) {
-            console.error('Server error:', err);
-          }
-          res.sendStatus(500);
-        });
-    }
-  },
-  {
-    path: '/done/:habitid',
-    get: function (req, res) {
-      var habitid = req.params.habitid;
-      helpers.isDone(habitid,
-        function (done) {
-          res.send(done);
         },
         function (err) {
           if (!testing) {

@@ -32,6 +32,7 @@ function Inbox (props) {
         <View style={styles.swipe}>
           <Text style={styles.habit}>{props.habit.action} {props.habit.frequency}</Text>
           <Text style={styles.count}>You've done this {props.habit.instanceCount} time(s).</Text>
+          <Text>{ props.habit.lastDone && moment(props.habit.lastDone).isSame(Date.now(), 'minute') ? 'Done' : 'Not done' }</Text>
         </View>
       </Swipeout>
     </View>
