@@ -3,94 +3,96 @@ var helpers = require('./helpers');
 // For suppressing (purposeful) error logging in tests
 var testing = process.env.NODE_ENV === 'test';
 
-var routes = [{
-  path: '/habits',
-  get: function (req, res) {
-    // query db for user's habits
-    helpers.getHabits(
-      function (success) {
-        res.json(success);
-      },
-      function (err) {
-        if (!testing) {
-          console.error('Server error:', err);
-        }
-        res.sendStatus(400);
-      });
-  },
-  post: function (req, res) {
-    var habit = req.body;
-    helpers.addHabit(habit,
-      function (data) {
-        res.status(201).send(data);
-      },
-      function (err) {
-        if (!testing) {
-          console.error('Server error:', err);
-        }
-        res.sendStatus(400);
-      });
-  }
-},
-{
-  path: '/habits/:habitid',
-  post: function (req, res) {
-    var habitid = req.params.habitid;
-    helpers.createInstance(habitid,
-      function (data) {
-        res.status(201).send(data);
-      },
-      function (err) {
-        if (!testing) {
-          console.error('Server error:', err);
-        }
-        res.status(400);
-      });
-  },
-  put: function (req, res) {
-    var habitid = req.params.habitid;
-    var habitDetails = req.body;
-    helpers.updateHabit(habitid, habitDetails,
-      function (data) {
-        res.status(200).send(data);
-      },
-      function (err) {
-        if (!testing) {
-          console.error('Server error:', err);
-        }
-        res.sendStatus(400);
-      });
-  },
-  delete: function (req, res) {
-    var habitid = req.params.habitid;
-    helpers.deleteHabit(habitid,
-    function (data) {
-      res.status(202).send(data);
+var routes = [
+  {
+    path: '/habits',
+    get: function (req, res) {
+      // query db for user's habits
+      helpers.getHabits(
+        function (success) {
+          res.json(success);
+        },
+        function (err) {
+          if (!testing) {
+            console.error('Server error:', err);
+          }
+          res.sendStatus(400);
+        });
     },
-    function (err) {
-      if (!testing) {
-        console.error('Server error:', err);
-      }
-      res.sendStatus(500);
-    });
-  }
-},
-{
-  path: '/done/:habitid',
-  get: function (req, res) {
-    var habitid = req.params.habitid;
-    helpers.isDone(habitid,
-    function (done) {
-      res.send(done);
+    post: function (req, res) {
+      var habit = req.body;
+      helpers.addHabit(habit,
+        function (data) {
+          res.status(201).send(data);
+        },
+        function (err) {
+          if (!testing) {
+            console.error('Server error:', err);
+          }
+          res.sendStatus(400);
+        });
+    }
+  },
+  {
+    path: '/habits/:habitid',
+    post: function (req, res) {
+      var habitid = req.params.habitid;
+      helpers.createInstance(habitid,
+        function (data) {
+          res.status(201).send(data);
+        },
+        function (err) {
+          if (!testing) {
+            console.error('Server error:', err);
+          }
+          res.status(400);
+        });
     },
-    function (err) {
-      if (!testing) {
-        console.error('Server error:', err);
-      }
-      res.sendStatus(500);
-    });
+    put: function (req, res) {
+      var habitid = req.params.habitid;
+      var habitDetails = req.body;
+      helpers.updateHabit(habitid, habitDetails,
+        function (data) {
+          res.status(200).send(data);
+        },
+        function (err) {
+          if (!testing) {
+            console.error('Server error:', err);
+          }
+          res.sendStatus(400);
+        });
+    },
+    delete: function (req, res) {
+      var habitid = req.params.habitid;
+      helpers.deleteHabit(habitid,
+        function (data) {
+          res.status(202).send(data);
+        },
+        function (err) {
+          if (!testing) {
+            console.error('Server error:', err);
+          }
+          res.sendStatus(500);
+        });
+    }
+  },
+  {
+    path: '/done/:habitid',
+    get: function (req, res) {
+      var habitid = req.params.habitid;
+      helpers.isDone(habitid,
+        function (done) {
+          res.send(done);
+        },
+        function (err) {
+          if (!testing) {
+            console.error('Server error:', err);
+          }
+          res.sendStatus(500);
+        });
+    }
   }
-}];
+];
 
 module.exports = function (app, express) {
   routes.forEach(function (route) {

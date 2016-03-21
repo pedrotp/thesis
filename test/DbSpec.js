@@ -150,16 +150,24 @@ describe('Database', function () {
         done();
       });
 
+      // TODO: refactor after updated deleteHabit helper is implemented
+      // success data will be modified
       it('should delete habit and corresponding instance store', function (done) {
         helpers.deleteHabit(habit1Id,
           function (success) {
-            expect(success.habitId.toString()).to.equal(habit1Id);
+            expect(success._id.toString()).to.equal(habit1Id);
 
             // In order to confirm instance was deleted,
             // instance1Id is assigned in beforeEach function
-            // on line 50 when habit1 is successfully created
-            expect(success.instanceId.toString()).to.equal(instance1Id);
-            done();
+            // on line 49 when habit1 is successfully created
+            Instances.findById(instance1Id)
+              .then(function (success) {
+                expect(success).to.equal(null);
+                done();
+              })
+              .catch(function (err) {
+                console.error('Instance fail:', err);
+              });
           },
           function (fail) {
             console.error('DbSpec deleteHabit error:', fail);
