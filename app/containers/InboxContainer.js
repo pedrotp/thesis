@@ -11,6 +11,8 @@ var TouchableOpacity = React.TouchableOpacity;
 var Inbox = require('../components/Inbox');
 var Welcome = require('../components/Welcome');
 
+// var lock = require('..');
+
 var Habits = React.createClass({
   getInitialState: function () {
     return {
@@ -105,6 +107,9 @@ var Habits = React.createClass({
   handlePress: function () {
     this.props.navigator.push({id:'AddHabit'});
   },
+  // handleLogout: function () {
+  //   lock.logout({});
+  // },
   // Render each row of the inbox as an Inbox component
   renderInbox: function (habit) {
     return <Inbox habit={habit} deleteHabit={this.deleteHabit} editHabit={this.editHabit} createInstance={this.createInstance} />
@@ -132,6 +137,11 @@ var Habits = React.createClass({
         <TouchableOpacity onPress={this.handlePress}>
           <View style={styles.circleButton}>
             <Text style={styles.buttonText}>New</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={this.handleLogout}>
+          <View style={styles.circleButton}>
+            <Text style={styles.buttonText}>LO</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -192,7 +202,6 @@ var styles = StyleSheet.create({
       height: 3.5,
       width: 2
     }
-
   },
   buttonText: {
     fontSize: 15,
