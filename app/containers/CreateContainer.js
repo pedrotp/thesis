@@ -61,6 +61,7 @@ var AddHabit = React.createClass({
     var alertmsg = options.method === 'PUT' ?
     'Habit updated!' :
     'Habit created!';
+
     fetch(process.env.SERVER + '/habits/' + options.id, {
       method: options.method,
       headers: {
