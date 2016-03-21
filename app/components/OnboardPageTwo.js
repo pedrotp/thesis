@@ -7,7 +7,7 @@ var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
 // App components
 
-var Tutorial = React.createClass({
+var OnboardPageTwo = React.createClass({
   onPressButton: function () {
     this.props.navigator.push({
       id: 'AddHabit'
@@ -34,7 +34,7 @@ var Tutorial = React.createClass({
         <TouchableOpacity onPress={this.onPressButton}>
           <View style={styles.button}>
             <Text style={{color: '#FFF'}}>
-              Get Started
+              Got it
             </Text>
           </View>
         </TouchableOpacity>
@@ -85,4 +85,4 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = Tutorial;
+module.exports = OnboardPageTwo;

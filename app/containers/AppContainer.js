@@ -2,15 +2,15 @@ var React = require('react-native');
 var Text = React.Text;
 var View = React.View;
 var Navigator = React.Navigator;
-var Component = React.Component;
 var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
 // App components
 var Habits = require('./InboxContainer');
 var AddHabit = require('./CreateContainer');
 var Welcome = require('../components/Welcome');
-var Tutorial = require('../components/Tutorial');
 var LoadingContainer = require('./LoadingContainer');
+var OnboardPageOne = require('../components/OnboardPageOne');
+var OnboardPageTwo = require('../components/OnboardPageTwo');
 
 var AppContainer = React.createClass({
   render: function () {
@@ -25,12 +25,19 @@ var AppContainer = React.createClass({
   },
   renderScene: function (route, navigator) {
     var routeId = route.id;
-    if (routeId === 'Tutorial') {
+    if (routeId === 'OnboardPageOne') {
       return (
-        <Tutorial
+        <OnboardPageOne
           navigator={navigator}
         />
       );
+    }
+    if (routeId === 'OnboardPageTwo') {
+      return (
+        <OnboardPageTwo
+          navigator={navigator}
+        />
+        );
     }
     if (routeId === 'Loading') {
       return (
