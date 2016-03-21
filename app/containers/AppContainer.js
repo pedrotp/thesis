@@ -9,8 +9,8 @@ var Habits = require('./InboxContainer');
 var AddHabit = require('./CreateContainer');
 var Welcome = require('../components/Welcome');
 var LoadingContainer = require('./LoadingContainer');
-var OnboardPageOne = require('../components/OnboardPageOne');
-var OnboardPageTwo = require('../components/OnboardPageTwo');
+var Onboard = require('./OnboardContainer');
+
 
 var AppContainer = React.createClass({
   render: function () {
@@ -25,19 +25,12 @@ var AppContainer = React.createClass({
   },
   renderScene: function (route, navigator) {
     var routeId = route.id;
-    if (routeId === 'OnboardPageOne') {
+    if (routeId === 'Onboard') {
       return (
-        <OnboardPageOne
+        <Onboard
           navigator={navigator}
         />
       );
-    }
-    if (routeId === 'OnboardPageTwo') {
-      return (
-        <OnboardPageTwo
-          navigator={navigator}
-        />
-        );
     }
     if (routeId === 'Loading') {
       return (

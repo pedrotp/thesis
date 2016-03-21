@@ -31,13 +31,6 @@ var OnboardPageOne = React.createClass({
         <Text style={styles.instructions}>
           Some Text
         </Text>
-        <TouchableOpacity onPress={this.onPressButton}>
-          <View style={styles.button}>
-            <Text style={{color: '#FFF'}}>
-              Got it
-            </Text>
-          </View>
-        </TouchableOpacity>
       </View>
     );
   }
