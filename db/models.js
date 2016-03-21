@@ -38,7 +38,6 @@ var userSchema = mongoose.Schema({
 });
 var User = mongoose.model('User', userSchema);
 
-
 // Middleware
 habitSchema.post('remove', function (doc) {
   var instanceId = doc.instancesId;
@@ -49,10 +48,6 @@ habitSchema.post('remove', function (doc) {
     .catch(function (err) {
       console.error(err);
     });
-});
-
-habitSchema.pre('save', function (doc) {
-  doc.frequency = doc.frequency.substring(0, doc.frequency.substring.length - 2).toLowerCase();
 });
 
 instancesSchema.post('save', function (doc) {

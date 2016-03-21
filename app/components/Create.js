@@ -20,7 +20,10 @@ function Create (props) {
         tint={'#6399DC'}
         selectedTint={'#FFFFFF'}
         options={['Hourly', 'Daily', 'Weekly', 'Monthly']}
-        onSelection={function (val) { props.fields.frequency = val; }}
+        onSelection={function (val) { 
+          val = val.substring(0, val.length - 2).toLowerCase();
+          props.fields.frequency = val; 
+        }}
         selectedOption={props.fields.frequency}
       />
       {/*<TextField
