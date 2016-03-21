@@ -108,9 +108,12 @@ var routes = [
 
 module.exports = function (app, express) {
   // require auth on all routes in authReqRoutes
-  authReqRoutes.forEach(function (route) {
-    app.use(route, jwtCheck)
-  })
+  // skip if we are testing
+  if(!testing) {
+    authReqRoutes.forEach(function (route) {
+      app.use(route, jwtCheck)
+    })
+  }
 
   // export routes
   routes.forEach(function (route) {
