@@ -154,4 +154,7 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = Create;
+module.exports.Create = Create;
+module.exports.TextField = TextField;
+module.exports.Frequency = Frequency;
+module.exports.SubmitButton = SubmitButton; 

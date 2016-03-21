@@ -5,7 +5,7 @@
   "description": "Build better habits",
   "main": "server.js",
   "scripts": {
-    "test": "mocha test/ServerSpec.js && mocha test/DbSpec.js; RES=$?; exit $RES;",
+    "test": "mocha --require setup.js --compilers js:babel-core/register --recursive test/*.js",
     "start": "node server/server.js",
     "local": "nodemon server/server.js"
   },
@@ -32,8 +32,13 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "enzyme": "^2.1.0",
+    "jsdom": "^8.1.0",
     "mocha": "^2.4.5",
     "nodemon": "^1.9.1",
+    "react-addons-test-utils": "^0.14.7",
+    "react-dom": "^0.14.7",
+    "react-native-mock": "0.0.7",
     "request": "^2.69.0",
     "supertest": "^1.2.0"
   }

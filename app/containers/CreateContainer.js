@@ -6,7 +6,7 @@ var Alert = React.Alert;
 var Navigator = React.Navigator;
 var TouchableOpacity = React.TouchableOpacity;
 
-var Create = require('../components/Create');
+var Create = require('../components/Create').Create;
 
 var AddHabit = React.createClass({
   getInitialState: function () {
