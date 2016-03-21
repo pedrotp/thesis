@@ -13,7 +13,7 @@ var jwtCheck = jwt({
 var authReqRoutes = [
   '/habits',
   '/done'
-]
+];
 
 var routes = [
   {

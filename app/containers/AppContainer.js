@@ -67,6 +67,7 @@ var AppContainer = React.createClass({
       return (
         <LoadingContainer
           navigator={navigator}
+          token={this.state.token}
         />
       );
     }
@@ -82,6 +83,8 @@ var AppContainer = React.createClass({
         <AddHabit
           navigator={navigator}
           habit={route.habit}
+          token={this.state.token}
+          profile={this.state.profile}
         />
       );
     }
@@ -89,6 +92,8 @@ var AppContainer = React.createClass({
       return (
         <Habits
           navigator={navigator}
+          token={this.state.token}
+          profile={this.state.profile}
         />
       );
     }
