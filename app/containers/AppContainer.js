@@ -34,7 +34,7 @@ var AppContainer = React.createClass({
       profile: null
     });
   },
-  render: function () {
+  componentDidMount: function () {
     var _this = this;
     // If user not logged in
     if (!this.state.auth) {
