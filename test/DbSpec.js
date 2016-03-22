@@ -166,7 +166,7 @@ describe('Database', function () {
 
     });
 
-    xdescribe('deleteHabit', function () {
+    describe('deleteHabit', function () {
 
       it('should be a function', function (done) {
         expect(helpers.deleteHabit).to.be.a('function');
@@ -176,7 +176,7 @@ describe('Database', function () {
       // TODO: refactor after updated deleteHabit helper is implemented
       // success data will be modified
       it('should delete habit and corresponding instance store', function (done) {
-        helpers.deleteHabit(habit1Id,
+        helpers.deleteHabit(user.email, habit1Id,
           function (success) {
             expect(success._id.toString()).to.equal(habit1Id);
 
@@ -198,7 +198,7 @@ describe('Database', function () {
       });
 
       it('should error when attempting to delete invalid ID', function (done) {
-        helpers.deleteHabit('12345',
+        helpers.deleteHabit(user.email, '12345',
           function (success) {
             console.log('DbSpec deleteHabit success:', success);
           },
