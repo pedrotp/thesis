@@ -114,8 +114,17 @@ var AppContainer = React.createClass({
           navigator={navigator}
           token={this.state.token}
           profile={this.state.profile}
+          lock={lock}
         />
       );
+    }
+    if (routeId === 'AppContainer') {
+        this.setState({
+          auth: false,
+          token: null,
+          profile: null
+        });
+        this.render;
     }
   }
 });

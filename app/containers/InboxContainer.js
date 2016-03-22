@@ -1,5 +1,6 @@
 var React = require('react-native');
 var api = require('../lib/api');
+var Auth0credentials = require('../../auth0_credentials');
 var View = React.View;
 var Text = React.Text;
 var Alert = React.Alert;
@@ -7,6 +8,7 @@ var ListView = React.ListView;
 var Navigator = React.Navigator;
 var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
+var Linking = React.Linking;
 
 var Inbox = require('../components/Inbox');
 var Welcome = require('../components/Welcome');
@@ -107,9 +109,14 @@ var Habits = React.createClass({
   handlePress: function () {
     this.props.navigator.push({id:'AddHabit'});
   },
-  // handleLogout: function () {
-  //   lock.logout({});
-  // },
+  handleLogout: function () {
+    // var url = 'https://' + Auth0credentials.domain + '/v2/logout';
+    // Linking.openURL(url)
+    //   .catch(function (err) {
+    //     console.warn(err);
+    // });
+    this.props.navigator.push({id: 'AppContainer'});
+  },
   // Render each row of the inbox as an Inbox component
   renderInbox: function (habit) {
     return <Inbox habit={habit} deleteHabit={this.deleteHabit} editHabit={this.editHabit} createInstance={this.createInstance} />
