@@ -12,10 +12,8 @@ var User = require('../db/models').User;
 //     });
 // };
 var getHabits = function (email, success, fail) {
-  console.log('in getHabits looking up', email);
   User.findOne({ email: email })
     .then(function (user) {
-      console.log('looked up:', user);
       success(user.habits);
     })
     .catch(function (err) {
@@ -85,39 +83,39 @@ var deleteHabit = function (email, habitId, success, fail) {
   });
 };
 
-var updateHabit = function (habitid, habitDetails, success, fail) {
-  if (habitDetails.currentGoal) {
-    habitDetails.currentGoal = parseInt(habitDetails.currentGoal);
-  }
-  Habit.findByIdAndUpdate(habitid, habitDetails, {new: true})
-    .then(function (habit) {
-      success(habit);
-    })
-    .catch(function (err) {
-      fail(err);
-    });
-};
-// var updateHabit = function (email, habitid, habitDetails, success, fail) {
+// var updateHabit = function (habitid, habitDetails, success, fail) {
 //   if (habitDetails.currentGoal) {
 //     habitDetails.currentGoal = parseInt(habitDetails.currentGoal);
 //   }
-
-//   // TODO: try 'habits.$' if 'habits.$.' doesn't work
-//   // updates object allows for partial updates
-//   var updates = {};
-//   for (var key in habitDetails) {
-//     updates['habits.$.' + key] = habitDetails[key];
-//   }
-//   User.findOneAndUpdate(
-//     { 'email': email, 'habits._id': habitid }, { $set: updates }
-//   )
-//   .then(function (data) {
-//     success(data);
-//   })
-//   .catch(function (err) {
-//     fail(err);
-//   });
+//   Habit.findByIdAndUpdate(habitid, habitDetails, {new: true})
+//     .then(function (habit) {
+//       success(habit);
+//     })
+//     .catch(function (err) {
+//       fail(err);
+//     });
 // };
+var updateHabit = function (email, habitid, habitDetails, success, fail) {
+  if (habitDetails.currentGoal) {
+    habitDetails.currentGoal = parseInt(habitDetails.currentGoal);
+  }
+
+  // TODO: try 'habits.$' if 'habits.$.' doesn't work
+  // updates object allows for partial updates
+  var updates = {};
+  for (var key in habitDetails) {
+    updates['habits.$.' + key] = habitDetails[key];
+  }
+  User.findOneAndUpdate(
+    { 'email': email, 'habits._id': habitid }, { $set: updates }
+  )
+  .then(function (data) {
+    success(data);
+  })
+  .catch(function (err) {
+    fail(err);
+  });
+};
 
 var createInstance = function (habitid, success, fail) {
   Habit.findById(habitid)
@@ -155,10 +153,10 @@ var isDone = function (habitid, success, fail) {
 };
 
 var addUser = function (email, success, fail) {
-
+  console.log("ADDUSER EMAIL:", email);
   // findOneAndUpdate along with upsert set to true
   // allows for a user to be created if they don't exist
-  User.findOneAndUpdate(email, { email: email }, {upsert: true})
+  User.findOneAndUpdate({email: email}, { email: email }, {upsert: true})
     .then(function (data) {
       success(data);
     })
