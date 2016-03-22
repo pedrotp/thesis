@@ -8,7 +8,7 @@ var Loading = require('../components/Loading');
 var LoadingContainer = React.createClass({
   getHabits: function () {
     var _this = this;
-    fetch(process.env.SERVER + '/habits', {
+    fetch(process.env.SERVER + '/habits/' + this.props.profile.email, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + this.props.token.idToken

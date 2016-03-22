@@ -34,15 +34,9 @@ var AddHabit = React.createClass({
     var result = {};
     if (this.props.habit) {
       result.method = 'PUT';
-
-      // Habit ID is required for the PUT request
-      // This will be concatenated to the end of the URL
       result.id = this.props.habit._id;
     } else {
       result.method = 'POST';
-
-      // Allows the POST request to be sent normally
-      // if no habit is sent
       result.id = '';
     }
     return result;
@@ -62,7 +56,7 @@ var AddHabit = React.createClass({
     'Habit updated!' :
     'Habit created!';
 
-    fetch(process.env.SERVER + '/habits/' + options.id, {
+    fetch(process.env.SERVER + '/habits/' + this.props.profile.email + '/' + options.id, {
       method: options.method,
       headers: {
         'Accept': 'application/json',

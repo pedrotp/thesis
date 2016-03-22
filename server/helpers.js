@@ -2,120 +2,120 @@ var Habit = require('../db/models').Habit;
 var Instances = require('../db/models').Instances;
 var User = require('../db/models').User;
 
-var getHabits = function (success, fail) {
-  Habit.find({})
-    .then(function (data) {
-      success(data);
-    })
-    .catch(function (err) {
-      fail(err);
-    });
-};
-// var getHabits = function (email, success, fail) {
-//   User.find({ email: email })
-//     .then(function (user) {
-//       success(user.habits);
+// var getHabits = function (success, fail) {
+//   Habit.find({})
+//     .then(function (data) {
+//       success(data);
 //     })
 //     .catch(function (err) {
 //       fail(err);
 //     });
 // };
-
-var addHabit = function (habit, success, fail) {
-  if (habit.currentGoal) {
-    habit.currentGoal = parseInt(habit.currentGoal);
-  }
-  Habit.create(habit)
-    .then(function (data) {
-      var instances = new Instances;
-      data.instancesId = instances.id;
-      instances.save();
-      data.save();
-      success(data);
+var getHabits = function (email, success, fail) {
+  User.findOne({ email: email })
+    .then(function (user) {
+      success(user.habits);
     })
     .catch(function (err) {
       fail(err);
     });
 };
-// var addHabit = function (email, habit, success, fail) {
+
+// var addHabit = function (habit, success, fail) {
 //   if (habit.currentGoal) {
 //     habit.currentGoal = parseInt(habit.currentGoal);
 //   }
 //   Habit.create(habit)
 //     .then(function (data) {
-//       return User.findOneAndUpdate(
-//         { email: email }, { $push: { "habits": data }}
-//       );
-//     })
-//     .then(function (data2) {
-//       success(data2);
+//       var instances = new Instances;
+//       data.instancesId = instances.id;
+//       instances.save();
+//       data.save();
+//       success(data);
 //     })
 //     .catch(function (err) {
 //       fail(err);
 //     });
 // };
-
-var deleteHabit = function (id, success, fail) {
-  Habit.find({ _id: id })
-    .then(function (data) {
-
-      // Mongoose post 'remove' middleware will
-      // not trigger on remove() calls to Habit model
-      return data[0].remove();
-    })
-    .then(function (data) {
-      success(data);
-    })
-    .catch(function (err) {
-      fail(err);
-    });
-};
-// var deleteHabit = function (email, habitId, success, fail) {
-//   User.findOneAndUpdate(
-//   TODO: test if $pull triggers post 'remove' middleware
-//     { email: email }, { $pull: { habits._id: habitId } }
-//   )
-//   .then(function (data) {
-//     success(data);
-//   })
-//   .catch(function (err) {
-//     fail(err);
-//   });
-// };
-
-var updateHabit = function (habitid, habitDetails, success, fail) {
-  if (habitDetails.currentGoal) {
-    habitDetails.currentGoal = parseInt(habitDetails.currentGoal);
+var addHabit = function (email, habit, success, fail) {
+  if (habit.currentGoal) {
+    habit.currentGoal = parseInt(habit.currentGoal);
   }
-  Habit.findByIdAndUpdate(habitid, habitDetails, {new: true})
-    .then(function (habit) {
-      success(habit);
+  Habit.create(habit)
+    .then(function (data) {
+      return User.findOneAndUpdate(
+        { email: email }, { $push: { "habits": data }}
+      );
+    })
+    .then(function (data2) {
+      success(data2);
     })
     .catch(function (err) {
       fail(err);
     });
 };
-// var updateHabit = function (email, habitid, habitDetails, success, fail) {
+
+// var deleteHabit = function (id, success, fail) {
+//   Habit.find({ _id: id })
+//     .then(function (data) {
+
+//       // Mongoose post 'remove' middleware will
+//       // not trigger on remove() calls to Habit model
+//       return data[0].remove();
+//     })
+//     .then(function (data) {
+//       success(data);
+//     })
+//     .catch(function (err) {
+//       fail(err);
+//     });
+// };
+var deleteHabit = function (email, habitId, success, fail) {
+  User.findOneAndUpdate(
+  // TODO: test if $pull triggers post 'remove' middleware
+    {email: email}, {$pull: {'habits': {_id: habitId}}}
+  )
+  .then(function (data) {
+    success(data);
+  })
+  .catch(function (err) {
+    fail(err);
+  });
+};
+
+// var updateHabit = function (habitid, habitDetails, success, fail) {
 //   if (habitDetails.currentGoal) {
 //     habitDetails.currentGoal = parseInt(habitDetails.currentGoal);
 //   }
-//
-//   // TODO: try 'habits.$' if 'habits.$.' doesn't work
-//   // updates object allows for partial updates
-//   var updates = {};
-//   for (var key in habitDetails) {
-//     updates['habits.$.' + key] = habitDetails[key];
-//   }
-//   User.findOneAndUpdate(
-//     { email: email, habits._id: habitid }, { $set: updates }
-//   )
-//   .then(function (data) {
-//     success(data);
-//   })
-//   .catch(function (err) {
-//     fail(err);
-//   });
+//   Habit.findByIdAndUpdate(habitid, habitDetails, {new: true})
+//     .then(function (habit) {
+//       success(habit);
+//     })
+//     .catch(function (err) {
+//       fail(err);
+//     });
 // };
+var updateHabit = function (email, habitid, habitDetails, success, fail) {
+  if (habitDetails.currentGoal) {
+    habitDetails.currentGoal = parseInt(habitDetails.currentGoal);
+  }
+
+  // TODO: try 'habits.$' if 'habits.$.' doesn't work
+  // updates object allows for partial updates
+  var updates = {};
+  for (var key in habitDetails) {
+    updates['habits.$.' + key] = habitDetails[key];
+  }
+  User.findOneAndUpdate(
+    { 'email': email, 'habits._id': habitid }, { $set: updates }
+  )
+  .then(function (data) {
+    success(data);
+  })
+  .catch(function (err) {
+    fail(err);
+  });
+};
 
 var createInstance = function (habitid, success, fail) {
   Habit.findById(habitid)
@@ -153,10 +153,10 @@ var isDone = function (habitid, success, fail) {
 };
 
 var addUser = function (email, success, fail) {
-
+  console.log("ADDUSER EMAIL:", email);
   // findOneAndUpdate along with upsert set to true
   // allows for a user to be created if they don't exist
-  User.findOneAndUpdate(email, { email: email }, {upsert: true})
+  User.findOneAndUpdate({email: email}, { email: email }, {upsert: true})
     .then(function (data) {
       success(data);
     })

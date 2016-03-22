@@ -28,7 +28,7 @@ var Habits = React.createClass({
   // TODO: refactor server call to api library
   getHabits: function () {
     var _this = this;
-    fetch(process.env.SERVER + '/habits', {
+    fetch(process.env.SERVER + '/habits/' + this.props.profile.email, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + this.props.token.idToken
@@ -51,7 +51,7 @@ var Habits = React.createClass({
     var _this = this;
     // TODO: refactor server call to api library
     // Remove from server
-    fetch(process.env.SERVER + '/habits/' + habitId, {
+    fetch(process.env.SERVER + '/habits/' + this.props.profile.email + '/' + habitId, {
       method: 'DELETE',
       headers: {
         'Authorization': 'Bearer ' + this.props.token.idToken
