@@ -100,7 +100,7 @@ var Habits = React.createClass({
   //   })
   // },
   // Get habits from server on load
-  componentWillMount: function () {
+  componentDidMount: function () {
     this.getHabits();
   },
   handlePress: function () {

@@ -19,7 +19,9 @@ var LoadingContainer = React.createClass({
       return response.json();
     })
     .then(function (responseData) {
-      if(!responseData.length) {
+      // TODO: pass data to navigator in
+      // push to save a network request
+      if (!responseData.length) {
         _this.goToOnboard();
       } else {
         _this.goToInbox();

@@ -160,4 +160,4 @@ var styles = StyleSheet.create({
 module.exports.Create = Create;
 module.exports.TextField = TextField;
 module.exports.Frequency = Frequency;
-module.exports.SubmitButton = SubmitButton; 
+module.exports.SubmitButton = SubmitButton;
