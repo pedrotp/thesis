@@ -1,6 +1,7 @@
 var React = require('react-native');
 var View = React.View;
 var Text = React.Text;
+var TextInput = React.TextInput;
 var StyleSheet = React.StyleSheet;
 var Navigator = React.Navigator;
 var Alert = React.Alert;
@@ -9,12 +10,20 @@ var DatePickerIOS = React.DatePickerIOS;
 var Switch = React.Switch;
 
 var HabitSettings = React.createClass({
+  // text should be this.props.habit.habitName, habit object containing all habit details
+  // passed when navigated from inbox to habitSettings
   getInitialState: function () {
     return ({
       date: new Date(),
       // timeZoneOffsetInHours: (-1 * (new Date()).getTimezoneOffset()/ 60)
-      FalseSwitchIsOn: false;
+      FalseSwitchIsOn: false,
+      editMode: false,
+      text: this.props.habitName
     })
+  },
+  componentDidMount: function () {
+    //this.props.habitId
+    //fetch habit details with habitId and set state 
   },
   onDateChange: function (date) {
     this.setState({date: date})
@@ -22,8 +31,12 @@ var HabitSettings = React.createClass({
   deleteHabit: function () {
     //fetch request to delete habit
   },
-  componentDidMount: function () {
-    
+  onPress: function () {
+    if(this.state.editMode) {
+      this.setState({editMode: false});
+    } else {
+      this.setState({editMode: true});
+    }
   },
   render: function () {
       return (
@@ -41,13 +54,40 @@ var HabitSettings = React.createClass({
   },
   
   renderScene: function (route, navigator) {
-    
     var _this = this;
+    
+    // edit mode, habit name become editable
+    if(this.state.editMode) {
+      return (
+        <View style={styles.container}>
+          <TextInput />
+          <Label style={styles.label} title="Reminder:"/>
+          <Switch style={styles.label}
+            onValueChange={function (value) { _this.setState({falseSwitchIsOn: value}); }}
+            style={{marginBottom: 10}}
+            value={this.state.falseSwitchIsOn}
+          />
+          <DatePickerIOS
+            date={this.state.date}
+            mode="time"
+            minuteInterval={30}
+            // timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
+            onDateChange={this.onDateChange}
+          />
+          <TouchableOpacity style={styles.button}>
+              <Text style={{color: '#FFFFFF'}}>
+                Delete
+              </Text>
+          </TouchableOpacity>
+        </View>
+      )
+    }
+    // normal mode
     return (
       <View style={styles.container}>
-        <TouchableOpacity style={styles.heading} onPress={this.setState({editMode: true})}>{ this.props.habitName }</TouchableOpacity>
-        <Label style={styles.label} title="Reminder:"/>
-        <Switch style={styles.label}
+        <Text style={styles.heading} onPress={this.onPress}>{ this.props.habitName }</Text>
+        <Label title="Reminder:"/>
+        <Switch
           onValueChange={function (value) { _this.setState({falseSwitchIsOn: value}); }}
           style={{marginBottom: 10}}
           value={this.state.falseSwitchIsOn}
@@ -118,14 +158,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#EDBE40'
   },
   heading: {
-    fontSize: 40,
-    alignItems: 'center',
-    alignSelf: 'center'
-  },
-  label: {
-    fontSize:20,
-    alignItems: 'center',
-    alignSelf: 'center'
+    fontSize: 40
   },
   button: {
     height: 30,

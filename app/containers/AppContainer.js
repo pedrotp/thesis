@@ -77,7 +77,7 @@ var AppContainer = React.createClass({
       return (
         <View style={{ flex: 1 }}>
           <Navigator
-            initialRoute = {{id: 'HabitSettings'}}
+            initialRoute = {{id: 'Loading'}}
             renderScene = {this.renderScene}
           />
         </View>
@@ -129,12 +129,13 @@ var AppContainer = React.createClass({
       );
     }
     if(routeId === 'HabitSettings') {
+      // last prop on HabitSettings should be habitid
       return (
         <HabitSettings
           navigator={navigator}
           token={this.state.token}
           profile={this.state.profile}
-          habitName={'Check my Inbox'}
+          habitName={'Object with Habit details'}
         />
       );
     }
