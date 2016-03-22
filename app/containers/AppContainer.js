@@ -14,6 +14,7 @@ var Onboard = require('./OnboardContainer');
 var Welcome = require('../components/Welcome');
 var AddHabit = require('./CreateContainer');
 var Habits = require('./InboxContainer');
+var HabitSettings = require('../components/HabitSettings');
 
 
 // Instantiate a new Lock
@@ -76,7 +77,7 @@ var AppContainer = React.createClass({
       return (
         <View style={{ flex: 1 }}>
           <Navigator
-            initialRoute = {{id: 'Loading'}}
+            initialRoute = {{id: 'HabitSettings'}}
             renderScene = {this.renderScene}
           />
         </View>
@@ -124,6 +125,15 @@ var AppContainer = React.createClass({
           profile={this.state.profile}
           lock={lock}
           handleLogout={this.handleLogout}
+        />
+      );
+    }
+    if(routeId === 'HabitSettings') {
+      return (
+        <HabitSettings
+          navigator={navigator}
+          token={this.state.token}
+          profile={this.state.profile}
         />
       );
     }
