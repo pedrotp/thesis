@@ -13,6 +13,7 @@ var app = require('../server/server');
 
 // DB Models
 var mongoose = require('mongoose');
+var User = require('../db/models').User;
 var Habit = require('../db/models').Habit;
 var Instances = require('../db/models').Instances;
 

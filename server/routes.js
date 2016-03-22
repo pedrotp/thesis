@@ -32,7 +32,6 @@ var routes = [
         });
     },
     post: function (req, res) {
-      console.log('POST to /user:', req.body);
       var userEmail = req.body.email;
       helpers.addUser(userEmail,
         function (success) {
@@ -49,13 +48,11 @@ var routes = [
   {
     path: '/habits/:user',
     get: function (req, res) {
-      console.log('USAH', req.params.user);
       var userEmail = req.params.user;
       // query db for user's habits
       helpers.getHabits(userEmail,
         function (success) {
-          console.log('/habits GET:', success);
-          res.json(success);
+          res.status(200).json(success);
         },
         function (err) {
           if (!testing) {
@@ -113,7 +110,7 @@ var routes = [
       var habitid = req.params.habitid;
       helpers.deleteHabit(userEmail, habitid,
         function (data) {
-          res.status(200).send(data);
+          res.status(200).json(data);
         },
         function (err) {
           if (!testing) {
@@ -128,10 +125,10 @@ var routes = [
 module.exports = function (app, express) {
   // require auth on all routes in authReqRoutes
   // skip if we are testing
-  if(!testing) {
+  if (!testing) {
     authReqRoutes.forEach(function (route) {
-      app.use(route, jwtCheck)
-    })
+      app.use(route, jwtCheck);
+    });
   }
 
   // export routes
