@@ -119,12 +119,12 @@ var AppContainer = React.createClass({
       );
     }
     if (routeId === 'AppContainer') {
+      // logs user out
         this.setState({
-          auth: false,
-          token: null,
-          profile: null
-        });
-        this.render;
+              auth: false,
+              token: null,
+              profile: null
+            });
     }
   }
 });
