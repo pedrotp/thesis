@@ -109,14 +109,6 @@ var Habits = React.createClass({
   handlePress: function () {
     this.props.navigator.push({id:'AddHabit'});
   },
-  handleLogout: function () {
-    // var url = 'https://' + Auth0credentials.domain + '/v2/logout';
-    // Linking.openURL(url)
-    //   .catch(function (err) {
-    //     console.warn(err);
-    // });
-    this.props.navigator.push({id: 'AppContainer'});
-  },
   // Render each row of the inbox as an Inbox component
   renderInbox: function (habit) {
     return <Inbox habit={habit} deleteHabit={this.deleteHabit} editHabit={this.editHabit} createInstance={this.createInstance} />
@@ -146,7 +138,7 @@ var Habits = React.createClass({
             <Text style={styles.buttonText}>New</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={this.handleLogout}>
+        <TouchableOpacity onPress={this.props.handleLogout}>
           <View style={styles.circleButton}>
             <Text style={styles.buttonText}>LO</Text>
           </View>
