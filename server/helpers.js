@@ -136,9 +136,27 @@ var createInstance = function (habitid, success, fail) {
     });
 };
 
-// TODO: modify as needed once user info is available
+var isDone = function (habitid, success, fail) {
+  Habit.findById(habitid)
+    .then(function (habit) {
+      Instances.findById(habit.instancesId)
+        .then(function (instances) {
+          var last = instances.store[instances.store.length - 1].createdAt;
+          var now = new Date();
+          var freq = habit.frequency;
+          success(moment(last).isSame(now, freq));
+        });
+    })
+    .catch(function (err) {
+      fail(err);
+    });
+};
+
 var addUser = function (email, success, fail) {
-  User.create(email)
+
+  // findOneAndUpdate along with upsert set to true
+  // allows for a user to be created if they don't exist
+  User.findOneAndUpdate(email, { email: email }, {upsert: true})
     .then(function (data) {
       success(data);
     })

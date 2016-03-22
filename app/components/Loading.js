@@ -8,7 +8,7 @@ function Loading (props) {
     <View style={styles.container}>
       <Text style={styles.text}>BETTER.</Text>
     </View>
-    )
+  );
 }
 
 var styles = StyleSheet.create({

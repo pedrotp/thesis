@@ -1,4 +1,5 @@
 var React = require('react-native');
+var api = require('../lib/api');
 var Text = React.Text;
 var View = React.View;
 var Navigator = React.Navigator;
@@ -26,8 +27,9 @@ var AppContainer = React.createClass({
       profile: null
     };
   },
-  render: function () {
+  componentDidMount: function () {
     var _this = this;
+    // If user not logged in
     if (!this.state.auth) {
       // Display login widget
       lock.show({}, function (err, profile, token) {
@@ -36,15 +38,33 @@ var AppContainer = React.createClass({
           console.log(err);
           return;
         }
-        // Auth works
-        console.log('Logged in with Auth0!');
-        _this.setState({
-          auth: true,
-          token: token,
-          profile: profile,
+        // Store user in DB
+        fetch(process.env.SERVER + '/user', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token.idToken
+          },
+          body: JSON.stringify(profile)
+        })
+        .then(api.handleErrors)
+        .then(function (res) {
+          // On successful login + store user
+          // Set user info on state
+          _this.setState({
+            auth: true,
+            token: token,
+            profile: profile,
+          });
+        })
+        .catch(function (err) {
+          console.warn(err);
         });
       });
     }
+  },
+  render: function () {
     if (this.state.auth) {
       return (
         <View style={{ flex: 1 }}>
@@ -62,7 +82,7 @@ var AppContainer = React.createClass({
   },
   renderScene: function (route, navigator) {
     var routeId = route.id;
-    
+
     if (routeId === 'Loading') {
       return (
         <LoadingContainer

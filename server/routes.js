@@ -16,6 +16,37 @@ var authReqRoutes = [
 
 var routes = [
   {
+    path: '/user',
+    get: function (req, res) {
+
+      // TODO: refactored helper function needs to be uncommented
+      helpers.getHabits(
+        function (success) {
+          res.status(200).send(success);
+        },
+        function (err) {
+          if (!testing) {
+            console.error('Server error:', err);
+          }
+          res.sendStatus(400);
+        });
+    },
+    post: function (req, res) {
+      console.log('POST to /user:', req.body);
+      var userEmail = req.body.email;
+      helpers.addUser(userEmail,
+        function (success) {
+          res.status(200).json(success);
+        },
+        function (err) {
+          if (!testing) {
+            console.error('Server error:', err);
+          }
+          res.sendStatus(400);
+        });
+    }
+  },
+  {
     path: '/habits',
     get: function (req, res) {
       // query db for user's habits
@@ -34,7 +65,7 @@ var routes = [
       var habit = req.body;
       helpers.addHabit(habit,
         function (data) {
-          res.status(201).send(data);
+          res.status(201).json(data);
         },
         function (err) {
           if (!testing) {
@@ -50,7 +81,7 @@ var routes = [
       var habitid = req.params.habitid;
       helpers.createInstance(habitid,
         function (data) {
-          res.status(201).send(data);
+          res.status(201).json(data);
         },
         function (err) {
           if (!testing) {
@@ -64,7 +95,7 @@ var routes = [
       var habitDetails = req.body;
       helpers.updateHabit(habitid, habitDetails,
         function (data) {
-          res.status(200).send(data);
+          res.status(200).json(data);
         },
         function (err) {
           if (!testing) {
@@ -77,7 +108,7 @@ var routes = [
       var habitid = req.params.habitid;
       helpers.deleteHabit(habitid,
         function (data) {
-          res.status(202).send(data);
+          res.status(200).send(data);
         },
         function (err) {
           if (!testing) {
