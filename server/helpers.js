@@ -2,15 +2,6 @@ var Habit = require('../db/models').Habit;
 var Instances = require('../db/models').Instances;
 var User = require('../db/models').User;
 
-// var getHabits = function (success, fail) {
-//   Habit.find({})
-//     .then(function (data) {
-//       success(data);
-//     })
-//     .catch(function (err) {
-//       fail(err);
-//     });
-// };
 var getHabits = function (email, success, fail) {
   User.findOne({ email: email })
     .then(function (user) {
@@ -21,58 +12,35 @@ var getHabits = function (email, success, fail) {
     });
 };
 
-// var addHabit = function (habit, success, fail) {
-//   if (habit.currentGoal) {
-//     habit.currentGoal = parseInt(habit.currentGoal);
-//   }
-//   Habit.create(habit)
-//     .then(function (data) {
-//       var instances = new Instances;
-//       data.instancesId = instances.id;
-//       instances.save();
-//       data.save();
-//       success(data);
-//     })
-//     .catch(function (err) {
-//       fail(err);
-//     });
-// };
 var addHabit = function (email, habit, success, fail) {
   if (habit.currentGoal) {
     habit.currentGoal = parseInt(habit.currentGoal);
   }
   Habit.create(habit)
-    .then(function (data) {
+    .then(function (dbHabit) {
+      var instances = new Instances;
+      dbHabit.instancesId = instances.id;
 
+      // instances.save() is async but we aren't doing anything further
+      // with instances so we can move on without waiting for completion
+      instances.save();
+      return dbHabit.save();
+    })
+    .then(function (newHabit) {
       // The {new: true} option returns the modified document
       // rather than the original. defaults to false
       return User.findOneAndUpdate(
-        { email: email }, { $push: { "habits": data } }, { new: true }
+        { email: email }, { $push: { "habits": newHabit } }, { new: true }
       );
     })
-    .then(function (data2) {
-      success(data2);
+    .then(function (habits) {
+      success(habits);
     })
     .catch(function (err) {
       fail(err);
     });
 };
 
-// var deleteHabit = function (id, success, fail) {
-//   Habit.find({ _id: id })
-//     .then(function (data) {
-
-//       // Mongoose post 'remove' middleware will
-//       // not trigger on remove() calls to Habit model
-//       return data[0].remove();
-//     })
-//     .then(function (data) {
-//       success(data);
-//     })
-//     .catch(function (err) {
-//       fail(err);
-//     });
-// };
 var deleteHabit = function (email, habitId, success, fail) {
   User.findOneAndUpdate(
   // TODO: test if $pull triggers post 'remove' middleware

@@ -50,38 +50,21 @@ habitSchema.post('remove', function (doc) {
     });
 });
 
-// Before a habit is saved, an instance is
-// auto-created and its ID is assigned upon success
-habitSchema.pre('save', function (next) {
-
-  // 'this' references the habit being saved
-  var _this = this;
-  Instances.create({})
-    .then(function (success) {
-      _this.instancesId = success._id;
-
-      // Invoking next allows the habit to save
-      next();
-    })
-    .catch(function (err) {
-      console.error(err);
-    });
+instancesSchema.post('save', function (doc) {
+  if (doc.store.length) {
+    Habit.findOneAndUpdate({ instancesId: doc._id }, { instanceCount: doc.store.length, lastDone: doc.store[doc.store.length - 1].createdAt })
+      .then(function (success) {})
+      .catch(function (err) {
+        console.error(err);
+      });
+  } else {
+    Habit.findOneAndUpdate({ instancesId: doc._id }, { instanceCount: 0 })
+      .then(function (success) {})
+      .catch(function (err) {
+        console.error(err);
+      });
+  }
 });
-// instancesSchema.post('save', function (doc) {
-//   if (doc.store.length) {
-//     Habit.findOneAndUpdate({ instancesId: doc._id }, { instanceCount: doc.store.length, lastDone: doc.store[doc.store.length - 1].createdAt })
-//       .then(function (success) {})
-//       .catch(function (err) {
-//         console.error(err);
-//       });
-//   } else {
-//     Habit.findOneAndUpdate({ instancesId: doc._id }, { instanceCount: 0 })
-//       .then(function (success) {})
-//       .catch(function (err) {
-//         console.error(err);
-//       });
-//   }
-// });
 
 
 module.exports = {
