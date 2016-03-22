@@ -47,11 +47,14 @@ var routes = [
     }
   },
   {
-    path: '/habits',
+    path: '/habits/:user',
     get: function (req, res) {
+      console.log('USAH', req.params.user);
+      var userEmail = req.params.user;
       // query db for user's habits
-      helpers.getHabits(
+      helpers.getHabits(userEmail,
         function (success) {
+          console.log('/habits GET:', success);
           res.json(success);
         },
         function (err) {
@@ -62,8 +65,9 @@ var routes = [
         });
     },
     post: function (req, res) {
+      var userEmail = req.params.user;
       var habit = req.body;
-      helpers.addHabit(habit,
+      helpers.addHabit(userEmail, habit,
         function (data) {
           res.status(201).json(data);
         },

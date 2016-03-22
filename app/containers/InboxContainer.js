@@ -28,7 +28,7 @@ var Habits = React.createClass({
   // TODO: refactor server call to api library
   getHabits: function () {
     var _this = this;
-    fetch(process.env.SERVER + '/habits', {
+    fetch(process.env.SERVER + '/habits/' + this.props.profile.email, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + this.props.token.idToken
