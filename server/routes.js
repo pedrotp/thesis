@@ -80,7 +80,7 @@ var routes = [
     }
   },
   {
-    path: '/habits/:habitid',
+    path: '/habits/:user/:habitid',
     post: function (req, res) {
       var habitid = req.params.habitid;
       helpers.createInstance(habitid,
@@ -109,8 +109,9 @@ var routes = [
         });
     },
     delete: function (req, res) {
+      var userEmail = req.params.user;
       var habitid = req.params.habitid;
-      helpers.deleteHabit(habitid,
+      helpers.deleteHabit(userEmail, habitid,
         function (data) {
           res.status(200).send(data);
         },

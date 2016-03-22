@@ -34,8 +34,10 @@ var AddHabit = React.createClass({
     var result = {};
     if (this.props.habit) {
       result.method = 'PUT';
+      result.id = this.props.habit._id;
     } else {
       result.method = 'POST';
+      result.id = '';
     }
     return result;
   },
@@ -54,7 +56,7 @@ var AddHabit = React.createClass({
     'Habit updated!' :
     'Habit created!';
 
-    fetch(process.env.SERVER + '/habits/' + this.props.profile.email, {
+    fetch(process.env.SERVER + '/habits/' + options.id, {
       method: options.method,
       headers: {
         'Accept': 'application/json',
