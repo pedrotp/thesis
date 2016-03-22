@@ -19,13 +19,13 @@ var habitSchema = mongoose.Schema({
   currentGoal: { type: Number, default: 1 }, // amount of units the user is currently trying to perform
   schedule: { type: String }, // when in the desired frequency (mornings, weekends, etc)
   instancesId: { type: mongoose.Schema.Types.ObjectId, ref: Instances }, // all the times a user has performed this action
-  instanceCount: { type: Number, default: 0 }
+  instanceCount: { type: Number, default: 0 },
+  lastDone: { type: Date }
 },
 {
   timestamps: true
 });
 var Habit = mongoose.model('Habit', habitSchema);
-
 
 // Users
 var userSchema = mongoose.Schema({
@@ -37,7 +37,6 @@ var userSchema = mongoose.Schema({
   timestamps: true
 });
 var User = mongoose.model('User', userSchema);
-
 
 // Middleware
 habitSchema.post('remove', function (doc) {
@@ -52,13 +51,19 @@ habitSchema.post('remove', function (doc) {
 });
 
 instancesSchema.post('save', function (doc) {
-  Habit.findOneAndUpdate({ instancesId: doc._id }, { instanceCount: doc.store.length })
-    .then(function (success) {
-      // console.log('Post instance creation habit update success:', success);
-    })
-    .catch(function (err) {
-      console.error(err);
-    });
+  if (doc.store.length) {
+    Habit.findOneAndUpdate({ instancesId: doc._id }, { instanceCount: doc.store.length, lastDone: doc.store[doc.store.length - 1].createdAt })
+      .then(function (success) {})
+      .catch(function (err) {
+        console.error(err);
+      });
+  } else {
+    Habit.findOneAndUpdate({ instancesId: doc._id }, { instanceCount: 0 })
+      .then(function (success) {})
+      .catch(function (err) {
+        console.error(err);
+      });
+  }
 });
 
 

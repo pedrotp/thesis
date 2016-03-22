@@ -8,6 +8,9 @@ var expect = require('chai').expect;
 // Bluebird 'join' method used in afterEach function
 var Join = require('bluebird').join;
 
+// Moment to test the lastDone property
+var moment = require('moment');
+
 // Server
 var app = require('../server/server');
 
@@ -25,7 +28,7 @@ describe('Database', function () {
 
     // Example habits with habit1Id to be assigned in
     // beforeEach and used in habit update/delete
-    var habit1Id;
+    var habit1Id, habit2Id;
     var habit1 = {
       action: 'Write tests',
       frequency: 'Daily'
@@ -261,6 +264,35 @@ describe('Database', function () {
           expect(fail.path).to.equal('_id');
           done();
         });
+      });
+      
+      xit('should update the instanceCount property for the habit', function (done) {
+        helpers.createInstance(habit1Id,
+          function (instance) {
+            Habit.findById(habit1Id)
+              .then(function (habit) {
+                expect(habit.instanceCount).to.equal(1);
+                done();
+              })
+              .catch(function (err) {
+                done(err);
+              }); 
+          },
+          function (err) {
+            done(err);
+          });
+      });
+
+      xit('should update the lastDone property for the habit', function (done) {
+        Habit.findById(habit1Id)
+          .then(function (habit) {
+            expect(habit.lastDone).to.exist;
+            expect(moment(habit.lastDone).isSame(Date.now(), 'minute')).to.equal(true);
+            done();
+          })
+          .catch(function (err) {
+            done(err);
+          });
       });
 
     });

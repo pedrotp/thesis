@@ -4,6 +4,7 @@ var View = React.View;
 var StyleSheet = React.StyleSheet;
 // App components
 var Swipeout = require('react-native-swipeout');
+var moment = require('moment');
 
 function Inbox (props) {
   var swipeButtons = [
@@ -32,6 +33,7 @@ function Inbox (props) {
         <View style={styles.swipe}>
           <Text style={styles.habit}>{props.habit.action} {props.habit.frequency}</Text>
           <Text style={styles.count}>You've done this {props.habit.instanceCount} time(s).</Text>
+          <Text>{ props.habit.lastDone && moment(props.habit.lastDone).isSame(Date.now(), props.habit.frequency) ? 'Done' : 'Not done' }</Text>
         </View>
       </Swipeout>
     </View>
