@@ -56,7 +56,7 @@ var AddHabit = React.createClass({
     'Habit updated!' :
     'Habit created!';
 
-    fetch(process.env.SERVER + '/habits/' + options.id, {
+    fetch(process.env.SERVER + '/habits/' + this.props.profile.email + '/' + options.id, {
       method: options.method,
       headers: {
         'Accept': 'application/json',
