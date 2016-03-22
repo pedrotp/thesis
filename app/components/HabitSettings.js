@@ -1,20 +1,20 @@
 var React = require('react-native');
 var View = React.View;
 var Text = React.Text;
-var StyleSheet = React.StyleSheet
+var StyleSheet = React.StyleSheet;
 var Navigator = React.Navigator;
 var Alert = React.Alert;
 var TouchableOpacity = React.TouchableOpacity;
 var DatePickerIOS = React.DatePickerIOS;
-
+var Switch = React.Switch;
 
 var HabitSettings = React.createClass({
   getInitialState: function () {
     return ({
       date: new Date(),
       // timeZoneOffsetInHours: (-1 * (new Date()).getTimezoneOffset()/ 60)
-      
-      })
+      FalseSwitchIsOn: false;
+    })
   },
   onDateChange: function (date) {
     this.setState({date: date})
@@ -34,15 +34,24 @@ var HabitSettings = React.createClass({
             navigationBar={
               <Navigator.NavigationBar style={{backgroundColor: '#6399DC', alignItems: 'center'}}
                   routeMapper={NavigationBarRouteMapper} />
-            } />
+            } 
+            />
         </View>
       );
   },
+  
   renderScene: function (route, navigator) {
+    
+    var _this = this;
     return (
-      <View>
-        <Text>Habit Settings</Text>
-
+      <View style={styles.container}>
+        <TouchableOpacity style={styles.heading} onPress={this.setState({editMode: true})}>{ this.props.habitName }</TouchableOpacity>
+        <Label style={styles.label} title="Reminder:"/>
+        <Switch style={styles.label}
+          onValueChange={function (value) { _this.setState({falseSwitchIsOn: value}); }}
+          style={{marginBottom: 10}}
+          value={this.state.falseSwitchIsOn}
+        />
         <DatePickerIOS
           date={this.state.date}
           mode="time"
@@ -80,8 +89,8 @@ var NavigationBarRouteMapper = {
   Title(route, navigator, index, navState) {
     // var title;
     // var routeStack = navigator.parentNavigator.state.routeStack;
-    // var currentRoute = routeStack[routeStack.length - 1];
-
+    // var previousRoute = routeStack[routeStack.length - 2];
+    
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
         <Text style={{color: 'white', margin: 10, fontSize: 16}}>
@@ -92,11 +101,11 @@ var NavigationBarRouteMapper = {
   }
 };
 
-var label = function (props) {
+var Label = function (props) {
   return (
     <View>
       <Text>
-        {this.props.title}
+        {props.title}
       </Text>
     </View>
   )
@@ -108,30 +117,15 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#EDBE40'
   },
-  radio: {
-    width: 325,
-    marginTop: 18,
-    marginBottom: 15,
+  heading: {
+    fontSize: 40,
+    alignItems: 'center',
     alignSelf: 'center'
   },
-  welcome: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    margin: 10,
-    color: '#FFFFFF'
-  },
-  textInput: {
-    height: 35,
-    width: 250,
-    padding: 5,
-    backgroundColor: '#FFFFFF',
-    borderColor: '#6399DC',
-    color: '#6399DC',
-    borderWidth: 0,
-    borderRadius: 10,
-    alignSelf: 'center',
-    alignItems: 'center'
+  label: {
+    fontSize:20,
+    alignItems: 'center',
+    alignSelf: 'center'
   },
   button: {
     height: 30,
