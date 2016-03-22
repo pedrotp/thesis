@@ -27,6 +27,13 @@ var AppContainer = React.createClass({
       profile: null
     };
   },
+  handleLogout: function () {
+    this.setState({
+      auth: false,
+      token: null,
+      profile: null
+    });
+  },
   componentDidMount: function () {
     var _this = this;
     // If user not logged in
@@ -114,6 +121,8 @@ var AppContainer = React.createClass({
           navigator={navigator}
           token={this.state.token}
           profile={this.state.profile}
+          lock={lock}
+          handleLogout={this.handleLogout}
         />
       );
     }

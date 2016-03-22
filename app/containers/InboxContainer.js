@@ -1,5 +1,6 @@
 var React = require('react-native');
 var api = require('../lib/api');
+var Auth0credentials = require('../../auth0_credentials');
 var View = React.View;
 var Text = React.Text;
 var Alert = React.Alert;
@@ -7,9 +8,12 @@ var ListView = React.ListView;
 var Navigator = React.Navigator;
 var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
+var Linking = React.Linking;
 
 var Inbox = require('../components/Inbox');
 var Welcome = require('../components/Welcome');
+
+// var lock = require('..');
 
 var Habits = React.createClass({
   getInitialState: function () {
@@ -134,6 +138,11 @@ var Habits = React.createClass({
             <Text style={styles.buttonText}>New</Text>
           </View>
         </TouchableOpacity>
+        <TouchableOpacity onPress={this.props.handleLogout}>
+          <View style={styles.circleButton}>
+            <Text style={styles.buttonText}>LO</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -192,7 +201,6 @@ var styles = StyleSheet.create({
       height: 3.5,
       width: 2
     }
-
   },
   buttonText: {
     fontSize: 15,
