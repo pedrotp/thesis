@@ -13,13 +13,12 @@ var Welcome = require('../components/Welcome');
 
 var Habits = React.createClass({
   getInitialState: function () {
-    var ds = new ListView.DataSource({
-      rowHasChanged: function (row1, row2) {
-        return row1 !== row2
-      }
-    })
     return {
-      dataSource: ds.cloneWithRows([]),
+      dataSource: new ListView.DataSource({
+        rowHasChanged: function (row1, row2) {
+          return row1 !== row2
+        }
+      })
     }
   },
   // TODO: refactor server call to api library
