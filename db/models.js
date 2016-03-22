@@ -50,6 +50,7 @@ habitSchema.post('remove', function (doc) {
     });
 });
 
+// TODO: convert to habit post save
 instancesSchema.post('save', function (doc) {
   if (doc.store.length) {
     Habit.findOneAndUpdate({ instancesId: doc._id }, { instanceCount: doc.store.length, lastDone: doc.store[doc.store.length - 1].createdAt })

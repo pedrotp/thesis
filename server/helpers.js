@@ -43,8 +43,11 @@ var addHabit = function (email, habit, success, fail) {
   }
   Habit.create(habit)
     .then(function (data) {
+
+      // The {new: true} option returns the modified document
+      // rather than the original. defaults to false
       return User.findOneAndUpdate(
-        { email: email }, { $push: { "habits": data }}
+        { email: email }, { $push: { "habits": data } }, { new: true }
       );
     })
     .then(function (data2) {
@@ -73,7 +76,7 @@ var addHabit = function (email, habit, success, fail) {
 var deleteHabit = function (email, habitId, success, fail) {
   User.findOneAndUpdate(
   // TODO: test if $pull triggers post 'remove' middleware
-    {email: email}, {$pull: {'habits': {_id: habitId}}}
+    { email: email }, { $pull: { 'habits': { _id: habitId } }}
   )
   .then(function (data) {
     success(data);
@@ -153,10 +156,9 @@ var isDone = function (habitid, success, fail) {
 };
 
 var addUser = function (email, success, fail) {
-  console.log("ADDUSER EMAIL:", email);
   // findOneAndUpdate along with upsert set to true
   // allows for a user to be created if they don't exist
-  User.findOneAndUpdate({email: email}, { email: email }, {upsert: true})
+  User.findOneAndUpdate({ email: email }, { email: email }, {upsert: true})
     .then(function (data) {
       success(data);
     })
