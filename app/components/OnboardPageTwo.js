@@ -5,6 +5,7 @@ var Navigator = React.Navigator;
 var Component = React.Component;
 var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
+var Image = React.Image;
 // App components
 
 var OnboardPageTwo = React.createClass({
@@ -21,10 +22,11 @@ var OnboardPageTwo = React.createClass({
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Some Text
+          Start Small
         </Text>
+        <Image style={styles.img} source={{uri: 'http://localhost:3000/assets/bars.png'}}/>
         <Text style={styles.instructions}>
-          Some Text
+          Pick a habit that will get you closer to your goal, but will be easy to do every day. We will move up together from there. 
         </Text>
       </View>
     );
@@ -46,11 +48,17 @@ var styles = StyleSheet.create({
     color: '#FFF'
   },
   instructions: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 5,
-    color: '#FFF'
+    color: '#FFF',
+    padding: 25
+  },
+  img: {
+    width: 64,
+    height: 64,
+    marginTop: 20
   },
   button: {
     height: 30,

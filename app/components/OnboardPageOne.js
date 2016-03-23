@@ -5,6 +5,7 @@ var Navigator = React.Navigator;
 var Component = React.Component;
 var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
+var Image = React.Image;
 // App components
 
 var OnboardPageOne = React.createClass({
@@ -21,10 +22,11 @@ var OnboardPageOne = React.createClass({
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Some Text
+          Welcome to Better.
         </Text>
+        <Image style={styles.img} source={{uri: 'http://localhost:3000/assets/odometer.png'}}/>
         <Text style={styles.instructions}>
-          Some Text
+          Our mission is to help you achieve your goals by building positive daily habits.
         </Text>
       </View>
     );
@@ -46,11 +48,17 @@ var styles = StyleSheet.create({
     color: '#FFF'
   },
   instructions: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 5,
-    color: '#FFF'
+    color: '#FFF',
+    padding: 25
+  },
+  img: {
+    width: 83,
+    height: 50,
+    marginTop: 20
   },
   button: {
     height: 30,
