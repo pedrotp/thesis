@@ -207,7 +207,7 @@ describe('Database', function () {
 
     });
 
-    xdescribe('updateHabit', function () {
+    describe('updateHabit', function () {
 
       it('should be a function', function (done) {
         expect(helpers.updateHabit).to.be.a('function');
@@ -220,7 +220,7 @@ describe('Database', function () {
         var update1 = {
           frequency: 'Weekly'
         };
-        helpers.updateHabit(habit1Id, update1,
+        helpers.updateHabit(user.email, habit1Id, update1,
           function (success) {
             expect(success.frequency).to.equal('Weekly');
             done();
@@ -236,14 +236,12 @@ describe('Database', function () {
         var update1 = {
           frequency: 'Weekly'
         };
-        helpers.updateHabit('12345', update1,
+        helpers.updateHabit(user.email, '12345', update1,
           function (success) {
             console.log('DbSpec updateHabit success:', success);
           },
           function (fail) {
-            expect(fail.name).to.equal('CastError');
-            expect(fail.kind).to.equal('ObjectId');
-            expect(fail.path).to.equal('_id');
+            expect(fail).to.exist;
             done();
           });
       });
