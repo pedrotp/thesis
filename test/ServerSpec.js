@@ -182,7 +182,7 @@ describe('Basic Server', function () {
 
   });
 
-  xdescribe('PUT /habits/:user/:habitid', function () {
+  describe('PUT /habits/:user/:habitid', function () {
 
     // Updates to be used in request
     var update1 = {
@@ -192,7 +192,7 @@ describe('Basic Server', function () {
 
     it('should return 200 on success', function (done) {
       request(app)
-        .put('/habits/' + habit1Id)
+        .put('/habits/' + user.email + '/' + habit1Id)
         .send(update1)
         .expect(200)
         .end(done);
@@ -200,14 +200,14 @@ describe('Basic Server', function () {
 
     it('should return 400 on error (incorrect ID)', function (done) {
       request(app)
-        .put('/habits/12345')
+        .put('/habits/' + user.email + '/12345')
         .expect(400)
         .end(done);
     });
 
     it('should return updated habit', function (done) {
       request(app)
-        .put('/habits/' + habit1Id)
+        .put('/habits/' + user.email + '/' + habit1Id)
         .send(update1)
         .expect(200)
         .expect(function (res) {
