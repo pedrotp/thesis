@@ -1,4 +1,4 @@
-var Habit = require('../db/models').Habit;
+var Habits = require('../db/models').Habits;
 var Instances = require('../db/models').Instances;
 var User = require('../db/models').User;
 
@@ -12,29 +12,28 @@ var getHabits = function (email, success, fail) {
     });
 };
 
-var addHabit = function (email, habit, success, fail) {
-  if (habit.currentGoal) {
-    habit.currentGoal = parseInt(habit.currentGoal);
-  }
-  Habit.create(habit)
-    .then(function (dbHabit) {
+var addHabit = function (email, habitDetails, success, fail) {
+  User.findOne({ 'email': email })
+    .then(function (user) {
+      return Habits.findById(user.habitsId);
+    })
+    .then(function (habits) {
+      var habit = habits.store.create(habitDetails);
+      habits.store.push(habit);
+      habits.save();
+      return habit;
+    })
+    .then(function (newHabit) {
       var instances = new Instances;
-      dbHabit.instancesId = instances.id;
+      newHabit.instancesId = instances.id;
 
       // instances.save() is async but we aren't doing anything further
       // with instances so we can move on without waiting for completion
       instances.save();
-      return dbHabit.save();
+      return newHabit.save();
     })
     .then(function (newHabit) {
-      // The {new: true} option returns the modified document
-      // rather than the original. defaults to false
-      return User.findOneAndUpdate(
-        { email: email }, { $push: { "habits": newHabit } }, { new: true }
-      );
-    })
-    .then(function (habits) {
-      success(habits);
+      success(newHabit);
     })
     .catch(function (err) {
       fail(err);
@@ -70,17 +69,19 @@ var updateHabit = function (email, habitid, habitDetails, success, fail) {
   if (habitDetails.currentGoal) {
     habitDetails.currentGoal = parseInt(habitDetails.currentGoal);
   }
-
+  console.log("DETAILS:", habitDetails);
   // TODO: try 'habits.$' if 'habits.$.' doesn't work
   // updates object allows for partial updates
-  var updates = {};
-  for (var key in habitDetails) {
-    updates['habits.$.' + key] = habitDetails[key];
-  }
-  User.findOneAndUpdate(
-    { 'email': email, 'habits._id': habitid }, { $set: updates }
-  )
+  // var updates = {};
+  // for (var key in habitDetails) {
+  //   updates['habits.$.' + key] = habitDetails[key];
+  // }
+  Habit.findByIdAndUpdate(habitid, habitDetails, {new: true})
+  // User.findOneAndUpdate(
+  //   { 'email': email, 'habits._id': habitid }, {'action': 'TESTUPDATE'}, { new: true }
+  // )
   .then(function (data) {
+    // console.log("AFTER UPDATE FIND_UPDATE:", data);
     success(data);
   })
   .catch(function (err) {
@@ -88,19 +89,38 @@ var updateHabit = function (email, habitid, habitDetails, success, fail) {
   });
 };
 
-var createInstance = function (habitid, success, fail) {
-  Habit.findById(habitid)
-    .then(function (habit) {
-      return Instances.findById(habit.instancesId);
+var createInstance = function (email, habitid, success, fail) {
+  User.findOne({ 'email': email } )
+    .then(function (user) {
+      return Habits.findById(user.habitsId);
     })
-    .then(function (instances) {
-      var instance = instances.store.create({});
-      instances.store.push(instance);
-      instances.save();
-      return instance;
-    })
-    .then(function (instance) {
-      success(instance);
+    .then(function (habits) {
+      var habitIndex;
+      for (var i = 0; i < habits.store.length; i++) {
+        if (habits.store[i]._id.toString() === habitid) {
+          habitIndex = i;
+          break;
+        }
+      }
+      Instances.findById(habits.store[habitIndex].instancesId)
+        .then(function (instances) {
+          var instance = instances.store.create({});
+          instances.store.push(instance);
+          return instances.save();
+        })
+        .then(function (instances) {
+          var created = instances.store[instances.store.length - 1].createdAt;
+          habits.store[habitIndex].instanceCount = instances.store.length;
+          habits.store[habitIndex].lastDone = created;
+          habits.save();
+          return instances.store[instances.store.length - 1];
+        })
+        .then(function (instance) {
+          success(instance);
+        })
+        .catch(function (err) {
+          fail(err);
+        });
     })
     .catch(function (err) {
       fail(err);
@@ -126,9 +146,21 @@ var isDone = function (habitid, success, fail) {
 var addUser = function (email, success, fail) {
   // findOneAndUpdate along with upsert set to true
   // allows for a user to be created if they don't exist
-  User.findOneAndUpdate({ email: email }, { email: email }, {upsert: true})
-    .then(function (data) {
-      success(data);
+  console.log('addUser EMAIL:', email);
+  User.findOneAndUpdate({ 'email': email }, { 'email': email }, { 'upsert': true, 'new': true })
+    .then(function (dbUser) {
+      console.log("FOUND/CREATED:", dbUser);
+      var habits = new Habits;
+      dbUser.habitsId = habits.id;
+
+      // habits.save() is async but we aren't doing anything further
+      // with habits so we can move on without waiting for completion
+      habits.save();
+      return dbUser.save();
+    })
+    .then(function (newUser) {
+      console.log("NEW USER:", newUser);
+      success(newUser);
     })
     .catch(function (err) {
       fail(err);
