@@ -37,8 +37,8 @@ var routes = [
       var userEmail = req.params.user;
       // query db for user's habits
       helpers.getHabits(userEmail,
-        function (success) {
-          res.status(200).json(success);
+        function (habits) {
+          res.status(200).json(habits);
         },
         function (err) {
           if (!testing) {
