@@ -34,42 +34,47 @@ var AppContainer = React.createClass({
       token: null,
       profile: null
     });
+    this.showLock();
   },
-  componentDidMount: function () {
+  showLock: function () {
     var _this = this;
+    // Display login widget
+    lock.show({}, function (err, profile, token) {
+      // TODO: pass profile/token to component
+      if (err) {
+        console.log(err);
+        return;
+      }
+      // Store user in DB
+      fetch(process.env.SERVER + '/user', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token.idToken
+        },
+        body: JSON.stringify(profile)
+      })
+      .then(api.handleErrors)
+      .then(function (res) {
+        // On successful login + store user
+        // Set user info on state
+        _this.setState({
+          auth: true,
+          token: token,
+          profile: profile,
+        });
+      })
+      .catch(function (err) {
+        console.warn(err);
+      });
+    });
+  },
+  
+  componentDidMount: function () {
     // If user not logged in
     if (!this.state.auth) {
-      // Display login widget
-      lock.show({}, function (err, profile, token) {
-        // TODO: pass profile/token to component
-        if (err) {
-          console.log(err);
-          return;
-        }
-        // Store user in DB
-        fetch(process.env.SERVER + '/user', {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token.idToken
-          },
-          body: JSON.stringify(profile)
-        })
-        .then(api.handleErrors)
-        .then(function (res) {
-          // On successful login + store user
-          // Set user info on state
-          _this.setState({
-            auth: true,
-            token: token,
-            profile: profile,
-          });
-        })
-        .catch(function (err) {
-          console.warn(err);
-        });
-      });
+      this.showLock();
     }
   },
   render: function () {
@@ -125,6 +130,7 @@ var AppContainer = React.createClass({
           profile={this.state.profile}
           lock={lock}
           handleLogout={this.handleLogout}
+          _onLockShow={this._onLockShow}
         />
       );
     }
