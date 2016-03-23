@@ -10,7 +10,7 @@ var DatePickerIOS = React.DatePickerIOS;
 var Switch = React.Switch;
 
 var HabitSettings = React.createClass({
-  // text should be this.props.habit.habitName, habit object containing all habit details
+  // text should be this.props.habit.habitName, habit object containing all habit details is
   // passed when navigated from inbox to habitSettings
   getInitialState: function () {
     return ({
@@ -22,8 +22,8 @@ var HabitSettings = React.createClass({
     })
   },
   componentDidMount: function () {
-    //this.props.habitId
-    //fetch habit details with habitId and set state 
+    //Uses this.props.habitId to fetch
+    //habit details and set state 
   },
   onDateChange: function (date) {
     this.setState({date: date})
@@ -57,6 +57,7 @@ var HabitSettings = React.createClass({
     var _this = this;
     
     // edit mode, habit name become editable
+    // textInput is not rendering as expected
     if(this.state.editMode) {
       return (
         <View style={styles.container}>
