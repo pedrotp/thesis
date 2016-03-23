@@ -39,6 +39,10 @@ function Inbox (props) {
             <Text style={styles.count}>You've done this {props.habit.instanceCount} time(s).</Text>
             <Text style={ done ? styles.done : styles.notdone }>{ done ? 'DONE TODAY' : 'NOT DONE TODAY' }</Text>
           </View>
+          <Image 
+              source={ done ? {uri: 'http://localhost:3000/assets/done1.png'} : {uri: 'http://localhost:3000/assets/not_done2.png'} }
+              style={styles.img}
+            />
         </View>
       </Swipeout>
     </View>
@@ -62,21 +66,25 @@ var styles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 5,
     paddingTop: 15,
-    paddingBottom: 15
+    paddingBottom: 15,
+    flexDirection: 'row'
   },
   done: {
     fontSize: 8,
     fontWeight: 'bold',
-    color: '#8ed79d'
+    color: '#1CC92D'
   },
   notdone: {
     fontSize: 8,
     fontWeight: 'bold',
-    color: '#dc7177'
+    color: '#D93F3F'
   },
   img: {
-    width: 12,
-    height: 12
+    width: 25,
+    height: 25,
+    position: 'absolute',
+    right: 15,
+    top: 21
   }
 });
 
