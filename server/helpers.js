@@ -16,24 +16,29 @@ var getHabits = function (email, success, fail) {
 };
 
 var addHabit = function (email, habitDetails, success, fail) {
+
+  // Manual error handling for partial
+  // habitDetails (missing required fields)
+  if (Object.keys(habitDetails).length < 2) {
+    return fail('Required field(s) missing');
+  }
+
   User.findOne({ 'email': email })
     .then(function (user) {
       return Habits.findById(user.habitsId);
     })
     .then(function (habits) {
       var habit = habits.store.create(habitDetails);
-      habits.store.push(habit);
-      habits.save();
-      return habit;
-    })
-    .then(function (newHabit) {
       var instances = new Instances;
-      newHabit.instancesId = instances.id;
+      habit.instancesId = instances.id;
 
       // instances.save() is async but we aren't doing anything further
       // with instances so we can move on without waiting for completion
       instances.save();
-      return newHabit.save();
+      habit.save();
+      habits.store.push(habit);
+      habits.save();
+      return habit;
     })
     .then(function (newHabit) {
       success(newHabit);
