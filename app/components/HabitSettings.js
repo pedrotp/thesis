@@ -4,7 +4,6 @@ var Text = React.Text;
 var TextInput = React.TextInput;
 var StyleSheet = React.StyleSheet;
 var Navigator = React.Navigator;
-var Alert = React.Alert;
 var TouchableOpacity = React.TouchableOpacity;
 var DatePickerIOS = React.DatePickerIOS;
 var Switch = React.Switch;
@@ -14,23 +13,26 @@ var HabitSettings = React.createClass({
   // passed when navigated from inbox to habitSettings
   getInitialState: function () {
     return ({
-      date: new Date(),
       // timeZoneOffsetInHours: (-1 * (new Date()).getTimezoneOffset()/ 60)
+      date: new Date(),
+      text: this.props.habitName,
       FalseSwitchIsOn: false,
-      editMode: false,
-      text: this.props.habitName
+      editMode: false
     })
   },
   componentDidMount: function () {
     //Uses this.props.habitId to fetch
     //habit details and set state 
   },
+  
   onDateChange: function (date) {
     this.setState({date: date})
   },
+  
   deleteHabit: function () {
     //fetch request to delete habit
   },
+  
   onPress: function () {
     if(this.state.editMode) {
       this.setState({editMode: false});
@@ -38,6 +40,7 @@ var HabitSettings = React.createClass({
       this.setState({editMode: true});
     }
   },
+  
   render: function () {
       return (
         <View style={{ flex: 1 }}>
@@ -57,7 +60,7 @@ var HabitSettings = React.createClass({
     var _this = this;
     
     // edit mode, habit name become editable
-    // textInput is not rendering as expected
+    // textInput does not render anything at the moment - not sure why
     if(this.state.editMode) {
       return (
         <View style={styles.container}>
@@ -83,6 +86,7 @@ var HabitSettings = React.createClass({
         </View>
       )
     }
+    
     // normal mode
     return (
       <View style={styles.container}>
@@ -109,7 +113,6 @@ var HabitSettings = React.createClass({
       )
   }
 });
-
 
 var NavigationBarRouteMapper = {
   LeftButton(route, navigator, index, navState) {

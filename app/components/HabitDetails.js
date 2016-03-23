@@ -1,10 +1,8 @@
 var React = require('react-native');
 var View = React.View;
 var Text = React.Text;
-var TextInput = React.TextInput;
 var StyleSheet = React.StyleSheet;
 var Navigator = React.Navigator;
-var Alert = React.Alert;
 var TouchableOpacity = React.TouchableOpacity;
 var ListView = React.ListView;
 
@@ -15,15 +13,33 @@ var HabitDetails = React.createClass({
         return row1 !== row2
       }
     });
-    var data = Array.apply(null, {length: 20}).map(Number.call, Number);
+    // generates dummy data
+    var data = [];
+    for(var i = 0; i < 21; i++ ) {
+      data.push('not done');
+    }
     return {
       dataSource: ds.cloneWithRows(data)
     }
   },
+  
   componentDidMount: function () {
     //Uses this.props.habitId to fetch
     //habit details and set state 
   },
+  
+  renderRow: function (rowData, sectionID, rowID) {
+    return (
+      <TouchableOpacity onPress={function(rowData, sectionID, rowID){console.log('ROWDATA:', rowData, 'SECTIONID:', sectionID, 'ROWID', rowID)}} underlayColor="transparent">
+        <View style={styles.row}>
+          <Text style={styles.text}>
+            {rowData}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    )
+  },
+  
   render: function () {
       return (
         <View style={{ flex: 1 }}>
@@ -34,7 +50,7 @@ var HabitDetails = React.createClass({
               <Navigator.NavigationBar style={{backgroundColor: '#6399DC', alignItems: 'center'}}
                   routeMapper={NavigationBarRouteMapper} />
             } 
-            />
+          />
         </View>
       );
   },
@@ -43,13 +59,17 @@ var HabitDetails = React.createClass({
     var _this = this;
     // normal mode
     return (
-      <View style={styles.container}>
+      <View>
         <Text style={styles.heading} onPress={this.onPress}>{ this.props.habitName }</Text>
         <TouchableOpacity>
         </TouchableOpacity>
-        <ListView contentContainerStyle={styles.list}
+        <ListView 
+          contentContainerStyle={styles.list}
           dataSource={this.state.dataSource}
-          renderRow={function (rowData) { return (<Text style={styles.item}>{rowData}</Text>) }}
+          initialListSize={21}
+          pageSize={3} // should be the multiple of the no. of visible cells per row
+          scrollRenderAheadDistance={500}
+          renderRow={this.renderRow}
         />
         <Text>Current Streak: {}</Text>
         <Text>Longest Streak: {}</Text>
@@ -58,8 +78,6 @@ var HabitDetails = React.createClass({
       )
   }
 });
-
-
 
 var NavigationBarRouteMapper = {
   LeftButton(route, navigator, index, navState) {
@@ -93,41 +111,34 @@ var NavigationBarRouteMapper = {
 };
 
 var styles = StyleSheet.create({
-  container: {
-    flex: 0.90,
-    justifyContent: 'center',
-    backgroundColor: '#EDBE40'
-  },
   heading: {
     fontSize: 40
   },
   list: {
+    justifyContent: 'space-around',
     flexDirection: 'row',
     flexWrap: 'wrap'
   },
-  item: {
-    backgroundColor: 'red',
-    margin: 3,
-    width: 100
-  },
-  button: {
-    height: 30,
-    width: 80,
-    alignItems: 'center',
-    alignSelf: 'center',
-    borderColor: '#FFFFFF',
-    borderWidth: 0,
-    borderRadius: 5,
+  row: {
+    justifyContent: 'center',
     padding: 5,
-    margin: 20,
-    backgroundColor: '#6399DC',
-    shadowColor: '#000000',
-    shadowOpacity: 0.6,
-    shadowRadius: 3,
-    shadowOffset: {
-      height: 3.5,
-      width: 2
-    }
+    margin: 3,
+    width: 100,
+    height: 100,
+    backgroundColor: '#F6F6F6',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: '#CCC'
+  },
+  thumb: {
+    width: 64,
+    height: 64
+  },
+  text: {
+    flex: 1,
+    marginTop: 5,
+    fontWeight: 'bold'
   }
 });
 module.exports = HabitDetails;
