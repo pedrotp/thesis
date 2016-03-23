@@ -128,12 +128,14 @@ var addUser = function (email, success, fail) {
   // allows for a user to be created if they don't exist
   User.findOneAndUpdate({ 'email': email }, { 'email': email }, { 'upsert': true, 'new': true })
     .then(function (dbUser) {
-      var habits = new Habits;
-      dbUser.habitsId = habits.id;
+      if (dbUser.habitsId === undefined) {
+        var habits = new Habits;
+        dbUser.habitsId = habits.id;
 
-      // habits.save() is async but we aren't doing anything further
-      // with habits so we can move on without waiting for completion
-      habits.save();
+        // habits.save() is async but we aren't doing anything further
+        // with habits so we can move on without waiting for completion
+        habits.save();
+      }
       return dbUser.save();
     })
     .then(function (newUser) {
