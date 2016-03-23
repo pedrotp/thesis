@@ -78,8 +78,12 @@ var updateHabit = function (email, habitid, habitDetails, success, fail) {
     })
     .then(function (habits) {
       var habit = habits.store.id(habitid);
-      habit.action = habitDetails.action;
-      habit.frequency = habitDetails.frequency;
+      if (habitDetails.action) {
+        habit.action = habitDetails.action;
+      }
+      if (habitDetails.frequency) {
+        habit.frequency = habitDetails.frequency;
+      }
       habits.save();
       return habit;
     })
