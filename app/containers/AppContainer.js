@@ -130,7 +130,6 @@ var AppContainer = React.createClass({
           profile={this.state.profile}
           lock={lock}
           handleLogout={this.handleLogout}
-          _onLockShow={this._onLockShow}
         />
       );
     }
