@@ -101,27 +101,18 @@ var AddHabit = React.createClass({
     // Values stored to be sent to server
     var action = this.state.fields.action;
     var frequency = this.state.fields.frequency;
-    // var unit = this.state.fields.unit;
-    // var goal = this.state.fields.goal;
-    // var schedule = this.state.fields.schedule;
 
     // Clears fields upon submit
     this.setState({
       fields: {
         action: "",
-        frequency: ""
-        // unit: "",
-        // goal: "",
-        // schedule: ""
-      }
+        frequency: "",
+      },
     });
 
     this.sendHabit({
       action: action,
-      frequency: frequency
-      // unit: unit,
-      // goal: goal,
-      // schedule: schedule
+      frequency: frequency,
     });
   },
 

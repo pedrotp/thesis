@@ -53,40 +53,30 @@ var deleteHabit = function (email, habitId, success, fail) {
   });
 };
 
-// var updateHabit = function (habitid, habitDetails, success, fail) {
-//   if (habitDetails.currentGoal) {
-//     habitDetails.currentGoal = parseInt(habitDetails.currentGoal);
-//   }
-//   Habit.findByIdAndUpdate(habitid, habitDetails, {new: true})
-//     .then(function (habit) {
-//       success(habit);
-//     })
-//     .catch(function (err) {
-//       fail(err);
-//     });
-// };
 var updateHabit = function (email, habitid, habitDetails, success, fail) {
-  if (habitDetails.currentGoal) {
-    habitDetails.currentGoal = parseInt(habitDetails.currentGoal);
-  }
-  console.log("DETAILS:", habitDetails);
-  // TODO: try 'habits.$' if 'habits.$.' doesn't work
-  // updates object allows for partial updates
-  // var updates = {};
-  // for (var key in habitDetails) {
-  //   updates['habits.$.' + key] = habitDetails[key];
-  // }
-  Habit.findByIdAndUpdate(habitid, habitDetails, {new: true})
-  // User.findOneAndUpdate(
-  //   { 'email': email, 'habits._id': habitid }, {'action': 'TESTUPDATE'}, { new: true }
-  // )
-  .then(function (data) {
-    // console.log("AFTER UPDATE FIND_UPDATE:", data);
-    success(data);
-  })
-  .catch(function (err) {
-    fail(err);
-  });
+  User.findOne({ 'email': email } )
+    .then(function (user) {
+      return Habits.findById(user.habitsId);
+    })
+    .then(function (habits) {
+      var habit;
+      for (var i = 0; i < habits.store.length; i++) {
+        if (habits.store[i]._id.toString() === habitid) {
+          habit = habits.store[i];
+          break;
+        }
+      }
+      habit.action = habitDetails.action;
+      habit.frequency = habitDetails.frequency;
+      habits.save();
+      return habit;
+    })
+    .then(function (updatedHabit) {
+      success(updatedHabit);
+    })
+    .catch(function (err) {
+      fail(err);
+    });
 };
 
 var createInstance = function (email, habitid, success, fail) {
