@@ -3,7 +3,6 @@ var api = require('../lib/api');
 var Text = React.Text;
 var View = React.View;
 var Navigator = React.Navigator;
-var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
 var Auth0credentials = require('../../auth0_credentials');
 var Auth0Lock = require('react-native-lock-ios');
@@ -14,6 +13,8 @@ var Onboard = require('./OnboardContainer');
 var Welcome = require('../components/Welcome');
 var AddHabit = require('./CreateContainer');
 var Habits = require('./InboxContainer');
+var HabitSettings = require('../components/HabitSettings');
+var HabitDetails = require('../components/HabitDetails');
 
 
 // Instantiate a new Lock
@@ -127,37 +128,32 @@ var AppContainer = React.createClass({
         />
       );
     }
+    if(routeId === 'HabitSettings') {
+      // last prop on HabitSettings should be habitId to be used in
+      // HabitSettings to retrieve habit details from database (this.route.habitId)
+      return (
+        <HabitSettings
+          navigator={navigator}
+          token={this.state.token}
+          profile={this.state.profile}
+          habitName={'Habit Name goes here'}
+        />
+      );
+    }
+    if(routeId === 'HabitDetails') {
+      // last prop on HabitSettings should be habitId to be used in
+      // HabitDetails to retrieve habit details from database (this.route.habitId)
+      return (
+        <HabitDetails
+          navigator={navigator}
+          token={this.state.token}
+          profile={this.state.profile}
+          habitName={'Habit Name goes here'}
+        />
+      );
+    }
   }
 });
 
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF'
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5
-  },
-  button: {
-    height: 30,
-    width: 80,
-    alignItems: 'center',
-    alignSelf: 'center',
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 5,
-    margin: 20
-  }
-});
 
 module.exports = AppContainer;

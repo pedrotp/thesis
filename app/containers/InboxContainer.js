@@ -126,6 +126,7 @@ var Habits = React.createClass({
       </View>
     );
   },
+  // handleLogout triggers re-render of AppContainer by calling setState
   renderScene: function (route, navigator) {
     return (
       <View style={styles.container}>
