@@ -3,9 +3,12 @@ var Instances = require('../db/models').Instances;
 var User = require('../db/models').User;
 
 var getHabits = function (email, success, fail) {
-  User.findOne({ email: email })
+  User.findOne({ 'email': email })
     .then(function (user) {
-      success(user.habits);
+      return Habits.findById(user.habitsId);
+    })
+    .then(function (habits) {
+      success(habits.store);
     })
     .catch(function (err) {
       fail(err);
@@ -41,16 +44,27 @@ var addHabit = function (email, habitDetails, success, fail) {
 };
 
 var deleteHabit = function (email, habitId, success, fail) {
-  User.findOneAndUpdate(
-  // TODO: test if $pull triggers post 'remove' middleware
-    { email: email }, { $pull: { 'habits': { _id: habitId } }}
-  )
-  .then(function (data) {
-    success(data);
-  })
-  .catch(function (err) {
-    fail(err);
-  });
+  User.findOne({ 'email': email })
+    .then(function (user) {
+      return Habits.findById(user.habitsId);
+    })
+    .then(function (habits) {
+      var habit = habits.store.id(habitId);
+      Instances.findByIdAndRemove(habit.instancesId, null, function (err, success) {
+        if (err) {
+          console.error(err);
+        }
+      });
+      habits.store.pull({ '_id': habitId });
+      habits.save();
+      return habit;
+    })
+    .then(function (deletedHabit) {
+      success(deletedHabit);
+    })
+    .catch(function (err) {
+      fail(err);
+    });
 };
 
 var updateHabit = function (email, habitid, habitDetails, success, fail) {
@@ -59,13 +73,7 @@ var updateHabit = function (email, habitid, habitDetails, success, fail) {
       return Habits.findById(user.habitsId);
     })
     .then(function (habits) {
-      var habit;
-      for (var i = 0; i < habits.store.length; i++) {
-        if (habits.store[i]._id.toString() === habitid) {
-          habit = habits.store[i];
-          break;
-        }
-      }
+      var habit = habits.store.id(habitid);
       habit.action = habitDetails.action;
       habit.frequency = habitDetails.frequency;
       habits.save();
@@ -85,14 +93,8 @@ var createInstance = function (email, habitid, success, fail) {
       return Habits.findById(user.habitsId);
     })
     .then(function (habits) {
-      var habitIndex;
-      for (var i = 0; i < habits.store.length; i++) {
-        if (habits.store[i]._id.toString() === habitid) {
-          habitIndex = i;
-          break;
-        }
-      }
-      Instances.findById(habits.store[habitIndex].instancesId)
+      var habit = habits.store.id(habitid)
+      Instances.findById(habit.instancesId)
         .then(function (instances) {
           var instance = instances.store.create({});
           instances.store.push(instance);
@@ -100,8 +102,8 @@ var createInstance = function (email, habitid, success, fail) {
         })
         .then(function (instances) {
           var created = instances.store[instances.store.length - 1].createdAt;
-          habits.store[habitIndex].instanceCount = instances.store.length;
-          habits.store[habitIndex].lastDone = created;
+          habit.instanceCount = instances.store.length;
+          habit.lastDone = created;
           habits.save();
           return instances.store[instances.store.length - 1];
         })

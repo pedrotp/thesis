@@ -21,12 +21,9 @@ var habitSchema = mongoose.Schema({
   timestamps: true
 });
 
-// var Habit = mongoose.model('Habit', habitSchema);
-
 var habitsSchema = mongoose.Schema({
   store: [habitSchema]
 });
-
 var Habits = mongoose.model('Habits', habitsSchema);
 
 // Users
@@ -40,39 +37,8 @@ var userSchema = mongoose.Schema({
 });
 var User = mongoose.model('User', userSchema);
 
-// Middleware
-habitSchema.post('remove', function (doc) {
-  var instanceId = doc.instancesId;
-  Instances.findByIdAndRemove(instanceId)
-    .then(function (success) {
-      // console.log('Post habit instance deletion success:', success);
-    })
-    .catch(function (err) {
-      console.error(err);
-    });
-});
-
-// instancesSchema.post('save', function (doc) {
-//   console.log("instancesSchema post:", doc);
-//   if (doc.store.length) {
-//     Habit.findOneAndUpdate({ instancesId: doc._id }, { instanceCount: doc.store.length, lastDone: doc.store[doc.store.length - 1].createdAt })
-//       .then(function (success) {})
-//       .catch(function (err) {
-//         console.error(err);
-//       });
-//   } else {
-//     Habit.findOneAndUpdate({ instancesId: doc._id }, { instanceCount: 0 })
-//       .then(function (success) {})
-//       .catch(function (err) {
-//         console.error(err);
-//       });
-//   }
-// });
-
-
 module.exports = {
   Habits: Habits,
-  // Habit: Habit,
   Instances: Instances,
   User: User
 };

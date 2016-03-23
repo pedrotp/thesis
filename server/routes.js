@@ -18,8 +18,6 @@ var routes = [
   {
     path: '/user',
     get: function (req, res) {
-
-      // TODO: refactored helper function needs to be uncommented
       helpers.getHabits(
         function (success) {
           res.status(200).send(success);
