@@ -163,7 +163,7 @@ describe('Database', function () {
 
     });
 
-    xdescribe('deleteHabit', function () {
+    describe('deleteHabit', function () {
 
       it('should be a function', function (done) {
         expect(helpers.deleteHabit).to.be.a('function');
@@ -200,9 +200,7 @@ describe('Database', function () {
             console.log('DbSpec deleteHabit success:', success);
           },
           function (fail) {
-            expect(fail.name).to.equal('CastError');
-            expect(fail.kind).to.equal('ObjectId');
-            expect(fail.path).to.equal('_id');
+            expect(fail).to.exist;
             done();
           });
       });
