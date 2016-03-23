@@ -117,29 +117,11 @@ var createInstance = function (email, habitid, success, fail) {
     });
 };
 
-var isDone = function (habitid, success, fail) {
-  Habit.findById(habitid)
-    .then(function (habit) {
-      Instances.findById(habit.instancesId)
-        .then(function (instances) {
-          var last = instances.store[instances.store.length - 1].createdAt;
-          var now = new Date();
-          var freq = habit.frequency;
-          success(moment(last).isSame(now, freq));
-        });
-    })
-    .catch(function (err) {
-      fail(err);
-    });
-};
-
 var addUser = function (email, success, fail) {
   // findOneAndUpdate along with upsert set to true
   // allows for a user to be created if they don't exist
-  console.log('addUser EMAIL:', email);
   User.findOneAndUpdate({ 'email': email }, { 'email': email }, { 'upsert': true, 'new': true })
     .then(function (dbUser) {
-      console.log("FOUND/CREATED:", dbUser);
       var habits = new Habits;
       dbUser.habitsId = habits.id;
 
@@ -149,7 +131,6 @@ var addUser = function (email, success, fail) {
       return dbUser.save();
     })
     .then(function (newUser) {
-      console.log("NEW USER:", newUser);
       success(newUser);
     })
     .catch(function (err) {
