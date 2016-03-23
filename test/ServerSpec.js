@@ -174,7 +174,7 @@ describe('Basic Server', function () {
           instance1Id = res.body.instancesId;
           Instances.findById(instance1Id)
             .then(function (success) {
-              // expect(instance1Id).to.equal(success._id.toString());
+              expect(instance1Id).to.equal(success._id.toString());
             })
             .catch(function (err) {
               console.error('Instance fail:', err);

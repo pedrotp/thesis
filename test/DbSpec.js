@@ -17,7 +17,7 @@ var app = require('../server/server');
 // DB Models
 var mongoose = require('mongoose');
 var User = require('../db/models').User;
-var Habit = require('../db/models').Habit;
+var Habits = require('../db/models').Habits;
 var Instances = require('../db/models').Instances;
 
 // Helper functions which query db
@@ -54,7 +54,7 @@ describe('Database', function () {
         .send(user)
         .expect(200)
         .expect(function (res) {
-
+          expect(res.body.email).to.equal('yolo@yolo.com');
         })
         .end(function () {
           request(app)
@@ -80,7 +80,7 @@ describe('Database', function () {
 
     afterEach(function (done) {
       var dropUser = User.remove({});
-      var dropHabits = Habit.remove({});
+      var dropHabits = Habits.remove({});
       var dropInstances = Instances.remove({});
 
       // Promise.join coordinates a fixed number of promises concurrently
@@ -96,8 +96,8 @@ describe('Database', function () {
         });
     });
 
-    // Close DB connection after tests complete
     after(function (done) {
+      // Close DB connection after tests complete
       mongoose.connection.close();
       done();
     });
@@ -137,12 +137,9 @@ describe('Database', function () {
         };
         helpers.addHabit(user.email, habit3,
           function (success) {
-            expect(success.habits[2].action).to.equal(habit3.action);
-            expect(success.habits[2].frequency).to.equal(habit3.frequency);
-
-            // TODO: uncomment when instances are
-            // created in habitSchema middleware (models.js)
-            // expect(success.habits[2].instancesId).to.exist;
+            expect(success.action).to.equal(habit3.action);
+            expect(success.frequency).to.equal(habit3.frequency);
+            expect(success.instancesId).to.exist;
             done();
           },
           function (fail) {
@@ -159,14 +156,14 @@ describe('Database', function () {
             console.log('DbSpec addHabit success:', success);
           },
           function (fail) {
-            expect(fail.message).to.equal('Habit validation failed');
+            expect(fail).to.equal('Required field(s) missing');
             done();
           });
       });
 
     });
 
-    describe('deleteHabit', function () {
+    xdescribe('deleteHabit', function () {
 
       it('should be a function', function (done) {
         expect(helpers.deleteHabit).to.be.a('function');
@@ -286,7 +283,7 @@ describe('Database', function () {
         });
       });
 
-      xit('should update the instanceCount property for the habit', function (done) {
+      it('should update the instanceCount property for the habit', function (done) {
         helpers.createInstance(habit1Id,
           function (instance) {
             Habit.findById(habit1Id)
@@ -303,7 +300,7 @@ describe('Database', function () {
           });
       });
 
-      xit('should update the lastDone property for the habit', function (done) {
+      it('should update the lastDone property for the habit', function (done) {
         Habit.findById(habit1Id)
           .then(function (habit) {
             expect(habit.lastDone).to.exist;
