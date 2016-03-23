@@ -131,10 +131,6 @@ var styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: '#CCC'
   },
-  thumb: {
-    width: 64,
-    height: 64
-  },
   text: {
     flex: 1,
     marginTop: 5,
