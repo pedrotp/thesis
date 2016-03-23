@@ -2,6 +2,7 @@ var React = require('react-native');
 var Text = React.Text;
 var View = React.View;
 var StyleSheet = React.StyleSheet;
+var Image = React.Image;
 // App components
 var Swipeout = require('react-native-swipeout');
 var moment = require('moment');
@@ -27,13 +28,20 @@ function Inbox (props) {
     }
   ];
 
+  var done = props.habit.lastDone && moment(props.habit.lastDone).isSame(Date.now(), props.habit.frequency);
+
   return (
     <View style={styles.inboxitem}>
-      <Swipeout autoClose={true} right={swipeButtons} backgroundColor={'#EDBE40'}>
+      <Swipeout autoClose={true} right={swipeButtons} backgroundColor={'#fcfcfc'}>
         <View style={styles.swipe}>
-          <Text style={styles.habit}>{props.habit.action} {props.habit.frequency}</Text>
-          <Text style={styles.count}>You've done this {props.habit.instanceCount} time(s).</Text>
-          <Text>{ props.habit.lastDone && moment(props.habit.lastDone).isSame(Date.now(), props.habit.frequency) ? 'Done' : 'Not done' }</Text>
+          <View>
+            <Text style={styles.habit}>{props.habit.action} every {props.habit.frequency}</Text>
+            <Text style={styles.count}>You've done this {props.habit.instanceCount} time(s).</Text>
+          </View>
+          <Image 
+              source={ done ? {uri: 'http://localhost:3000/assets/done_green.png'} : {uri: 'http://localhost:3000/assets/done_gray.png'} }
+              style={ styles.img }
+          />
         </View>
       </Swipeout>
     </View>
@@ -54,10 +62,18 @@ var styles = StyleSheet.create({
     borderColor: '#090f16'
   },
   swipe: {
-    paddingLeft: 5,
+    paddingLeft: 15,
     paddingRight: 5,
     paddingTop: 15,
-    paddingBottom: 15
+    paddingBottom: 15,
+    flexDirection: 'row'
+  },
+  img: {
+    width: 26,
+    height: 26,
+    position: 'absolute',
+    right: 20,
+    top: 16
   }
 });
 

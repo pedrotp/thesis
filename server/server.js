@@ -16,6 +16,7 @@ if (!testing) {
   app.use(morgan('dev'));
 }
 app.use(bodyParser());
+app.use(express.static(__dirname + '/../pub'));
 
 var port = process.env.PORT || 3000;
 
