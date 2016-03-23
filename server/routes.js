@@ -17,18 +17,6 @@ var authReqRoutes = [
 var routes = [
   {
     path: '/user',
-    get: function (req, res) {
-      helpers.getHabits(
-        function (success) {
-          res.status(200).send(success);
-        },
-        function (err) {
-          if (!testing) {
-            console.error('Server error:', err);
-          }
-          res.sendStatus(400);
-        });
-    },
     post: function (req, res) {
       var userEmail = req.body.email;
       helpers.addUser(userEmail,
