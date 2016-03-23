@@ -18,8 +18,6 @@ var routes = [
   {
     path: '/user',
     get: function (req, res) {
-
-      // TODO: refactored helper function needs to be uncommented
       helpers.getHabits(
         function (success) {
           res.status(200).send(success);
@@ -79,8 +77,9 @@ var routes = [
   {
     path: '/habits/:user/:habitid',
     post: function (req, res) {
+      var userEmail = req.params.user;
       var habitid = req.params.habitid;
-      helpers.createInstance(habitid,
+      helpers.createInstance(userEmail, habitid,
         function (data) {
           res.status(201).json(data);
         },
@@ -92,9 +91,10 @@ var routes = [
         });
     },
     put: function (req, res) {
+      var userEmail = req.params.user;
       var habitid = req.params.habitid;
       var habitDetails = req.body;
-      helpers.updateHabit(habitid, habitDetails,
+      helpers.updateHabit(userEmail, habitid, habitDetails,
         function (data) {
           res.status(200).json(data);
         },
