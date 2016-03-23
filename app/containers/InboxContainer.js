@@ -76,7 +76,7 @@ var Habits = React.createClass({
     var _this = this;
     // TODO: refactor server call to api library
     // Ask server to create a new instance of this habit
-    fetch(process.env.SERVER + '/habits/' + habitId, {
+    fetch(process.env.SERVER + '/habits/' + this.props.profile.email + '/' + habitId, {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + this.props.token.idToken
