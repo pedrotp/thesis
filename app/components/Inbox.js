@@ -35,13 +35,14 @@ function Inbox (props) {
       <Swipeout autoClose={true} right={swipeButtons} backgroundColor={'#EDBE40'}>
         <View style={styles.swipe}>
           <View>
-            <Text style={styles.habit}>{props.habit.action} {props.habit.frequency + 'ly'}</Text>
+            <Text style={styles.habit}>{props.habit.action} every {props.habit.frequency}</Text>
             <Text style={styles.count}>You've done this {props.habit.instanceCount} time(s).</Text>
-            <Text style={ done ? styles.done : styles.notdone }>{ done ? 'DONE TODAY' : 'NOT DONE TODAY' }</Text>
+            <Text style={ done ? styles.done : styles.notdone }>
+            { done ? 'DONE TODAY' : 'NOT DONE TODAY' }</Text>
           </View>
           <Image 
-              source={ done ? {uri: 'http://localhost:3000/assets/done1.png'} : {uri: 'http://localhost:3000/assets/not_done2.png'} }
-              style={styles.img}
+              source={ done ? {uri: 'http://localhost:3000/assets/done2.png'} : {uri: 'http://localhost:3000/assets/not_done2.png'} }
+              style={ done ? styles.doneimg : styles.notdoneimg }
             />
         </View>
       </Swipeout>
@@ -72,19 +73,26 @@ var styles = StyleSheet.create({
   done: {
     fontSize: 8,
     fontWeight: 'bold',
-    color: '#1CC92D'
+    color: '#419648'
   },
   notdone: {
     fontSize: 8,
     fontWeight: 'bold',
     color: '#D93F3F'
   },
-  img: {
-    width: 25,
-    height: 25,
+  doneimg: {
+    width: 26,
+    height: 26,
     position: 'absolute',
     right: 15,
     top: 21
+  },
+  notdoneimg: {
+    width: 23,
+    height: 23,
+    position: 'absolute',
+    right: 16,
+    top: 22
   }
 });
 

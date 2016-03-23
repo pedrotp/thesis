@@ -6,6 +6,12 @@ var TextInput = React.TextInput;
 var PropTypes = React.PropTypes;
 var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
+var freq = {
+  'Hourly': 'hour', 
+  'Daily': 'day', 
+  'Weekly': 'week', 
+  'Monthly': 'month'
+};
 
 function Create (props) {
   return (
@@ -21,8 +27,7 @@ function Create (props) {
         selectedTint={'#FFFFFF'}
         options={['Hourly', 'Daily', 'Weekly', 'Monthly']}
         onSelection={function (val) { 
-          val = val.substring(0, val.length - 2).toLowerCase();
-          props.fields.frequency = val; 
+          props.fields.frequency = freq[val]; 
         }}
         selectedOption={props.fields.frequency}
       />
