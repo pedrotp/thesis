@@ -14,6 +14,7 @@ var Welcome = require('../components/Welcome');
 var AddHabit = require('./CreateContainer');
 var Habits = require('./InboxContainer');
 var HabitSettings = require('../components/HabitSettings');
+var HabitDetails = require('../components/HabitDetails');
 
 
 // Instantiate a new Lock
@@ -76,7 +77,7 @@ var AppContainer = React.createClass({
       return (
         <View style={{ flex: 1 }}>
           <Navigator
-            initialRoute = {{id: 'Loading'}}
+            initialRoute = {{id: 'HabitDetails'}}
             renderScene = {this.renderScene}
           />
         </View>
@@ -129,13 +130,25 @@ var AppContainer = React.createClass({
     }
     if(routeId === 'HabitSettings') {
       // last prop on HabitSettings should be habitid to be used in
-      // HabitSettings to retrieve habit details from database
+      // HabitSettings to retrieve habit details from database (this.route.habitid)
       return (
         <HabitSettings
           navigator={navigator}
           token={this.state.token}
           profile={this.state.profile}
-          habitName={'Object with Habit details'}
+          habitName={'Habit Name goes here'}
+        />
+      );
+    }
+    if(routeId === 'HabitDetails') {
+      // last prop on HabitSettings should be habitid to be used in
+      // HabitDetails to retrieve habit details from database
+      return (
+        <HabitDetails
+          navigator={navigator}
+          token={this.state.token}
+          profile={this.state.profile}
+          habitName={'Habit Name goes here'}
         />
       );
     }
