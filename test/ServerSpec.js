@@ -40,7 +40,7 @@ describe('Basic Server', function () {
   // to habit1 and used in deleteHabit
   var instance1Id;
 
-  before(function (done) {
+  beforeEach(function (done) {
     request(app)
       .post('/user')
       .send(user)
@@ -70,7 +70,7 @@ describe('Basic Server', function () {
       });
   });
 
-  after(function (done) {
+  afterEach(function (done) {
     var dropUser = User.remove({});
     var dropHabits = Habits.remove({});
     var dropInstances = Instances.remove({});
@@ -81,14 +81,17 @@ describe('Basic Server', function () {
         // console.log('dropUser success:', success[0].result);
         // console.log('dropHabits success:', success[1].result);
         // console.log('dropInstances success:', success[2].result);
-
-        // Close DB connection after tests complete
-        mongoose.connection.close();
         done();
       })
       .catch(function (err) {
         console.error('DbSpec afterEach error:', err);
       });
+  });
+
+  after(function (done) {
+    // Close DB connection after tests complete
+    mongoose.connection.close();
+    done();
   });
 
   describe('GET /habits/:user', function () {
@@ -219,26 +222,26 @@ describe('Basic Server', function () {
 
   });
 
-  xdescribe('DELETE /habits/:user/:habitid', function () {
+  describe('DELETE /habits/:user/:habitid', function () {
 
-    it('should return 202 on success', function (done) {
+    it('should return 200 on success', function (done) {
       request(app)
-        .delete('/habits/' + habit1Id)
-        .expect(202)
+        .delete('/habits/' + user.email + '/' + habit1Id)
+        .expect(200)
         .end(done);
     });
 
     it('should return 500 on error (incorrect ID)', function (done) {
       request(app)
-        .delete('/habits/12345')
+        .delete('/habits/' + user.email + '/12345')
         .expect(500)
         .end(done);
     });
 
     it('should return deleted habit', function (done) {
       request(app)
-        .delete('/habits/' + habit1Id)
-        .expect(202)
+        .delete('/habits/' + user.email + '/' + habit1Id)
+        .expect(200)
         .expect(function (res) {
           expect(habit1Id).to.equal(res.body._id);
         })
@@ -247,11 +250,11 @@ describe('Basic Server', function () {
 
     it('should delete habit from database', function (done) {
       request(app)
-        .delete('/habits/' + habit1Id)
-        .expect(202)
+        .delete('/habits/' + user.email + '/' + habit1Id)
+        .expect(200)
         .end(function () {
           request(app)
-            .get('/habits')
+            .get('/habits/' + user.email)
             .expect(200)
             .expect(function (res) {
               expect(res.body.length).to.equal(1);

@@ -35,7 +35,6 @@ var addHabit = function (email, habitDetails, success, fail) {
       // instances.save() is async but we aren't doing anything further
       // with instances so we can move on without waiting for completion
       instances.save();
-      habit.save();
       habits.store.push(habit);
       habits.save();
       return habit;
