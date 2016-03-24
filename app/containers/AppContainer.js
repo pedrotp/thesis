@@ -141,7 +141,6 @@ var AppContainer = React.createClass({
           navigator={navigator}
           token={this.state.token}
           profile={this.state.profile}
-          habitName={'Exercise'}
           habit={route.habit}
           deleteHabit={route.deleteHabit}
         />
@@ -155,7 +154,7 @@ var AppContainer = React.createClass({
           navigator={navigator}
           token={this.state.token}
           profile={this.state.profile}
-          habitName={'Exercise'}
+          habit={route.habit}
         />
       );
     }

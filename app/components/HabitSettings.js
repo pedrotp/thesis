@@ -21,7 +21,6 @@ var HabitSettings = React.createClass({
   getInitialState: function () {
     return {
       date: new Date(),
-      text: this.props.habitName,
       reminder: false,
       editMode: false
     };
@@ -101,7 +100,7 @@ var HabitSettings = React.createClass({
       return (
         <View style={styles.container}>
           <Text style={styles.heading}>
-            {this.props.habitName}
+            {this.props.habit.action}
           </Text>
           <View style={{ flexDirection: 'row', marginTop: 60 }}>
             <Text style={{fontSize: 22}}>Reminder</Text>
@@ -128,7 +127,7 @@ var HabitSettings = React.createClass({
       return (
         <View style={styles.container}>
           <Text style={styles.heading}>
-            {this.props.habitName}
+            {this.props.habit.action}
           </Text>
           <View style={{ flexDirection: 'row', marginTop: 60, marginBottom: 216 }}>
             <Text style={{fontSize: 22}}>Reminder</Text>

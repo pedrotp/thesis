@@ -36,7 +36,7 @@ function Inbox (props) {
     <View style={styles.inboxrow}>
       <Swipeout autoClose={true} right={swipeButtons} backgroundColor={'#fcfcfc'}>
         <View style={styles.swipe}>
-          <TouchableOpacity onPress={props.gotoDetails}>
+          <TouchableOpacity onPress={function () {props.gotoDetails(props.habit)}}>
             <View>
               <Text style={styles.habit}>{props.habit.action}</Text>
               <Text style={styles.count}>Completed {props.habit.instanceCount} time(s) this week!</Text>

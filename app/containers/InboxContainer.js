@@ -111,10 +111,11 @@ var Habits = React.createClass({
       console.warn(err);
     });
   },
-  gotoDetails: function () {
+  gotoDetails: function (habit) {
     // TODO: navigate to correct details per habit rather than mock data
     this.props.navigator.push({
       id: 'HabitDetails',
+      habit: habit
     });
   },
   componentDidMount: function () {
