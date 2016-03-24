@@ -16,13 +16,13 @@ var AddHabit = React.createClass({
     var editHabit = this.props.habit;
     var fields = {
       action: null,
-      frequency: null
+      // frequency: null
     };
 
     // If so, fields will be populated with the habit details
     if (editHabit) {
       fields.action = editHabit.action;
-      fields.frequency = editHabit.frequency;
+      // fields.frequency = editHabit.frequency;
     }
     return {
       fields: fields
@@ -42,14 +42,16 @@ var AddHabit = React.createClass({
     return result;
   },
   sendHabit: function (reqbody) {
-
+    console.log('sendHabit is called');
+    console.log('this.state', this.state);
+    console.log('reqbody', reqbody);
     // Store reference to 'this' to be used in the
     // success alert to bring user to inbox view
     var _this = this;
 
     // Determines which HTTP request to send
     var options = this.determineMethod();
-
+    console.log('options', options);
     // Determines which alert message
     // to log in success alert
     var alertmsg = options.method === 'PUT' ?
@@ -97,22 +99,22 @@ var AddHabit = React.createClass({
   },
 
   handleClick: function () {
-
+    console.log('started handleclick')
     // Values stored to be sent to server
     var action = this.state.fields.action;
-    var frequency = this.state.fields.frequency;
+    // var frequency = this.state.fields.frequency;
 
     // Clears fields upon submit
     this.setState({
       fields: {
         action: "",
-        frequency: "",
+        // frequency: "",
       },
     });
 
     this.sendHabit({
       action: action,
-      frequency: frequency,
+      // frequency: frequency,
     });
   },
 
