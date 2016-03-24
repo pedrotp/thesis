@@ -133,6 +133,8 @@ var HabitDetails = React.createClass({
     return (
       <View style={styles.container}>
         <Text style={styles.heading} onPress={this.onPress}>{ this.props.habitName }</Text>
+        <TouchableOpacity>
+        </TouchableOpacity>
         <ListView
           contentContainerStyle={styles.list}
           dataSource={this.state.dataSource}
@@ -154,14 +156,14 @@ var HabitDetails = React.createClass({
 
 var NavigationBarRouteMapper = {
   LeftButton(route, navigator, index, navState) {
-      return (
-        <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-            onPress={function () {navigator.parentNavigator.pop()}}>
-          <Text style={{color: 'white', margin: 10}}>
-            Back
-          </Text>
-        </TouchableOpacity>
-        )
+    return (
+      <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
+          onPress={function () {navigator.parentNavigator.pop()}}>
+        <Text style={{color: 'white', margin: 10}}>
+          Back
+        </Text>
+      </TouchableOpacity>
+    );
   },
 
   RightButton(route, navigator, index, navState) {
