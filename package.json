@@ -33,7 +33,8 @@
     "react-native-lock-ios": "0.0.5",
     "react-native-radio-buttons": "^0.9.1",
     "react-native-swipeout": "^2.0.12",
-    "react-native-swiper": "^1.4.3"
+    "react-native-swiper": "^1.4.3",
+    "react-native-vector-icons": "^1.3.2"
   },
   "devDependencies": {
     "chai": "^3.5.0",
