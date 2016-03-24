@@ -37,8 +37,10 @@ function Inbox (props) {
       <Swipeout autoClose={true} right={swipeButtons} backgroundColor={'#fcfcfc'}>
         <View style={styles.swipe}>
           <View>
-            <Text style={styles.habit}>{props.habit.action}</Text>
-            <Text style={styles.count}>You've done this {props.habit.instanceCount} time(s).</Text>
+            <TouchableOpacity onPress={props.gotoDetails}>
+              <Text style={styles.habit}>{props.habit.action}</Text>
+            </TouchableOpacity>
+            <Text style={styles.count}>Completed {props.habit.instanceCount} time(s) this week!</Text>
           </View>
           <TouchableOpacity  style={styles.touch} onPress={function () {props.doHabit(props.habit._id)}}>
             <Image
@@ -49,7 +51,7 @@ function Inbox (props) {
         </View>
       </Swipeout>
     </View>
-  )
+  );
 };
 
 var styles = StyleSheet.create({

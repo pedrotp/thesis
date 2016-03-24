@@ -95,6 +95,12 @@ var Habits = React.createClass({
     // TODO: should instead toggle 'doneness' for today
     this.createInstance(habitId);
   },
+  gotoDetails: function () {
+    // TODO: navigate to correct details per habit rather than mock data
+    this.props.navigator.push({
+      id: 'HabitDetails'
+    });
+  },
   componentDidMount: function () {
     this.getHabits();
   },
@@ -102,8 +108,8 @@ var Habits = React.createClass({
     this.props.navigator.push({id:'AddHabit'});
   },
   // Render each row of the inbox as an Inbox component
-  renderInbox: function (habit) {
-    return <Inbox habit={habit} deleteHabit={this.deleteHabit} editHabit={this.editHabit} createInstance={this.createInstance} doHabit={this.doHabit}/>
+  renderInboxRow: function (habit) {
+    return <Inbox habit={habit} deleteHabit={this.deleteHabit} gotoDetails={this.gotoDetails} editHabit={this.editHabit} createInstance={this.createInstance} doHabit={this.doHabit}/>
   },
   render: function () {
     return (
@@ -124,7 +130,7 @@ var Habits = React.createClass({
       <View style={styles.container}>
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={this.renderInbox}
+          renderRow={this.renderInboxRow}
         />
         <TouchableOpacity style={styles.circleButton} onPress={this.handlePress}>
             <Text style={styles.buttonText}>New</Text>
