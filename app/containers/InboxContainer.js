@@ -68,7 +68,7 @@ var Habits = React.createClass({
   },
   editHabit: function (habit) {
     this.props.navigator.push({
-      id: 'AddHabit',
+      id: 'HabitSettings',
       habit: habit
     });
   },
@@ -131,6 +131,7 @@ var Habits = React.createClass({
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderInboxRow}
+          scrollEnabled={false}
         />
         <TouchableOpacity style={styles.circleButton} onPress={this.handlePress}>
             <Text style={styles.buttonText}>New</Text>

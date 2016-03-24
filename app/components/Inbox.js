@@ -56,10 +56,10 @@ function Inbox (props) {
 
 var styles = StyleSheet.create({
   count: {
-    fontSize: 10
+    fontSize: 12
   },
   habit: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 'bold'
   },
   habitinfo: {
