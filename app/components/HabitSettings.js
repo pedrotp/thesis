@@ -196,7 +196,6 @@ var styles = StyleSheet.create({
     top: 100,
   },
   heading: {
-    fontFamily: 'sans-serif',
     fontSize: 34,
     alignSelf: 'center',
   },
