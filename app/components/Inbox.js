@@ -36,12 +36,12 @@ function Inbox (props) {
     <View style={styles.inboxrow}>
       <Swipeout autoClose={true} right={swipeButtons} backgroundColor={'#fcfcfc'}>
         <View style={styles.swipe}>
-          <View>
-            <TouchableOpacity onPress={props.gotoDetails}>
+          <TouchableOpacity onPress={props.gotoDetails}>
+            <View>
               <Text style={styles.habit}>{props.habit.action}</Text>
-            </TouchableOpacity>
-            <Text style={styles.count}>Completed {props.habit.instanceCount} time(s) this week!</Text>
-          </View>
+              <Text style={styles.count}>Completed {props.habit.instanceCount} time(s) this week!</Text>
+            </View>
+          </TouchableOpacity>
           <TouchableOpacity  style={styles.touch} onPress={function () {props.doHabit(props.habit._id)}}>
             <Image
               source={ done ? {uri: 'http://localhost:3000/assets/done_green.png'} : {uri: 'http://localhost:3000/assets/done_gray.png'} }
