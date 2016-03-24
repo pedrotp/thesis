@@ -133,7 +133,7 @@ var AppContainer = React.createClass({
         />
       );
     }
-    if(routeId === 'HabitSettings') {
+    if (routeId === 'HabitSettings') {
       // last prop on HabitSettings should be habitId to be used in
       // HabitSettings to retrieve habit details from database (this.route.habitId)
       return (
@@ -145,7 +145,7 @@ var AppContainer = React.createClass({
         />
       );
     }
-    if(routeId === 'HabitDetails') {
+    if (routeId === 'HabitDetails') {
       // last prop on HabitSettings should be habitId to be used in
       // HabitDetails to retrieve habit details from database (this.route.habitId)
       return (

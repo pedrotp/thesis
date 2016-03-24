@@ -110,11 +110,11 @@ var HabitSettings = React.createClass({
               value={this.state.reminder}
               />
           </View>
-          <DatePickerIOS
-            date={this.state.date}
-            mode="time"
-            minuteInterval={5}
-            onDateChange={this.onDateChange}
+            <DatePickerIOS
+              date={this.state.date}
+              mode="time"
+              minuteInterval={5}
+              onDateChange={this.onDateChange}
             />
           <TouchableOpacity style={styles.button}>
             <Text style={{color: '#FFFFFF'}}>
@@ -139,7 +139,7 @@ var HabitSettings = React.createClass({
           </View>
           <TouchableOpacity style={styles.button}>
             <Text style={{color: '#FFFFFF'}}>
-              Delete
+              Delete Habit
             </Text>
           </TouchableOpacity>
         </View>
@@ -201,7 +201,6 @@ var styles = StyleSheet.create({
   },
   button: {
     height: 30,
-    width: 80,
     alignItems: 'center',
     alignSelf: 'center',
     borderColor: '#FFFFFF',
@@ -210,7 +209,7 @@ var styles = StyleSheet.create({
     padding: 5,
     margin: 20,
     marginTop: 40,
-    backgroundColor: '#6399DC',
+    backgroundColor: '#FF0000',
     shadowColor: '#000000',
     shadowOpacity: 0.6,
     shadowRadius: 3,
@@ -218,6 +217,6 @@ var styles = StyleSheet.create({
       height: 3.5,
       width: 2
     }
-  }
+  },
 });
 module.exports = HabitSettings;

@@ -68,7 +68,7 @@ var Habits = React.createClass({
   },
   editHabit: function (habit) {
     this.props.navigator.push({
-      id: 'AddHabit',
+      id: 'HabitSettings',
       habit: habit
     });
   },
@@ -91,18 +91,16 @@ var Habits = React.createClass({
       console.warn(err);
     });
   },
-  // checkIfDone: function (habitId) {
-  //   var _this = this;
-  //   // TODO: refactor server call to api library
-  //   // Ask server whether this habit has been done in the goal frequency
-  //   fetch('http://better-habits.herokuapp.com/done/' + habitId, {
-  //     method: 'GET',
-  //   })
-  //   .then(function (response) {
-  //     return response.json();
-  //   })
-  // },
-  // Get habits from server on load
+  doHabit: function (habitId) {
+    // TODO: should instead toggle 'doneness' for today
+    this.createInstance(habitId);
+  },
+  gotoDetails: function () {
+    // TODO: navigate to correct details per habit rather than mock data
+    this.props.navigator.push({
+      id: 'HabitDetails'
+    });
+  },
   componentDidMount: function () {
     this.getHabits();
   },
@@ -110,8 +108,8 @@ var Habits = React.createClass({
     this.props.navigator.push({id:'AddHabit'});
   },
   // Render each row of the inbox as an Inbox component
-  renderInbox: function (habit) {
-    return <Inbox habit={habit} deleteHabit={this.deleteHabit} editHabit={this.editHabit} createInstance={this.createInstance} />
+  renderInboxRow: function (habit) {
+    return <Inbox habit={habit} deleteHabit={this.deleteHabit} gotoDetails={this.gotoDetails} editHabit={this.editHabit} createInstance={this.createInstance} doHabit={this.doHabit}/>
   },
   render: function () {
     return (
@@ -132,18 +130,17 @@ var Habits = React.createClass({
       <View style={styles.container}>
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={this.renderInbox}
+          renderRow={this.renderInboxRow}
+          scrollEnabled={false}
         />
-        <TouchableOpacity onPress={this.handlePress}>
-          <View style={styles.circleButton}>
+        <TouchableOpacity style={styles.circleButton} onPress={this.handlePress}>
             <Text style={styles.buttonText}>New</Text>
-          </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={this.props.handleLogout}>
+        {/*<TouchableOpacity onPress={this.props.handleLogout}>
           <View style={styles.circleButton}>
             <Text style={styles.buttonText}>LO</Text>
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity>*/}
       </View>
     );
   }
@@ -183,7 +180,6 @@ var styles = StyleSheet.create({
     textAlign: 'center',
   },
   circleButton: {
-    flex: 1,
     height: 50,
     width: 50,
     borderWidth: 0,
