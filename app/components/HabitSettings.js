@@ -116,9 +116,9 @@ var HabitSettings = React.createClass({
               minuteInterval={5}
               onDateChange={this.onDateChange}
             />
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={function () {_this.props.deleteHabit(_this.props.habit._id)}}>
             <Text style={{color: '#FFFFFF'}}>
-              Delete
+              Delete Habit
             </Text>
           </TouchableOpacity>
         </View>

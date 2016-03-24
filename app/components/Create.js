@@ -7,9 +7,9 @@ var PropTypes = React.PropTypes;
 var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
 var freq = {
-  'Hourly': 'hour', 
-  'Daily': 'day', 
-  'Weekly': 'week', 
+  'Hourly': 'hour',
+  'Daily': 'day',
+  'Weekly': 'week',
   'Monthly': 'month'
 };
 
@@ -26,8 +26,8 @@ function Create (props) {
         tint={'#6399DC'}
         selectedTint={'#FFFFFF'}
         options={['Hourly', 'Daily', 'Weekly', 'Monthly']}
-        onSelection={function (val) { 
-          props.fields.frequency = freq[val]; 
+        onSelection={function (val) {
+          props.fields.frequency = freq[val];
         }}
         selectedOption={props.fields.frequency}
       />*/
@@ -47,6 +47,12 @@ function Create (props) {
         value={ props.fields.schedule }
       />*/}
       <SubmitButton onClick={props.handleClick} />
+      <View style={styles.tips}>
+        <Text style={styles.tipheader}>Try to start small:</Text>
+        <Text style={styles.tiptext}>* Floss one tooth</Text>
+        <Text style={styles.tiptext}>* Walk for five minutes</Text>
+        <Text style={styles.tiptext}>* Do one pushup</Text>
+      </View>
     </View>
   );
 }
@@ -62,6 +68,8 @@ function TextField (props) {
         style={styles.textInput}
         onChangeText={props.onChange}
         defaultValue={props.defaultValue}
+        placeholder={'Create your new habit!'}
+        autoFocus={true}
       />
     </View>
   );
@@ -123,7 +131,7 @@ var styles = StyleSheet.create({
     alignSelf: 'center'
   },
   welcome: {
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
     margin: 10,
@@ -159,6 +167,23 @@ var styles = StyleSheet.create({
       height: 3.5,
       width: 2
     }
+  },
+  tips: {
+    alignSelf: 'center',
+    width: 250,
+    marginTop: 75,
+  },
+  tipheader: {
+    color: '#ffffff',
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'left',
+  },
+  tiptext: {
+    color: '#ffffff',
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'left',
   }
 });
 

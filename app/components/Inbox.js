@@ -43,7 +43,7 @@ function Inbox (props) {
             </View>
           </TouchableOpacity>
           <TouchableOpacity style={ styles.touch } onPress={function () {props.toggleInstance(props.habit._id)}}>
-            <Image 
+            <Image
                 source={ done ? {uri: 'http://better-habits.herokuapp.com/assets/done_green.png'} : {uri: 'http://better-habits.herokuapp.com/assets/done_gray.png'} }
                 style={ styles.img }
             />
