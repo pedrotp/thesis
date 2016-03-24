@@ -62,9 +62,18 @@ var Habits = React.createClass({
     // Get updated habit list
     .then(function (response) {
       // _this.getHabits();
-      _this.props.navigator.push({
-        id: 'Habits'
-      });
+      Alert.alert(
+        'Habit Deleted',
+        null,
+        [
+          {
+            text: 'Ok',
+            onPress: function () {
+              _this.props.navigator.push({ id: 'Habits' });
+            }
+          }
+        ]
+      );
     })
     .catch(function (err) {
       console.warn(err);
