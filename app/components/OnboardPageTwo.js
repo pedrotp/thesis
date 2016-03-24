@@ -24,7 +24,7 @@ var OnboardPageTwo = React.createClass({
         <Text style={styles.welcome}>
           Start Small
         </Text>
-        <Image style={styles.img} source={{uri: 'http://localhost:3000/assets/bars.png'}}/>
+        <Image style={styles.img} source={{uri: 'http://better-habits.herokuapp.com/assets/bars.png'}}/>
         <Text style={styles.instructions}>
           Pick a habit that will get you closer to your goal, but will be easy to do every day. We will move up together from there. 
         </Text>

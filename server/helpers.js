@@ -1,6 +1,7 @@
 var Habits = require('../db/models').Habits;
 var Instances = require('../db/models').Instances;
 var User = require('../db/models').User;
+var moment = require('moment');
 
 var getHabits = function (email, success, fail) {
   User.findOne({ 'email': email })
@@ -95,31 +96,42 @@ var updateHabit = function (email, habitid, habitDetails, success, fail) {
     });
 };
 
-var createInstance = function (email, habitid, success, fail) {
+var toggleInstance = function (email, habitid, success, fail) {
   User.findOne({ 'email': email } )
     .then(function (user) {
       return Habits.findById(user.habitsId);
     })
     .then(function (habits) {
       var habit = habits.store.id(habitid)
-      Instances.findById(habit.instancesId)
+      return Instances.findById(habit.instancesId)
         .then(function (instances) {
-          var instance = instances.store.create({});
-          instances.store.push(instance);
-          return instances.save();
+          console.log('STORE BEFORE',instances.store);
+          var last = instances.store[instances.store.length - 1];
+          if (last && moment(new Date(last.createdAt)).isSame(Date.now(), 'day')) {
+            last.remove();
+            return instances.save();
+          } else {
+            var instance = instances.store.create({});
+            instances.store.push(instance);
+            return instances.save();
+          }
         })
         .then(function (instances) {
-          var created = instances.store[instances.store.length - 1].createdAt;
-          habit.instanceCount = instances.store.length;
-          habit.lastDone = created;
-          habits.save();
-          return instances.store[instances.store.length - 1];
+          if (instances.store.length) {
+            var created = instances.store[instances.store.length - 1].createdAt;
+            habit.instanceCount = instances.store.length;
+            habit.lastDone = created;
+            habits.save();
+            return instances.store[instances.store.length - 1];
+          } else {
+            habit.instanceCount = 0;
+            habit.lastDone = undefined;
+            habits.save();
+            return { empty: true };
+          }
         })
         .then(function (instance) {
           success(instance);
-        })
-        .catch(function (err) {
-          fail(err);
         });
     })
     .catch(function (err) {
@@ -155,6 +167,6 @@ module.exports = {
   addHabit: addHabit,
   deleteHabit: deleteHabit,
   getHabits: getHabits,
-  createInstance: createInstance,
+  toggleInstance: toggleInstance,
   addUser: addUser
 };

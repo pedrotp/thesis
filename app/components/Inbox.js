@@ -42,10 +42,10 @@ function Inbox (props) {
               <Text style={styles.count}>Completed {props.habit.instanceCount} time(s) this week!</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity  style={styles.touch} onPress={function () {props.doHabit(props.habit._id)}}>
-            <Image
-              source={ done ? {uri: 'http://localhost:3000/assets/done_green.png'} : {uri: 'http://localhost:3000/assets/done_gray.png'} }
-              style={ styles.doneButton }
+          <TouchableOpacity style={ styles.touch } onPress={function () {props.toggleInstance(props.habit._id)}}>
+            <Image 
+                source={ done ? {uri: 'http://better-habits.herokuapp.com/assets/done_green.png'} : {uri: 'http://better-habits.herokuapp.com/assets/done_gray.png'} }
+                style={ styles.img }
             />
           </TouchableOpacity>
         </View>
@@ -81,7 +81,7 @@ var styles = StyleSheet.create({
     right: 20,
     top: 16
   },
-  doneButton: {
+  img: {
     width: 26,
     height: 26,
   }
