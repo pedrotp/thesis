@@ -61,16 +61,30 @@ var Habits = React.createClass({
     .then(api.handleErrors)
     // Get updated habit list
     .then(function (response) {
-      _this.getHabits();
+      // _this.getHabits();
+      Alert.alert(
+        'Habit Deleted',
+        null,
+        [
+          {
+            text: 'Ok',
+            onPress: function () {
+              _this.props.navigator.push({ id: 'Habits' });
+            }
+          }
+        ]
+      );
     })
     .catch(function (err) {
       console.warn(err);
     });
   },
   editHabit: function (habit) {
+    var _this = this;
     this.props.navigator.push({
       id: 'HabitSettings',
-      habit: habit
+      habit: habit,
+      deleteHabit: _this.deleteHabit
     });
   },
   toggleInstance: function (habitId) {
@@ -88,19 +102,20 @@ var Habits = React.createClass({
       return response.json();
     })
     .then(function (resJSON) {
-      if (!resJSON.empty && moment(new Date(resJSON.createdAt)).isSame(Date.now(), 'day')) {
-        Alert.alert('You Did It', 'Great Job!');
-      }
+      // if (!resJSON.empty && moment(new Date(resJSON.createdAt)).isSame(Date.now(), 'day')) {
+      //   Alert.alert('You Did It', 'Great Job!');
+      // }
       _this.getHabits();
     })
     .catch(function (err) {
       console.warn(err);
     });
   },
-  gotoDetails: function () {
+  gotoDetails: function (habit) {
     // TODO: navigate to correct details per habit rather than mock data
     this.props.navigator.push({
-      id: 'HabitDetails'
+      id: 'HabitDetails',
+      habit: habit
     });
   },
   componentDidMount: function () {
@@ -174,7 +189,7 @@ var styles = StyleSheet.create({
     marginTop: 54,
     paddingTop: 10,
     paddingBottom: 10,
-    backgroundColor: '#f9ebc5',
+    backgroundColor: '#ffffff',
   },
   header: {
     fontSize: 25,

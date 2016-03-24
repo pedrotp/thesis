@@ -173,7 +173,7 @@ var NavigationBarRouteMapper = {
     if(currentRoute.habit) {
       title = 'Edit Habit';
     } else {
-      title = 'Create Habit';
+      title = 'New Habit';
     }
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>

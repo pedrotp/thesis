@@ -36,14 +36,14 @@ function Inbox (props) {
     <View style={styles.inboxrow}>
       <Swipeout autoClose={true} right={swipeButtons} backgroundColor={'#fcfcfc'}>
         <View style={styles.swipe}>
-          <TouchableOpacity onPress={props.gotoDetails}>
+          <TouchableOpacity onPress={function () {props.gotoDetails(props.habit)}}>
             <View>
               <Text style={styles.habit}>{props.habit.action}</Text>
               <Text style={styles.count}>Completed {props.habit.instanceCount} time(s) this week!</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity style={ styles.touch } onPress={function () {props.toggleInstance(props.habit._id)}}>
-            <Image 
+            <Image
                 source={ done ? {uri: 'http://better-habits.herokuapp.com/assets/done_green.png'} : {uri: 'http://better-habits.herokuapp.com/assets/done_gray.png'} }
                 style={ styles.img }
             />

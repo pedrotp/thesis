@@ -132,7 +132,7 @@ var HabitDetails = React.createClass({
     // normal mode
     return (
       <View style={styles.container}>
-        <Text style={styles.heading} onPress={this.onPress}>{ this.props.habitName }</Text>
+        <Text style={styles.heading} onPress={this.onPress}>{ this.props.habit.action }</Text>
         <TouchableOpacity>
         </TouchableOpacity>
         <ListView

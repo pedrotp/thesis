@@ -21,7 +21,6 @@ var HabitSettings = React.createClass({
   getInitialState: function () {
     return {
       date: new Date(),
-      text: this.props.habitName,
       reminder: false,
       editMode: false
     };
@@ -29,6 +28,7 @@ var HabitSettings = React.createClass({
   componentDidMount: function () {
     //Uses this.props.habitId to fetch
     //habit details and set state
+    console.log(this.props);
   },
 
   onDateChange: function (date) {
@@ -100,7 +100,7 @@ var HabitSettings = React.createClass({
       return (
         <View style={styles.container}>
           <Text style={styles.heading}>
-            {this.props.habitName}
+            {this.props.habit.action}
           </Text>
           <View style={{ flexDirection: 'row', marginTop: 60 }}>
             <Text style={{fontSize: 22}}>Reminder</Text>
@@ -116,9 +116,9 @@ var HabitSettings = React.createClass({
               minuteInterval={5}
               onDateChange={this.onDateChange}
             />
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={function () {_this.props.deleteHabit(_this.props.habit._id)}}>
             <Text style={{color: '#FFFFFF'}}>
-              Delete
+              Delete Habit
             </Text>
           </TouchableOpacity>
         </View>
@@ -127,7 +127,7 @@ var HabitSettings = React.createClass({
       return (
         <View style={styles.container}>
           <Text style={styles.heading}>
-            {this.props.habitName}
+            {this.props.habit.action}
           </Text>
           <View style={{ flexDirection: 'row', marginTop: 60, marginBottom: 216 }}>
             <Text style={{fontSize: 22}}>Reminder</Text>
@@ -137,7 +137,7 @@ var HabitSettings = React.createClass({
               value={this.state.reminder}
               />
           </View>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={function () {_this.props.deleteHabit(_this.props.habit._id)}}>
             <Text style={{color: '#FFFFFF'}}>
               Delete Habit
             </Text>
