@@ -61,16 +61,21 @@ var Habits = React.createClass({
     .then(api.handleErrors)
     // Get updated habit list
     .then(function (response) {
-      _this.getHabits();
+      // _this.getHabits();
+      _this.props.navigator.push({
+        id: 'Habits'
+      });
     })
     .catch(function (err) {
       console.warn(err);
     });
   },
   editHabit: function (habit) {
+    var _this = this;
     this.props.navigator.push({
       id: 'HabitSettings',
-      habit: habit
+      habit: habit,
+      deleteHabit: _this.deleteHabit
     });
   },
   toggleInstance: function (habitId) {
@@ -100,7 +105,7 @@ var Habits = React.createClass({
   gotoDetails: function () {
     // TODO: navigate to correct details per habit rather than mock data
     this.props.navigator.push({
-      id: 'HabitDetails'
+      id: 'HabitDetails',
     });
   },
   componentDidMount: function () {

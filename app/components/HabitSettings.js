@@ -29,6 +29,7 @@ var HabitSettings = React.createClass({
   componentDidMount: function () {
     //Uses this.props.habitId to fetch
     //habit details and set state
+    console.log(this.props);
   },
 
   onDateChange: function (date) {
@@ -137,7 +138,7 @@ var HabitSettings = React.createClass({
               value={this.state.reminder}
               />
           </View>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={function () {_this.props.deleteHabit(_this.props.habit._id)}}>
             <Text style={{color: '#FFFFFF'}}>
               Delete Habit
             </Text>
