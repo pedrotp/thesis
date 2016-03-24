@@ -6,6 +6,9 @@ var Navigator = React.Navigator;
 var TouchableOpacity = React.TouchableOpacity;
 var ListView = React.ListView;
 
+// var Icon = require('react-native-vector-icons/MaterialIcons');
+// var doneIcon = <Icon name="done" size={30} color="#90" />;
+
 var HabitDetails = React.createClass({
   getInitialState: function () {
     var ds = new ListView.DataSource({
@@ -53,7 +56,7 @@ var HabitDetails = React.createClass({
       return (
         <TouchableOpacity underlayColor="transparent">
           <View style={styles.doneRow}>
-            <Text style={styles.text}>
+            <Text style={styles.rowText}>
               {rowData}
             </Text>
           </View>
@@ -65,7 +68,7 @@ var HabitDetails = React.createClass({
       return (
         <TouchableOpacity underlayColor="transparent">
           <View style={styles.notDoneRow}>
-            <Text style={styles.text}>
+            <Text style={styles.rowText}>
               {rowData}
             </Text>
           </View>
@@ -77,7 +80,7 @@ var HabitDetails = React.createClass({
       return (
         <TouchableOpacity underlayColor="transparent">
           <View style={styles.futureRow}>
-            <Text style={styles.text}>
+            <Text style={styles.rowText}>
               {rowData}
             </Text>
           </View>
@@ -89,7 +92,7 @@ var HabitDetails = React.createClass({
       return (
         <TouchableOpacity underlayColor="transparent">
           <View style={styles.presentRow}>
-            <Text style={styles.text}>
+            <Text style={styles.rowText}>
               {rowData}
             </Text>
           </View>
@@ -100,7 +103,7 @@ var HabitDetails = React.createClass({
     return (
       <TouchableOpacity underlayColor="transparent">
         <View style={styles.unavailRow}>
-          <Text style={styles.text}>
+          <Text style={styles.rowText}>
             {rowData}
           </Text>
         </View>
@@ -183,8 +186,7 @@ var NavigationBarRouteMapper = {
 var styles = StyleSheet.create({
   container: {
     flex: 0.90,
-    justifyContent: 'center',
-    // backgroundColor: '#EDBE40'
+    justifyContent: 'center'
   },
   heading: {
     top: 80,
@@ -272,11 +274,15 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     bottom: 120
   },
+  rowText: {
+    fontSize: 15,
+  },
   text: {
-    flex: 1,
     fontSize: 15,
     padding: 3,
-    marginTop: 5
+    marginTop: 5,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 module.exports = HabitDetails;
