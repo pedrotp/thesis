@@ -8,12 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* thesisTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* thesisTests.m */; };
-		0EF980971CA36E5C00473533 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EF980961CA36E0B00473533 /* libRCTPushNotification.a */; };
-		0EF9809E1CA3884000473533 /* Airship in Resources */ = {isa = PBXBuildFile; fileRef = 0EF9809C1CA3884000473533 /* Airship */; };
-		0EF9809F1CA3884000473533 /* AirshipKit in Resources */ = {isa = PBXBuildFile; fileRef = 0EF9809D1CA3884000473533 /* AirshipKit */; };
-		0EF980A71CA388C500473533 /* AirshipKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EF980A61CA3888100473533 /* AirshipKit.framework */; };
-		0EF980A81CA388C500473533 /* AirshipKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0EF980A61CA3888100473533 /* AirshipKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		0EF980AD1CA3893A00473533 /* AirshipConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0EF980AC1CA3893A00473533 /* AirshipConfig.plist */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -30,53 +24,13 @@
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
 			remoteInfo = thesis;
 		};
-		0EF980951CA36E0B00473533 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0EF980911CA36E0B00473533 /* RCTPushNotification.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RCTPushNotification;
-		};
-		0EF980A51CA3888100473533 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0EF980A11CA3888100473533 /* AirshipKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 494DD9571B0EB677009C134E;
-			remoteInfo = AirshipKit;
-		};
-		0EF980A91CA388C500473533 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0EF980A11CA3888100473533 /* AirshipKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 494DD9561B0EB677009C134E;
-			remoteInfo = AirshipKit;
-		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		0EF980AB1CA388C500473533 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				0EF980A81CA388C500473533 /* AirshipKit.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		00E356EE1AD99517003FC87E /* thesisTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = thesisTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* thesisTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = thesisTests.m; sourceTree = "<group>"; };
-		0EF980911CA36E0B00473533 /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
-		0EF9809C1CA3884000473533 /* Airship */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Airship; sourceTree = "<group>"; };
-		0EF9809D1CA3884000473533 /* AirshipKit */ = {isa = PBXFileReference; lastKnownFileType = folder; path = AirshipKit; sourceTree = "<group>"; };
-		0EF980A11CA3888100473533 /* AirshipKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AirshipKit.xcodeproj; path = "../../../../Downloads/libUAirship-7.0.2/AirshipKit/AirshipKit.xcodeproj"; sourceTree = "<group>"; };
-		0EF980AC1CA3893A00473533 /* AirshipConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AirshipConfig.plist; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* thesis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = thesis.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = thesis/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = thesis/AppDelegate.m; sourceTree = "<group>"; };
@@ -103,8 +57,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C46CA7C83488C09E79D6D63 /* libPods.a in Frameworks */,
-				0EF980971CA36E5C00473533 /* libRCTPushNotification.a in Frameworks */,
-				0EF980A71CA388C500473533 /* AirshipKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,22 +78,6 @@
 				00E356F11AD99517003FC87E /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		0EF980921CA36E0B00473533 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				0EF980961CA36E0B00473533 /* libRCTPushNotification.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		0EF980A21CA3888100473533 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				0EF980A61CA3888100473533 /* AirshipKit.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		13B07FAE1A68108700A75B9A /* thesis */ = {
@@ -170,7 +106,6 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				0EF980911CA36E0B00473533 /* RCTPushNotification.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -179,10 +114,6 @@
 			isa = PBXGroup;
 			children = (
 				B250E4BB1CA341A10054DCA8 /* MaterialIcons.ttf */,
-				0EF980AC1CA3893A00473533 /* AirshipConfig.plist */,
-				0EF980A11CA3888100473533 /* AirshipKit.xcodeproj */,
-				0EF9809C1CA3884000473533 /* Airship */,
-				0EF9809D1CA3884000473533 /* AirshipKit */,
 				13B07FAE1A68108700A75B9A /* thesis */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* thesisTests */,
@@ -243,12 +174,10 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				773AC1CB2EC151216D82EAD3 /* Embed Pods Frameworks */,
 				E36AC2CC68F310CD29CF6D3B /* Copy Pods Resources */,
-				0EF980AB1CA388C500473533 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				0EF980AA1CA388C500473533 /* PBXTargetDependency */,
 			);
 			name = thesis;
 			productName = "Hello World";
@@ -268,14 +197,6 @@
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
-					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = TG5735SKU5;
-						SystemCapabilities = {
-							com.apple.Push = {
-								enabled = 1;
-							};
-						};
-					};
 				};
 			};
 			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "thesis" */;
@@ -289,16 +210,6 @@
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 0EF980A21CA3888100473533 /* Products */;
-					ProjectRef = 0EF980A11CA3888100473533 /* AirshipKit.xcodeproj */;
-				},
-				{
-					ProductGroup = 0EF980921CA36E0B00473533 /* Products */;
-					ProjectRef = 0EF980911CA36E0B00473533 /* RCTPushNotification.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* thesis */,
@@ -306,23 +217,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		0EF980961CA36E0B00473533 /* libRCTPushNotification.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTPushNotification.a;
-			remoteRef = 0EF980951CA36E0B00473533 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		0EF980A61CA3888100473533 /* AirshipKit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = AirshipKit.framework;
-			remoteRef = 0EF980A51CA3888100473533 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		00E356EC1AD99517003FC87E /* Resources */ = {
@@ -336,10 +230,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0EF9809E1CA3884000473533 /* Airship in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				0EF9809F1CA3884000473533 /* AirshipKit in Resources */,
-				0EF980AD1CA3893A00473533 /* AirshipConfig.plist in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				B250E4BC1CA341A10054DCA8 /* MaterialIcons.ttf in Resources */,
 			);
@@ -435,11 +326,6 @@
 			target = 13B07F861A680F5B00A75B9A /* thesis */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
-		0EF980AA1CA388C500473533 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AirshipKit;
-			targetProxy = 0EF980A91CA388C500473533 /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -502,7 +388,6 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
-					"$(SRCROOT)/../node_modules/Libraries/PushNotificationIOS/**",
 				);
 				INFOPLIST_FILE = thesis/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -520,7 +405,6 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
-					"$(SRCROOT)/../node_modules/Libraries/PushNotificationIOS/**",
 				);
 				INFOPLIST_FILE = thesis/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -567,9 +451,8 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
-					"$(SRCROOT)/../node_modules/react-native/Libraries/PushNotificationIOS/**",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -608,9 +491,8 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
-					"$(SRCROOT)/../node_modules/react-native/Libraries/PushNotificationIOS/**",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

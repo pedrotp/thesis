@@ -13,26 +13,10 @@
 
 #import <LockReactNative/A0LockReact.h>
 
-#import "RCTPushNotificationManager.h"
-
-#import <AirshipKit/AirshipKit.h>
-
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-
-  // Call takeOff (which creates the UAirship singleton)
-  [UAirship takeOff];
-
-  // User notifications will not be enabled until userPushNotificationsEnabled is
-  // set YES on UAPush. Once enabled, the setting will be persisted and the user
-  // will be prompted to allow notifications. Normally, you should wait for a more
-  // appropriate time to enable push to increase the likelihood that the user will
-  // accept notifications.
-  [UAirship push].userPushNotificationsEnabled = YES;
-
-
   [[[A0LockReact sharedInstance] lock] applicationLaunchedWithOptions:launchOptions];
 
   NSURL *jsCodeLocation;
@@ -51,7 +35,7 @@
    * on the same Wi-Fi network.
    */
 
-  jsCodeLocation = [NSURL URLWithString:@"http://10.0.1.157:8081/index.ios.bundle?platform=ios&dev=true"];
+  jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
 
   /**
    * OPTION 2
@@ -81,29 +65,6 @@
 
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler {
   return [[[A0LockReact sharedInstance] lock] continueUserActivity:userActivity restorationHandler:restorationHandler];
-}
-
-// Push notifications
-
-// Required to register for notifications
-- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
-{
-[RCTPushNotificationManager didRegisterUserNotificationSettings:notificationSettings];
-}
-// Required for the register event.
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
-{
-[RCTPushNotificationManager didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-}
-// Required for the notification event.
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)notification
-{
-[RCTPushNotificationManager didReceiveRemoteNotification:notification];
-}
-// Required for the localNotification event.
-- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
-{
-[RCTPushNotificationManager didReceiveLocalNotification:notification];
 }
 
 @end
