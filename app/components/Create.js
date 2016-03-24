@@ -21,7 +21,7 @@ function Create (props) {
         onChange={function (text) { props.fields.action = text; }}
         defaultValue={props.fields.action}
       />
-      <Frequency
+      {/*<Frequency
         title='How often?'
         tint={'#6399DC'}
         selectedTint={'#FFFFFF'}
@@ -30,8 +30,8 @@ function Create (props) {
           props.fields.frequency = freq[val]; 
         }}
         selectedOption={props.fields.frequency}
-      />
-      {/*<TextField
+      />*/
+      /*<TextField
         title='Unit:'
         onChange={function (text) { props.fields.unit = text; }}
         value={ props.fields.unit }

@@ -12,7 +12,7 @@ var Instances = mongoose.model('Instances', instancesSchema);
 // Habits
 var habitSchema = mongoose.Schema({
   action: { type: String, required: true }, // name of the activity habit
-  frequency: { type: String, required: true }, // how often user wants to do the action (year, month, week, day, hour)
+  frequency: { type: String }, // how often user wants to do the action (year, month, week, day, hour)
   instancesId: { type: mongoose.Schema.Types.ObjectId, ref: Instances }, // all the times a user has performed this action
   instanceCount: { type: Number, default: 0 },
   lastDone: { type: Date },

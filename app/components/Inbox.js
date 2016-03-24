@@ -28,14 +28,14 @@ function Inbox (props) {
     }
   ];
 
-  var done = props.habit.lastDone && moment(props.habit.lastDone).isSame(Date.now(), props.habit.frequency);
+  var done = props.habit.lastDone && moment(props.habit.lastDone).isSame(Date.now(), 'day');
 
   return (
     <View style={styles.inboxitem}>
       <Swipeout autoClose={true} right={swipeButtons} backgroundColor={'#fcfcfc'}>
         <View style={styles.swipe}>
           <View>
-            <Text style={styles.habit}>{props.habit.action} every {props.habit.frequency}</Text>
+            <Text style={styles.habit}>{props.habit.action}</Text>
             <Text style={styles.count}>You've done this {props.habit.instanceCount} time(s).</Text>
           </View>
           <Image 

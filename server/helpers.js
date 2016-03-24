@@ -19,9 +19,9 @@ var addHabit = function (email, habitDetails, success, fail) {
 
   // Manual error handling for partial
   // habitDetails (missing required fields)
-  if (Object.keys(habitDetails).length < 2) {
-    return fail('Required field(s) missing');
-  }
+  // if (Object.keys(habitDetails).length < 2) {
+  //   return fail('Required field(s) missing');
+  // }
 
   User.findOne({ 'email': email })
     .then(function (user) {
