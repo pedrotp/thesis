@@ -24,7 +24,7 @@ var OnboardPageOne = React.createClass({
         <Text style={styles.welcome}>
           Welcome to Better.
         </Text>
-        <Image style={styles.img} source={{uri: 'http://localhost:3000/assets/odometer.png'}}/>
+        <Image style={styles.img} source={{uri: 'http://better-habits.herokuapp.com/assets/odometer.png'}}/>
         <Text style={styles.instructions}>
           Our mission is to help you achieve your goals by building positive daily habits.
         </Text>

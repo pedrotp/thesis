@@ -9,6 +9,7 @@ var Navigator = React.Navigator;
 var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
 var Linking = React.Linking;
+var moment = require('moment');
 
 var Inbox = require('../components/Inbox');
 var Welcome = require('../components/Welcome');
@@ -72,7 +73,7 @@ var Habits = React.createClass({
       habit: habit
     });
   },
-  createInstance: function (habitId) {
+  toggleInstance: function (habitId) {
     var _this = this;
     // TODO: refactor server call to api library
     // Ask server to create a new instance of this habit
@@ -84,16 +85,17 @@ var Habits = React.createClass({
     })
     .then(api.handleErrors)
     .then(function (response) {
-      Alert.alert('You Did It', 'Great Job!');
+      return response.json();
+    })
+    .then(function (resJSON) {
+      if (!resJSON.empty && moment(new Date(resJSON.createdAt)).isSame(Date.now(), 'day')) {
+        Alert.alert('You Did It', 'Great Job!');
+      }
       _this.getHabits();
     })
     .catch(function (err) {
       console.warn(err);
     });
-  },
-  doHabit: function (habitId) {
-    // TODO: should instead toggle 'doneness' for today
-    this.createInstance(habitId);
   },
   gotoDetails: function () {
     // TODO: navigate to correct details per habit rather than mock data
@@ -109,7 +111,7 @@ var Habits = React.createClass({
   },
   // Render each row of the inbox as an Inbox component
   renderInboxRow: function (habit) {
-    return <Inbox habit={habit} deleteHabit={this.deleteHabit} gotoDetails={this.gotoDetails} editHabit={this.editHabit} createInstance={this.createInstance} doHabit={this.doHabit}/>
+    return <Inbox habit={habit} deleteHabit={this.deleteHabit} gotoDetails={this.gotoDetails} editHabit={this.editHabit} toggleInstance={this.toggleInstance}/>
   },
   render: function () {
     return (

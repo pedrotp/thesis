@@ -67,7 +67,7 @@ var routes = [
     post: function (req, res) {
       var userEmail = req.params.user;
       var habitid = req.params.habitid;
-      helpers.createInstance(userEmail, habitid,
+      helpers.toggleInstance(userEmail, habitid,
         function (data) {
           res.status(201).json(data);
         },
