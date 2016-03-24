@@ -9,7 +9,7 @@ var jwtCheck = jwt({
   audience: process.env.AUTH_ID
 });
 
-// routes requiring auth for use
+// Routes requiring auth for use
 var authReqRoutes = [
   '/habits'
 ];
@@ -36,13 +36,14 @@ var routes = [
     get: function (req, res) {
       var userEmail = req.params.user;
       // query db for user's habits
-      helpers.getHabits(userEmail,
-        function (habits) {
-          res.status(200).json(habits);
-        },
-        function (err) {
+      helpers.getHabits(userEmail)
+        .then(function (habits) {
+          console.log('habits were:', habits.store);
+          res.status(200).json(habits.store);
+        })
+        .catch(function (err) {
           if (!testing) {
-            console.error('Server error:', err);
+            console.error('Server error:', err)
           }
           res.sendStatus(400);
         });
@@ -113,11 +114,11 @@ var routes = [
 module.exports = function (app, express) {
   // require auth on all routes in authReqRoutes
   // skip if we are testing
-  if (!testing) {
-    authReqRoutes.forEach(function (route) {
-      app.use(route, jwtCheck);
-    });
-  }
+  // if (!testing) {
+  //   authReqRoutes.forEach(function (route) {
+  //     app.use(route, jwtCheck);
+  //   });
+  // }
 
   // export routes
   routes.forEach(function (route) {

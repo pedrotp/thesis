@@ -3,17 +3,12 @@ var Instances = require('../db/models').Instances;
 var User = require('../db/models').User;
 var moment = require('moment');
 
-var getHabits = function (email, success, fail) {
-  User.findOne({ 'email': email })
+var getHabits = function (email) {
+  return User.findOne({ 'email': email })
     .then(function (user) {
-      return Habits.findById(user.habitsId);
+      console.log('found user:', user);
+      return Habits.findById(user.habitsId)
     })
-    .then(function (habits) {
-      success(habits.store);
-    })
-    .catch(function (err) {
-      fail(err);
-    });
 };
 
 var addHabit = function (email, habitDetails, success, fail) {
