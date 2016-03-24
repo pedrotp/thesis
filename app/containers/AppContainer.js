@@ -70,7 +70,7 @@ var AppContainer = React.createClass({
       });
     });
   },
-  
+
   componentDidMount: function () {
     // If user not logged in
     if (!this.state.auth) {
@@ -153,7 +153,7 @@ var AppContainer = React.createClass({
           navigator={navigator}
           token={this.state.token}
           profile={this.state.profile}
-          habitName={'Habit Name goes here'}
+          habitName={'Exercise'}
         />
       );
     }
