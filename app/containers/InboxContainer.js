@@ -91,18 +91,10 @@ var Habits = React.createClass({
       console.warn(err);
     });
   },
-  // checkIfDone: function (habitId) {
-  //   var _this = this;
-  //   // TODO: refactor server call to api library
-  //   // Ask server whether this habit has been done in the goal frequency
-  //   fetch('http://better-habits.herokuapp.com/done/' + habitId, {
-  //     method: 'GET',
-  //   })
-  //   .then(function (response) {
-  //     return response.json();
-  //   })
-  // },
-  // Get habits from server on load
+  doHabit: function (habitId) {
+    // TODO: should instead toggle 'doneness' for today
+    this.createInstance(habitId);
+  },
   componentDidMount: function () {
     this.getHabits();
   },
@@ -111,7 +103,7 @@ var Habits = React.createClass({
   },
   // Render each row of the inbox as an Inbox component
   renderInbox: function (habit) {
-    return <Inbox habit={habit} deleteHabit={this.deleteHabit} editHabit={this.editHabit} createInstance={this.createInstance} />
+    return <Inbox habit={habit} deleteHabit={this.deleteHabit} editHabit={this.editHabit} createInstance={this.createInstance} doHabit={this.doHabit}/>
   },
   render: function () {
     return (
@@ -134,16 +126,14 @@ var Habits = React.createClass({
           dataSource={this.state.dataSource}
           renderRow={this.renderInbox}
         />
-        <TouchableOpacity onPress={this.handlePress}>
-          <View style={styles.circleButton}>
+        <TouchableOpacity style={styles.circleButton} onPress={this.handlePress}>
             <Text style={styles.buttonText}>New</Text>
-          </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={this.props.handleLogout}>
+        {/*<TouchableOpacity onPress={this.props.handleLogout}>
           <View style={styles.circleButton}>
             <Text style={styles.buttonText}>LO</Text>
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity>*/}
       </View>
     );
   }
@@ -183,7 +173,6 @@ var styles = StyleSheet.create({
     textAlign: 'center',
   },
   circleButton: {
-    flex: 1,
     height: 50,
     width: 50,
     borderWidth: 0,
