@@ -16,35 +16,15 @@ var DatePickerIOS = React.DatePickerIOS;
 var Switch = React.Switch;
 
 var HabitSettings = React.createClass({
-  // text should be this.props.habit.habitName, habit object containing all habit details is
-  // passed when navigated from inbox to habitSettings
   getInitialState: function () {
     return {
       date: new Date(),
       reminder: false,
-      editMode: false
     };
-  },
-  componentDidMount: function () {
-    //Uses this.props.habitId to fetch
-    //habit details and set state
-    console.log(this.props);
   },
 
   onDateChange: function (date) {
     this.setState({date: date})
-  },
-
-  deleteHabit: function () {
-    //fetch request to delete habit
-  },
-
-  onPress: function () {
-    if (this.state.editMode) {
-      this.setState({editMode: false});
-    } else {
-      this.setState({editMode: true});
-    }
   },
 
   render: function () {
@@ -55,7 +35,8 @@ var HabitSettings = React.createClass({
           navigator={this.props.navigator}
           navigationBar={
             <Navigator.NavigationBar style={{backgroundColor: '#6399DC', alignItems: 'center'}}
-              routeMapper={NavigationBarRouteMapper} />
+              routeMapper={NavigationBarRouteMapper}
+            />
           }
         />
       </View>
@@ -64,38 +45,6 @@ var HabitSettings = React.createClass({
 
   renderScene: function (route, navigator) {
     var _this = this;
-
-    // edit mode, habit name become editable
-    // textInput does not render anything at the moment - not sure why
-    // if (this.state.editMode) {
-    //   return (
-    //     <View style={styles.container}>
-    //       <TextInput
-    //         style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-    //         onEndEditing={function (text) { _this.setState({ text: text }); console.log('yolo:', _this.state); }}
-    //         defaultValue = {this.props.habitName}
-    //       />
-    //     <Text style={styles.label}>Reminder</Text>
-    //       <Switch style={styles.label}
-    //         onValueChange={function (value) { _this.setState({falseSwitchIsOn: value}); }}
-    //         style={{marginBottom: 10, alignSelf: 'flex-end'}}
-    //         value={this.state.falseSwitchIsOn}
-    //       />
-    //       <DatePickerIOS
-    //         date={this.state.date}
-    //         mode="time"
-    //         minuteInterval={5}
-    //         onDateChange={this.onDateChange}
-    //       />
-    //       <TouchableOpacity style={styles.button}>
-    //           <Text style={{color: '#FFFFFF'}}>
-    //             Delete
-    //           </Text>
-    //       </TouchableOpacity>
-    //     </View>
-    //   )
-    // }
-
     if (this.state.reminder) {
       return (
         <View style={styles.container}>
@@ -108,7 +57,7 @@ var HabitSettings = React.createClass({
               onValueChange={function (date) { _this.setState({reminder: date}); }}
               style={{left: 190, marginBottom: 30}}
               value={this.state.reminder}
-              />
+            />
           </View>
             <DatePickerIOS
               date={this.state.date}
@@ -135,7 +84,7 @@ var HabitSettings = React.createClass({
               onValueChange={function (date) { _this.setState({reminder: date}); }}
               style={{left: 190, marginBottom: 30}}
               value={this.state.reminder}
-              />
+            />
           </View>
           <TouchableOpacity style={styles.button} onPress={function () {_this.props.deleteHabit(_this.props.habit._id)}}>
             <Text style={{color: '#FFFFFF'}}>
@@ -150,14 +99,14 @@ var HabitSettings = React.createClass({
 
 var NavigationBarRouteMapper = {
   LeftButton(route, navigator, index, navState) {
-      return (
-        <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-            onPress={function () {navigator.parentNavigator.pop()}}>
-          <Text style={{color: 'white', margin: 10}}>
-            Back
-          </Text>
-        </TouchableOpacity>
-      );
+    return (
+      <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
+          onPress={function () {navigator.parentNavigator.pop()}}>
+        <Text style={{color: 'white', margin: 10}}>
+          Back
+        </Text>
+      </TouchableOpacity>
+    );
   },
 
   RightButton(route, navigator, index, navState) {
@@ -165,28 +114,14 @@ var NavigationBarRouteMapper = {
   },
 
   Title(route, navigator, index, navState) {
-    // var title;
-    // var routeStack = navigator.parentNavigator.state.routeStack;
-    // var previousRoute = routeStack[routeStack.length - 2];
-
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
         <Text style={{color: 'white', margin: 10, fontSize: 16}}>
-            Habit Settings
+          Habit Settings
         </Text>
       </TouchableOpacity>
     );
   }
-};
-
-var Label = function (props) {
-  return (
-    <View>
-      <Text>
-        {props.title}
-      </Text>
-    </View>
-  );
 };
 
 var styles = StyleSheet.create({
