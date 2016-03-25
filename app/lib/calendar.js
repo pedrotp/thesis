@@ -8,7 +8,7 @@ var getDaysArray = function(year, month) {
   var day = fullDate.getDate();
   
   while (date.getMonth() == month - 1) {
-    result.push({fullDate: new Date(fullDate.setDate(day++)).toISOString(), date: date.getDate(), dayOfWeek: names[date.getDay()], placeholder: false});
+    result.push({fullDate: new Date(fullDate.setDate(day++)).toISOString(), date: date.getDate(), dayOfWeek: names[date.getDay()], done: false, placeholder: false});
     date.setDate(date.getDate() + 1);
   }
   return result;
@@ -39,7 +39,7 @@ var getOffSetDays = function (day, rawArray) {
     case 'Th':
       return makePlaceholder(4).concat(rawArray);
       break;
-    case 'Fri':
+    case 'F':
       return makePlaceholder(5).concat(rawArray);
       break;
     case 'Sa':

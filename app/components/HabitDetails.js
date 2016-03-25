@@ -42,19 +42,27 @@ var HabitDetails = React.createClass({
     })
     .then(function (responseData) {
       console.log('response',responseData);
-      var monthOfFeb = getDaysArray(2016, 2);
       var monthOfMarch = getDaysArray(2016, 3);
+      
+      
       monthOfMarch.forEach(function(day) {
         responseData.forEach(function(instance) {
           if(moment(day.fullDate).isSame(instance.createdAt, 'day')) {
             console.log('FULL:',day.fullDate, 'CREATEDAT:', instance.createdAt);
             day.done = true;
-          } else {
-            day.done = false;
+            // console.log('TRUEday', day);
           }
         })
       });
+      
+      console.log('MONTHOFMARCH', monthOfMarch);
+      
+      
+      
+      
+      
       var offSetSource = getOffSetDays(monthOfMarch[0].dayOfWeek, monthOfMarch);
+      console.log('offSetSource:', offSetSource);
       var listSource = getDaysOfWeek().concat(offSetSource);
       if(listSource.length % 7 !== 0) {
         var remainder = 7 - (Math.floor(listSource.length % 7));
