@@ -82,13 +82,13 @@ var routes = [
       var userEmail = req.params.user;
       var habitid = req.params.habitid;
       var habitDetails = req.body;
-      helpers.updateHabit(userEmail, habitid, habitDetails,
-        function (data) {
-          res.status(200).json(data);
-        },
-        function (err) {
+      helpers.updateHabit(userEmail, habitid, habitDetails)
+        .then(function (habit) {
+          res.status(200).json(habit);
+        })
+        .catch(function (err) {
           if (!testing) {
-            console.error('Server error:', err);
+            console.error('Server error:', err)
           }
           res.sendStatus(400);
         });
