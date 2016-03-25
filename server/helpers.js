@@ -14,7 +14,6 @@ var getHabits = function (email) {
 };
 
 var addHabit = function (email, habitDetails) {
-
   return User.findOne({ 'email': email })
     .then(function (user) {
       return Habits.findById(user.habitsId);
@@ -58,9 +57,8 @@ var updateHabit = function (email, habitId, habitDetails) {
     })
     .then(function (habits) {
       var habit = habits.store.id(habitId);
-      if (habitDetails.action) {
-        habit.action = habitDetails.action;
-      }
+      var i = habits.store.indexOf(habit);
+      habits.store.set(i, habitDetails);
       habits.save();
       return habit;
     })
@@ -77,7 +75,7 @@ var toggleInstance = function (email, habitId) {
       return Instances.findById(habit.instancesId)
         .then(function (instances) {
           var last = instances.store[instances.store.length - 1];
-          if (last && moment(new Date(last.createdAt)).isSame(Date.now(), 'day')) {
+          if (last && moment().isSame(new Date(last.createdAt), 'day')) {
             last.remove();
             removed = true;
             return instances.save();
@@ -101,7 +99,7 @@ var toggleInstance = function (email, habitId) {
             }
             if (removed) {
               // if an instance was removed decrease current streak and max streak only if this week is max
-              if (habit.streak.max === habit.streak.current && moment(new Date(habit.streak.maxDate)).isSame(Date.now(), 'week')) {
+              if (habit.streak.max === habit.streak.current && moment().isSame(new Date(habit.streak.maxDate), 'week')) {
                 habit.streak.max--;
               }
               habit.streak.current--;
