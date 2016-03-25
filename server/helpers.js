@@ -85,15 +85,14 @@ var updateHabit = function (email, habitid, habitDetails, success, fail) {
     });
 };
 
-var toggleInstance = function (email, habitid, success, fail) {
-  // finds the right user
+var toggleInstance = function (email, habitId) {
   var removed;
-  User.findOne({ 'email': email } )
+  return User.findOne({ 'email': email })
     .then(function (user) {
       return Habits.findById(user.habitsId);
     })
     .then(function (habits) {
-      var habit = habits.store.id(habitid);
+      var habit = habits.store.id(habitId);
       return Instances.findById(habit.instancesId)
         .then(function (instances) {
           var last = instances.store[instances.store.length - 1];
@@ -124,8 +123,8 @@ var toggleInstance = function (email, habitid, success, fail) {
 
             if (removed) {
               // if an instance was removed decrease current streak and max streak only if this week is max
-              if (habit.streak.max === habit.streak.current && moment(new Date(habit.streak.maxDate)).isSame(Date.now(), 'week')) { 
-                habit.streak.max--; 
+              if (habit.streak.max === habit.streak.current && moment(new Date(habit.streak.maxDate)).isSame(Date.now(), 'week')) {
+                habit.streak.max--;
               }
               habit.streak.current--;
             } else if (second && moment(new Date(last)).isSame(new Date(second), 'week')) {
@@ -134,7 +133,7 @@ var toggleInstance = function (email, habitid, success, fail) {
             } else {
               // if the new instance did not happen the same week as the second to last instance, or there is only one instance, set current streak to 1
               habit.streak.current = 1;
-            } 
+            }
 
             if (habit.streak.current > habit.streak.max) {
               // if current streak is max, update max and store the date the max was achieved
@@ -146,7 +145,7 @@ var toggleInstance = function (email, habitid, success, fail) {
             return instances.store[instances.store.length - 1];
 
           } else {
-            habit.streak.max = 0; 
+            habit.streak.max = 0;
             habit.instanceCount = 0;
             habit.lastDone = undefined;
             habit.streak.current = 0;
@@ -154,13 +153,7 @@ var toggleInstance = function (email, habitid, success, fail) {
             return { empty: true };
           }
         })
-        .then(function (instance) {
-          success(instance);
-        });
     })
-    .catch(function (err) {
-      fail(err);
-    });
 };
 
 var addUser = function (email) {

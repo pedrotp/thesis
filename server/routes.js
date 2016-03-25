@@ -21,7 +21,6 @@ var routes = [
       var userEmail = req.body.email;
       helpers.addUser(userEmail)
         .then(function (user) {
-          console.log('user created:', user);
           res.status(200).json(user);
         })
         .catch(function (err) {
@@ -39,7 +38,6 @@ var routes = [
       // query db for user's habits
       helpers.getHabits(userEmail)
         .then(function (habits) {
-          console.log('habits were:', habits.store);
           res.status(200).json(habits.store);
         })
         .catch(function (err) {
@@ -54,7 +52,6 @@ var routes = [
       var habit = req.body;
       helpers.addHabit(userEmail, habit)
          .then(function (habit) {
-          console.log('habits added:', habit);
           res.status(201).json(habit);
         })
         .catch(function (err) {
@@ -70,15 +67,15 @@ var routes = [
     post: function (req, res) {
       var userEmail = req.params.user;
       var habitid = req.params.habitid;
-      helpers.toggleInstance(userEmail, habitid,
-        function (data) {
-          res.status(201).json(data);
-        },
-        function (err) {
+      helpers.toggleInstance(userEmail, habitid)
+        .then(function (instance) {
+          res.status(201).json(instance);
+        })
+        .catch(function (err) {
           if (!testing) {
-            console.error('Server error:', err);
+            console.error('Server error:', err)
           }
-          res.status(400);
+          res.sendStatus(400);
         });
     },
     put: function (req, res) {
