@@ -1,5 +1,6 @@
 var jwt = require('express-jwt');
 var helpers = require('./helpers');
+var sms = require('./sms')
 
 // For suppressing (purposeful) error logging in tests
 var testing = process.env.NODE_ENV === 'test';
