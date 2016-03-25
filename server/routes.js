@@ -9,7 +9,7 @@ var jwtCheck = jwt({
   audience: process.env.AUTH_ID
 });
 
-// routes requiring auth for use
+// Routes requiring auth for use
 var authReqRoutes = [
   '/habits'
 ];
@@ -19,13 +19,13 @@ var routes = [
     path: '/user',
     post: function (req, res) {
       var userEmail = req.body.email;
-      helpers.addUser(userEmail,
-        function (success) {
-          res.status(200).json(success);
-        },
-        function (err) {
+      helpers.addUser(userEmail)
+        .then(function (user) {
+          res.status(200).json(user);
+        })
+        .catch(function (err) {
           if (!testing) {
-            console.error('Server error:', err);
+            console.error('Server error:', err)
           }
           res.sendStatus(400);
         });
@@ -36,13 +36,13 @@ var routes = [
     get: function (req, res) {
       var userEmail = req.params.user;
       // query db for user's habits
-      helpers.getHabits(userEmail,
-        function (habits) {
+      helpers.getHabits(userEmail)
+        .then(function (habits) {
           res.status(200).json(habits);
-        },
-        function (err) {
+        })
+        .catch(function (err) {
           if (!testing) {
-            console.error('Server error:', err);
+            console.error('Server error:', err)
           }
           res.sendStatus(400);
         });
@@ -50,13 +50,13 @@ var routes = [
     post: function (req, res) {
       var userEmail = req.params.user;
       var habit = req.body;
-      helpers.addHabit(userEmail, habit,
-        function (data) {
-          res.status(201).json(data);
-        },
-        function (err) {
+      helpers.addHabit(userEmail, habit)
+        .then(function (habit) {
+          res.status(201).json(habit);
+        })
+        .catch(function (err) {
           if (!testing) {
-            console.error('Server error:', err);
+            console.error('Server error:', err)
           }
           res.sendStatus(400);
         });
@@ -67,28 +67,28 @@ var routes = [
     post: function (req, res) {
       var userEmail = req.params.user;
       var habitid = req.params.habitid;
-      helpers.toggleInstance(userEmail, habitid,
-        function (data) {
-          res.status(201).json(data);
-        },
-        function (err) {
+      helpers.toggleInstance(userEmail, habitid)
+        .then(function (instance) {
+          res.status(201).json(instance);
+        })
+        .catch(function (err) {
           if (!testing) {
-            console.error('Server error:', err);
+            console.error('Server error:', err)
           }
-          res.status(400);
+          res.sendStatus(400);
         });
     },
     put: function (req, res) {
       var userEmail = req.params.user;
       var habitid = req.params.habitid;
       var habitDetails = req.body;
-      helpers.updateHabit(userEmail, habitid, habitDetails,
-        function (data) {
-          res.status(200).json(data);
-        },
-        function (err) {
+      helpers.updateHabit(userEmail, habitid, habitDetails)
+        .then(function (habit) {
+          res.status(200).json(habit);
+        })
+        .catch(function (err) {
           if (!testing) {
-            console.error('Server error:', err);
+            console.error('Server error:', err)
           }
           res.sendStatus(400);
         });
@@ -96,15 +96,15 @@ var routes = [
     delete: function (req, res) {
       var userEmail = req.params.user;
       var habitid = req.params.habitid;
-      helpers.deleteHabit(userEmail, habitid,
-        function (data) {
-          res.status(200).json(data);
-        },
-        function (err) {
+      helpers.deleteHabit(userEmail, habitid)
+        .then(function (habit) {
+          res.status(200).json(habit);
+        })
+        .catch(function (err) {
           if (!testing) {
-            console.error('Server error:', err);
+            console.error('Server error:', err)
           }
-          res.sendStatus(500);
+          res.sendStatus(400);
         });
     }
   }

@@ -3,28 +3,19 @@ var Instances = require('../db/models').Instances;
 var User = require('../db/models').User;
 var moment = require('moment');
 
-var getHabits = function (email, success, fail) {
-  User.findOne({ 'email': email })
+var getHabits = function (email) {
+  return User.findOne({ 'email': email })
     .then(function (user) {
-      return Habits.findById(user.habitsId);
+      return Habits.findById(user.habitsId)
     })
     .then(function (habits) {
-      success(habits.store);
+      return habits.store;
     })
-    .catch(function (err) {
-      fail(err);
-    });
 };
 
-var addHabit = function (email, habitDetails, success, fail) {
+var addHabit = function (email, habitDetails) {
 
-  // Manual error handling for partial
-  // habitDetails (missing required fields)
-  // if (Object.keys(habitDetails).length < 2) {
-  //   return fail('Required field(s) missing');
-  // }
-
-  User.findOne({ 'email': email })
+  return User.findOne({ 'email': email })
     .then(function (user) {
       return Habits.findById(user.habitsId);
     })
@@ -40,16 +31,10 @@ var addHabit = function (email, habitDetails, success, fail) {
       habits.save();
       return habit;
     })
-    .then(function (newHabit) {
-      success(newHabit);
-    })
-    .catch(function (err) {
-      fail(err);
-    });
 };
 
-var deleteHabit = function (email, habitId, success, fail) {
-  User.findOne({ 'email': email })
+var deleteHabit = function (email, habitId) {
+  return User.findOne({ 'email': email })
     .then(function (user) {
       return Habits.findById(user.habitsId);
     })
@@ -64,47 +49,31 @@ var deleteHabit = function (email, habitId, success, fail) {
       habits.save();
       return habit;
     })
-    .then(function (deletedHabit) {
-      success(deletedHabit);
-    })
-    .catch(function (err) {
-      fail(err);
-    });
 };
 
-var updateHabit = function (email, habitid, habitDetails, success, fail) {
-  User.findOne({ 'email': email } )
+var updateHabit = function (email, habitId, habitDetails) {
+  return User.findOne({ 'email': email } )
     .then(function (user) {
       return Habits.findById(user.habitsId);
     })
     .then(function (habits) {
-      var habit = habits.store.id(habitid);
+      var habit = habits.store.id(habitId);
       if (habitDetails.action) {
         habit.action = habitDetails.action;
-      }
-      if (habitDetails.frequency) {
-        habit.frequency = habitDetails.frequency;
       }
       habits.save();
       return habit;
     })
-    .then(function (updatedHabit) {
-      success(updatedHabit);
-    })
-    .catch(function (err) {
-      fail(err);
-    });
 };
 
-var toggleInstance = function (email, habitid, success, fail) {
-  // finds the right user
+var toggleInstance = function (email, habitId) {
   var removed;
-  User.findOne({ 'email': email } )
+  return User.findOne({ 'email': email })
     .then(function (user) {
       return Habits.findById(user.habitsId);
     })
     .then(function (habits) {
-      var habit = habits.store.id(habitid);
+      var habit = habits.store.id(habitId);
       return Instances.findById(habit.instancesId)
         .then(function (instances) {
           var last = instances.store[instances.store.length - 1];
@@ -120,23 +89,20 @@ var toggleInstance = function (email, habitid, success, fail) {
         })
         .then(function (instances) {
           if (instances.store.length) {
-
             var last = instances.store[instances.store.length - 1].createdAt;
             // set instance count to the length of the instances array
             habit.instanceCount = instances.store.length;
             // set lastDone to the date of the last instance
             habit.lastDone = last;
-
             var second = undefined;
             if (instances.store.length > 1) {
               // store the second to last instance in a variable if it exists
               second = instances.store[instances.store.length - 2].createdAt;
             }
-
             if (removed) {
               // if an instance was removed decrease current streak and max streak only if this week is max
-              if (habit.streak.max === habit.streak.current && moment(new Date(habit.streak.maxDate)).isSame(Date.now(), 'week')) { 
-                habit.streak.max--; 
+              if (habit.streak.max === habit.streak.current && moment(new Date(habit.streak.maxDate)).isSame(Date.now(), 'week')) {
+                habit.streak.max--;
               }
               habit.streak.current--;
             } else if (second && moment(new Date(last)).isSame(new Date(second), 'week')) {
@@ -145,19 +111,16 @@ var toggleInstance = function (email, habitid, success, fail) {
             } else {
               // if the new instance did not happen the same week as the second to last instance, or there is only one instance, set current streak to 1
               habit.streak.current = 1;
-            } 
-
+            }
             if (habit.streak.current > habit.streak.max) {
               // if current streak is max, update max and store the date the max was achieved
               habit.streak.max = habit.streak.current;
               habit.streak.maxDate = last;
             }
-
             habits.save();
             return instances.store[instances.store.length - 1];
-
           } else {
-            habit.streak.max = 0; 
+            habit.streak.max = 0;
             habit.instanceCount = 0;
             habit.lastDone = undefined;
             habit.streak.current = 0;
@@ -165,19 +128,13 @@ var toggleInstance = function (email, habitid, success, fail) {
             return { empty: true };
           }
         })
-        .then(function (instance) {
-          success(instance);
-        });
     })
-    .catch(function (err) {
-      fail(err);
-    });
 };
 
-var addUser = function (email, success, fail) {
+var addUser = function (email) {
   // findOneAndUpdate along with upsert set to true
   // allows for a user to be created if they don't exist
-  User.findOneAndUpdate({ 'email': email }, { 'email': email }, { 'upsert': true, 'new': true })
+  return User.findOneAndUpdate({ 'email': email }, { 'email': email }, { 'upsert': true, 'new': true })
     .then(function (dbUser) {
       if (dbUser.habitsId === undefined) {
         var habits = new Habits;
@@ -189,12 +146,6 @@ var addUser = function (email, success, fail) {
       }
       return dbUser.save();
     })
-    .then(function (newUser) {
-      success(newUser);
-    })
-    .catch(function (err) {
-      fail(err);
-    });
 };
 
 module.exports = {
