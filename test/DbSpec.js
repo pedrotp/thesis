@@ -133,16 +133,14 @@ describe('Database', function () {
       it('should add both a new habit and an instance store', function (done) {
         var habit3 = {
           action: 'Run',
-          frequency: 'Weekly'
         };
-        helpers.addHabit(user.email, habit3,
-          function (success) {
+        helpers.addHabit(user.email, habit3)
+          .then(function (success) {
             expect(success.action).to.equal(habit3.action);
-            expect(success.frequency).to.equal(habit3.frequency);
             expect(success.instancesId).to.exist;
             done();
-          },
-          function (fail) {
+          })
+          .catch(function (fail) {
             console.error('DbSpec addHabit error:', fail);
           });
       });
@@ -173,8 +171,8 @@ describe('Database', function () {
       // TODO: refactor after updated deleteHabit helper is implemented
       // success data will be modified
       it('should delete habit and corresponding instance store', function (done) {
-        helpers.deleteHabit(user.email, habit1Id,
-          function (success) {
+        helpers.deleteHabit(user.email, habit1Id)
+          .then (function (success) {
             expect(success._id.toString()).to.equal(habit1Id);
 
             // In order to confirm instance was deleted,
@@ -188,18 +186,18 @@ describe('Database', function () {
               .catch(function (err) {
                 console.error('Instance fail:', err);
               });
-          },
-          function (fail) {
+          })
+          .then(function (fail) {
             console.error('DbSpec deleteHabit error:', fail);
           });
       });
 
       it('should error when attempting to delete invalid ID', function (done) {
-        helpers.deleteHabit(user.email, '12345',
-          function (success) {
+        helpers.deleteHabit(user.email, '12345')
+          .then(function (success) {
             console.log('DbSpec deleteHabit success:', success);
-          },
-          function (fail) {
+          })
+          .catch(function (fail) {
             expect(fail).to.exist;
             done();
           });
@@ -220,12 +218,12 @@ describe('Database', function () {
         var update1 = {
           action : 'Update'
         };
-        helpers.updateHabit(user.email, habit1Id, update1,
-          function (success) {
+        helpers.updateHabit(user.email, habit1Id, update1)
+          .then(function (success) {
             expect(success.action).to.equal('Update');
             done();
-          },
-          function (fail) {
+          })
+          .catch(function (fail) {
             console.error('DbSpec updateHabit error:', fail);
           });
       });
@@ -234,13 +232,13 @@ describe('Database', function () {
 
         // habit1 = { action: 'Write tests', frequency: 'Daily' }
         var update1 = {
-          frequency: 'Weekly'
+          action: 'Error out'
         };
-        helpers.updateHabit(user.email, '12345', update1,
-          function (success) {
+        helpers.updateHabit(user.email, '12345', update1)
+          .then(function (success) {
             console.log('DbSpec updateHabit success:', success);
-          },
-          function (fail) {
+          })
+          .catch(function (fail) {
             expect(fail).to.exist;
             done();
           });

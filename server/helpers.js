@@ -6,8 +6,10 @@ var moment = require('moment');
 var getHabits = function (email) {
   return User.findOne({ 'email': email })
     .then(function (user) {
-      console.log('found user:', user);
       return Habits.findById(user.habitsId)
+    })
+    .then(function (habits) {
+      return habits.store;
     })
 };
 

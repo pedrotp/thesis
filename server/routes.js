@@ -38,7 +38,7 @@ var routes = [
       // query db for user's habits
       helpers.getHabits(userEmail)
         .then(function (habits) {
-          res.status(200).json(habits.store);
+          res.status(200).json(habits);
         })
         .catch(function (err) {
           if (!testing) {
