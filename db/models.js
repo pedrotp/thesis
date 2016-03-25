@@ -15,7 +15,12 @@ var habitSchema = mongoose.Schema({
   frequency: { type: String }, // how often user wants to do the action (year, month, week, day, hour)
   instancesId: { type: mongoose.Schema.Types.ObjectId, ref: Instances }, // all the times a user has performed this action
   instanceCount: { type: Number, default: 0 },
-  lastDone: { type: Date },
+  streak: {
+    current: { type: Number, default: 0 },
+    max: { type: Number, default: 0 },
+    maxDate: { type: Date }
+  },
+  lastDone: { type: Date }
 },
 {
   timestamps: true
