@@ -163,10 +163,10 @@ var toggleInstance = function (email, habitid, success, fail) {
     });
 };
 
-var addUser = function (email, success, fail) {
+var addUser = function (email) {
   // findOneAndUpdate along with upsert set to true
   // allows for a user to be created if they don't exist
-  User.findOneAndUpdate({ 'email': email }, { 'email': email }, { 'upsert': true, 'new': true })
+  return User.findOneAndUpdate({ 'email': email }, { 'email': email }, { 'upsert': true, 'new': true })
     .then(function (dbUser) {
       if (dbUser.habitsId === undefined) {
         var habits = new Habits;
@@ -178,12 +178,6 @@ var addUser = function (email, success, fail) {
       }
       return dbUser.save();
     })
-    .then(function (newUser) {
-      success(newUser);
-    })
-    .catch(function (err) {
-      fail(err);
-    });
 };
 
 module.exports = {

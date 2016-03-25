@@ -19,13 +19,14 @@ var routes = [
     path: '/user',
     post: function (req, res) {
       var userEmail = req.body.email;
-      helpers.addUser(userEmail,
-        function (success) {
-          res.status(200).json(success);
-        },
-        function (err) {
+      helpers.addUser(userEmail)
+        .then(function (user) {
+          console.log('user created:', user);
+          res.status(200).json(user);
+        })
+        .catch(function (err) {
           if (!testing) {
-            console.error('Server error:', err);
+            console.error('Server error:', err)
           }
           res.sendStatus(400);
         });
