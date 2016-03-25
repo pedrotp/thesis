@@ -31,8 +31,8 @@ var addHabit = function (email, habitDetails) {
     })
 };
 
-var deleteHabit = function (email, habitId, success, fail) {
-  User.findOne({ 'email': email })
+var deleteHabit = function (email, habitId) {
+  return User.findOne({ 'email': email })
     .then(function (user) {
       return Habits.findById(user.habitsId);
     })
@@ -47,12 +47,6 @@ var deleteHabit = function (email, habitId, success, fail) {
       habits.save();
       return habit;
     })
-    .then(function (deletedHabit) {
-      success(deletedHabit);
-    })
-    .catch(function (err) {
-      fail(err);
-    });
 };
 
 var updateHabit = function (email, habitId, habitDetails) {

@@ -51,7 +51,7 @@ var routes = [
       var userEmail = req.params.user;
       var habit = req.body;
       helpers.addHabit(userEmail, habit)
-         .then(function (habit) {
+        .then(function (habit) {
           res.status(201).json(habit);
         })
         .catch(function (err) {
@@ -96,15 +96,15 @@ var routes = [
     delete: function (req, res) {
       var userEmail = req.params.user;
       var habitid = req.params.habitid;
-      helpers.deleteHabit(userEmail, habitid,
-        function (data) {
-          res.status(200).json(data);
-        },
-        function (err) {
+      helpers.deleteHabit(userEmail, habitid)
+        .then(function (habit) {
+          res.status(200).json(habit);
+        })
+        .catch(function (err) {
           if (!testing) {
-            console.error('Server error:', err);
+            console.error('Server error:', err)
           }
-          res.sendStatus(500);
+          res.sendStatus(400);
         });
     }
   }
