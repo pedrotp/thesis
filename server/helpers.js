@@ -168,6 +168,7 @@ var getInstances = function (email, habitid, success, fail) {
       return Instances.findById(habit.instancesId);
     })
     .then(function (instances) {
+      console.log(instances.store);
       success(instances.store);
     })
     .catch(function (err) {

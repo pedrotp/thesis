@@ -7,36 +7,28 @@ var Navigator = React.Navigator;
 var TouchableOpacity = React.TouchableOpacity;
 var ListView = React.ListView;
 var moment = require('moment');
-var calendar = require('../lib/calendar');
+var getDaysArray = require('../lib/calendar').getDaysArray;
+var getOffSetDays = require('../lib/calendar').getOffSetDays;
+var getDaysOfWeek = require('../lib/calendar').getDaysOfWeek;
+var makePlaceholder = require('../lib/calendar').makePlaceholder;
 
 // var Icon = require('react-native-vector-icons/MaterialIcons');
 // var doneIcon = <Icon name="done" size={30} color="#90" />;
 
 var HabitDetails = React.createClass({
   getInitialState: function () {
-    var ds = new ListView.DataSource({
-      rowHasChanged: function (row1, row2) {
-        return row1 !== row2;
-      }
-    });
-    // generates dummy data
-    var daysOfWeek = ['Su', 'M', 'Tu', 'W', 'Th', 'F', 'Sa'];
-    var data = [], j = 1;
-    for (var i = 0; i < 35; i++) {
-      if (i < 9) {
-        data.push(daysOfWeek[i]);
-      } else {
-        data.push(j);
-        j++;
-      }
-    }
     return {
-      dataSource: ds.cloneWithRows(data)
-      // fixedDataSource: ds.cloneWithRows(daysOfWeek)
-    };
+      currentDate: moment().format('DD'),
+      dataSource: new ListView.DataSource({
+        rowHasChanged: function (row1, row2) {
+          return row1 !== row2
+        }
+      })
+    }
   },
 
   componentDidMount: function () {
+    var _this = this;
     var habitId = this.props.habit._id;
     fetch(process.env.SERVER + '/habits/' + this.props.profile.email + '/' + habitId, {
       method: 'GET',
@@ -49,22 +41,30 @@ var HabitDetails = React.createClass({
       return response.json();
     })
     .then(function (responseData) {
-      console.log(responseData);
-      
-      var monthOfMarch = calendar(2016, 3);
+      console.log('response',responseData);
+      var monthOfFeb = getDaysArray(2016, 2);
+      var monthOfMarch = getDaysArray(2016, 3);
       monthOfMarch.forEach(function(day) {
         responseData.forEach(function(instance) {
           if(moment(day.fullDate).isSame(instance.createdAt, 'day')) {
+            console.log('FULL:',day.fullDate, 'CREATEDAT:', instance.createdAt);
             day.done = true;
           } else {
             day.done = false;
           }
         })
       });
-      var daysOfWeek = ['Su', 'M', 'Tu', 'W', 'Th', 'F', 'Sa'];
-      var listSource = daysOfWeek.concat(monthOfMarch);
+      var offSetSource = getOffSetDays(monthOfMarch[0].dayOfWeek, monthOfMarch);
+      var listSource = getDaysOfWeek().concat(offSetSource);
+      if(listSource.length % 7 !== 0) {
+        var remainder = 7 - (Math.floor(listSource.length % 7));
+        listSource = listSource.concat(makePlaceholder(remainder));
+      }
       console.log('listSource', listSource);
-      
+      _this.setState({
+        dataSource: _this.state.dataSource.cloneWithRows(listSource)
+      });
+      console.log('STATE:', _this.state);
     })
     .catch(function (err) {
       console.warn(err);
@@ -73,60 +73,71 @@ var HabitDetails = React.createClass({
 
   renderRow: function (rowData, sectionID, rowID) {
     // Renders days of week in the calendar
-    if (typeof rowData === 'string') {
+    if (rowData.calendarHeading) {
       return (
         <TouchableOpacity underlayColor="transparent">
           <View style={styles.weekRow}>
             <Text>
-              {rowData}
+              {rowData.calendarHeading}
             </Text>
           </View>
         </TouchableOpacity>
       );
     }
+    
+    if (rowData.placeholder) {
+      return (
+      <TouchableOpacity underlayColor="transparent">
+        <View style={styles.unavailRow}>
+          <Text style={styles.rowText}>
+          </Text>
+        </View>
+      </TouchableOpacity>
+      );
+    }
     // renders DONE boxes
-    if (rowData > 12 && rowData < 18 || rowData > 20 && rowData < 24) {
+    if (rowData.done) {
       return (
         <TouchableOpacity underlayColor="transparent">
           <View style={styles.doneRow}>
             <Text style={styles.rowText}>
-              {rowData}
+              {rowData.date}
             </Text>
           </View>
         </TouchableOpacity>
       );
     }
-    // renders NOT DONE boxes
-    if(rowData >=18 && rowData <= 20) {
-      return (
-        <TouchableOpacity underlayColor="transparent">
-          <View style={styles.notDoneRow}>
-            <Text style={styles.rowText}>
-              {rowData}
-            </Text>
-          </View>
-        </TouchableOpacity>
-      );
-    }
+    // // renders NOT DONE boxes
+    // if(rowData >=18 && rowData <= 20) {
+    //   return (
+    //     <TouchableOpacity underlayColor="transparent">
+    //       <View style={styles.notDoneRow}>
+    //         <Text style={styles.rowText}>
+    //           {rowData}
+    //         </Text>
+    //       </View>
+    //     </TouchableOpacity>
+    //   );
+    // }
     // renders FUTURE boxes
-    if(rowData >= 25) {
-      return (
-        <TouchableOpacity underlayColor="transparent">
-          <View style={styles.futureRow}>
-            <Text style={styles.rowText}>
-              {rowData}
-            </Text>
-          </View>
-        </TouchableOpacity>
-      );
-    }
     // renders PRESENT box
-    if(rowData === 24 ) {
+    if(rowData.date === this.state.currentDate ) {
       return (
         <TouchableOpacity underlayColor="transparent">
           <View style={styles.presentRow}>
             <Text style={styles.rowText}>
-              {rowData}
+              {rowData.date}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      );
+    }
+    if(rowData.date > this.state.currentDate) {
+      return (
+        <TouchableOpacity underlayColor="transparent">
+          <View style={styles.futureRow}>
+            <Text style={styles.rowText}>
+              {rowData.date}
             </Text>
           </View>
         </TouchableOpacity>
@@ -137,7 +148,7 @@ var HabitDetails = React.createClass({
       <TouchableOpacity underlayColor="transparent">
         <View style={styles.unavailRow}>
           <Text style={styles.rowText}>
-            {rowData}
+            {rowData.date}
           </Text>
         </View>
       </TouchableOpacity>
