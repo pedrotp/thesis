@@ -110,13 +110,13 @@ describe('Database', function () {
       });
 
       it('should fetch habits', function (done) {
-        helpers.getHabits(user.email,
-          function(success) {
+        helpers.getHabits(user.email)
+          .then(function (success) {
             expect(success).to.be.a('array');
             expect(success.length).to.equal(2);
             done();
-          },
-          function (fail) {
+          })
+          .catch(function (fail) {
             console.error('DbSpec getHabits error:', fail);
           });
       });
@@ -218,11 +218,11 @@ describe('Database', function () {
 
         // habit1 = { action: 'Write tests', frequency: 'Daily' }
         var update1 = {
-          frequency: 'Weekly'
+          action : 'Update'
         };
         helpers.updateHabit(user.email, habit1Id, update1,
           function (success) {
-            expect(success.frequency).to.equal('Weekly');
+            expect(success.action).to.equal('Update');
             done();
           },
           function (fail) {
