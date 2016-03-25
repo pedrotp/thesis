@@ -21,31 +21,6 @@ function Create (props) {
         onChange={function (text) { props.fields.action = text; }}
         defaultValue={props.fields.action}
       />
-      {/*<Frequency
-        title='How often?'
-        tint={'#6399DC'}
-        selectedTint={'#FFFFFF'}
-        options={['Hourly', 'Daily', 'Weekly', 'Monthly']}
-        onSelection={function (val) {
-          props.fields.frequency = freq[val];
-        }}
-        selectedOption={props.fields.frequency}
-      />*/
-      /*<TextField
-        title='Unit:'
-        onChange={function (text) { props.fields.unit = text; }}
-        value={ props.fields.unit }
-      />
-      <TextField
-        title='Goal:'
-        onChange={function (text) { props.fields.goal = text; }}
-        value={ props.fields.goal }
-      />
-      <TextField
-        title='Schedule:'
-        onChange={function (text) { props.fields.schedule = text; }}
-        value={ props.fields.schedule }
-      />*/}
       <SubmitButton onClick={props.handleClick} />
       <View style={styles.tips}>
         <Text style={styles.tipheader}>Try to start small:</Text>

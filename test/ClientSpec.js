@@ -28,7 +28,7 @@ describe('<Loading />', function() {
     var wrapper = shallow(<Loading />);
     expect(wrapper.find(View)).to.have.length(1);
   });
-  
+
   it('it should render 1 text component', function () {
     var wrapper = shallow(<Loading />);
     expect(wrapper.find(Text)).to.have.length(1);
@@ -36,25 +36,25 @@ describe('<Loading />', function() {
 });
 
 describe('<AddHabits />', function() {
-  
+
   it('it should render a view component', function () {
-    
+
     var wrapper = shallow(<AddHabits navigator={{}} />);
     expect(wrapper.find(View)).to.have.length(1);
   });
-  
+
   it('it should contain a navigator component', function () {
-    
+
     var wrapper = shallow(<AddHabits navigator={{}} />);
     expect(wrapper.find(Navigator)).to.have.length(1);
 
   });
   it('it should have an object property type', function() {
-    
+
     var wrapper = mount(<AddHabits navigator={{}} />);
     expect(wrapper.props().navigator).to.be.an('object');
   });
-  
+
   it('it should have a navigation bar', function () {
     var wrapper = shallow(<AddHabits navigator={{}} />);
     var navigator = wrapper.find('Navigator');
@@ -64,18 +64,16 @@ describe('<AddHabits />', function() {
 
 describe('<Create />', function() {
   it('it should render form controls', function () {
-    
+
     var fields = {
-      action: 'Floss',
-      frequency: 'Daily'
+      action: 'Floss'
     }
-    
+
     var wrapper = shallow(<Create fields={fields} handleClick={function(){}} />);
-    
-    expect(wrapper.find(View)).to.have.length(1);
+
+    expect(wrapper.find(View)).to.have.length(2);
     expect(wrapper.find(TextField)).to.have.length(1);
-    expect(wrapper.find(Frequency)).to.have.length(1);
     expect(wrapper.find('SubmitButton')).to.have.length(1);
   });
-    
+
 });
