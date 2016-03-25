@@ -47,3 +47,7 @@ dist/
 .flooignore
 
 .env
+
+# scratch pad
+#
+scratch.txt

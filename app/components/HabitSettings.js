@@ -6,8 +6,10 @@ console.ignoredYellowBox = [
 ];
 
 var React = require('react-native');
+var api = require('../lib/api');
 var View = React.View;
 var Text = React.Text;
+var Alert = React.Alert;
 var TextInput = React.TextInput;
 var StyleSheet = React.StyleSheet;
 var Navigator = React.Navigator;
@@ -16,37 +18,76 @@ var DatePickerIOS = React.DatePickerIOS;
 var Switch = React.Switch;
 
 var HabitSettings = React.createClass({
-  // text should be this.props.habit.habitName, habit object containing all habit details is
-  // passed when navigated from inbox to habitSettings
   getInitialState: function () {
     return {
-      date: new Date(),
-      reminder: false,
-      editMode: false
+      habit: this.props.habit
     };
   },
-  componentDidMount: function () {
-    //Uses this.props.habitId to fetch
-    //habit details and set state
-    console.log(this.props);
-  },
-
   onDateChange: function (date) {
-    this.setState({date: date})
+    var updates = this.state.habit;
+    updates.reminder.time = date;
+    this.setState({ habit: updates });
   },
-
-  deleteHabit: function () {
-    //fetch request to delete habit
+  onTextChange: function (text) {
+    var updates = this.state.habit;
+    updates.action = text;
+    this.setState({ habit: updates });
   },
-
-  onPress: function () {
-    if (this.state.editMode) {
-      this.setState({editMode: false});
-    } else {
-      this.setState({editMode: true});
-    }
+  onReminderChange: function (bool) {
+    var updates = this.state.habit;
+    updates.reminder.set = bool;
+    this.setState({ habit: updates });
   },
-
+  gotoInbox: function () {
+    this.props.navigator.push({ id: 'Habits' });
+  },
+  updateHabit: function (habitId) {
+    var _this = this;
+    fetch(process.env.SERVER + '/habits/' + this.props.profile.email + '/' + habitId, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + this.props.token.idToken
+      },
+      body: JSON.stringify(this.state.habit)
+    })
+    .then(api.handleErrors)
+    .then(function (response) {
+      _this.gotoInbox();
+    })
+    .catch(function (err) {
+      console.warn(err);
+    });
+  },
+  deleteHabit: function (habitId) {
+    var _this = this;
+    // TODO: refactor server call to api library
+    fetch(process.env.SERVER + '/habits/' + this.props.profile.email + '/' + habitId, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': 'Bearer ' + this.props.token.idToken
+      }
+    })
+    .then(api.handleErrors)
+    .then(function (response) {
+      Alert.alert(
+        'Habit Deleted',
+        null,
+        [
+          {
+            text: 'Ok',
+            onPress: function () {
+              _this.props.navigator.push({ id: 'Habits' });
+            }
+          }
+        ]
+      );
+    })
+    .catch(function (err) {
+      console.warn(err);
+    });
+  },
   render: function () {
     return (
       <View style={{ flex: 1 }}>
@@ -55,70 +96,51 @@ var HabitSettings = React.createClass({
           navigator={this.props.navigator}
           navigationBar={
             <Navigator.NavigationBar style={{backgroundColor: '#6399DC', alignItems: 'center'}}
-              routeMapper={NavigationBarRouteMapper} />
+              routeMapper={NavigationBarRouteMapper}
+            />
           }
         />
       </View>
     );
   },
-
   renderScene: function (route, navigator) {
     var _this = this;
-
-    // edit mode, habit name become editable
-    // textInput does not render anything at the moment - not sure why
-    // if (this.state.editMode) {
-    //   return (
-    //     <View style={styles.container}>
-    //       <TextInput
-    //         style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-    //         onEndEditing={function (text) { _this.setState({ text: text }); console.log('yolo:', _this.state); }}
-    //         defaultValue = {this.props.habitName}
-    //       />
-    //     <Text style={styles.label}>Reminder</Text>
-    //       <Switch style={styles.label}
-    //         onValueChange={function (value) { _this.setState({falseSwitchIsOn: value}); }}
-    //         style={{marginBottom: 10, alignSelf: 'flex-end'}}
-    //         value={this.state.falseSwitchIsOn}
-    //       />
-    //       <DatePickerIOS
-    //         date={this.state.date}
-    //         mode="time"
-    //         minuteInterval={5}
-    //         onDateChange={this.onDateChange}
-    //       />
-    //       <TouchableOpacity style={styles.button}>
-    //           <Text style={{color: '#FFFFFF'}}>
-    //             Delete
-    //           </Text>
-    //       </TouchableOpacity>
-    //     </View>
-    //   )
-    // }
-
-    if (this.state.reminder) {
+    if (this.state.habit.reminder.set) {
       return (
         <View style={styles.container}>
-          <Text style={styles.heading}>
-            {this.props.habit.action}
-          </Text>
+          <TextInput
+            style={styles.heading}
+            defaultValue={this.props.habit.action}
+            onChangeText={this.onTextChange}
+          />
           <View style={{ flexDirection: 'row', marginTop: 60 }}>
-            <Text style={{fontSize: 22}}>Reminder</Text>
+            <Text style={{fontSize: 22}}>
+              Reminder
+            </Text>
             <Switch
-              onValueChange={function (date) { _this.setState({reminder: date}); }}
+              onValueChange={this.onReminderChange}
               style={{left: 190, marginBottom: 30}}
-              value={this.state.reminder}
-              />
+              value={this.state.habit.reminder.set}
+            />
           </View>
             <DatePickerIOS
-              date={this.state.date}
+              date={new Date(this.state.habit.reminder.time)}
               mode="time"
               minuteInterval={5}
               onDateChange={this.onDateChange}
             />
-          <TouchableOpacity style={styles.button} onPress={function () {_this.props.deleteHabit(_this.props.habit._id)}}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={function () { _this.deleteHabit(_this.state.habit._id) }}>
             <Text style={{color: '#FFFFFF'}}>
               Delete Habit
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={function () { _this.updateHabit(_this.state.habit._id) }}>
+            <Text style={{color: '#FFFFFF'}}>
+              Update Habit
             </Text>
           </TouchableOpacity>
         </View>
@@ -126,20 +148,33 @@ var HabitSettings = React.createClass({
     } else {
       return (
         <View style={styles.container}>
-          <Text style={styles.heading}>
-            {this.props.habit.action}
-          </Text>
+          <TextInput
+            style={styles.heading}
+            defaultValue={this.props.habit.action}
+            onChangeText={this.onTextChange}
+          />
           <View style={{ flexDirection: 'row', marginTop: 60, marginBottom: 216 }}>
-            <Text style={{fontSize: 22}}>Reminder</Text>
+            <Text style={{fontSize: 22}}>
+              Reminder
+            </Text>
             <Switch
-              onValueChange={function (date) { _this.setState({reminder: date}); }}
+              onValueChange={this.onReminderChange}
               style={{left: 190, marginBottom: 30}}
-              value={this.state.reminder}
-              />
+              value={this.state.habit.reminder.set}
+            />
           </View>
-          <TouchableOpacity style={styles.button} onPress={function () {_this.props.deleteHabit(_this.props.habit._id)}}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={function () { _this.deleteHabit(_this.state.habit._id) }}>
             <Text style={{color: '#FFFFFF'}}>
               Delete Habit
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={function () { _this.updateHabit(_this.state.habit._id) }}>
+            <Text style={{color: '#FFFFFF'}}>
+              Update Habit
             </Text>
           </TouchableOpacity>
         </View>
@@ -149,55 +184,43 @@ var HabitSettings = React.createClass({
 });
 
 var NavigationBarRouteMapper = {
-  LeftButton(route, navigator, index, navState) {
-      return (
-        <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-            onPress={function () {navigator.parentNavigator.pop()}}>
-          <Text style={{color: 'white', margin: 10}}>
-            Back
-          </Text>
-        </TouchableOpacity>
-      );
+  LeftButton: function (route, navigator, index, navState) {
+    return (
+      <TouchableOpacity
+        style={{flex: 1, justifyContent: 'center'}}
+        onPress={function () { navigator.parentNavigator.pop(); }}>
+        <Text style={{color: 'white', margin: 10}}>
+          Back
+        </Text>
+      </TouchableOpacity>
+    );
   },
 
-  RightButton(route, navigator, index, navState) {
+  RightButton: function (route, navigator, index, navState) {
     return null;
   },
 
-  Title(route, navigator, index, navState) {
-    // var title;
-    // var routeStack = navigator.parentNavigator.state.routeStack;
-    // var previousRoute = routeStack[routeStack.length - 2];
-
+  Title: function (route, navigator, index, navState) {
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
         <Text style={{color: 'white', margin: 10, fontSize: 16}}>
-            Habit Settings
+          Habit Settings
         </Text>
       </TouchableOpacity>
     );
   }
 };
 
-var Label = function (props) {
-  return (
-    <View>
-      <Text>
-        {props.title}
-      </Text>
-    </View>
-  );
-};
-
 var styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
-    top: 100,
+    top: 120,
   },
   heading: {
-    fontSize: 34,
-    alignSelf: 'center',
+    height: 40,
+    textAlign: 'center',
+    fontSize: 34
   },
   button: {
     height: 30,

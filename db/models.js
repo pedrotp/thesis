@@ -20,7 +20,11 @@ var habitSchema = mongoose.Schema({
     max: { type: Number, default: 0 },
     maxDate: { type: Date }
   },
-  lastDone: { type: Date }
+  lastDone: { type: Date },
+  reminder: {
+    set: { type: Boolean, default: false },
+    time: { type: Date, default: Date.now() }
+  }
 },
 {
   timestamps: true

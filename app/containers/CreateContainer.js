@@ -11,55 +11,22 @@ var Create = require('../components/Create').Create;
 
 var AddHabit = React.createClass({
   getInitialState: function () {
-
-    // Check if a habit is being sent to this view
-    var editHabit = this.props.habit;
     var fields = {
       action: null,
       // frequency: null
     };
-
-    // If so, fields will be populated with the habit details
-    if (editHabit) {
-      fields.action = editHabit.action;
-      // fields.frequency = editHabit.frequency;
-    }
     return {
       fields: fields
     }
   },
 
-  // If a habit is being sent, sendHabbit needs to be changed
-  determineMethod: function () {
-    var result = {};
-    if (this.props.habit) {
-      result.method = 'PUT';
-      result.id = this.props.habit._id;
-    } else {
-      result.method = 'POST';
-      result.id = '';
-    }
-    return result;
-  },
   sendHabit: function (reqbody) {
-    console.log('sendHabit is called');
-    console.log('this.state', this.state);
-    console.log('reqbody', reqbody);
     // Store reference to 'this' to be used in the
     // success alert to bring user to inbox view
     var _this = this;
 
-    // Determines which HTTP request to send
-    var options = this.determineMethod();
-    console.log('options', options);
-    // Determines which alert message
-    // to log in success alert
-    var alertmsg = options.method === 'PUT' ?
-    'Habit updated!' :
-    'Habit created!';
-
-    fetch(process.env.SERVER + '/habits/' + this.props.profile.email + '/' + options.id, {
-      method: options.method,
+    fetch(process.env.SERVER + '/habits/' + this.props.profile.email, {
+      method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -72,9 +39,8 @@ var AddHabit = React.createClass({
       return response.json();
     })
     .then(function (responseJSON) {
-      console.log('Habit success:', responseJSON);
       Alert.alert(
-        alertmsg,
+        'Habit Created!',
         null,
         [
           {
@@ -92,14 +58,12 @@ var AddHabit = React.createClass({
       console.warn(err);
     });
   },
+
   goToNext: function () {
-    this.props.navigator.push({
-      id: 'Habits'
-    });
+    this.props.navigator.push({ id: 'Habits' });
   },
 
   handleClick: function () {
-    console.log('started handleclick')
     // Values stored to be sent to server
     var action = this.state.fields.action;
     // var frequency = this.state.fields.frequency;
@@ -126,8 +90,10 @@ var AddHabit = React.createClass({
           navigator={this.props.navigator}
           navigationBar={
             <Navigator.NavigationBar style={{backgroundColor: '#6399DC', alignItems: 'center'}}
-                routeMapper={NavigationBarRouteMapper} />
-          } />
+              routeMapper={NavigationBarRouteMapper}
+            />
+          }
+        />
       </View>
     );
   },

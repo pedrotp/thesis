@@ -142,7 +142,6 @@ var AppContainer = React.createClass({
           token={this.state.token}
           profile={this.state.profile}
           habit={route.habit}
-          deleteHabit={route.deleteHabit}
         />
       );
     }

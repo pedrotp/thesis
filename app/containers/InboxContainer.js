@@ -48,43 +48,11 @@ var Habits = React.createClass({
       console.warn(err);
     });
   },
-  deleteHabit: function (habitId) {
-    var _this = this;
-    // TODO: refactor server call to api library
-    // Remove from server
-    fetch(process.env.SERVER + '/habits/' + this.props.profile.email + '/' + habitId, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': 'Bearer ' + this.props.token.idToken
-      }
-    })
-    .then(api.handleErrors)
-    // Get updated habit list
-    .then(function (response) {
-      // _this.getHabits();
-      Alert.alert(
-        'Habit Deleted',
-        null,
-        [
-          {
-            text: 'Ok',
-            onPress: function () {
-              _this.props.navigator.push({ id: 'Habits' });
-            }
-          }
-        ]
-      );
-    })
-    .catch(function (err) {
-      console.warn(err);
-    });
-  },
   editHabit: function (habit) {
     var _this = this;
     this.props.navigator.push({
       id: 'HabitSettings',
-      habit: habit,
-      deleteHabit: _this.deleteHabit
+      habit: habit
     });
   },
   toggleInstance: function (habitId) {
