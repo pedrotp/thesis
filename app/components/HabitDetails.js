@@ -1,4 +1,5 @@
 var React = require('react-native');
+var api = require('../lib/api');
 var View = React.View;
 var Text = React.Text;
 var StyleSheet = React.StyleSheet;
@@ -6,6 +7,7 @@ var Navigator = React.Navigator;
 var TouchableOpacity = React.TouchableOpacity;
 var ListView = React.ListView;
 var moment = require('moment');
+var calendar = require('../lib/calendar');
 
 // var Icon = require('react-native-vector-icons/MaterialIcons');
 // var doneIcon = <Icon name="done" size={30} color="#90" />;
@@ -35,8 +37,38 @@ var HabitDetails = React.createClass({
   },
 
   componentDidMount: function () {
-    //Uses this.props.habitId to fetch
-    //habit details and set state
+    var habitId = this.props.habit._id;
+    fetch(process.env.SERVER + '/habits/' + this.props.profile.email + '/' + habitId, {
+      method: 'GET',
+      headers: {
+        'Authorization':'Bearer' + this.props.token.idToken
+      }
+    })
+    .then(api.handleErrors)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (responseData) {
+      console.log(responseData);
+      
+      var monthOfMarch = calendar(2016, 3);
+      monthOfMarch.forEach(function(day) {
+        responseData.forEach(function(instance) {
+          if(moment(day.fullDate).isSame(instance.createdAt, 'day')) {
+            day.done = true;
+          } else {
+            day.done = false;
+          }
+        })
+      });
+      var daysOfWeek = ['Su', 'M', 'Tu', 'W', 'Th', 'F', 'Sa'];
+      var listSource = daysOfWeek.concat(monthOfMarch);
+      console.log('listSource', listSource);
+      
+    })
+    .catch(function (err) {
+      console.warn(err);
+    });
   },
 
   renderRow: function (rowData, sectionID, rowID) {
