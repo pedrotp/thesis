@@ -11,7 +11,7 @@ var getHabits = function (email) {
     })
 };
 
-var addHabit = function (email, habitDetails, success, fail) {
+var addHabit = function (email, habitDetails) {
 
   // Manual error handling for partial
   // habitDetails (missing required fields)
@@ -19,7 +19,7 @@ var addHabit = function (email, habitDetails, success, fail) {
   //   return fail('Required field(s) missing');
   // }
 
-  User.findOne({ 'email': email })
+  return User.findOne({ 'email': email })
     .then(function (user) {
       return Habits.findById(user.habitsId);
     })
@@ -35,12 +35,6 @@ var addHabit = function (email, habitDetails, success, fail) {
       habits.save();
       return habit;
     })
-    .then(function (newHabit) {
-      success(newHabit);
-    })
-    .catch(function (err) {
-      fail(err);
-    });
 };
 
 var deleteHabit = function (email, habitId, success, fail) {

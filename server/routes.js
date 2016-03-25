@@ -51,13 +51,14 @@ var routes = [
     post: function (req, res) {
       var userEmail = req.params.user;
       var habit = req.body;
-      helpers.addHabit(userEmail, habit,
-        function (data) {
-          res.status(201).json(data);
-        },
-        function (err) {
+      helpers.addHabit(userEmail, habit)
+         .then(function (habit) {
+          console.log('habits added:', habit);
+          res.status(201).json(habit);
+        })
+        .catch(function (err) {
           if (!testing) {
-            console.error('Server error:', err);
+            console.error('Server error:', err)
           }
           res.sendStatus(400);
         });
