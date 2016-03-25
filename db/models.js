@@ -23,7 +23,7 @@ var habitSchema = mongoose.Schema({
   lastDone: { type: Date },
   reminder: {
     set: { type: Boolean, default: false },
-    time: { type: Date }
+    time: { type: Date, default: Date.now() }
   }
 },
 {

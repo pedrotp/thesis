@@ -20,46 +20,49 @@ var Switch = React.Switch;
 var HabitSettings = React.createClass({
   getInitialState: function () {
     return {
-      habit: {
-        action: this.props.habit.action,
-        frequency: this.props.habit.frequency,
-        id: this.props.habit._id,
-        createdAt: this.props.habit.createdAt,
-        updatedAt: this.props.habit.updatedAt,
-        instanceCount: this.props.habit.instanceCount,
-        instancesId: this.props.habit.instancesId,
-        streak: {
-          current: this.props.habit.streak.current,
-          max: this.props.habit.streak.max,
-          maxDate: this.props.habit.streak.maxDate
-        },
-        lastDone: this.props.habit.lastDone,
-        reminder: {
-          set: this.props.habit.reminder.set,
-          time: this.props.habit.reminder.time
-        }
-      }
+      habit: this.props.habit
     };
   },
-  componentDidMount: function () {
-    // console.log('HAB:', this.state.habit);
-  },
   onDateChange: function (date) {
-    this.setState({ habit: { reminder: { ...this.state.habit.reminder, time: date }}});
+    var updates = this.state.habit;
+    updates.reminder.time = date;
+    this.setState({ habit: updates });
   },
   onTextChange: function (text) {
-    this.setState({ habit: { ...this.state.habit, action: text }})
+    var updates = this.state.habit;
+    updates.action = text;
+    this.setState({ habit: updates });
   },
   onReminderChange: function (bool) {
-    this.setState({ habit: { reminder: { ...this.state.habit.reminder, set: bool }}});
+    var updates = this.state.habit;
+    updates.reminder.set = bool;
+    this.setState({ habit: updates });
   },
-  onEndTextEdit: function () {
-    // console.log('YOLO?', this.state.habit);
+  gotoInbox: function () {
+    this.props.navigator.push({ id: 'Habits' });
+  },
+  updateHabit: function (habitId) {
+    var _this = this;
+    fetch(process.env.SERVER + '/habits/' + this.props.profile.email + '/' + habitId, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + this.props.token.idToken
+      },
+      body: JSON.stringify(this.state.habit)
+    })
+    .then(api.handleErrors)
+    .then(function (response) {
+      _this.gotoInbox();
+    })
+    .catch(function (err) {
+      console.warn(err);
+    });
   },
   deleteHabit: function (habitId) {
     var _this = this;
     // TODO: refactor server call to api library
-    // Remove from server
     fetch(process.env.SERVER + '/habits/' + this.props.profile.email + '/' + habitId, {
       method: 'DELETE',
       headers: {
@@ -67,9 +70,7 @@ var HabitSettings = React.createClass({
       }
     })
     .then(api.handleErrors)
-    // Get updated habit list
     .then(function (response) {
-      // _this.getHabits();
       Alert.alert(
         'Habit Deleted',
         null,
@@ -123,16 +124,23 @@ var HabitSettings = React.createClass({
             />
           </View>
             <DatePickerIOS
-              date={new Date()}
+              date={new Date(this.state.habit.reminder.time)}
               mode="time"
               minuteInterval={5}
               onDateChange={this.onDateChange}
             />
           <TouchableOpacity
             style={styles.button}
-            onPress={function () { _this.deleteHabit(_this.state.habit.id) }}>
+            onPress={function () { _this.deleteHabit(_this.state.habit._id) }}>
             <Text style={{color: '#FFFFFF'}}>
               Delete Habit
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={function () { _this.updateHabit(_this.state.habit._id) }}>
+            <Text style={{color: '#FFFFFF'}}>
+              Update Habit
             </Text>
           </TouchableOpacity>
         </View>
@@ -144,7 +152,6 @@ var HabitSettings = React.createClass({
             style={styles.heading}
             defaultValue={this.props.habit.action}
             onChangeText={this.onTextChange}
-            onEndEditing={this.onEndTextEdit}
           />
           <View style={{ flexDirection: 'row', marginTop: 60, marginBottom: 216 }}>
             <Text style={{fontSize: 22}}>
@@ -158,9 +165,16 @@ var HabitSettings = React.createClass({
           </View>
           <TouchableOpacity
             style={styles.button}
-            onPress={function () { _this.deleteHabit(_this.state.habit.id) }}>
+            onPress={function () { _this.deleteHabit(_this.state.habit._id) }}>
             <Text style={{color: '#FFFFFF'}}>
               Delete Habit
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={function () { _this.updateHabit(_this.state.habit._id) }}>
+            <Text style={{color: '#FFFFFF'}}>
+              Update Habit
             </Text>
           </TouchableOpacity>
         </View>

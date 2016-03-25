@@ -397,16 +397,10 @@
 				INFOPLIST_FILE = thesis/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
-<<<<<<< 5f296dab61f5bc50308b61c3a9a5040d707c6376
 				PRODUCT_BUNDLE_IDENTIFIER = com.hrrbThundercats.better;
 				PRODUCT_NAME = thesis;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
-=======
-				PRODUCT_BUNDLE_IDENTIFIER = com.thundercats.better;
-				PRODUCT_NAME = thesis;
-				PROVISIONING_PROFILE = "";
->>>>>>> (refactor) Adds basic Habit Settings view
 			};
 			name = Debug;
 		};
@@ -425,16 +419,10 @@
 				INFOPLIST_FILE = thesis/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
-<<<<<<< 5f296dab61f5bc50308b61c3a9a5040d707c6376
 				PRODUCT_BUNDLE_IDENTIFIER = com.hrrbThundercats.better;
 				PRODUCT_NAME = thesis;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
-=======
-				PRODUCT_BUNDLE_IDENTIFIER = com.thundercats.better;
-				PRODUCT_NAME = thesis;
-				PROVISIONING_PROFILE = "";
->>>>>>> (refactor) Adds basic Habit Settings view
 			};
 			name = Release;
 		};
