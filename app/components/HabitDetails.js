@@ -5,6 +5,7 @@ var StyleSheet = React.StyleSheet;
 var Navigator = React.Navigator;
 var TouchableOpacity = React.TouchableOpacity;
 var ListView = React.ListView;
+var moment = require('moment');
 
 // var Icon = require('react-native-vector-icons/MaterialIcons');
 // var doneIcon = <Icon name="done" size={30} color="#90" />;
@@ -145,9 +146,9 @@ var HabitDetails = React.createClass({
           automaticallyAdjustContentInsets={false}
         />
         <View style={styles.count}>
-          <Text style={styles.text}>Current Streak: 3</Text>
-          <Text style={styles.text}>Longest Streak: 5</Text>
-          <Text style={styles.text}>Total Completed: 8</Text>
+          <Text style={styles.text}>Current Streak: { moment(new Date(this.props.habit.lastDone)).isSame(Date.now(), 'week') ? _this.props.habit.streak.current : 0 }</Text>
+          <Text style={styles.text}>Longest Streak: {_this.props.habit.streak.max}</Text>
+          <Text style={styles.text}>Total Completed: {_this.props.habit.instanceCount}</Text>
         </View>
       </View>
     )
