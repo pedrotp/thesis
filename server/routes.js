@@ -107,6 +107,19 @@ var routes = [
           res.sendStatus(400);
         });
     }
+  },
+  {
+    path: '/sms',
+    post: function (req, res) {
+      sms.send(req.body, function (err, received) {
+        if (err) {
+          console.error(err);
+          res.status(500).send(err);
+        } else {
+          res.status(200).send(received.sid);
+        }
+      });
+    }
   }
 ];
 
