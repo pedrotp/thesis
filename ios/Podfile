@@ -7,3 +7,4 @@ pod 'React', :subspecs => [
   'RCTWebSocket'
   ], :path => '../node_modules/react-native'
 pod 'LockReactNative', :path => '../node_modules/react-native-lock-ios'
+pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
