@@ -7,9 +7,9 @@ var Text = React.Text;
 var Image = React.Image;
 var Icon = require('react-native-vector-icons/FontAwesome');
 var AppContainer = require('./app/containers/AppContainer');
-var CreateContainer = require('./app/containers/CreateContainer')
+var ProfileContainer = require('./app/containers/ProfileContainer')
 
-var localServer = true;
+var localServer = false;
 
 if (localServer === true) {
   process.env.SERVER = 'http://localhost:3000'
@@ -49,9 +49,7 @@ var TabContainer = React.createClass({
             });
           }}
         >
-          <View>
-            <Text>Profile View Placeholder</Text>
-          </View>
+          <ProfileContainer />
         </Icon.TabBarItemIOS>
       </TabBarIOS>
     )
