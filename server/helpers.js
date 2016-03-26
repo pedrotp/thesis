@@ -65,12 +65,11 @@ var updateHabit = function (email, habitId, habitDetails) {
       var habit = habits.store.id(habitId);
       if (!habit) {
         throw new Error('Invalid habit ID');
-      } else {
-        var i = habits.store.indexOf(habit);
-        habits.store.set(i, habitDetails);
-        habits.save();
-        return habits.store[i];
       }
+      var i = habits.store.indexOf(habit);
+      habits.store.set(i, habitDetails);
+      habits.save();
+      return habits.store[i];
     })
 };
 
@@ -82,6 +81,9 @@ var toggleInstance = function (email, habitId) {
     })
     .then(function (habits) {
       var habit = habits.store.id(habitId);
+      if (!habit) {
+        throw new Error('Invalid habit ID');
+      }
       return Instances.findById(habit.instancesId)
         .then(function (instances) {
           var last = instances.store[instances.store.length - 1];
