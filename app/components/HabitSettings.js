@@ -17,6 +17,8 @@ var TouchableOpacity = React.TouchableOpacity;
 var DatePickerIOS = React.DatePickerIOS;
 var Switch = React.Switch;
 
+var Button = require('react-native-button');
+
 var HabitSettings = React.createClass({
   getInitialState: function () {
     return {
@@ -129,20 +131,22 @@ var HabitSettings = React.createClass({
               minuteInterval={5}
               onDateChange={this.onDateChange}
             />
-          <TouchableOpacity
-            style={styles.button}
-            onPress={function () { _this.deleteHabit(_this.state.habit._id) }}>
-            <Text style={{color: '#FFFFFF'}}>
-              Delete Habit
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={function () { _this.updateHabit(_this.state.habit._id) }}>
-            <Text style={{color: '#FFFFFF'}}>
-              Update Habit
-            </Text>
-          </TouchableOpacity>
+          <Button
+            containerStyle={styles.updateButtonContainer}
+            style={styles.updateButtonText}
+            styleDisabled={{color: 'red'}}
+            onPress={function () {_this.updateHabit(_this.state.habit._id)}}
+          >
+            Update Habit
+          </Button>
+          <Button
+            containerStyle={styles.deleteButtonContainer}
+            style={styles.deleteButtonText}
+            styleDisabled={{color: 'red'}}
+            onPress={function () {_this.deleteHabit(_this.state.habit._id)}}
+          >
+            Delete Habit
+          </Button>
         </View>
       );
     } else {
@@ -163,20 +167,22 @@ var HabitSettings = React.createClass({
               value={this.state.habit.reminder.set}
             />
           </View>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={function () { _this.deleteHabit(_this.state.habit._id) }}>
-            <Text style={{color: '#FFFFFF'}}>
-              Delete Habit
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={function () { _this.updateHabit(_this.state.habit._id) }}>
-            <Text style={{color: '#FFFFFF'}}>
-              Update Habit
-            </Text>
-          </TouchableOpacity>
+          <Button
+            containerStyle={styles.updateButtonContainer}
+            style={styles.updateButtonText}
+            styleDisabled={{color: 'red'}}
+            onPress={function () {_this.updateHabit(_this.state.habit._id)}}
+          >
+            Update Habit
+          </Button>
+          <Button
+            containerStyle={styles.deleteButtonContainer}
+            style={styles.deleteButtonText}
+            styleDisabled={{color: 'red'}}
+            onPress={function () {_this.deleteHabit(_this.state.habit._id)}}
+          >
+            Delete Habit
+          </Button>
         </View>
       );
     }
@@ -222,24 +228,27 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 34
   },
-  button: {
-    height: 30,
-    alignItems: 'center',
-    alignSelf: 'center',
-    borderColor: '#FFFFFF',
-    borderWidth: 0,
-    borderRadius: 5,
-    padding: 5,
-    margin: 20,
-    marginTop: 40,
-    backgroundColor: '#FF0000',
-    shadowColor: '#000000',
-    shadowOpacity: 0.6,
-    shadowRadius: 3,
-    shadowOffset: {
-      height: 3.5,
-      width: 2
-    }
+  deleteButtonText: {
+    fontSize: 20, 
+    color: '#e14f3f'
+  },
+  deleteButtonContainer: {
+    padding:10, 
+    height:45, 
+    overflow:'hidden', 
+    borderRadius:4, 
+    backgroundColor: 'white', 
+    marginTop: 20
+  },
+  updateButtonText: {
+    fontSize: 20, color: 'white'
+  },
+  updateButtonContainer: {
+    padding:10, height:45, 
+    overflow:'hidden', 
+    borderRadius:4, 
+    backgroundColor: '#6399DC', 
+    marginTop: 20
   },
 });
 module.exports = HabitSettings;

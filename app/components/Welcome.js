@@ -7,6 +7,7 @@ var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
 // App components
 var Habits = require('../containers/CreateContainer');
+var Button = require('react-native-button');
 
 var Welcome = React.createClass({
   onPressButton: function () {
@@ -32,13 +33,14 @@ var Welcome = React.createClass({
         <Text style={styles.instructions}>
           Create your first habit!
         </Text>
-        <TouchableOpacity onPress={this.onPressButton}>
-          <View style={styles.button}>
-            <Text style={{color: '#FFF'}}>
-              Get Started
-            </Text>
-          </View>
-        </TouchableOpacity>
+        <Button
+          containerStyle={styles.buttonContainer}
+          style={styles.buttonText}
+          styleDisabled={{color: 'red'}}
+          onPress={this.onPressButton}
+        >
+        Get Started
+        </Button>
       </View>
     );
   }
@@ -65,25 +67,19 @@ var styles = StyleSheet.create({
     marginBottom: 5,
     color: '#FFF'
   },
-  button: {
-    height: 30,
-    width: 100,
-    alignItems: 'center',
-    alignSelf: 'center',
-    borderColor: '#FFF',
-    borderWidth: 0,
-    borderRadius: 5,
-    padding: 5,
-    margin: 20,
-    backgroundColor: '#6399DC',
-    shadowColor: '#000000',
-    shadowOpacity: 0.6,
-    shadowRadius: 3,
-    shadowOffset: {
-      height: 3.5,
-      width: 2
-    }
-  }
+  buttonText: {
+    fontSize: 20, color: 'white'
+  },
+  buttonContainer: {
+    padding:10, 
+    height:45, 
+    overflow:'hidden', 
+    borderRadius:4, 
+    backgroundColor: '#6399DC', 
+    marginTop: 20,
+    marginLeft: 10,
+    marginRight: 10
+  },
 });
 
 module.exports = Welcome;

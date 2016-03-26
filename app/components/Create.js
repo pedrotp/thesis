@@ -6,6 +6,7 @@ var TextInput = React.TextInput;
 var PropTypes = React.PropTypes;
 var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
+var Button = require('react-native-button');
 var freq = {
   'Hourly': 'hour',
   'Daily': 'day',
@@ -71,11 +72,14 @@ function Frequency (props) {
 // Sub-component of Create
 function SubmitButton (props) {
   return (
-    <TouchableOpacity onPress={props.onClick} style={styles.button}>
-        <Text style={{color: '#FFFFFF'}}>
-          Submit
-        </Text>
-    </TouchableOpacity>
+    <Button
+      containerStyle={styles.buttonContainer}
+      style={styles.buttonText}
+      styleDisabled={{color: 'red'}}
+      onPress={props.onClick}
+    >
+      Create Habit
+    </Button>
   );
 }
 
@@ -97,7 +101,8 @@ var styles = StyleSheet.create({
   container: {
     flex: 0.90,
     justifyContent: 'center',
-    backgroundColor: '#EDBE40'
+    backgroundColor: '#EDBE40',
+    paddingHorizontal: 20
   },
   radio: {
     width: 325,
@@ -113,35 +118,27 @@ var styles = StyleSheet.create({
     color: '#FFFFFF'
   },
   textInput: {
-    height: 35,
-    width: 250,
-    padding: 5,
-    backgroundColor: '#FFFFFF',
-    borderColor: '#6399DC',
-    color: '#6399DC',
-    borderWidth: 0,
-    borderRadius: 10,
-    alignSelf: 'center',
-    alignItems: 'center'
+    padding:10, 
+    height:45, 
+    overflow:'hidden', 
+    borderRadius:4, 
+    backgroundColor: 'white', 
+    marginTop: 20,
+    marginLeft: 20,
+    marginRight: 20
   },
-  button: {
-    height: 30,
-    width: 80,
-    alignItems: 'center',
-    alignSelf: 'center',
-    borderColor: '#FFFFFF',
-    borderWidth: 0,
-    borderRadius: 5,
-    padding: 5,
-    margin: 20,
-    backgroundColor: '#6399DC',
-    shadowColor: '#000000',
-    shadowOpacity: 0.6,
-    shadowRadius: 3,
-    shadowOffset: {
-      height: 3.5,
-      width: 2
-    }
+  buttonText: {
+    fontSize: 20, color: 'white'
+  },
+  buttonContainer: {
+    padding:10, 
+    height:45, 
+    overflow:'hidden', 
+    borderRadius:4, 
+    backgroundColor: '#6399DC', 
+    marginTop: 20,
+    marginLeft: 20,
+    marginRight: 20
   },
   tips: {
     alignSelf: 'center',
