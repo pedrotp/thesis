@@ -31,6 +31,7 @@
     "morgan": "^1.7.0",
     "node-schedule": "^1.1.0",
     "react-native": "^0.21.0",
+    "react-native-button": "^1.4.2",
     "react-native-lock-ios": "0.0.5",
     "react-native-radio-buttons": "^0.9.1",
     "react-native-swipeout": "^2.0.12",
