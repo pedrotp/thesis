@@ -1,4 +1,5 @@
 var React = require('react-native');
+var api = require('../lib/api');
 var View = React.View;
 var Text = React.Text;
 var StyleSheet = React.StyleSheet;
@@ -7,105 +8,129 @@ var TouchableOpacity = React.TouchableOpacity;
 var ListView = React.ListView;
 var moment = require('moment');
 
+var getPeriodArray = require('../lib/calendar').getPeriodArray;
+var getDaysArray = require('../lib/calendar').getDaysArray;
+var calendarLabel = require('../lib/calendar').calendarLabel;
+
+
 // var Icon = require('react-native-vector-icons/MaterialIcons');
 // var doneIcon = <Icon name="done" size={30} color="#90" />;
 
 var HabitDetails = React.createClass({
   getInitialState: function () {
-    var ds = new ListView.DataSource({
-      rowHasChanged: function (row1, row2) {
-        return row1 !== row2;
-      }
-    });
-    // generates dummy data
-    var daysOfWeek = ['Su', 'M', 'Tu', 'W', 'Th', 'F', 'Sa'];
-    var data = [], j = 1;
-    for (var i = 0; i < 35; i++) {
-      if (i < 9) {
-        data.push(daysOfWeek[i]);
-      } else {
-        data.push(j);
-        j++;
-      }
-    }
     return {
-      dataSource: ds.cloneWithRows(data)
-      // fixedDataSource: ds.cloneWithRows(daysOfWeek)
-    };
+      currentDate: moment(),
+      dataSource: new ListView.DataSource({
+        rowHasChanged: function (row1, row2) {
+          return row1 !== row2
+        }
+      })
+    }
   },
 
   componentDidMount: function () {
-    //Uses this.props.habitId to fetch
-    //habit details and set state
+    var _this = this;
+    var habitId = this.props.habit._id;
+    fetch(process.env.SERVER + '/habits/' + this.props.profile.email + '/' + habitId, {
+      method: 'GET',
+      headers: {
+        'Authorization':'Bearer ' + this.props.token.idToken
+      }
+    })
+    .then(api.handleErrors)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (responseData) {
+      var period = getPeriodArray();
+      var days = getDaysArray(period);
+      
+      days.forEach(function(day) {
+        responseData.forEach(function(instance) {
+          if(moment(day.ISOString).isSame(instance.createdAt, 'day')) {
+            day.done = true;
+          }
+        })
+      }); 
+      
+      days = calendarLabel().concat(days);
+      
+      _this.setState({
+        dataSource: _this.state.dataSource.cloneWithRows(days)
+      });
+    })
+    .catch(function (err) {
+      console.warn(err);
+    });
   },
 
   renderRow: function (rowData, sectionID, rowID) {
-    // Renders days of week in the calendar
-    if (typeof rowData === 'string') {
+    // Renders DAYS OF WEEK in the calendar
+    if (rowData.calendarHeading) {
       return (
         <TouchableOpacity underlayColor="transparent">
           <View style={styles.weekRow}>
             <Text>
-              {rowData}
+              {rowData.calendarHeading}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      );
+    }
+    // renders PRESENT DAY, DONE box
+    if(moment(rowData.ISOString).isSame(this.state.currentDate, 'day') && rowData.done) {
+      return (
+        <TouchableOpacity underlayColor="transparent">
+          <View style={styles.presentDoneRow}>
+            <Text style={styles.rowText}>
+              {rowData.date}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      );
+    }
+    // renders PRESENT DAY, NOT-DONE box
+    if(moment(rowData.ISOString).isSame(this.state.currentDate, 'day')) {
+      return (
+        <TouchableOpacity underlayColor="transparent">
+          <View style={styles.presentNotDoneRow}>
+            <Text style={styles.rowText}>
+              {rowData.date}
             </Text>
           </View>
         </TouchableOpacity>
       );
     }
     // renders DONE boxes
-    if (rowData > 12 && rowData < 18 || rowData > 20 && rowData < 24) {
+    if (rowData.done) {
       return (
         <TouchableOpacity underlayColor="transparent">
           <View style={styles.doneRow}>
             <Text style={styles.rowText}>
-              {rowData}
+              {rowData.date}
             </Text>
           </View>
         </TouchableOpacity>
       );
     }
-    // renders NOT DONE boxes
-    if(rowData >=18 && rowData <= 20) {
-      return (
-        <TouchableOpacity underlayColor="transparent">
-          <View style={styles.notDoneRow}>
-            <Text style={styles.rowText}>
-              {rowData}
-            </Text>
-          </View>
-        </TouchableOpacity>
-      );
-    }
-    // renders FUTURE boxes
-    if(rowData >= 25) {
+    // renders FUTURE DAYS boxes
+    if(this.state.currentDate.diff(rowData.ISOString) < 0) {
       return (
         <TouchableOpacity underlayColor="transparent">
           <View style={styles.futureRow}>
             <Text style={styles.rowText}>
-              {rowData}
+              {rowData.date}
             </Text>
           </View>
         </TouchableOpacity>
       );
     }
-    // renders PRESENT box
-    if(rowData === 24 ) {
-      return (
-        <TouchableOpacity underlayColor="transparent">
-          <View style={styles.presentRow}>
-            <Text style={styles.rowText}>
-              {rowData}
-            </Text>
-          </View>
-        </TouchableOpacity>
-      );
-    }
-    // renders GREYOUT UNAVAILABLE box
+    // renders NOT DONE & NA boxes
     return (
       <TouchableOpacity underlayColor="transparent">
         <View style={styles.unavailRow}>
           <Text style={styles.rowText}>
-            {rowData}
+            {rowData.date}
           </Text>
         </View>
       </TouchableOpacity>
@@ -139,7 +164,7 @@ var HabitDetails = React.createClass({
         <ListView
           contentContainerStyle={styles.list}
           dataSource={this.state.dataSource}
-          initialListSize={21}
+          initialListSize={28}
           pageSize={7}
           renderRow={this.renderRow}
           scrollEnabled={false}
@@ -211,7 +236,7 @@ var styles = StyleSheet.create({
     width: 50,
     height: 50,
     backgroundColor: '#fff',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   doneRow: {
     justifyContent: 'center',
@@ -220,30 +245,6 @@ var styles = StyleSheet.create({
     width: 50,
     height: 50,
     backgroundColor: '#419648',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: '#CCC'
-  },
-  notDoneRow: {
-    justifyContent: 'center',
-    padding: 1,
-    margin: 1,
-    width: 50,
-    height: 50,
-    backgroundColor: '#B5BFBF',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: '#CCC'
-  },
-  unavailRow: {
-    justifyContent: 'center',
-    padding: 1,
-    margin: 1,
-    width: 50,
-    height: 50,
-    backgroundColor: '#B5BFBF',
     alignItems: 'center',
     borderWidth: 1,
     borderRadius: 5,
@@ -261,7 +262,19 @@ var styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: '#CCC'
   },
-  presentRow: {
+  presentDoneRow: {
+    justifyContent: 'center',
+    padding: 1,
+    margin: 1,
+    width: 50,
+    height: 50,
+    backgroundColor: '#419648',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderRadius: 5,
+    borderColor: '#000000'
+  },
+  presentNotDoneRow: {
     justifyContent: 'center',
     padding: 1,
     margin: 1,
@@ -273,6 +286,18 @@ var styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: '#000000'
   },
+  unavailRow: {
+    justifyContent: 'center',
+    padding: 1,
+    margin: 1,
+    width: 50,
+    height: 50,
+    backgroundColor: '#B5BFBF',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: '#CCC'
+  },
   count: {
     alignItems: 'center',
     bottom: 120
@@ -281,7 +306,7 @@ var styles = StyleSheet.create({
     fontSize: 15,
   },
   text: {
-    fontSize: 15,
+    fontSize: 20,
     padding: 3,
     marginTop: 5,
     justifyContent: 'center',

@@ -22,7 +22,8 @@ config.ignore = function(filename) {
     var modulesToCompile = [
       "react-native-radio-buttons",
       "react-native-swipeout",
-      "react-native-button"
+      "react-native-button",
+      "react-native-refreshable-listview"
     ];
 
     for (var i = 0; i < modulesToCompile.length; i++ ) {

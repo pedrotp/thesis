@@ -71,6 +71,20 @@ var routes = [
   },
   {
     path: '/habits/:user/:habitid',
+    get: function (req, res) {
+      var userEmail = req.params.user;
+      var habitid = req.params.habitid;
+      helpers.getInstances(userEmail, habitid,
+        function (data) {
+          res.status(200).json(data);
+        },
+        function (err) {
+          if (!testing) {
+            console.error('Server error:', err);
+          }
+          res.status(400);
+        });
+    },
     post: function (req, res) {
       var userEmail = req.params.user;
       var habitid = req.params.habitid;
