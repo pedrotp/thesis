@@ -145,16 +145,14 @@ describe('Database', function () {
           });
       });
 
-      xit('should error when missing required fields', function (done) {
-        var habit3 = {
-          action: 'Run'
-        };
-        helpers.addHabit(user.email, habit3,
-          function (success) {
+      it('should error when missing required fields', function (done) {
+        var habit3 = {};
+        helpers.addHabit(user.email, habit3)
+          .then(function (success) {
             console.log('DbSpec addHabit success:', success);
-          },
-          function (fail) {
-            expect(fail).to.equal('Required field(s) missing');
+          })
+          .catch(function (fail) {
+            expect(fail).to.exist;
             done();
           });
       });
@@ -172,22 +170,19 @@ describe('Database', function () {
       // success data will be modified
       it('should delete habit and corresponding instance store', function (done) {
         helpers.deleteHabit(user.email, habit1Id)
-          .then (function (success) {
+          .then(function (success) {
             expect(success._id.toString()).to.equal(habit1Id);
 
             // In order to confirm instance was deleted,
             // instance1Id is assigned in beforeEach function
             // on line 49 when habit1 is successfully created
-            Instances.findById(instance1Id)
-              .then(function (success) {
-                expect(success).to.equal(null);
-                done();
-              })
-              .catch(function (err) {
-                console.error('Instance fail:', err);
-              });
+            return Instances.findById(instance1Id);
           })
-          .then(function (fail) {
+          .then(function (success) {
+            expect(success).to.equal(null);
+            done();
+          })
+          .catch(function (fail) {
             console.error('DbSpec deleteHabit error:', fail);
           });
       });
@@ -246,63 +241,65 @@ describe('Database', function () {
 
     });
 
-    xdescribe('createInstance', function () {
+    describe('toggleInstance', function () {
 
       it('should be a function', function (done) {
-        expect(helpers.createInstance).to.be.a('function');
+        expect(helpers.toggleInstance).to.be.a('function');
         done();
       });
 
       it('should create an instance for existing habit', function (done) {
-        helpers.createInstance(habit1Id,
-        function (success) {
-          expect(success._id).to.exist;
-          done();
-        },
-        function (fail) {
-          console.error('createInstance error:', fail);
-        });
+        helpers.toggleInstance(user.email, habit1Id)
+          .then(function (success) {
+            expect(success._id).to.exist;
+            done();
+          })
+          .catch(function (fail) {
+            console.error('toggleInstance error:', fail);
+          });
       });
 
       it('should error when attempting to create instance on non-existent habit', function (done) {
-        helpers.createInstance('12345',
-        function (success) {
-          console.log('DbSpec createInstance success:', success);
-        },
-        function (fail) {
-          expect(fail.name).to.equal('CastError');
-          expect(fail.kind).to.equal('ObjectId');
-          expect(fail.path).to.equal('_id');
-          done();
-        });
+        helpers.toggleInstance(user.email, '12345')
+          .then(function (success) {
+            console.log('DbSpec toggleInstance success:', success);
+          })
+          .catch(function (fail) {
+            expect(fail).to.exist;
+            done();
+          });
       });
 
       it('should update the instanceCount property for the habit', function (done) {
-        helpers.createInstance(habit1Id,
-          function (instance) {
-            Habit.findById(habit1Id)
-              .then(function (habit) {
-                expect(habit.instanceCount).to.equal(1);
-                done();
-              })
-              .catch(function (err) {
-                done(err);
-              });
-          },
-          function (err) {
-            done(err);
+        helpers.toggleInstance(user.email, habit1Id)
+          .then(function (instance) {
+            return User.findOne({ email: user.email });
+          })
+          .then(function (user) {
+            return Habits.findById(user.habitsId);
+          })
+          .then(function (habits) {
+            var habit = habits.store.id(habit1Id);
+            expect(habit.streak.current).to.equal(1);
+            done();
+          })
+          .catch(function (err) {
+            console.log('DbSpec toggleInstance error:', err);
           });
       });
 
       it('should update the lastDone property for the habit', function (done) {
-        Habit.findById(habit1Id)
-          .then(function (habit) {
-            expect(habit.lastDone).to.exist;
+        User.findOne({ email: user.email })
+          .then(function (user) {
+            return Habits.findById(user.habitsId);
+          })
+          .then(function (habits) {
+            var habit = habits.store.id(habit1Id);
             expect(moment(habit.lastDone).isSame(Date.now(), 'minute')).to.equal(true);
             done();
           })
           .catch(function (err) {
-            done(err);
+            console.log('DbSpec toggleInstance error:', err);
           });
       });
 

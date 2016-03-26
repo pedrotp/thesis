@@ -11,12 +11,10 @@ var Create = require('../components/Create').Create;
 
 var AddHabit = React.createClass({
   getInitialState: function () {
-    var fields = {
-      action: null,
-      // frequency: null
-    };
     return {
-      fields: fields
+      fields: {
+        action: null
+      }
     }
   },
 
@@ -66,20 +64,25 @@ var AddHabit = React.createClass({
   handleClick: function () {
     // Values stored to be sent to server
     var action = this.state.fields.action;
-    // var frequency = this.state.fields.frequency;
 
-    // Clears fields upon submit
+    // Clears input field upon submit
     this.setState({
       fields: {
-        action: "",
-        // frequency: "",
+        action: null
       },
     });
 
-    this.sendHabit({
-      action: action,
-      // frequency: frequency,
-    });
+    if (action !== null) {
+      this.sendHabit({
+        action: action
+      });
+    } else {
+      Alert.alert(
+        'Please enter an action',
+        null,
+        [ { text: 'Ok' } ]
+      );
+    }
   },
 
   render: function () {

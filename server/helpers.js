@@ -16,6 +16,12 @@ var getHabits = function (email) {
 var addHabit = function (email, habitDetails) {
   return User.findOne({ 'email': email })
     .then(function (user) {
+
+      // Error has to be thrown inside the success function
+      // in order to be caught by catch in routes.js
+      if (!habitDetails.action) {
+        throw new Error('Required field missing');
+      }
       return Habits.findById(user.habitsId);
     })
     .then(function (habits) {
@@ -57,10 +63,13 @@ var updateHabit = function (email, habitId, habitDetails) {
     })
     .then(function (habits) {
       var habit = habits.store.id(habitId);
+      if (!habit) {
+        throw new Error('Invalid habit ID');
+      }
       var i = habits.store.indexOf(habit);
       habits.store.set(i, habitDetails);
       habits.save();
-      return habit;
+      return habits.store[i];
     })
 };
 
@@ -72,6 +81,9 @@ var toggleInstance = function (email, habitId) {
     })
     .then(function (habits) {
       var habit = habits.store.id(habitId);
+      if (!habit) {
+        throw new Error('Invalid habit ID');
+      }
       return Instances.findById(habit.instancesId)
         .then(function (instances) {
           var last = instances.store[instances.store.length - 1];

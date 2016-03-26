@@ -142,10 +142,8 @@ describe('Basic Server', function () {
         .end(done);
     });
 
-    xit('should return 400 on error (required fields missing)', function (done) {
-      var errHabit = {
-        action: 'Run'
-      };
+    it('should return 400 on error (required fields missing)', function (done) {
+      var errHabit = {};
       request(app)
         .post('/habits/' + user.email)
         .send(errHabit)
@@ -202,7 +200,7 @@ describe('Basic Server', function () {
     });
 
     // Incorrect ID not being handled and returning status 200
-    xit('should return 400 on error (incorrect ID)', function (done) {
+    it('should return 400 on error (incorrect ID)', function (done) {
       request(app)
         .put('/habits/' + user.email + '/12345')
         .expect(400)
