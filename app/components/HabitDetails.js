@@ -34,7 +34,7 @@ var HabitDetails = React.createClass({
     fetch(process.env.SERVER + '/habits/' + this.props.profile.email + '/' + habitId, {
       method: 'GET',
       headers: {
-        'Authorization':'Bearer' + this.props.token.idToken
+        'Authorization':'Bearer ' + this.props.token.idToken
       }
     })
     .then(api.handleErrors)
