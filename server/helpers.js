@@ -16,6 +16,12 @@ var getHabits = function (email) {
 var addHabit = function (email, habitDetails) {
   return User.findOne({ 'email': email })
     .then(function (user) {
+
+      // Error has to be thrown inside the success function
+      // in order to be caught by catch in routes.js
+      if (!habitDetails.action) {
+        throw new Error('Required field missing');
+      }
       return Habits.findById(user.habitsId);
     })
     .then(function (habits) {
