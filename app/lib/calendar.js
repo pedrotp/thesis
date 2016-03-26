@@ -1,7 +1,7 @@
 var moment = require('moment');
 require('moment-range');
 
-
+// Generates labels for calendar
 var calendarLabel = function () {
   var result = [];
   var arr = ['Su', 'M', 'Tu', 'W', 'Th', 'F', 'Sa'];
@@ -12,22 +12,24 @@ var calendarLabel = function () {
   return result;
 };
 
-
+// Creates an array of dates (moment objects) in ISOString format
+// Current range - Start of 3 weeks prior to start of current week to end of the current week
 var getPeriodArray = function () {
-  // Between start of 3 weeks ago and end of current week
+  // Current range
   var timeInterval = moment().startOf('week').subtract(3, 'weeks').format() + '/' + moment().endOf('week').add(1, 'weeks').format();
   var dr = moment.range(timeInterval);
 
-
   var test = dr.toArray('weeks');
-  var output = test.map(function (week) {
+  
+  // Converts moment object to ISOString format
+  var periodArray = test.map(function (week) {
     return week.format();
   });
   
-  return output;
+  return periodArray;
 };
 
-
+// Creates an array containing objects representing each day in the period
 var getDaysArray = function (array) {
   var period = [];
   
