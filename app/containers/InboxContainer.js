@@ -14,6 +14,8 @@ var moment = require('moment');
 var Inbox = require('../components/Inbox');
 var Welcome = require('../components/Welcome');
 
+var RefreshableListView = require('react-native-refreshable-listview')
+
 // var lock = require('..');
 
 var Habits = React.createClass({
@@ -113,10 +115,11 @@ var Habits = React.createClass({
   renderScene: function (route, navigator) {
     return (
       <View style={styles.container}>
-        <ListView
+        <RefreshableListView
           dataSource={this.state.dataSource}
           renderRow={this.renderInboxRow}
-          scrollEnabled={false}
+          loadData={this.getHabits}
+          refreshDescription="Refreshing your habits"
         />
         <TouchableOpacity style={styles.circleButton} onPress={this.handlePress}>
             <Text style={styles.buttonText}>New</Text>

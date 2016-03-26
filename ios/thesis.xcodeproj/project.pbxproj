@@ -13,7 +13,7 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3C46CA7C83488C09E79D6D63 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DD0AC27F1A5261F4670DD598 /* libPods.a */; };
-		B250E4BC1CA341A10054DCA8 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B250E4BB1CA341A10054DCA8 /* MaterialIcons.ttf */; settings = {ASSET_TAGS = (); }; };
+		B250E4BC1CA341A10054DCA8 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B250E4BB1CA341A10054DCA8 /* MaterialIcons.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,7 +31,7 @@
 		00E356EE1AD99517003FC87E /* thesisTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = thesisTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* thesisTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = thesisTests.m; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* thesis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = thesis.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* Better.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Better.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = thesis/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = thesis/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -128,7 +128,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* thesis.app */,
+				13B07F961A680F5B00A75B9A /* Better.app */,
 				00E356EE1AD99517003FC87E /* thesisTests.xctest */,
 			);
 			name = Products;
@@ -181,7 +181,7 @@
 			);
 			name = thesis;
 			productName = "Hello World";
-			productReference = 13B07F961A680F5B00A75B9A /* thesis.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* Better.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -398,7 +398,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hrrbThundercats.better;
-				PRODUCT_NAME = thesis;
+				PRODUCT_NAME = Better;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -420,7 +420,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hrrbThundercats.better;
-				PRODUCT_NAME = thesis;
+				PRODUCT_NAME = Better;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -468,6 +468,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = Better;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -507,6 +508,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = Better;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
