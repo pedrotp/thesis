@@ -159,7 +159,7 @@ var addUser = function (email) {
 };
 
 var getInstances = function (email, habitid, success, fail) {
-  User.findOne({ 'email': email } )
+  return User.findOne({ 'email': email } )
     .then(function (user) {
       return Habits.findById(user.habitsId);
     })
@@ -167,12 +167,6 @@ var getInstances = function (email, habitid, success, fail) {
       var habit = habits.store.id(habitid);
       return Instances.findById(habit.instancesId);
     })
-    .then(function (instances) {
-      success(instances.store);
-    })
-    .catch(function (err) {
-      fail(err);
-    });
 };
 
 module.exports = {
