@@ -468,6 +468,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = Better;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -507,6 +508,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = Better;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
