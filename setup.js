@@ -13,7 +13,7 @@ var config = getBabelRC();
 config.ignore = function(filename) {
     // if not in node_modules, we want to compile it
   if (!(/\/node_modules\//).test(filename)) {
-    return false; 
+    return false;
     // its RN source code, so we want to compile it
   } else if ((/\/node_modules\/react-native\//).test(filename)) {
     return false;
@@ -21,9 +21,10 @@ config.ignore = function(filename) {
   } else {
     var modulesToCompile = [
       "react-native-radio-buttons",
-      "react-native-swipeout"
+      "react-native-swipeout",
+      "react-native-button"
     ];
-    
+
     for (var i = 0; i < modulesToCompile.length; i++ ) {
       if(filename.includes(modulesToCompile[i])) {
         return false;
