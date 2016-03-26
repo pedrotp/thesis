@@ -53,7 +53,8 @@ var routes = [
     post: function (req, res) {
       var userEmail = req.params.user;
       var habit = req.body;
-      helpers.addHabit(userEmail, habit)
+      if (habit.action) {
+        helpers.addHabit(userEmail, habit)
         .then(function (habit) {
           res.status(201).json(habit);
         })
@@ -63,6 +64,9 @@ var routes = [
           }
           res.sendStatus(400);
         });
+      } else {
+        res.sendStatus(400);
+      }
     }
   },
   {
