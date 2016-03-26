@@ -31,7 +31,7 @@ var getPeriodArray = function () {
 
 // Creates an array containing objects representing each day in the period
 var getDaysArray = function (array) {
-  var period = [];
+  var daysArray = [];
   
   for (var i = 0; i < 4; i++ ) {
     var weekInterval;
@@ -51,10 +51,10 @@ var getDaysArray = function (array) {
     transform.pop(); // removes duplicate end-of-week day
     
     transform.forEach(function(day){
-      period.push(day);
+      daysArray.push(day);
     });
   }
-  return period;
+  return daysArray;
 };
 
 
