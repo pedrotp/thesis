@@ -43,6 +43,7 @@
 #define kUsernameParamName @"username"
 #define kPasswordParamName @"password"
 #define kGrantTypeParamName @"grant_type"
+#define kApiTypeParamName @"api_type"
 #define kTenantParamName @"tenant"
 #define kConnectionParamName @"connection"
 #define kIdTokenParamName @"id_token"
@@ -175,7 +176,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         return nil;
     }
     NSDictionary *payload = [defaultParameters asAPIPayload];
-    return [self.manager POST:[self.router loginPath] parameters:payload success:^(NSURLSessionDataTask *operation, id responseObject) {
+    return [self.manager POST:[self.router loginPath] parameters:payload progress:nil success:^(NSURLSessionDataTask *operation, id responseObject) {
         A0LogDebug(@"Obtained JWT & accessToken from Auth0 API");
         [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
     } failure:[A0APIClient sanitizeFailureBlock:failure]];
@@ -201,7 +202,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         return nil;
     }
     NSDictionary *payload = [defaultParameters asAPIPayload];
-    return [self.manager POST:[self.router signUpPath] parameters:payload success:^(NSURLSessionDataTask *operation, id responseObject) {
+    return [self.manager POST:[self.router signUpPath] parameters:payload progress:nil success:^(NSURLSessionDataTask *operation, id responseObject) {
         A0LogDebug(@"Created user successfully %@", responseObject);
         if (loginOnSuccess) {
             NSString *loginUsername = username ?: email;
@@ -232,21 +233,22 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     return [self signUpWithEmail:email username:nil password:password loginOnSuccess:loginOnSuccess parameters:parameters success:success failure:failure];
 }
 
-- (NSURLSessionDataTask *)changePassword:(NSString *)newPassword forUsername:(NSString *)username parameters:(A0AuthParameters *)parameters success:(void(^)())success failure:(A0APIClientError)failure {
+- (NSURLSessionDataTask *)requestChangePasswordForUsername:(NSString *)username
+                                                parameters:(A0AuthParameters *)parameters
+                                                   success:(void (^)())success failure:(A0APIClientError)failure {
     A0AuthParameters *defaultParameters = [A0AuthParameters newWithDictionary:@{
                                                                                 kEmailParamName: username,
-                                                                                kPasswordParamName: newPassword,
                                                                                 kClientIdParamName: self.clientId,
                                                                                 }];
     [self addDatabaseConnectionNameToParams:defaultParameters];
     [defaultParameters addValuesFromParameters:parameters];
-    A0LogVerbose(@"Chaning password with params %@", defaultParameters);
+    A0LogVerbose(@"Requesting change password with params %@", defaultParameters);
     if (![self checkForDatabaseConnectionIn:defaultParameters failure:failure]) {
         return nil;
     }
     NSDictionary *payload = [defaultParameters asAPIPayload];
-    return [self.manager POST:[self.router changePasswordPath] parameters:payload success:^(NSURLSessionDataTask *operation, id responseObject) {
-        A0LogDebug(@"Changed password for user %@. Response %@", username, responseObject);
+    return [self.manager POST:[self.router changePasswordPath] parameters:payload progress:nil success:^(NSURLSessionDataTask *operation, id responseObject) {
+        A0LogDebug(@"Changed password for user %@ requested. Response %@", username, responseObject);
         if (success) {
             success();
         }
@@ -264,7 +266,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     defaultParameters.device = deviceName;
     A0LogVerbose(@"Starting Login with JWT %@", defaultParameters);
     NSDictionary *payload = [defaultParameters asAPIPayload];
-    return [self.manager POST:[self.router loginPath] parameters:payload success:^(NSURLSessionDataTask *operation, id responseObject) {
+    return [self.manager POST:[self.router loginPath] parameters:payload progress:nil success:^(NSURLSessionDataTask *operation, id responseObject) {
         A0LogDebug(@"Obtained JWT & accessToken from Auth0 API");
         [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
     } failure:[A0APIClient sanitizeFailureBlock:failure]];
@@ -291,7 +293,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         A0LogVerbose(@"Starting Login with phone & passcode %@", defaultParameters);
         if ([self checkForDatabaseConnectionIn:defaultParameters failure:failure]) {
             NSDictionary *payload = [defaultParameters asAPIPayload];
-            return [self.manager POST:[self.router loginPath] parameters:payload success:^(NSURLSessionDataTask *operation, id responseObject) {
+            return [self.manager POST:[self.router loginPath] parameters:payload progress:nil success:^(NSURLSessionDataTask *operation, id responseObject) {
                 A0LogDebug(@"Obtained JWT & accessToken from Auth0 API");
                 [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
             } failure:[A0APIClient sanitizeFailureBlock:failure]];
@@ -325,7 +327,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         [defaultParameters addValuesFromParameters:parameters];
         A0LogVerbose(@"Starting Login with email & passcode %@", defaultParameters);
         NSDictionary *payload = [defaultParameters asAPIPayload];
-        return [self.manager POST:[self.router loginPath] parameters:payload success:^(NSURLSessionDataTask *operation, id responseObject) {
+        return [self.manager POST:[self.router loginPath] parameters:payload progress:nil success:^(NSURLSessionDataTask *operation, id responseObject) {
             A0LogDebug(@"Obtained JWT & accessToken from Auth0 API");
             [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
         } failure:[A0APIClient sanitizeFailureBlock:failure]];
@@ -347,7 +349,6 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                                                        failure:(A0APIClientError)failure {
     NSDictionary *params = @{
                              kClientIdParamName: self.clientId,
-                             kConnectionParamName: connectionName,
                              };
     A0AuthParameters *defaultParameters = [A0AuthParameters newWithDictionary:params];
     if (credentials.extraInfo[A0StrategySocialTokenSecretParameter]) {
@@ -361,10 +362,11 @@ AUTH0_DYNAMIC_LOGGER_METHODS
         defaultParameters[A0ParameterMainAccessToken] = defaultParameters.accessToken;
     }
     defaultParameters.accessToken = credentials.accessToken;
+    defaultParameters[kConnectionParamName] = connectionName;
 
     NSDictionary *payload = [defaultParameters asAPIPayload];
     A0LogVerbose(@"Authenticating with social strategy %@ and payload %@", connectionName, payload);
-    return [self.manager POST:[self.router socialLoginPath] parameters:payload success:^(NSURLSessionDataTask *operation, id responseObject) {
+    return [self.manager POST:[self.router socialLoginPath] parameters:payload progress:nil success:^(NSURLSessionDataTask *operation, id responseObject) {
         A0LogDebug(@"Authenticated successfuly with social connection %@", connectionName);
         [self fetchUserInfoWithTokenInfo:responseObject success:success failure:failure];
     } failure:[A0APIClient sanitizeFailureBlock:failure]];
@@ -381,7 +383,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                                                                                kClientIdParamName: self.clientId,
                                                                                kGrantTypeParamName: @"urn:ietf:params:oauth:grant-type:jwt-bearer",
                                                                                kIdTokenParamName: idToken,
-                                                                               kGrantTypeParamName: @"app",
+                                                                               kApiTypeParamName: @"app",
                                                                                }];
     [defaultParamters addValuesFromParameters:parameters];
     return [self fetchDelegationTokenWithParameters:defaultParamters success:^(NSDictionary *tokenInfo) {
@@ -399,7 +401,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                                                                                kClientIdParamName: self.clientId,
                                                                                kGrantTypeParamName: @"urn:ietf:params:oauth:grant-type:jwt-bearer",
                                                                                kRefreshTokenParamName: refreshToken,
-                                                                               kGrantTypeParamName: @"app",
+                                                                               kApiTypeParamName: @"app",
                                                                                }];
     [defaultParamters addValuesFromParameters:parameters];
     return [self fetchDelegationTokenWithParameters:defaultParamters success:^(NSDictionary *tokenInfo) {
@@ -420,7 +422,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     [defaultParamters addValuesFromParameters:parameters];
     NSDictionary *payload = [defaultParamters asAPIPayload];
     A0LogVerbose(@"Calling delegate authentication with params %@", parameters);
-    return [self.manager POST:[self.router delegationPath] parameters:payload success:^(NSURLSessionDataTask *operation, id responseObject) {
+    return [self.manager POST:[self.router delegationPath] parameters:payload progress:nil success:^(NSURLSessionDataTask *operation, id responseObject) {
         A0LogDebug(@"Delegation successful params %@", parameters);
         if (success) {
             success(responseObject);
@@ -435,16 +437,18 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                             failure:(A0APIClientError)failure {
     A0LogVerbose(@"Fetching User Profile from id token %@", idToken);
     return [self.manager POST:[self.router tokenInfoPath]
-            parameters:@{
-                         kIdTokenParamName: idToken,
-                         }
-               success:^(NSURLSessionDataTask *operation, id responseObject) {
-                   A0LogDebug(@"Obtained user profile %@", responseObject);
-                   if (success) {
-                       A0UserProfile *profile = [[A0UserProfile alloc] initWithDictionary:responseObject];
-                       success(profile);
-                   }
-               } failure:[A0APIClient sanitizeFailureBlock:failure]];
+                   parameters:@{
+                                kIdTokenParamName: idToken,
+                                }
+                     progress:nil
+                      success:^(NSURLSessionDataTask *operation, id responseObject) {
+                          A0LogDebug(@"Obtained user profile %@", responseObject);
+                          if (success) {
+                              A0UserProfile *profile = [[A0UserProfile alloc] initWithDictionary:responseObject];
+                              success(profile);
+                          }
+                      }
+                      failure:[A0APIClient sanitizeFailureBlock:failure]];
 }
 
 #pragma mark - Account Linking
@@ -460,24 +464,26 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                                                                          }];
     A0LogVerbose(@"Unlinking account with id %@", userId);
     return [self.manager POST:[self.router unlinkPath]
-            parameters:[parameters asAPIPayload]
-               success:^(NSURLSessionDataTask *operation, id responseObject) {
-                   if (success) {
-                       success();
-                   }
-                   A0LogDebug(@"Account with id %@ unlinked successfully", userId);
-               } failure:^(NSURLSessionDataTask *task, NSError *error) {
-                   if ([(NSHTTPURLResponse *)task.response statusCode] == 200) {
-                       //unlink returns text/plain and that's why it will fail
-                       if (success) {
-                           success();
-                       }
-                       A0LogDebug(@"Account with id %@ unlinked successfully", userId);
-                   } else {
-                       AFFailureBlock block = [A0APIClient sanitizeFailureBlock:failure];
-                       block(task, error);
-                   }
-               }];
+                   parameters:[parameters asAPIPayload]
+                     progress:nil
+                      success:^(NSURLSessionDataTask *operation, id responseObject) {
+                          if (success) {
+                              success();
+                          }
+                          A0LogDebug(@"Account with id %@ unlinked successfully", userId);
+                      }
+                      failure:^(NSURLSessionDataTask *task, NSError *error) {
+                          if ([(NSHTTPURLResponse *)task.response statusCode] == 200) {
+                              //unlink returns text/plain and that's why it will fail
+                              if (success) {
+                                  success();
+                              }
+                              A0LogDebug(@"Account with id %@ unlinked successfully", userId);
+                          } else {
+                              AFFailureBlock block = [A0APIClient sanitizeFailureBlock:failure];
+                              block(task, error);
+                          }
+                      }];
 }
 
 #pragma mark - Passwordless Authentication
@@ -491,6 +497,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                                 @"phone_number": phoneNumber,
                                 kConnectionParamName: @"sms",
                                 }
+                     progress:nil
                       success:^(NSURLSessionDataTask *task, id responseObject) {
                           if (success) {
                               success();
@@ -507,6 +514,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
                                 kConnectionParamName: @"email",
                                 @"send": @"code"
                                 }
+                     progress:nil
                       success:^(NSURLSessionDataTask *task, id responseObject) {
                           if (success) {
                               success();
@@ -532,6 +540,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     }
     return [self.manager POST:[self.router startPasswordless]
                    parameters:params
+                     progress:nil
                       success:^(NSURLSessionDataTask *task, id responseObject) {
                           if (success) {
                               success();
@@ -558,6 +567,7 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     }
     return [self.manager POST:[self.router startPasswordless]
                    parameters:params
+                     progress:nil
                       success:^(NSURLSessionDataTask *task, id responseObject) {
                           if (success) {
                               success();
@@ -675,6 +685,27 @@ AUTH0_DYNAMIC_LOGGER_METHODS
     A0UserAPIClient *client = [A0UserAPIClient clientWithAccessToken:accessToken];
     [client fetchUserProfileSuccess:success failure:failure];
     self.userClient = client;
+}
+
+- (NSURLSessionDataTask *)changePassword:(NSString *)newPassword forUsername:(NSString *)username parameters:(A0AuthParameters *)parameters success:(void(^)())success failure:(A0APIClientError)failure {
+    A0AuthParameters *defaultParameters = [A0AuthParameters newWithDictionary:@{
+                                                                                kEmailParamName: username,
+                                                                                kPasswordParamName: newPassword,
+                                                                                kClientIdParamName: self.clientId,
+                                                                                }];
+    [self addDatabaseConnectionNameToParams:defaultParameters];
+    [defaultParameters addValuesFromParameters:parameters];
+    A0LogVerbose(@"Chaning password with params %@", defaultParameters);
+    if (![self checkForDatabaseConnectionIn:defaultParameters failure:failure]) {
+        return nil;
+    }
+    NSDictionary *payload = [defaultParameters asAPIPayload];
+    return [self.manager POST:[self.router changePasswordPath] parameters:payload progress:nil success:^(NSURLSessionDataTask *operation, id responseObject) {
+        A0LogDebug(@"Changed password for user %@. Response %@", username, responseObject);
+        if (success) {
+            success();
+        }
+    } failure:[A0APIClient sanitizeFailureBlock:failure]];
 }
 
 @end

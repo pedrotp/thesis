@@ -74,11 +74,11 @@ var routes = [
     get: function (req, res) {
       var userEmail = req.params.user;
       var habitid = req.params.habitid;
-      helpers.getInstances(userEmail, habitid,
-        function (data) {
+      helpers.getInstances(userEmail, habitid)
+        .then(function (data) {
           res.status(200).json(data);
-        },
-        function (err) {
+        })
+        .catch(function (err) {
           if (!testing) {
             console.error('Server error:', err);
           }
