@@ -145,16 +145,14 @@ describe('Database', function () {
           });
       });
 
-      xit('should error when missing required fields', function (done) {
-        var habit3 = {
-          action: 'Run'
-        };
-        helpers.addHabit(user.email, habit3,
-          function (success) {
+      it('should error when missing required fields', function (done) {
+        var habit3 = {};
+        helpers.addHabit(user.email, habit3)
+          .then(function (success) {
             console.log('DbSpec addHabit success:', success);
-          },
-          function (fail) {
-            expect(fail).to.equal('Required field(s) missing');
+          })
+          .catch(function (fail) {
+            expect(fail).to.exist;
             done();
           });
       });
@@ -172,22 +170,19 @@ describe('Database', function () {
       // success data will be modified
       it('should delete habit and corresponding instance store', function (done) {
         helpers.deleteHabit(user.email, habit1Id)
-          .then (function (success) {
+          .then(function (success) {
             expect(success._id.toString()).to.equal(habit1Id);
 
             // In order to confirm instance was deleted,
             // instance1Id is assigned in beforeEach function
             // on line 49 when habit1 is successfully created
-            Instances.findById(instance1Id)
-              .then(function (success) {
-                expect(success).to.equal(null);
-                done();
-              })
-              .catch(function (err) {
-                console.error('Instance fail:', err);
-              });
+            return Instances.findById(instance1Id);
           })
-          .then(function (fail) {
+          .then(function (success) {
+            expect(success).to.equal(null);
+            done();
+          })
+          .catch(function (fail) {
             console.error('DbSpec deleteHabit error:', fail);
           });
       });
