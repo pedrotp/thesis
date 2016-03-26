@@ -57,10 +57,14 @@ var updateHabit = function (email, habitId, habitDetails) {
     })
     .then(function (habits) {
       var habit = habits.store.id(habitId);
-      var i = habits.store.indexOf(habit);
-      habits.store.set(i, habitDetails);
-      habits.save();
-      return habit;
+      if (!habit) {
+        throw new Error('Invalid habit ID');
+      } else {
+        var i = habits.store.indexOf(habit);
+        habits.store.set(i, habitDetails);
+        habits.save();
+        return habits.store[i];
+      }
     })
 };
 
