@@ -6,11 +6,14 @@ var StyleSheet = React.StyleSheet;
 var Navigator = React.Navigator;
 var TouchableOpacity = React.TouchableOpacity;
 var ListView = React.ListView;
+
 var moment = require('moment');
 
 var getPeriodArray = require('../lib/calendar').getPeriodArray;
 var getDaysArray = require('../lib/calendar').getDaysArray;
 var calendarLabel = require('../lib/calendar').calendarLabel;
+
+var Note = require('./Note');
 
 
 // var Icon = require('react-native-vector-icons/MaterialIcons');
@@ -24,7 +27,8 @@ var HabitDetails = React.createClass({
         rowHasChanged: function (row1, row2) {
           return row1 !== row2
         }
-      })
+      }),
+      modalVisible: false
     }
   },
 
@@ -62,8 +66,15 @@ var HabitDetails = React.createClass({
       console.warn(err);
     });
   },
+  
+  handleInstancePress: function () {
+    this.setState({modalVisible: true}); 
+    console.log(this.state)
+  },
 
   renderRow: function (rowData, sectionID, rowID) {
+    console.log('rerender')
+    var _this = this;
     // Renders DAYS OF WEEK in the calendar
     if (rowData.calendarHeading) {
       return (
@@ -91,12 +102,13 @@ var HabitDetails = React.createClass({
     // renders PRESENT DAY, NOT-DONE box
     if (moment(rowData.ISOString).isSame(this.state.currentDate, 'day')) {
       return (
-        <TouchableOpacity underlayColor="transparent">
+        <TouchableOpacity onPress={this.handleInstancePress} underlayColor="transparent">
           <View style={styles.presentNotDoneRow}>
             <Text style={styles.rowText}>
               {rowData.date}
             </Text>
           </View>
+          <Note visible={this.state.modalVisible}></Note>
         </TouchableOpacity>
       );
     }
@@ -121,6 +133,7 @@ var HabitDetails = React.createClass({
               {rowData.date}
             </Text>
           </View>
+
         </TouchableOpacity>
       );
     }
@@ -132,6 +145,7 @@ var HabitDetails = React.createClass({
             {rowData.date}
           </Text>
         </View>
+
       </TouchableOpacity>
     );
   },
@@ -153,7 +167,6 @@ var HabitDetails = React.createClass({
   },
 
   renderScene: function (route, navigator) {
-    // normal mode
     return (
       <View style={styles.container}>
         <Text style={styles.heading} onPress={this.onPress}>{ this.props.habit.action }</Text>
