@@ -51,11 +51,16 @@ var HabitDetails = React.createClass({
       days.forEach(function(day) {
         responseData.forEach(function(instance) {
           if(moment(day.ISOString).isSame(instance.createdAt, 'day')) {
+            if(instance.note) {
+              day.note = instance.note;
+            }
+            day.instanceId = instance._id;
+            day.createdAt = instance.createdAt;
             day.done = true;
           }
-        })
-      });
-
+        });
+      }); 
+      
       days = calendarLabel().concat(days);
 
       this.setState({

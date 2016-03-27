@@ -26,6 +26,10 @@ var Note = React.createClass({
     });
   },
   
+  handleSubmit: function () {
+    // fetch(post call to send note)
+  },
+  
   render: function () {
     var modalBackgroundStyle = {backgroundColor: 'rgba(0, 0, 0, 0.5)'};
     var innerContainerTransparentStyle = {backgroundColor: '#fff', padding: 20};
@@ -45,6 +49,10 @@ var Note = React.createClass({
               //   onChangeText={this.onTextChange}
               // />
             }
+              <Button
+                style={styles.modalButton}>
+                Submit
+              </Button>
               <Button 
                 onPress={this.hideModal}
                 style={styles.modalButton}>

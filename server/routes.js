@@ -123,7 +123,7 @@ var routes = [
         })
         .catch(function (err) {
           if (!testing) {
-            console.error('Server error:', err)
+            console.error('Server error:', err);
           }
           res.sendStatus(400);
         });
@@ -141,17 +141,51 @@ var routes = [
         }
       });
     }
+  },
+  {
+    path: '/habits/:user/:habitid/:instanceid',
+    get: function (req, res) {
+      var userEmail = req.params.user;
+      var habitid = req.params.habitid;
+      var instanceid = req.params.instanceid;
+      helpers.getInstance(userEmail, habitid, instanceid)
+        .then(function (instance) {
+          res.status(200).json(instance);
+        })
+        .catch(function (err) {
+          if(!testing) {
+            console.error('Server error:', err);
+          }
+          res.sendStatus(400);
+        });
+    },
+    put: function (req, res) {
+      var userEmail = req.params.user;
+      var habitid = req.params.habitid;
+      var instanceid = req.params.instanceid;
+      var instanceNote = req.body;
+      helpers.updateInstance(userEmail, habitid, instanceid, instanceNote)
+        .then(function (instance) {
+          res.status(201).json(instance);
+        })
+        .catch(function (err) {
+          if(!testing) {
+            console.error('Server error:', err);
+          }
+          res.sendStatus(400);
+        });
+    }
   }
 ];
 
 module.exports = function (app, express) {
   // require auth on all routes in authReqRoutes
   // skip if we are testing
-  if (!testing) {
-    authReqRoutes.forEach(function (route) {
-      app.use(route, jwtCheck);
-    });
-  }
+  // if (!testing) {
+  //   authReqRoutes.forEach(function (route) {
+  //     app.use(route, jwtCheck);
+  //   });
+  // }
 
   // export routes
   routes.forEach(function (route) {
