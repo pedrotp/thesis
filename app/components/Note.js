@@ -4,6 +4,7 @@ var Text = React.Text;
 var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
 var Modal = React.Modal;
+var TextInput = React.TextInput;
 
 var moment = require('moment');
 var Button = require('react-native-button');
@@ -15,24 +16,17 @@ var Note = React.createClass({
     };
   },
   
-  setModalVisible: function (visible) {
-    this.setState({modalVisible: visible});
+  hideModal: function () {
+    this.setState({modalVisible: false});
   },
   
-  handleRequestClose: function () {
-    this.setModalVisible(false);
-  },
-  
-  componentWillReceiveProps: function (nextProps) {
-    console.log('fish')
+  componentWillReceiveProps: function (props) {
     this.setState({
-      modalVisible: nextProps
+      modalVisible: props.visible
     });
-    this.render();
   },
   
   render: function () {
-    console.log('NOTESTATE:', this.state);
     var modalBackgroundStyle = {backgroundColor: 'rgba(0, 0, 0, 0.5)'};
     var innerContainerTransparentStyle = {backgroundColor: '#fff', padding: 20};
 
@@ -41,13 +35,18 @@ var Note = React.createClass({
         <Modal 
           animated={true}
           transparent={true}
-          visible={this.state.modalVisible} 
-          onRequestClose={this.handleRequestClose}>
+          visible={this.state.modalVisible} >
           <View style={[styles.container, modalBackgroundStyle]}>
             <View style={[styles.innerContainer, innerContainerTransparentStyle]}>
-              <Text>Hello World</Text>
+              <Text></Text>
+              {// <TextInput
+              //   style={styles.heading}
+              //   defaultValue={this.props.habit.action}
+              //   onChangeText={this.onTextChange}
+              // />
+            }
               <Button 
-                onPress={ function(){this.setModalVisible(false);} }
+                onPress={this.hideModal}
                 style={styles.modalButton}>
                 Close
               </Button>
@@ -64,10 +63,11 @@ var styles = StyleSheet.create({
   container: {
       flex: 1,
       justifyContent: 'center',
-      padding: 20
+      padding: 20,
     },
     innerContainer: {
       borderRadius: 10,
+      height: 400,
       alignItems: 'center'
     },
     modalButton: {

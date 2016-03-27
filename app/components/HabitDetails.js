@@ -69,11 +69,9 @@ var HabitDetails = React.createClass({
   
   handleInstancePress: function () {
     this.setState({modalVisible: true}); 
-    console.log(this.state)
   },
 
   renderRow: function (rowData, sectionID, rowID) {
-    console.log('rerender')
     var _this = this;
     // Renders DAYS OF WEEK in the calendar
     if (rowData.calendarHeading) {
@@ -108,7 +106,6 @@ var HabitDetails = React.createClass({
               {rowData.date}
             </Text>
           </View>
-          <Note visible={this.state.modalVisible}></Note>
         </TouchableOpacity>
       );
     }
@@ -186,6 +183,7 @@ var HabitDetails = React.createClass({
           <Text style={styles.text}>Longest Streak: {this.props.habit.streak.max}</Text>
           <Text style={styles.text}>Total Completed: {this.props.habit.instanceCount}</Text>
         </View>
+        <Note visible={this.state.modalVisible}></Note>
       </View>
     )
   }
