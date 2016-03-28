@@ -16,8 +16,6 @@ var Welcome = require('../components/Welcome');
 
 var RefreshableListView = require('react-native-refreshable-listview')
 
-// var lock = require('..');
-
 var Habits = React.createClass({
   getInitialState: function () {
     return {

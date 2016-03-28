@@ -4,8 +4,6 @@ var Text = React.Text;
 var View = React.View;
 var Navigator = React.Navigator;
 var TouchableOpacity = React.TouchableOpacity;
-var Auth0credentials = require('../../auth0_credentials');
-var Auth0Lock = require('react-native-lock-ios');
 
 // App components
 var LoadingContainer = require('./LoadingContainer');
@@ -16,80 +14,22 @@ var Habits = require('./InboxContainer');
 var HabitSettings = require('../components/HabitSettings');
 var HabitDetails = require('../components/HabitDetails');
 
-
-// Instantiate a new Lock
-var lock = new Auth0Lock({clientId: Auth0credentials.clientId, domain: Auth0credentials.domain});
-
 var AppContainer = React.createClass({
   getInitialState: function () {
     return {
-      auth: false,
-      token: null,
-      profile: null
+      token: this.props.token,
+      profile: this.props.profile
     };
   },
-  handleLogout: function () {
-    this.setState({
-      auth: false,
-      token: null,
-      profile: null
-    });
-    this.showLock();
-  },
-  showLock: function () {
-    // Display login widget
-    lock.show({}, (function (err, profile, token) {
-      // TODO: pass profile/token to component
-      if (err) {
-        console.log(err);
-        return;
-      }
-      // Store user in DB
-      fetch(process.env.SERVER + '/user', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + token.idToken
-        },
-        body: JSON.stringify(profile)
-      })
-      .then(api.handleErrors)
-      .then((function (res) {
-        // On successful login + store user
-        // Set user info on state
-        this.setState({
-          auth: true,
-          token: token,
-          profile: profile,
-        });
-      }).bind(this))
-      .catch(function (err) {
-        console.warn(err);
-      });
-    }).bind(this));
-  },
-  componentDidMount: function () {
-    // If user not logged in
-    if (!this.state.auth) {
-      this.showLock();
-    }
-  },
   render: function () {
-    if (this.state.auth) {
-      return (
-        <View style={{ flex: 1 }}>
-          <Navigator
-            initialRoute = {{id: 'Loading'}}
-            renderScene = {this.renderScene}
-          />
-        </View>
-      );
-    } else {
-      return (
-        <View></View>
-      );
-    }
+    return (
+      <View style={{ flex: 1 }}>
+        <Navigator
+          initialRoute = {{id: 'Loading'}}
+          renderScene = {this.renderScene}
+        />
+      </View>
+    );
   },
   renderScene: function (route, navigator) {
     var routeId = route.id;
@@ -125,8 +65,6 @@ var AppContainer = React.createClass({
           navigator={navigator}
           token={this.state.token}
           profile={this.state.profile}
-          lock={lock}
-          handleLogout={this.handleLogout}
         />
       );
     }
