@@ -20,10 +20,6 @@ var Note = React.createClass({
     };
   },
   
-  hideModal: function () {
-    this.setState({modalVisible: false});
-  },
-  
   componentWillReceiveProps: function (props) {
     console.log('PROP', props);
     this.setState({
@@ -48,7 +44,11 @@ var Note = React.createClass({
     .then(api.handleErrors)
     .then(function (response) {
       console.log('RESPONSE', response);
-      _this.hideModal();
+      _this.props.hideModal();
+      
+    })
+    .then(function () {
+      _this.props.getRowData();
     })
     .catch(function (err) {
       console.warn(err);
@@ -56,7 +56,6 @@ var Note = React.createClass({
   },
   
   handleUpdate: function () {
-    // fetch(POST call to send note)
     this.updateHabit();
   },
   
@@ -79,6 +78,7 @@ var Note = React.createClass({
           <View style={[styles.container, modalBackgroundStyle]}>
             <View style={[styles.innerContainer, innerContainerTransparentStyle]}>
               <Text>Add Note</Text>
+              <Text>{ this.state.rowData.ISOString}</Text>
               <TextInput
                 style={{height: 40, borderColor: 'white', borderWidth: 1}}
                 defaultValue={this.state.note.note}

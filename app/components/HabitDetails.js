@@ -34,8 +34,12 @@ var HabitDetails = React.createClass({
       note: { note: '' }
     }
   },
-
-  componentDidMount: function () {
+  
+  hideModal: function () {
+    this.setState({modalVisible: false});
+  },
+  
+  getRowData: function () {
     var habitId = this.props.habit._id;
     fetch(process.env.SERVER + '/habits/' + this.props.profile.email + '/' + habitId, {
       method: 'GET',
@@ -62,19 +66,20 @@ var HabitDetails = React.createClass({
       }); 
       
       days = calendarLabel().concat(days);
-
+      
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(days)
       });
+      console.log('DAYS', days)
     }).bind(this))
     .catch(function (err) {
       console.warn(err);
     });
   },
-  
-  componentDidUpdate: function () {
-    
-  }
+
+  componentDidMount: function () {
+    this.getRowData();
+  },
   
   handleInstancePress: function (rowData) {
     console.log('ROWDATA', rowData);
@@ -207,6 +212,8 @@ var HabitDetails = React.createClass({
           token={this.props.token}
           profile={this.props.profile}
           habit={this.props.habit}
+          getRowData={this.getRowData}
+          hideModal={this.hideModal}
           >
         </Note>
       </View>
