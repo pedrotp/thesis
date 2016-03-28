@@ -32,22 +32,7 @@ var AddHabit = React.createClass({
     .then(function (response) {
       return response.json();
     })
-    .then((function (responseJSON) {
-      Alert.alert(
-        'Habit Created!',
-        null,
-        [
-          {
-            text: 'Ok',
-            onPress: (function () {
-
-              // brings user to inbox view
-              this.goToInbox();
-            }).bind(this)
-          }
-        ]
-      );
-    }).bind(this))
+    .then(this.goToInbox)
     .catch(function (err) {
       console.warn(err);
     });

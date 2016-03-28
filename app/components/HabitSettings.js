@@ -9,7 +9,7 @@ var React = require('react-native');
 var api = require('../lib/api');
 var View = React.View;
 var Text = React.Text;
-var Alert = React.Alert;
+var Alert = React.AlertIOS;
 var TextInput = React.TextInput;
 var StyleSheet = React.StyleSheet;
 var Navigator = React.Navigator;
@@ -70,20 +70,9 @@ var HabitSettings = React.createClass({
       }
     })
     .then(api.handleErrors)
-    .then((function (response) {
-      Alert.alert(
-        'Habit Deleted',
-        null,
-        [
-          {
-            text: 'Ok',
-            onPress: (function () {
-              this.props.navigator.push({ id: 'Habits' });
-            }).bind(this)
-          }
-        ]
-      );
-    }).bind(this))
+    .then(function () {
+      this.props.navigator.push({ id: 'Habits' });
+    })
     .catch(function (err) {
       console.warn(err);
     });
