@@ -37,7 +37,7 @@ var HabitSettings = React.createClass({
   },
   onReminderChange: function (bool) {
     var updates = this.state.habit;
-    updates.reminder.set = bool;
+    updates.reminder.active = bool;
     this.setState({ habit: updates });
   },
   gotoInbox: function () {
@@ -107,7 +107,7 @@ var HabitSettings = React.createClass({
   },
   renderScene: function (route, navigator) {
     var _this = this;
-    if (this.state.habit.reminder.set) {
+    if (this.state.habit.reminder.active) {
       return (
         <View style={styles.container}>
           <TextInput
@@ -122,7 +122,7 @@ var HabitSettings = React.createClass({
             <Switch
               onValueChange={this.onReminderChange}
               style={{left: 190, marginBottom: 30}}
-              value={this.state.habit.reminder.set}
+              value={this.state.habit.reminder.active}
             />
           </View>
             <DatePickerIOS
@@ -164,7 +164,7 @@ var HabitSettings = React.createClass({
             <Switch
               onValueChange={this.onReminderChange}
               style={{left: 190, marginBottom: 30}}
-              value={this.state.habit.reminder.set}
+              value={this.state.habit.reminder.active}
             />
           </View>
           <Button

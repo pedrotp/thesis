@@ -3,7 +3,7 @@ var React = require('react-native')
 var AppRegistry = React.AppRegistry;
 var AppContainer = require('./app/containers/AppContainer');
 
-var localServer = false;
+var localServer = true;
 
 if (localServer === true) {
   process.env.SERVER = 'http://localhost:3000'
