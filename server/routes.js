@@ -166,7 +166,7 @@ var routes = [
       var instanceNote = req.body;
       helpers.updateInstance(userEmail, habitid, instanceid, instanceNote)
         .then(function (instance) {
-          res.status(201).json(instance);
+          res.status(200).json(instance);
         })
         .catch(function (err) {
           if(!testing) {

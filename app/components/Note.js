@@ -5,6 +5,7 @@ var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
 var Modal = React.Modal;
 var TextInput = React.TextInput;
+var api = require('../lib/api');
 
 var moment = require('moment');
 var Button = require('react-native-button');
@@ -12,7 +13,10 @@ var Button = require('react-native-button');
 var Note = React.createClass({
   getInitialState: function () {
     return {
-      modalVisible: false
+      modalVisible: false,
+      instanceId: null,
+      rowData: null,
+      note: ''
     };
   },
   
@@ -21,13 +25,45 @@ var Note = React.createClass({
   },
   
   componentWillReceiveProps: function (props) {
+    console.log('PROP', props);
     this.setState({
-      modalVisible: props.visible
+      modalVisible: props.visible,
+      instanceId: props.instanceId,
+      rowData: props.rowData,
+      note: props.note
     });
   },
   
-  handleSubmit: function () {
-    // fetch(post call to send note)
+  updateHabit: function () {
+    var _this = this;
+    fetch(process.env.SERVER + '/habits/' + this.props.profile.email + '/' + this.props.habit._id + '/' + this.props.instanceId, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + this.props.token.idToken
+      },
+      body: JSON.stringify(this.state.note)
+    })
+    .then(api.handleErrors)
+    .then(function (response) {
+      console.log('RESPONSE', response);
+      _this.hideModal();
+    })
+    .catch(function (err) {
+      console.warn(err);
+    });
+  },
+  
+  handleUpdate: function () {
+    // fetch(POST call to send note)
+    this.updateHabit();
+  },
+  
+  onTextChange: function (text) {
+    this.setState({
+      note: text
+    });
   },
   
   render: function () {
@@ -42,16 +78,19 @@ var Note = React.createClass({
           visible={this.state.modalVisible} >
           <View style={[styles.container, modalBackgroundStyle]}>
             <View style={[styles.innerContainer, innerContainerTransparentStyle]}>
-              <Text></Text>
-              {// <TextInput
-              //   style={styles.heading}
-              //   defaultValue={this.props.habit.action}
-              //   onChangeText={this.onTextChange}
-              // />
-            }
+              <Text>Add Note</Text>
+              <TextInput
+                style={{height: 40, borderColor: 'white', borderWidth: 1}}
+                defaultValue={this.state.note}
+                // editable={false}
+                // onfocus={}
+                placeholder="Write a note.."
+                onChangeText={this.onTextChange}
+              />
               <Button
+                onPress={this.handleUpdate}
                 style={styles.modalButton}>
-                Submit
+                Update
               </Button>
               <Button 
                 onPress={this.hideModal}

@@ -28,7 +28,10 @@ var HabitDetails = React.createClass({
           return row1 !== row2
         }
       }),
-      modalVisible: false
+      modalVisible: false,
+      rowData: null,
+      instanceId: null,
+      note: ''
     }
   },
 
@@ -51,11 +54,8 @@ var HabitDetails = React.createClass({
       days.forEach(function(day) {
         responseData.forEach(function(instance) {
           if(moment(day.ISOString).isSame(instance.createdAt, 'day')) {
-            if(instance.note) {
-              day.note = instance.note;
-            }
             day.instanceId = instance._id;
-            day.createdAt = instance.createdAt;
+            day.note = instance.note;
             day.done = true;
           }
         });
@@ -72,11 +72,18 @@ var HabitDetails = React.createClass({
     });
   },
   
-  handleInstancePress: function () {
-    this.setState({modalVisible: true}); 
+  handleInstancePress: function (rowData) {
+    console.log('ROWDATA', rowData);
+    this.setState({
+      modalVisible: true,
+      rowData: rowData,
+      instanceId: rowData.instanceId,
+      note: rowData.note
+    }); 
   },
 
   renderRow: function (rowData, sectionID, rowID) {
+    // console.log('ROWDATA:', rowData, 'SECTIONID:', sectionID, 'ROWID:', rowID);
     var _this = this;
     // Renders DAYS OF WEEK in the calendar
     if (rowData.calendarHeading) {
@@ -93,7 +100,7 @@ var HabitDetails = React.createClass({
     // renders PRESENT DAY, DONE box
     if (moment(rowData.ISOString).isSame(this.state.currentDate, 'day') && rowData.done) {
       return (
-        <TouchableOpacity underlayColor="transparent">
+        <TouchableOpacity onPress={function () {_this.handleInstancePress(rowData)}} underlayColor="transparent">
           <View style={styles.presentDoneRow}>
             <Text style={styles.rowText}>
               {rowData.date}
@@ -105,7 +112,7 @@ var HabitDetails = React.createClass({
     // renders PRESENT DAY, NOT-DONE box
     if (moment(rowData.ISOString).isSame(this.state.currentDate, 'day')) {
       return (
-        <TouchableOpacity onPress={this.handleInstancePress} underlayColor="transparent">
+        <TouchableOpacity underlayColor="transparent">
           <View style={styles.presentNotDoneRow}>
             <Text style={styles.rowText}>
               {rowData.date}
@@ -188,7 +195,16 @@ var HabitDetails = React.createClass({
           <Text style={styles.text}>Longest Streak: {this.props.habit.streak.max}</Text>
           <Text style={styles.text}>Total Completed: {this.props.habit.instanceCount}</Text>
         </View>
-        <Note visible={this.state.modalVisible}></Note>
+        <Note 
+          visible={this.state.modalVisible} 
+          rowData={this.state.rowData} 
+          instanceId={this.state.instanceId} 
+          note={this.state.note}
+          token={this.props.token}
+          profile={this.props.profile}
+          habit={this.props.habit}
+          >
+        </Note>
       </View>
     )
   }
