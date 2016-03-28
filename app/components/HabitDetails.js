@@ -29,7 +29,6 @@ var HabitDetails = React.createClass({
   },
 
   componentDidMount: function () {
-    var _this = this;
     var habitId = this.props.habit._id;
     fetch(process.env.SERVER + '/habits/' + this.props.profile.email + '/' + habitId, {
       method: 'GET',
@@ -41,7 +40,7 @@ var HabitDetails = React.createClass({
     .then(function (response) {
       return response.json();
     })
-    .then(function (responseData) {
+    .then((function (responseData) {
       var period = getPeriodArray();
       var days = getDaysArray(period);
 
@@ -55,10 +54,10 @@ var HabitDetails = React.createClass({
 
       days = calendarLabel().concat(days);
 
-      _this.setState({
-        dataSource: _this.state.dataSource.cloneWithRows(days)
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(days)
       });
-    })
+    }).bind(this))
     .catch(function (err) {
       console.warn(err);
     });
@@ -154,7 +153,6 @@ var HabitDetails = React.createClass({
   },
 
   renderScene: function (route, navigator) {
-    var _this = this;
     // normal mode
     return (
       <View style={styles.container}>
@@ -171,9 +169,9 @@ var HabitDetails = React.createClass({
           automaticallyAdjustContentInsets={false}
         />
         <View style={styles.count}>
-          <Text style={styles.text}>Current Streak: { moment(new Date(this.props.habit.lastDone)).isSame(Date.now(), 'week') ? _this.props.habit.streak.current : 0 }</Text>
-          <Text style={styles.text}>Longest Streak: {_this.props.habit.streak.max}</Text>
-          <Text style={styles.text}>Total Completed: {_this.props.habit.instanceCount}</Text>
+          <Text style={styles.text}>Current Streak: { moment(new Date(this.props.habit.lastDone)).isSame(Date.now(), 'week') ? this.props.habit.streak.current : 0 }</Text>
+          <Text style={styles.text}>Longest Streak: {this.props.habit.streak.max}</Text>
+          <Text style={styles.text}>Total Completed: {this.props.habit.instanceCount}</Text>
         </View>
       </View>
     )
