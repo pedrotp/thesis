@@ -11,7 +11,7 @@ var getHabits = function (email) {
     })
     .then(function (habits) {
       return habits.store;
-    })
+    });
 };
 
 var addHabit = function (email, habitDetails) {
@@ -46,6 +46,9 @@ var deleteHabit = function (email, habitId) {
     })
     .then(function (habits) {
       var habit = habits.store.id(habitId);
+      if (habit.reminder.active) {
+        habit.reminder.stop();
+      }
       Instances.findByIdAndRemove(habit.instancesId, null, function (err, success) {
         if (err) {
           console.error(err);
@@ -62,7 +65,7 @@ var updateHabit = function (email, habitId, newHabit) {
   var oldHabit;
   return User.findOne({ 'email': email } )
     .then(function (user) {
-      phoneNumber = user.phoneNumber;
+      phoneNumber = user.phoneNumber || '+16467373049';
       return Habits.findById(user.habitsId);
     })
     .then(function (habits) {
@@ -83,8 +86,9 @@ var updateHabit = function (email, habitId, newHabit) {
         },
         {
           hour: habit.reminder.time.getHours(),
-          minute: habit.reminder.time.getMinutes()
-        });
+          minute: habit.reminder.time.getMinutes(),
+          days: habit.reminder.days || undefined
+        }, habit._id);
         habit.set('reminder.stop', job.stop);
       } else if (oldHabit.reminder.active && !habit.reminder.active) {
         oldHabit.reminder.stop();
@@ -96,10 +100,9 @@ var updateHabit = function (email, habitId, newHabit) {
         },
         {
           hour: habit.reminder.time.getHours(),
-          minute: habit.reminder.time.getMinutes()
+          minute: habit.reminder.time.getMinutes(),
           days: habit.reminder.days || undefined
-        });
-        console.log(job);
+        }, habit._id);
         habit.set('reminder.stop', job.stop);
       } 
       return habit;
