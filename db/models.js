@@ -38,8 +38,9 @@ var Habits = mongoose.model('Habits', habitsSchema);
 // Users
 var userSchema = mongoose.Schema({
   email: { type: String, required: true, unique: true },
-  fullName: { type: String },
-  habitsId: { type: mongoose.Schema.Types.ObjectId, ref: Habits }
+  userName: { type: String },
+  habitsId: { type: mongoose.Schema.Types.ObjectId, ref: Habits },
+  badges: { type: Array, default: []}
 },
 {
   timestamps: true
