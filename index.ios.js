@@ -34,6 +34,7 @@ var TabContainer = React.createClass({
     }
   },
   handleLogout: function () {
+    console.log('handleLogout called in index');
     this.setState({
       auth: false,
       token: null,
@@ -109,7 +110,11 @@ var TabContainer = React.createClass({
               })
             }).bind(this)}
           >
-            <ProfileContainer />
+            <ProfileContainer
+              token={this.state.token}
+              profile={this.state.profile}
+              handleLogout={this.handleLogout}
+            />
           </Icon.TabBarItemIOS>
         </TabBarIOS>
       );

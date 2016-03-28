@@ -45,6 +45,7 @@ var Profile = React.createClass({
     );
   },
   render: function () {
+    console.log(this.props.handleLogout);
     return (
       <View>
         <View style={styles.avatar}>
@@ -89,7 +90,7 @@ var Profile = React.createClass({
         <Button
           containerStyle={styles.logoutContainer}
           style={styles.logoutText}
-          onPress={function () { console.log('Logout pressed'); }}
+          onPress={this.props.handleLogout}
         >
           Logout
         </Button>
