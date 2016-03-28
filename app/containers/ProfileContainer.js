@@ -11,9 +11,10 @@ var ProfileContainer = React.createClass({
     }
   },
   render: function () {
+    console.log(this.props.handleLogout);
     return (
       <View style={styles.container}>
-        <Profile />
+        <Profile handleLogout={this.props.handleLogout} />
       </View>
     );
   },
