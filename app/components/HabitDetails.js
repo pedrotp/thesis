@@ -31,7 +31,7 @@ var HabitDetails = React.createClass({
       modalVisible: false,
       rowData: null,
       instanceId: null,
-      note: ''
+      note: { note: '' }
     }
   },
 
@@ -55,7 +55,7 @@ var HabitDetails = React.createClass({
         responseData.forEach(function(instance) {
           if(moment(day.ISOString).isSame(instance.createdAt, 'day')) {
             day.instanceId = instance._id;
-            day.note = instance.note;
+            day.note = { note: instance.note };
             day.done = true;
           }
         });
@@ -71,6 +71,10 @@ var HabitDetails = React.createClass({
       console.warn(err);
     });
   },
+  
+  componentDidUpdate: function () {
+    
+  }
   
   handleInstancePress: function (rowData) {
     console.log('ROWDATA', rowData);

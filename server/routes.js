@@ -164,6 +164,7 @@ var routes = [
       var habitid = req.params.habitid;
       var instanceid = req.params.instanceid;
       var instanceNote = req.body;
+      console.log('INSTANCENOTE:', instanceNote);
       helpers.updateInstance(userEmail, habitid, instanceid, instanceNote)
         .then(function (instance) {
           res.status(200).json(instance);

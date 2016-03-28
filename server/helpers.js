@@ -250,6 +250,7 @@ var updateInstance = function (email, habitid, instanceid, instanceNote) {
         throw new Error('Invalid instance ID');
       }
       var i = instances.store.indexOf(instance);
+      console.log('INSTANCE_NOTE:', instanceNote)
       instances.store.set(i, instanceNote);
       instances.save();
       return instances.store[i];

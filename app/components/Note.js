@@ -16,7 +16,7 @@ var Note = React.createClass({
       modalVisible: false,
       instanceId: null,
       rowData: null,
-      note: ''
+      note: { note: '' } 
     };
   },
   
@@ -62,7 +62,7 @@ var Note = React.createClass({
   
   onTextChange: function (text) {
     this.setState({
-      note: text
+      note: { note: text}
     });
   },
   
@@ -81,7 +81,7 @@ var Note = React.createClass({
               <Text>Add Note</Text>
               <TextInput
                 style={{height: 40, borderColor: 'white', borderWidth: 1}}
-                defaultValue={this.state.note}
+                defaultValue={this.state.note.note}
                 // editable={false}
                 // onfocus={}
                 placeholder="Write a note.."
