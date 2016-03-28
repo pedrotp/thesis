@@ -11,7 +11,7 @@ var Profile = React.createClass({
       progress: 0.75
     }
   },
-  componentDidMount: function() {
+  componentDidMount: function () {
 
     // Progress bar doesn't appear filled unless it's changed
     // so upon component mount, add and subtract trivial amount
@@ -19,17 +19,19 @@ var Profile = React.createClass({
     this.setState({ progress: this.state.progress - 0.00001 });
   },
   render: function () {
-    // setTimeout((function () {
-    //   this.setState({ progress: this.state.progress + 0.05 });
-    // }).bind(this), 1000);
-
     return (
       <View>
-        <Text>Here is some profile text</Text>
+        <TouchableOpacity>
+          <View style={styles.avatar}>
+            <Text style={styles.avatarText}>
+              Add Photo
+            </Text>
+          </View>
+        </TouchableOpacity>
         <ProgressBar
-          fillStyle={{}}
-          backgroundStyle={{backgroundColor: '#aaa', borderRadius: 2}}
-          style={{marginTop: 10, width: 300}}
+          fillStyle={styles.progressFill}
+          backgroundStyle={styles.progress}
+          style={{marginTop: 10, width: 300, height: 10}}
           progress={this.state.progress}
         />
       </View>
@@ -38,9 +40,31 @@ var Profile = React.createClass({
 });
 
 var styles = StyleSheet.create({
-  fill: {
-    color: '#000000',
-    backgroundColor: '#000000'
+  avatar: {
+    flexDirection: 'row',
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 90,
+    height: 90,
+    backgroundColor: '#EEE',
+    borderRadius: 100/2,
+    borderColor: '#FFF',
+    borderWidth: 1
+  },
+  avatarText: {
+    fontSize: 12,
+    width: 60,
+    textAlign: 'center'
+  },
+  progressFill: {
+    backgroundColor: '#6399DC',
+    height: 10
+  },
+  progress: {
+    backgroundColor: '#aaa',
+    borderRadius: 4,
+    alignSelf: 'center'
   }
 });
 
