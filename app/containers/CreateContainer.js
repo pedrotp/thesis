@@ -21,7 +21,6 @@ var AddHabit = React.createClass({
   sendHabit: function (reqbody) {
     // Store reference to 'this' to be used in the
     // success alert to bring user to inbox view
-    var _this = this;
 
     fetch(process.env.SERVER + '/habits/' + this.props.profile.email, {
       method: 'POST',
@@ -36,28 +35,28 @@ var AddHabit = React.createClass({
     .then(function (response) {
       return response.json();
     })
-    .then(function (responseJSON) {
+    .then((function (responseJSON) {
       Alert.alert(
         'Habit Created!',
         null,
         [
           {
             text: 'Ok',
-            onPress: function () {
+            onPress: (function () {
 
               // brings user to inbox view
-              _this.goToNext();
-            }
+              this.goToInbox();
+            }).bind(this)
           }
         ]
       );
-    })
+    }).bind(this))
     .catch(function (err) {
       console.warn(err);
     });
   },
 
-  goToNext: function () {
+  goToInbox: function () {
     this.props.navigator.push({ id: 'Habits' });
   },
 
