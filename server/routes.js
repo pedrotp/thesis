@@ -12,9 +12,9 @@ var jwtCheck = jwt({
 
 // Routes requiring auth for use
 var authReqRoutes = [
-  // '/habits',
-  // '/user',
-  // '/sms'
+  '/habits',
+  '/user',
+  '/sms'
 ];
 
 var routes = [
