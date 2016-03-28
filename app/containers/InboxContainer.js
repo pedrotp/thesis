@@ -30,7 +30,6 @@ var Habits = React.createClass({
   },
   // TODO: refactor server call to api library
   getHabits: function () {
-    var _this = this;
     fetch(process.env.SERVER + '/habits/' + this.props.profile.email, {
       method: 'GET',
       headers: {
@@ -41,24 +40,22 @@ var Habits = React.createClass({
     .then(function (response) {
       return response.json();
     })
-    .then(function (responseData) {
-      _this.setState({
-        dataSource: _this.state.dataSource.cloneWithRows(responseData)
+    .then((function (responseData) {
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(responseData)
       });
-    })
+    }).bind(this))
     .catch(function (err) {
       console.warn(err);
     });
   },
   editHabit: function (habit) {
-    var _this = this;
     this.props.navigator.push({
       id: 'HabitSettings',
       habit: habit
     });
   },
   toggleInstance: function (habitId) {
-    var _this = this;
     // TODO: refactor server call to api library
     // Ask server to create a new instance of this habit
     fetch(process.env.SERVER + '/habits/' + this.props.profile.email + '/' + habitId, {
@@ -71,12 +68,12 @@ var Habits = React.createClass({
     .then(function (response) {
       return response.json();
     })
-    .then(function (resJSON) {
+    .then((function (resJSON) {
       // if (!resJSON.empty && moment(new Date(resJSON.createdAt)).isSame(Date.now(), 'day')) {
       //   Alert.alert('You Did It', 'Great Job!');
       // }
-      _this.getHabits();
-    })
+      this.getHabits();
+    }).bind(this))
     .catch(function (err) {
       console.warn(err);
     });
