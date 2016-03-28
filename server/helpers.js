@@ -168,7 +168,7 @@ var toggleInstance = function (email, habitId) {
             habits.save();
 
             // check if this instance triggers any badges earned
-            Badges.checkBadges(email, habit)
+            return Badges.checkBadges(email, habit)
               .then(function (earnedBadge) {
                 return {
                   instance: instances.store[instances.store.length - 1],

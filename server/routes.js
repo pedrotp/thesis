@@ -90,6 +90,7 @@ var routes = [
       var habitid = req.params.habitid;
       helpers.toggleInstance(userEmail, habitid)
         .then(function (data) {
+          console.log('sending from toggle:', data);
           res.status(201).json(data);
         })
         .catch(function (err) {

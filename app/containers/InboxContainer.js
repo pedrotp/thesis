@@ -67,8 +67,9 @@ var Habits = React.createClass({
       return response.json();
     })
     .then((function (resJSON) {
-      // if (!resJSON.empty && moment(new Date(resJSON.createdAt)).isSame(Date.now(), 'day')) {
-      //   Alert.alert('You Did It', 'Great Job!');
+      console.log(resJSON);
+      // if (resJSON.toast) {
+      //   Alert.alert('Badge Earned', 'You earned ' + resJSON.toast, [{text: 'ok'}])
       // }
       this.getHabits();
     }).bind(this))
