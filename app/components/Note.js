@@ -16,6 +16,7 @@ var Note = React.createClass({
       modalVisible: false,
       instanceId: null,
       rowData: null,
+      date: null,
       note: { note: '' } 
     };
   },
@@ -26,6 +27,7 @@ var Note = React.createClass({
       modalVisible: props.visible,
       instanceId: props.instanceId,
       rowData: props.rowData,
+      date: props.date,
       note: props.note
     });
   },
@@ -43,7 +45,6 @@ var Note = React.createClass({
     })
     .then(api.handleErrors)
     .then(function (response) {
-      console.log('RESPONSE', response);
       _this.props.hideModal();
       
     })
@@ -78,14 +79,15 @@ var Note = React.createClass({
           <View style={[styles.container, modalBackgroundStyle]}>
             <View style={[styles.innerContainer, innerContainerTransparentStyle]}>
               <Text>Add Note</Text>
-              <Text>{ this.state.rowData.ISOString}</Text>
+              <Text>{moment(this.props.date).format('MMMM Do YYYY')}</Text>
               <TextInput
-                style={{height: 40, borderColor: 'white', borderWidth: 1}}
+                style={{height: 250, width: 300, borderColor: 'white', borderWidth: 1}}
                 defaultValue={this.state.note.note}
                 // editable={false}
                 // onfocus={}
                 placeholder="Write a note.."
                 onChangeText={this.onTextChange}
+                multiline={true}
               />
               <Button
                 onPress={this.handleUpdate}
@@ -93,7 +95,7 @@ var Note = React.createClass({
                 Update
               </Button>
               <Button 
-                onPress={this.hideModal}
+                onPress={this.props.hideModal}
                 style={styles.modalButton}>
                 Close
               </Button>

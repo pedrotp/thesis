@@ -31,6 +31,7 @@ var HabitDetails = React.createClass({
       modalVisible: false,
       rowData: null,
       instanceId: null,
+      date: null,
       note: { note: '' }
     }
   },
@@ -57,10 +58,12 @@ var HabitDetails = React.createClass({
 
       days.forEach(function(day) {
         responseData.forEach(function(instance) {
+          // console.log('INSTANCE', instance);
           if(moment(day.ISOString).isSame(instance.createdAt, 'day')) {
             day.instanceId = instance._id;
             day.note = { note: instance.note };
             day.done = true;
+            console.log('INSTANCE', instance, 'DAY:', day, 'ISOString:', day.ISOString, 'createdAt:', instance.createdAt);
           }
         });
       }); 
@@ -70,7 +73,6 @@ var HabitDetails = React.createClass({
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(days)
       });
-      console.log('DAYS', days)
     }).bind(this))
     .catch(function (err) {
       console.warn(err);
@@ -87,6 +89,7 @@ var HabitDetails = React.createClass({
       modalVisible: true,
       rowData: rowData,
       instanceId: rowData.instanceId,
+      date: rowData.ISOString,
       note: rowData.note
     }); 
   },
@@ -133,7 +136,7 @@ var HabitDetails = React.createClass({
     // renders DONE boxes
     if (rowData.done) {
       return (
-        <TouchableOpacity underlayColor="transparent">
+        <TouchableOpacity onPress={function () {_this.handleInstancePress(rowData)}} underlayColor="transparent">
           <View style={styles.doneRow}>
             <Text style={styles.rowText}>
               {rowData.date}
@@ -214,6 +217,7 @@ var HabitDetails = React.createClass({
           habit={this.props.habit}
           getRowData={this.getRowData}
           hideModal={this.hideModal}
+          date={this.state.date}
           >
         </Note>
       </View>
