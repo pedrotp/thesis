@@ -7,7 +7,6 @@ var Loading = require('../components/Loading');
 
 var LoadingContainer = React.createClass({
   getHabits: function () {
-    var _this = this;
     fetch(process.env.SERVER + '/habits/' + this.props.profile.email, {
       method: 'GET',
       headers: {
@@ -18,13 +17,13 @@ var LoadingContainer = React.createClass({
     .then(function (response) {
       return response.json();
     })
-    .then(function (responseData) {
+    .then((function (responseData) {
       if (!responseData.length) {
-        _this.goToOnboard();
+        this.goToOnboard();
       } else {
-        _this.goToInbox();
+        this.goToInbox();
       }
-    })
+    }).bind(this))
     .catch(function (err) {
       console.warn(err);
     });
@@ -47,7 +46,6 @@ var LoadingContainer = React.createClass({
       </View>
     );
   },
-
   renderScene: function (route, navigator) {
     return (
       <Loading

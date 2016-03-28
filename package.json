@@ -34,6 +34,7 @@
     "react-native": "^0.21.0",
     "react-native-button": "^1.4.2",
     "react-native-lock-ios": "0.0.5",
+    "react-native-progress-bar": "^0.1.2",
     "react-native-radio-buttons": "^0.9.1",
     "react-native-refreshable-listview": "^2.0.0-beta4",
     "react-native-swipeout": "^2.0.12",

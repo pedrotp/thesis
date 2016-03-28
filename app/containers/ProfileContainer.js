@@ -10,7 +10,6 @@ var ProfileContainer = React.createClass({
     return {
     }
   },
-
   render: function () {
     return (
       <View style={styles.container}>
@@ -24,8 +23,8 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 54,
-    paddingTop: 10,
-    paddingBottom: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     backgroundColor: '#ffffff',
   },
 });

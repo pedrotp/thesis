@@ -167,6 +167,9 @@ var getInstances = function (email, habitid, success, fail) {
       var habit = habits.store.id(habitid);
       return Instances.findById(habit.instancesId);
     })
+    .then(function (instances) {
+      return instances.store;
+    })
 };
 
 module.exports = {

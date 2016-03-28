@@ -37,9 +37,8 @@ var AppContainer = React.createClass({
     this.showLock();
   },
   showLock: function () {
-    var _this = this;
     // Display login widget
-    lock.show({}, function (err, profile, token) {
+    lock.show({}, (function (err, profile, token) {
       // TODO: pass profile/token to component
       if (err) {
         console.log(err);
@@ -56,21 +55,20 @@ var AppContainer = React.createClass({
         body: JSON.stringify(profile)
       })
       .then(api.handleErrors)
-      .then(function (res) {
+      .then((function (res) {
         // On successful login + store user
         // Set user info on state
-        _this.setState({
+        this.setState({
           auth: true,
           token: token,
           profile: profile,
         });
-      })
+      }).bind(this))
       .catch(function (err) {
         console.warn(err);
       });
-    });
+    }).bind(this));
   },
-
   componentDidMount: function () {
     // If user not logged in
     if (!this.state.auth) {
@@ -95,7 +93,6 @@ var AppContainer = React.createClass({
   },
   renderScene: function (route, navigator) {
     var routeId = route.id;
-
     if (routeId === 'Loading') {
       return (
         <LoadingContainer
@@ -155,6 +152,5 @@ var AppContainer = React.createClass({
     }
   }
 });
-
 
 module.exports = AppContainer;

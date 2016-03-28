@@ -24,18 +24,17 @@ var TabContainer = React.createClass({
     }
   },
   render: function () {
-    var _this = this;
     return (
       <TabBarIOS selectedTab={this.state.selectedTab}>
         <Icon.TabBarItemIOS
           selected={this.state.selectedTab === 'inbox'}
           title='Inbox'
           iconName='inbox'
-          onPress={function () {
-            _this.setState({
+          onPress={(function () {
+            this.setState({
               selectedTab: 'inbox',
             });
-          }}
+          }).bind(this)}
         >
           <AppContainer />
         </Icon.TabBarItemIOS>
@@ -43,16 +42,16 @@ var TabContainer = React.createClass({
           selected={this.state.selectedTab === 'profile'}
           title='Profile'
           iconName='user'
-          onPress={function () {
-            _this.setState({
+          onPress={(function () {
+            this.setState({
               selectedTab: 'profile',
-            });
-          }}
+            })
+          }).bind(this)}
         >
           <ProfileContainer />
         </Icon.TabBarItemIOS>
       </TabBarIOS>
-    )
+    );
   }
 });
 

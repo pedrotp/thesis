@@ -29,7 +29,6 @@ var HabitDetails = React.createClass({
   },
 
   componentDidMount: function () {
-    var _this = this;
     var habitId = this.props.habit._id;
     fetch(process.env.SERVER + '/habits/' + this.props.profile.email + '/' + habitId, {
       method: 'GET',
@@ -41,12 +40,12 @@ var HabitDetails = React.createClass({
     .then(function (response) {
       return response.json();
     })
-    .then(function (responseData) {
+    .then((function (responseData) {
       var period = getPeriodArray();
       var days = getDaysArray(period);
 
       days.forEach(function(day) {
-        responseData.store.forEach(function(instance) {
+        responseData.forEach(function(instance) {
           if(moment(day.ISOString).isSame(instance.createdAt, 'day')) {
             day.done = true;
           }
@@ -55,10 +54,10 @@ var HabitDetails = React.createClass({
 
       days = calendarLabel().concat(days);
 
-      _this.setState({
-        dataSource: _this.state.dataSource.cloneWithRows(days)
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(days)
       });
-    })
+    }).bind(this))
     .catch(function (err) {
       console.warn(err);
     });
@@ -78,7 +77,7 @@ var HabitDetails = React.createClass({
       );
     }
     // renders PRESENT DAY, DONE box
-    if(moment(rowData.ISOString).isSame(this.state.currentDate, 'day') && rowData.done) {
+    if (moment(rowData.ISOString).isSame(this.state.currentDate, 'day') && rowData.done) {
       return (
         <TouchableOpacity underlayColor="transparent">
           <View style={styles.presentDoneRow}>
@@ -90,7 +89,7 @@ var HabitDetails = React.createClass({
       );
     }
     // renders PRESENT DAY, NOT-DONE box
-    if(moment(rowData.ISOString).isSame(this.state.currentDate, 'day')) {
+    if (moment(rowData.ISOString).isSame(this.state.currentDate, 'day')) {
       return (
         <TouchableOpacity underlayColor="transparent">
           <View style={styles.presentNotDoneRow}>
@@ -114,7 +113,7 @@ var HabitDetails = React.createClass({
       );
     }
     // renders FUTURE DAYS boxes
-    if(this.state.currentDate.diff(rowData.ISOString) < 0) {
+    if (this.state.currentDate.diff(rowData.ISOString) < 0) {
       return (
         <TouchableOpacity underlayColor="transparent">
           <View style={styles.futureRow}>
@@ -138,23 +137,22 @@ var HabitDetails = React.createClass({
   },
 
   render: function () {
-      return (
-        <View style={{ flex: 1 }}>
-          <Navigator
-            renderScene={this.renderScene}
-            navigator={this.props.navigator}
-            navigationBar={
-              <Navigator.NavigationBar style={{backgroundColor: '#6399DC', alignItems: 'center'}}
-                routeMapper={NavigationBarRouteMapper}
-              />
-            }
-          />
-        </View>
-      );
+    return (
+      <View style={{ flex: 1 }}>
+        <Navigator
+          renderScene={this.renderScene}
+          navigator={this.props.navigator}
+          navigationBar={
+            <Navigator.NavigationBar style={{backgroundColor: '#6399DC', alignItems: 'center'}}
+              routeMapper={NavigationBarRouteMapper}
+            />
+          }
+        />
+      </View>
+    );
   },
 
   renderScene: function (route, navigator) {
-    var _this = this;
     // normal mode
     return (
       <View style={styles.container}>
@@ -171,9 +169,9 @@ var HabitDetails = React.createClass({
           automaticallyAdjustContentInsets={false}
         />
         <View style={styles.count}>
-          <Text style={styles.text}>Current Streak: { moment(new Date(this.props.habit.lastDone)).isSame(Date.now(), 'week') ? _this.props.habit.streak.current : 0 }</Text>
-          <Text style={styles.text}>Longest Streak: {_this.props.habit.streak.max}</Text>
-          <Text style={styles.text}>Total Completed: {_this.props.habit.instanceCount}</Text>
+          <Text style={styles.text}>Current Streak: { moment(new Date(this.props.habit.lastDone)).isSame(Date.now(), 'week') ? this.props.habit.streak.current : 0 }</Text>
+          <Text style={styles.text}>Longest Streak: {this.props.habit.streak.max}</Text>
+          <Text style={styles.text}>Total Completed: {this.props.habit.instanceCount}</Text>
         </View>
       </View>
     )
@@ -197,10 +195,6 @@ var NavigationBarRouteMapper = {
   },
 
   Title(route, navigator, index, navState) {
-    // var title;
-    // var routeStack = navigator.parentNavigator.state.routeStack;
-    // var previousRoute = routeStack[routeStack.length - 2];
-
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
         <Text style={{color: 'white', margin: 10, fontSize: 16}}>

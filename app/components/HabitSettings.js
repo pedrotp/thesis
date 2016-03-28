@@ -44,7 +44,6 @@ var HabitSettings = React.createClass({
     this.props.navigator.push({ id: 'Habits' });
   },
   updateHabit: function (habitId) {
-    var _this = this;
     fetch(process.env.SERVER + '/habits/' + this.props.profile.email + '/' + habitId, {
       method: 'PUT',
       headers: {
@@ -55,15 +54,14 @@ var HabitSettings = React.createClass({
       body: JSON.stringify(this.state.habit)
     })
     .then(api.handleErrors)
-    .then(function (response) {
-      _this.gotoInbox();
-    })
+    .then((function (response) {
+      this.gotoInbox();
+    }).bind(this))
     .catch(function (err) {
       console.warn(err);
     });
   },
   deleteHabit: function (habitId) {
-    var _this = this;
     // TODO: refactor server call to api library
     fetch(process.env.SERVER + '/habits/' + this.props.profile.email + '/' + habitId, {
       method: 'DELETE',
@@ -72,20 +70,20 @@ var HabitSettings = React.createClass({
       }
     })
     .then(api.handleErrors)
-    .then(function (response) {
+    .then((function (response) {
       Alert.alert(
         'Habit Deleted',
         null,
         [
           {
             text: 'Ok',
-            onPress: function () {
-              _this.props.navigator.push({ id: 'Habits' });
-            }
+            onPress: (function () {
+              this.props.navigator.push({ id: 'Habits' });
+            }).bind(this)
           }
         ]
       );
-    })
+    }).bind(this))
     .catch(function (err) {
       console.warn(err);
     });
@@ -106,7 +104,6 @@ var HabitSettings = React.createClass({
     );
   },
   renderScene: function (route, navigator) {
-    var _this = this;
     if (this.state.habit.reminder.set) {
       return (
         <View style={styles.container}>
@@ -135,7 +132,7 @@ var HabitSettings = React.createClass({
             containerStyle={styles.updateButtonContainer}
             style={styles.updateButtonText}
             styleDisabled={{color: 'red'}}
-            onPress={function () {_this.updateHabit(_this.state.habit._id)}}
+            onPress={(function () { this.updateHabit(this.state.habit._id); }).bind(this)}
           >
             Update Habit
           </Button>
@@ -143,7 +140,7 @@ var HabitSettings = React.createClass({
             containerStyle={styles.deleteButtonContainer}
             style={styles.deleteButtonText}
             styleDisabled={{color: 'red'}}
-            onPress={function () {_this.deleteHabit(_this.state.habit._id)}}
+            onPress={(function () { this.deleteHabit(this.state.habit._id); }).bind(this)}
           >
             Delete Habit
           </Button>
@@ -171,7 +168,7 @@ var HabitSettings = React.createClass({
             containerStyle={styles.updateButtonContainer}
             style={styles.updateButtonText}
             styleDisabled={{color: 'red'}}
-            onPress={function () {_this.updateHabit(_this.state.habit._id)}}
+            onPress={(function () { this.updateHabit(this.state.habit._id); }).bind(this)}
           >
             Update Habit
           </Button>
@@ -179,7 +176,7 @@ var HabitSettings = React.createClass({
             containerStyle={styles.deleteButtonContainer}
             style={styles.deleteButtonText}
             styleDisabled={{color: 'red'}}
-            onPress={function () {_this.deleteHabit(_this.state.habit._id)}}
+            onPress={(function () { this.deleteHabit(this.state.habit._id); }).bind(this)}
           >
             Delete Habit
           </Button>
@@ -229,25 +226,27 @@ var styles = StyleSheet.create({
     fontSize: 34
   },
   deleteButtonText: {
-    fontSize: 20, 
+    fontSize: 20,
     color: '#e14f3f'
   },
   deleteButtonContainer: {
-    padding:10, 
-    height:45, 
-    overflow:'hidden', 
-    borderRadius:4, 
-    backgroundColor: 'white', 
+    padding: 10,
+    height: 45,
+    overflow:'hidden',
+    borderRadius: 4,
+    backgroundColor: 'white',
     marginTop: 20
   },
   updateButtonText: {
-    fontSize: 20, color: 'white'
+    fontSize: 20,
+    color: 'white'
   },
   updateButtonContainer: {
-    padding:10, height:45, 
-    overflow:'hidden', 
-    borderRadius:4, 
-    backgroundColor: '#6399DC', 
+    padding: 10,
+    height: 45,
+    overflow:'hidden',
+    borderRadius: 4,
+    backgroundColor: '#6399DC',
     marginTop: 20
   },
 });
