@@ -89,8 +89,8 @@ var routes = [
       var userEmail = req.params.user;
       var habitid = req.params.habitid;
       helpers.toggleInstance(userEmail, habitid)
-        .then(function (instance) {
-          res.status(201).json(instance);
+        .then(function (data) {
+          res.status(201).json(data);
         })
         .catch(function (err) {
           if (!testing) {

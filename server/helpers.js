@@ -1,6 +1,7 @@
 var Habits = require('../db/models').Habits;
 var Instances = require('../db/models').Instances;
 var User = require('../db/models').User;
+var Badges = require('./badges')
 var moment = require('moment');
 var sms = require('./sms');
 
@@ -116,6 +117,7 @@ var toggleInstance = function (email, habitId) {
       return Habits.findById(user.habitsId);
     })
     .then(function (habits) {
+      // get the specific habit from the user's collection of habits
       var habit = habits.store.id(habitId);
       if (!habit) {
         throw new Error('Invalid habit ID');
@@ -164,7 +166,16 @@ var toggleInstance = function (email, habitId) {
               habit.streak.maxDate = last;
             }
             habits.save();
-            return instances.store[instances.store.length - 1];
+
+            // check if this instance triggers any badges earned
+            Badges.checkBadges(email, habit)
+              .then(function (earnedBadge) {
+                return {
+                  instance: instances.store[instances.store.length - 1],
+                  toast: earnedBadge
+                }
+              })
+
           } else {
             habit.streak.max = 0;
             habit.instanceCount = 0;
