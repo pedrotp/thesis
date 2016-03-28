@@ -46,7 +46,6 @@ var LoadingContainer = React.createClass({
       </View>
     );
   },
-
   renderScene: function (route, navigator) {
     return (
       <Loading

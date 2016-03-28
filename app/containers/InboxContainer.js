@@ -104,7 +104,8 @@ var Habits = React.createClass({
           navigationBar={
             <Navigator.NavigationBar style={{backgroundColor: '#6399DC', alignItems: 'center'}}
                 routeMapper={NavigationBarRouteMapper} />
-          } />
+          }
+        />
       </View>
     );
   },

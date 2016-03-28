@@ -69,7 +69,6 @@ var AppContainer = React.createClass({
       });
     }).bind(this));
   },
-
   componentDidMount: function () {
     // If user not logged in
     if (!this.state.auth) {
@@ -94,7 +93,6 @@ var AppContainer = React.createClass({
   },
   renderScene: function (route, navigator) {
     var routeId = route.id;
-
     if (routeId === 'Loading') {
       return (
         <LoadingContainer
@@ -154,6 +152,5 @@ var AppContainer = React.createClass({
     }
   }
 });
-
 
 module.exports = AppContainer;

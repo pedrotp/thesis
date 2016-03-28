@@ -77,7 +77,7 @@ var HabitDetails = React.createClass({
       );
     }
     // renders PRESENT DAY, DONE box
-    if(moment(rowData.ISOString).isSame(this.state.currentDate, 'day') && rowData.done) {
+    if (moment(rowData.ISOString).isSame(this.state.currentDate, 'day') && rowData.done) {
       return (
         <TouchableOpacity underlayColor="transparent">
           <View style={styles.presentDoneRow}>
@@ -89,7 +89,7 @@ var HabitDetails = React.createClass({
       );
     }
     // renders PRESENT DAY, NOT-DONE box
-    if(moment(rowData.ISOString).isSame(this.state.currentDate, 'day')) {
+    if (moment(rowData.ISOString).isSame(this.state.currentDate, 'day')) {
       return (
         <TouchableOpacity underlayColor="transparent">
           <View style={styles.presentNotDoneRow}>
@@ -113,7 +113,7 @@ var HabitDetails = React.createClass({
       );
     }
     // renders FUTURE DAYS boxes
-    if(this.state.currentDate.diff(rowData.ISOString) < 0) {
+    if (this.state.currentDate.diff(rowData.ISOString) < 0) {
       return (
         <TouchableOpacity underlayColor="transparent">
           <View style={styles.futureRow}>
@@ -137,19 +137,19 @@ var HabitDetails = React.createClass({
   },
 
   render: function () {
-      return (
-        <View style={{ flex: 1 }}>
-          <Navigator
-            renderScene={this.renderScene}
-            navigator={this.props.navigator}
-            navigationBar={
-              <Navigator.NavigationBar style={{backgroundColor: '#6399DC', alignItems: 'center'}}
-                routeMapper={NavigationBarRouteMapper}
-              />
-            }
-          />
-        </View>
-      );
+    return (
+      <View style={{ flex: 1 }}>
+        <Navigator
+          renderScene={this.renderScene}
+          navigator={this.props.navigator}
+          navigationBar={
+            <Navigator.NavigationBar style={{backgroundColor: '#6399DC', alignItems: 'center'}}
+              routeMapper={NavigationBarRouteMapper}
+            />
+          }
+        />
+      </View>
+    );
   },
 
   renderScene: function (route, navigator) {
@@ -195,10 +195,6 @@ var NavigationBarRouteMapper = {
   },
 
   Title(route, navigator, index, navState) {
-    // var title;
-    // var routeStack = navigator.parentNavigator.state.routeStack;
-    // var previousRoute = routeStack[routeStack.length - 2];
-
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
         <Text style={{color: 'white', margin: 10, fontSize: 16}}>

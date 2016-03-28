@@ -25,7 +25,8 @@ config.ignore = function(filename) {
       "react-native-button",
       "react-native-refreshable-listview",
       "react-native-swiper",
-      "react-native-vector-icons"
+      "react-native-vector-icons",
+      "react-native-progress-bar"
     ];
 
     for (var i = 0; i < modulesToCompile.length; i++ ) {

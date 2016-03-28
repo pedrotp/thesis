@@ -19,9 +19,6 @@ var AddHabit = React.createClass({
   },
 
   sendHabit: function (reqbody) {
-    // Store reference to 'this' to be used in the
-    // success alert to bring user to inbox view
-
     fetch(process.env.SERVER + '/habits/' + this.props.profile.email, {
       method: 'POST',
       headers: {
@@ -55,11 +52,9 @@ var AddHabit = React.createClass({
       console.warn(err);
     });
   },
-
   goToInbox: function () {
     this.props.navigator.push({ id: 'Habits' });
   },
-
   handleClick: function () {
     // Values stored to be sent to server
     var action = this.state.fields.action;
@@ -114,8 +109,7 @@ var NavigationBarRouteMapper = {
   LeftButton(route, navigator, index, navState) {
     var routeStack = navigator.parentNavigator.state.routeStack;
     var previousRoute = routeStack[routeStack.length - 2];
-
-    if(previousRoute.id === 'Habits') {
+    if (previousRoute.id === 'Habits') {
       return (
         <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
             onPress={function () {navigator.parentNavigator.pop()}}>
@@ -137,8 +131,7 @@ var NavigationBarRouteMapper = {
     var title;
     var routeStack = navigator.parentNavigator.state.routeStack;
     var currentRoute = routeStack[routeStack.length - 1];
-
-    if(currentRoute.habit) {
+    if (currentRoute.habit) {
       title = 'Edit Habit';
     } else {
       title = 'New Habit';
