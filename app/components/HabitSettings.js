@@ -229,25 +229,27 @@ var styles = StyleSheet.create({
     fontSize: 34
   },
   deleteButtonText: {
-    fontSize: 20, 
+    fontSize: 20,
     color: '#e14f3f'
   },
   deleteButtonContainer: {
-    padding:10, 
-    height:45, 
-    overflow:'hidden', 
-    borderRadius:4, 
-    backgroundColor: 'white', 
+    padding: 10,
+    height: 45,
+    overflow:'hidden',
+    borderRadius: 4,
+    backgroundColor: 'white',
     marginTop: 20
   },
   updateButtonText: {
-    fontSize: 20, color: 'white'
+    fontSize: 20,
+    color: 'white'
   },
   updateButtonContainer: {
-    padding:10, height:45, 
-    overflow:'hidden', 
-    borderRadius:4, 
-    backgroundColor: '#6399DC', 
+    padding: 10,
+    height: 45,
+    overflow:'hidden',
+    borderRadius: 4,
+    backgroundColor: '#6399DC',
     marginTop: 20
   },
 });
