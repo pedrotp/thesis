@@ -9,7 +9,7 @@ var Icon = require('react-native-vector-icons/FontAwesome');
 var AppContainer = require('./app/containers/AppContainer');
 var ProfileContainer = require('./app/containers/ProfileContainer')
 
-var localServer = true;
+var localServer = false;
 
 if (localServer === true) {
   process.env.SERVER = 'http://localhost:3000'

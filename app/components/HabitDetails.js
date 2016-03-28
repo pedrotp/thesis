@@ -45,7 +45,7 @@ var HabitDetails = React.createClass({
       var days = getDaysArray(period);
 
       days.forEach(function(day) {
-        responseData.store.forEach(function(instance) {
+        responseData.forEach(function(instance) {
           if(moment(day.ISOString).isSame(instance.createdAt, 'day')) {
             day.done = true;
           }
