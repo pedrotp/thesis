@@ -23,7 +23,9 @@ config.ignore = function(filename) {
       "react-native-radio-buttons",
       "react-native-swipeout",
       "react-native-button",
-      "react-native-refreshable-listview"
+      "react-native-refreshable-listview",
+      "react-native-swiper",
+      "react-native-vector-icons"
     ];
 
     for (var i = 0; i < modulesToCompile.length; i++ ) {
@@ -60,4 +62,3 @@ global.navigator = {
 
 // must be added before running any enzyme tests on react native
 require("react-native-mock/mock");
-

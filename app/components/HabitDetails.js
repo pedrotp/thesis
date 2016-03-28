@@ -44,17 +44,17 @@ var HabitDetails = React.createClass({
     .then(function (responseData) {
       var period = getPeriodArray();
       var days = getDaysArray(period);
-      
+
       days.forEach(function(day) {
-        responseData.forEach(function(instance) {
+        responseData.store.forEach(function(instance) {
           if(moment(day.ISOString).isSame(instance.createdAt, 'day')) {
             day.done = true;
           }
         })
-      }); 
-      
+      });
+
       days = calendarLabel().concat(days);
-      
+
       _this.setState({
         dataSource: _this.state.dataSource.cloneWithRows(days)
       });
