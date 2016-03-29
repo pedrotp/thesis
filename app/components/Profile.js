@@ -10,7 +10,6 @@ var TouchableOpacity = React.TouchableOpacity;
 
 var Profile = React.createClass({
   getInitialState: function () {
-    console.log('PROPS:', this.props);
     var ds = new ListView.DataSource({
       rowHasChanged: function (row1, row2) {
         return row1 !== row2;
@@ -21,7 +20,8 @@ var Profile = React.createClass({
       mocks.push('Badge');
     }
     return {
-      photo: 'https://lh3.googleusercontent.com/-TJZs2VPwGhY/AAAAAAAAAAI/AAAAAAAAAAA/kvF5gvgiqlE/photo.jpg',
+      userName: this.props.user.userName,
+      photo: this.props.profile.picture,
       progress: 0.75,
       dataSource: ds.cloneWithRows(mocks)
     }
@@ -47,13 +47,16 @@ var Profile = React.createClass({
   render: function () {
     return (
       <View>
-        <View>
+        <View style={styles.avatar}>
           <TouchableOpacity>
             <Image
-              style={styles.avatar}
+              style={styles.avatarPhoto}
               source={{uri: this.state.photo}}
             />
           </TouchableOpacity>
+          <Text style={styles.header}>
+            {this.state.userName}
+          </Text>
         </View>
         <View style={styles.recent}>
           <Text style={styles.header}>
@@ -101,6 +104,9 @@ var Profile = React.createClass({
 
 var styles = StyleSheet.create({
   avatar: {
+    marginBottom: 45,
+  },
+  avatarPhoto: {
     flexDirection: 'row',
     alignSelf: 'center',
     alignItems: 'center',
@@ -111,15 +117,11 @@ var styles = StyleSheet.create({
     borderRadius: 20,
     borderColor: '#FFF',
     borderWidth: 1,
-    marginBottom: 70
-  },
-  avatarText: {
-    fontSize: 10,
-    width: 60,
-    textAlign: 'center'
+    marginBottom: 10,
   },
   header: {
     textAlign: 'center',
+    fontSize: 16
   },
   progressFill: {
     backgroundColor: '#6399DC',
