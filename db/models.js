@@ -2,7 +2,9 @@ var mongoose = require('mongoose');
 require('mongoose-function')(mongoose);
 
 // Instance
-var instanceSchema = mongoose.Schema({}, { timestamps: true });
+var instanceSchema = mongoose.Schema({ 
+  note: { type: String, default: '' }
+}, { timestamps: true });
 
 // Instance store
 var instancesSchema = mongoose.Schema({

@@ -201,11 +201,58 @@ var getInstances = function (email, habitid, success, fail) {
     })
     .then(function (habits) {
       var habit = habits.store.id(habitid);
+      if (!habit) {
+        throw new Error('Invalid habit ID');
+      }
       return Instances.findById(habit.instancesId);
     })
     .then(function (instances) {
       return instances.store;
     })
+};
+
+var getInstance = function (email, habitid, instanceid) {
+  return User.findOne({ 'email': email })
+    .then(function (user) {
+      return Habits.findById(user.habitsId);
+    })
+    .then(function (habits) {
+      var habit = habits.store.id(habitid);
+      if(!habit) {
+        throw new Error('Invalid habit ID');
+      }
+      return Instances.findById(habit.instancesId);
+    })
+    .then(function (instances) {
+      var instance = instances.store.id(instanceid);
+      if(!instance) {
+        throw new Error('Invalid instance ID');
+      }
+      return instance;
+    });
+};
+
+var updateInstance = function (email, habitid, instanceid, instanceNote) {
+  return User.findOne({ 'email': email })
+    .then(function (user) {
+      return Habits.findById(user.habitsId);
+    })
+    .then(function (habits) {
+      var habit = habits.store.id(habitid);
+      if (!habit) {
+        throw new Error('Invalid habit ID');
+      }
+      return Instances.findById(habit.instancesId);
+    })
+    .then(function (instances) {
+      var instance = instances.store.id(instanceid);
+      if (!instance) {
+        throw new Error('Invalid instance ID');
+      }
+      instance.note = instanceNote.note;
+      instances.save();
+      return instance;
+    });
 };
 
 module.exports = {
@@ -215,5 +262,7 @@ module.exports = {
   getHabits: getHabits,
   toggleInstance: toggleInstance,
   addUser: addUser,
-  getInstances: getInstances
+  getInstances: getInstances,
+  getInstance: getInstance,
+  updateInstance: updateInstance
 };
