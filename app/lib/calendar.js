@@ -19,14 +19,14 @@ var getPeriodArray = function () {
   var timeInterval = moment().startOf('week').subtract(3, 'weeks').format() + '/' + moment().endOf('week').add(1, 'weeks').format();
   var dr = moment.range(timeInterval);
 
-  var test = dr.toArray('weeks');
+  var periodArray = dr.toArray('weeks');
   
   // Converts moment object to ISOString format
-  var periodArray = test.map(function (week) {
+  var transform = periodArray.map(function (week) {
     return week.format();
   });
   
-  return periodArray;
+  return transform;
 };
 
 // Creates an array containing objects representing each day in the period
@@ -57,10 +57,26 @@ var getDaysArray = function (array) {
   return daysArray;
 };
 
+var getInstancePeriod = function (startDate, endDate) {
+  var timeInterval = startDate + '/' + endDate;
+  var dr = moment.range(timeInterval);
+  
+  var instanceArray = dr.toArray('days');
+  
+  // Converts moment object to ISOString format
+  var transform = instanceArray.map(function (day) {
+    return { ISOString: day.format(), done: false };
+  });
+  
+  return transform;
+};
+
 
 module.exports.getPeriodArray = getPeriodArray;
 module.exports.getDaysArray = getDaysArray;
 module.exports.calendarLabel = calendarLabel;
+
+module.exports.getInstancePeriod = getInstancePeriod;
 
 
 

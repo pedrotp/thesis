@@ -13,6 +13,7 @@ var AddHabit = require('./CreateContainer');
 var Habits = require('./InboxContainer');
 var HabitSettings = require('../components/HabitSettings');
 var HabitDetails = require('../components/HabitDetails');
+var InstanceHistory = require('../components/InstanceHistory');
 
 var AppContainer = React.createClass({
   getInitialState: function () {
@@ -92,6 +93,17 @@ var AppContainer = React.createClass({
           token={this.state.token}
           profile={this.state.profile}
           habit={route.habit}
+        />
+      );
+    }
+    if (routeId === 'InstanceHistory') {
+      return (
+        <InstanceHistory
+          navigator={navigator}
+          token={this.state.token}
+          profile={this.state.profile}
+          habit={route.habit}
+          instances={route.instances}
         />
       );
     }
