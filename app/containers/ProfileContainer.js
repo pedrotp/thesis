@@ -13,7 +13,11 @@ var ProfileContainer = React.createClass({
   render: function () {
     return (
       <View style={styles.container}>
-        <Profile handleLogout={this.props.handleLogout} />
+        <Profile
+          handleLogout={this.props.handleLogout}
+          profile={this.props.profile}
+          user={this.props.user}
+        />
       </View>
     );
   },

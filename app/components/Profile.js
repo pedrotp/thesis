@@ -15,13 +15,11 @@ var Profile = React.createClass({
         return row1 !== row2;
       }
     });
-    var mocks = [];
-    for (var i = 0; i < 4; i++) {
-      mocks.push('Badge');
-    }
     return {
+      userName: this.props.user.userName,
+      photo: this.props.profile.picture,
       progress: 0.75,
-      dataSource: ds.cloneWithRows(mocks)
+      dataSource: ds.cloneWithRows(this.props.user.badges)
     }
   },
   componentDidMount: function () {
@@ -33,9 +31,7 @@ var Profile = React.createClass({
   },
   renderRow: function (rowData, sectionID, rowID) {
     return (
-      <TouchableOpacity
-        onPress={function () { console.log('rowData:', rowData, 'sectionID:', sectionID, 'rowID:', rowID); }}
-      >
+      <TouchableOpacity>
         <View style={styles.recentlyEarned}>
           <Text>
             {rowData}
@@ -45,15 +41,18 @@ var Profile = React.createClass({
     );
   },
   render: function () {
-    console.log(this.props.handleLogout);
     return (
       <View>
         <View style={styles.avatar}>
           <TouchableOpacity>
-            <Text style={styles.avatarText}>
-              Add Photo
-            </Text>
+            <Image
+              style={styles.avatarPhoto}
+              source={{uri: this.state.photo}}
+            />
           </TouchableOpacity>
+          <Text style={styles.header}>
+            {this.state.userName}
+          </Text>
         </View>
         <View style={styles.recent}>
           <Text style={styles.header}>
@@ -101,25 +100,24 @@ var Profile = React.createClass({
 
 var styles = StyleSheet.create({
   avatar: {
+    marginBottom: 45,
+  },
+  avatarPhoto: {
     flexDirection: 'row',
     alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 65,
-    height: 65,
+    width: 80,
+    height: 80,
     backgroundColor: '#EEE',
-    borderRadius: 100/2,
+    borderRadius: 20,
     borderColor: '#FFF',
     borderWidth: 1,
-    marginBottom: 70
-  },
-  avatarText: {
-    fontSize: 10,
-    width: 60,
-    textAlign: 'center'
+    marginBottom: 10,
   },
   header: {
     textAlign: 'center',
+    fontSize: 16
   },
   progressFill: {
     backgroundColor: '#6399DC',
