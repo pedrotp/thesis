@@ -10,24 +10,32 @@ var TouchableOpacity = React.TouchableOpacity;
 
 var Profile = React.createClass({
   getInitialState: function () {
-    var ds = new ListView.DataSource({
-      rowHasChanged: function (row1, row2) {
-        return row1 !== row2;
-      }
-    });
     return {
+      dataSource: new ListView.DataSource({
+        rowHasChanged: function (row1, row2) {
+          return row1 !== row2
+        }
+      }),
       userName: this.props.user.userName,
       photo: this.props.profile.picture,
-      progress: 0.75,
-      dataSource: ds.cloneWithRows(this.props.user.badges)
+      progress: 0,
+      badgeURIs: []
     }
   },
   componentDidMount: function () {
 
     // Progress bar doesn't appear filled unless it's changed
     // so upon component mount, add and subtract trivial amount
-    this.setState({ progress: this.state.progress + 0.00001 });
-    this.setState({ progress: this.state.progress - 0.00001 });
+    console.log("Badges:", this.props.user.badges);
+    var badgeURIs = this.props.user.badges.map(function (badge) {
+      return badge[Object.keys(badge)[0]];
+    })
+    console.log("Badge URIs:", badgeURIs);
+    this.setState({
+      progress: this.state.progress + this.props.progress,
+      badgeURIs: badgeURIs,
+      dataSource: this.state.dataSource.cloneWithRows(badgeURIs)
+    });
   },
   renderRow: function (rowData, sectionID, rowID) {
     return (

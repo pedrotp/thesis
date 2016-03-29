@@ -8,7 +8,8 @@ var Profile = require('../components/Profile')
 var ProfileContainer = React.createClass({
   getInitialState: function () {
     return {
-    }
+      progress: 0.75
+    };
   },
   render: function () {
     return (
@@ -17,6 +18,7 @@ var ProfileContainer = React.createClass({
           handleLogout={this.props.handleLogout}
           profile={this.props.profile}
           user={this.props.user}
+          progress={this.state.progress}
         />
       </View>
     );
