@@ -1,6 +1,7 @@
 var Habits = require('../db/models').Habits;
 var Instances = require('../db/models').Instances;
 var User = require('../db/models').User;
+var moment = require('moment');
 
 var _badges = {
   firstHabit: {
@@ -15,17 +16,26 @@ var _badges = {
     uri: 'https://better-habits.herokuapp.com/assets/Badges/Bon_Voyage.png',
     check: function (habit) {
       //do checking stuff
-      return habit.instanceCount === 1
+      return habit.instanceCount === 1;
     }
   },
   firstPerfectDay: {
     toastText: 'You earned the Perfect Day badge!',
     uri: 'https://better-habits.herokuapp.com/assets/Badges/Mountain_Top.png',
-    check: function () {
+    check: function (habit, store) {
+      if (store.length > 2) {
+        for (var i = 0; i < store.length; i++) {
+          console.log('Last Done:', store[i].lastDone);
+          if (store[i].lastDone === undefined || !moment(store[i].lastDone).isSame(Date.now(), 'day')) {
+            return false;
+          }
+        }
+        return true;
+      }
       return false;
     }
   },
-}
+};
 
 var awardBadge = function (user, badge) {
 
@@ -34,12 +44,11 @@ var awardBadge = function (user, badge) {
   newBadge[badge] = _badges[badge].uri;
   user.badges.push(newBadge);
   user.save();
-
   // if badge is being awarded, setup toast return
   return _badges[badge].toastText;
 };
 
-var checkBadges = function (email, habit) {
+var checkBadges = function (email, habit, habits) {
   return User.findOne({ 'email': email })
     .then(function (user) {
       var awarded = [];
@@ -47,7 +56,7 @@ var checkBadges = function (email, habit) {
       var doCheck = function (badge) {
 
         // check if a badge is to be awarded
-        if (_badges[badge].check(habit)) {
+        if (_badges[badge].check(habit, habits.store)) {
           // if yes, award it and push toast into awarded
           awarded.push(awardBadge(user, badge));
         }

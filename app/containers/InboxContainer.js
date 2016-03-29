@@ -67,9 +67,10 @@ var Habits = React.createClass({
       return response.json();
     })
     .then((function (resJSON) {
-      // if (resJSON.toast) {
-      //   Alert.alert('Badge Earned', 'You earned ' + resJSON.toast, [{text: 'ok'}])
-      // }
+      console.log("toast", resJSON.toast);
+      if (resJSON.toast !== undefined && resJSON.toast.length > 0) {
+        Alert.alert('Badge Earned', resJSON.toast, [{text: 'Ok'}])
+      }
       this.getHabits();
     }).bind(this))
     .catch(function (err) {
