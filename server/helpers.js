@@ -37,7 +37,6 @@ var addHabit = function (email, habitDetails) {
       var habit = habits.store.create(habitDetails);
       var instances = new Instances;
       habit.instancesId = instances.id;
-
       // instances.save() is async but we aren't doing anything further
       // with instances so we can move on without waiting for completion
       instances.save();
@@ -72,11 +71,11 @@ var deleteHabit = function (email, habitId) {
 };
 
 var updateHabit = function (email, habitId, newHabit) {
-  var phoneNumber;
+  var userId;
   var oldHabit;
   return User.findOne({ 'email': email } )
     .then(function (user) {
-      phoneNumber = user.phoneNumber || '+16467373049';
+      userId = user._id;
       return Habits.findById(user.habitsId);
     })
     .then(function (habits) {
@@ -92,7 +91,7 @@ var updateHabit = function (email, habitId, newHabit) {
     .then(function (habit) {
       if (!oldHabit.reminder.active && habit.reminder.active) {
         var job = sms.schedule({
-          number: phoneNumber,
+          userId: userId,
           message: 'Time to ' + habit.action.toLowerCase() + '! - Better'
         },
         {
@@ -106,7 +105,7 @@ var updateHabit = function (email, habitId, newHabit) {
       } else if (!moment(new Date(oldHabit.reminder.time)).isSame(new Date(habit.reminder.time), 'second')) { //or days changed
         oldHabit.reminder.stop();
         var job = sms.schedule({
-          number: '+16467373049',
+          userId: userId,
           message: 'Time to ' + habit.action.toLowerCase() + '! - Better'
         },
         {
@@ -117,6 +116,20 @@ var updateHabit = function (email, habitId, newHabit) {
         habit.set('reminder.stop', job.stop);
       }
       return habit;
+    });
+};
+
+var updateUser = function (userId, updates) {
+  return User.findByIdAndUpdate(userId, updates)
+    .then(function (user) {
+      return user;
+    });
+};
+
+var getUser = function (userId) {
+  return User.findById(userId)
+    .then(function (user) {
+      return user;
     });
 };
 
@@ -284,8 +297,10 @@ module.exports = {
   addHabit: addHabit,
   deleteHabit: deleteHabit,
   getHabits: getHabits,
+  updateUser: updateUser,
   toggleInstance: toggleInstance,
   addUser: addUser,
+  getUser: getUser,
   getInstances: getInstances,
   getInstance: getInstance,
   updateInstance: updateInstance

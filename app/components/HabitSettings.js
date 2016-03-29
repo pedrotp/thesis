@@ -22,7 +22,8 @@ var Button = require('react-native-button');
 var HabitSettings = React.createClass({
   getInitialState: function () {
     return {
-      habit: this.props.habit
+      habit: this.props.habit,
+      user: this.props.user
     };
   },
   onDateChange: function (date) {
@@ -35,10 +36,50 @@ var HabitSettings = React.createClass({
     updates.action = text;
     this.setState({ habit: updates });
   },
-  onReminderChange: function (bool) {
+  onReminderChange: function (bool) {  
     var updates = this.state.habit;
     updates.reminder.active = bool;
     this.setState({ habit: updates });
+
+    var user = this.state.user;
+    console.log(user);
+    if (bool && !user.phoneNumber) {
+      Alert.prompt(
+        'Update Phone #',
+        'We need your phone number to send you SMS reminders!',
+        [
+          {
+            text: 'Cancel', 
+            onPress: (function () { 
+              updates.reminder.active = false;
+              this.setState({ habit: updates });
+            }).bind(this), 
+            style: 'cancel'
+          },
+          {
+            text: 'Save', 
+            onPress: (function(number) { 
+              number = number.replace(/\D/g,'');
+              fetch(process.env.SERVER + '/user/' + user._id, {
+                method: 'POST',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                  'Authorization': 'Bearer ' + this.props.token.idToken
+                },
+                body: JSON.stringify({
+                  phoneNumber: ""+number
+                })
+              })
+              .then(api.handleErrors)
+              .catch(function (err) {
+                console.error(err);
+              });
+            }).bind(this)
+          }
+        ]
+      );
+    }
   },
   gotoInbox: function () {
     this.props.navigator.push({ id: 'Habits' });
@@ -54,7 +95,11 @@ var HabitSettings = React.createClass({
       body: JSON.stringify(this.state.habit)
     })
     .then(api.handleErrors)
-    .then((function (response) {
+    .then(function (res) {
+      return res.json();
+    })
+    .then((function (habit) {
+      console.log(habit);
       this.gotoInbox();
     }).bind(this))
     .catch(function (err) {
@@ -93,7 +138,6 @@ var HabitSettings = React.createClass({
     );
   },
   renderScene: function (route, navigator) {
-    var _this = this;
     if (this.state.habit.reminder.active) {
       return (
         <View style={styles.container}>
@@ -104,7 +148,7 @@ var HabitSettings = React.createClass({
           />
           <View style={{ flexDirection: 'row', marginTop: 60 }}>
             <Text style={{fontSize: 22}}>
-              Reminder
+              SMS Reminder
             </Text>
             <Switch
               onValueChange={this.onReminderChange}
@@ -240,4 +284,5 @@ var styles = StyleSheet.create({
     marginTop: 20
   },
 });
+
 module.exports = HabitSettings;

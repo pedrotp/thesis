@@ -10,11 +10,14 @@ var cronJob = require('cron').CronJob;
 
 module.exports = {
   send: function (data, callback) {
-    client.sendMessage({ 
-      to: data.number, 
-      from: '+18629022901', 
-      body: data.message,   
-    }, callback);
+    User.findById(data.userId)
+      .then(function (user) {
+        client.sendMessage({ 
+          to: user.phoneNumber, 
+          from: '+18629022901', 
+          body: data.message,   
+        }, callback);
+      });
   },
   schedule: function (data, time, habitId) {
     time.days = time.days || '*';
