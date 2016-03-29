@@ -15,15 +15,11 @@ var Profile = React.createClass({
         return row1 !== row2;
       }
     });
-    var mocks = [];
-    for (var i = 0; i < 4; i++) {
-      mocks.push('Badge');
-    }
     return {
       userName: this.props.user.userName,
       photo: this.props.profile.picture,
       progress: 0.75,
-      dataSource: ds.cloneWithRows(mocks)
+      dataSource: ds.cloneWithRows(this.props.user.badges)
     }
   },
   componentDidMount: function () {
