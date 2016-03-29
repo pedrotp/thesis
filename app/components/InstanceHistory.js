@@ -37,7 +37,6 @@ var InstanceHistory = React.createClass({
     })
   },
   
-  //<Text>Note ></Text>
   renderRow: function (rowData, sectionID, rowID) {    
     if(rowData.done) {
       return (
@@ -81,13 +80,12 @@ var InstanceHistory = React.createClass({
     );
   },
   renderScene: function (route, navigator) {
-    var _this = this;
     return (
       <View style={styles.container}>
         <ListView 
           dataSource={this.state.dataSource}
           renderRow={this.renderRow}
-          renderHeader={ function () { return (<View><Text style={styles.header}>{_this.props.habit.action}</Text></View>)}}
+          renderHeader={ function () { return (<View><Text style={styles.header}>{this.props.habit.action}</Text></View>)}.bind(this)}
         />
       </View>
     )
