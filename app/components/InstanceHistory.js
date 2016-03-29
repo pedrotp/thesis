@@ -6,6 +6,7 @@ var StyleSheet = React.StyleSheet;
 var Navigator = React.Navigator;
 var TouchableOpacity = React.TouchableOpacity;
 var ListView = React.ListView;
+var Image = React.Image;
 
 var moment = require('moment');
 var getInstancePeriod = require('../lib/calendar').getInstancePeriod;
@@ -27,6 +28,7 @@ var InstanceHistory = React.createClass({
     // generate period
     // console.log('habitcreated', this.props.habit.createdAt, 'moment', moment().format());
     var days = getInstancePeriod(this.props.habit.createdAt, moment().format());
+    console.log('DAY', this.props.habit.createdAt, moment().format());
     days.forEach(function(day) {
       _this.props.instances.forEach(function (instance) {
         if(moment(day.ISOString).isSame(instance.createdAt, 'day')) {
@@ -50,8 +52,11 @@ var InstanceHistory = React.createClass({
       return (
         <View style={styles.row} >
           <Text style={styles.date} >{ moment(rowData.ISOString).format('MMMM Do YYYY') }</Text>
-          <Text>Done</Text>
-          <TouchableOpacity style={styles.note}>
+          <TouchableOpacity style={ styles.touch }>
+            <Image
+                source={ {uri: 'http://better-habits.herokuapp.com/assets/done_green.png'} }
+                style={ styles.img }
+            />
           </TouchableOpacity>
         </View>
       )
@@ -59,8 +64,11 @@ var InstanceHistory = React.createClass({
     return (
       <View style={styles.row} >
         <Text style={styles.date} >{ moment(rowData.ISOString).format('MMMM Do YYYY') }</Text>
-        <Text>Not Done</Text>
-        <TouchableOpacity style={styles.note}>
+        <TouchableOpacity style={ styles.touch }>
+          <Image
+              source={ {uri: 'http://better-habits.herokuapp.com/assets/done_gray.png'} }
+              style={ styles.img }
+          />
         </TouchableOpacity>
       </View>
     )
@@ -144,6 +152,15 @@ var styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     fontSize: 18
+  },
+  touch: {
+    position: 'absolute',
+    right: 20,
+    top: 16
+  },
+  img: {
+    width: 26,
+    height: 26,
   }
 });
 

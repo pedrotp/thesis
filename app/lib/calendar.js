@@ -71,7 +71,6 @@ var getInstancePeriod = function (startDate, endDate) {
   return transform;
 };
 
-
 module.exports.getPeriodArray = getPeriodArray;
 module.exports.getDaysArray = getDaysArray;
 module.exports.calendarLabel = calendarLabel;
