@@ -7,6 +7,7 @@ var Image = React.Image;
 var ListView = React.ListView;
 var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
+var api = require('../lib/api')
 
 var Profile = React.createClass({
   getInitialState: function () {
@@ -19,21 +20,46 @@ var Profile = React.createClass({
       userName: this.props.user.userName,
       photo: this.props.profile.picture,
       progress: 0,
-      badgeURIs: []
+      badgeURIs: [],
+      user: this.props.user
     }
   },
   componentDidMount: function () {
     // Progress bar doesn't appear filled unless it's changed
     // so upon component mount, add and subtract trivial amount
-    console.log("Badges:", this.props.user.badges);
-    var badgeURIs = this.props.user.badges.map(function (badge) {
-      return badge[Object.keys(badge)[0]];
-    })
-    console.log("Badge URIs:", badgeURIs);
+    this.refreshUserData();
     this.setState({
       progress: this.state.progress + this.props.progress,
-      badgeURIs: badgeURIs,
-      dataSource: this.state.dataSource.cloneWithRows(badgeURIs)
+    });
+  },
+  componentWillReceiveProps: function () {
+    this.refreshUserData();
+  },
+  refreshUserData: function () {
+    fetch(process.env.SERVER + '/user/' + this.props.user.email, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + this.props.token.idToken
+      }
+    })
+    .then(api.handleErrors)
+    .then(function (response) {
+      return response.json();
+    })
+    .then((function (user) {
+      this.setState({
+        user: user,
+      });
+      var badgeURIs = this.state.user.badges.map(function (badge) {
+        return badge[Object.keys(badge)[0]];
+      })
+      this.setState({
+        badgeURIs: badgeURIs,
+        dataSource: this.state.dataSource.cloneWithRows(badgeURIs)
+      });
+    }).bind(this))
+    .catch(function (err) {
+      console.warn(err);
     });
   },
   renderRow: function (badgeURI) {
