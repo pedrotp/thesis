@@ -63,7 +63,6 @@ var HabitDetails = React.createClass({
             day.instanceId = instance._id;
             day.note = { note: instance.note };
             day.done = true;
-            console.log('INSTANCE', instance, 'DAY:', day, 'ISOString:', day.ISOString, 'createdAt:', instance.createdAt);
           }
         });
       }); 

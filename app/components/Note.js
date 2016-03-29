@@ -60,6 +60,10 @@ var Note = React.createClass({
     this.updateHabit();
   },
   
+  handleDeleteText: function () {
+    this.setState( { note: { note: ''}} )
+  },
+  
   onTextChange: function (text) {
     this.setState({
       note: { note: text}
@@ -78,21 +82,24 @@ var Note = React.createClass({
           visible={this.state.modalVisible} >
           <View style={[styles.container, modalBackgroundStyle]}>
             <View style={[styles.innerContainer, innerContainerTransparentStyle]}>
-              <Text>Add Note</Text>
-              <Text>{moment(this.props.date).format('MMMM Do YYYY')}</Text>
+              <Text style={{fontSize: 15, marginBottom: 20}}>{moment(this.props.date).format('MMMM Do YYYY')}</Text>
               <TextInput
-                style={{height: 250, width: 300, borderColor: 'white', borderWidth: 1}}
+                style={{height: 250, width: 300, fontSize: 18, borderColor: 'white', borderWidth: 1}}
                 defaultValue={this.state.note.note}
-                // editable={false}
-                // onfocus={}
+                autoFocus={true}
                 placeholder="Write a note.."
                 onChangeText={this.onTextChange}
                 multiline={true}
               />
               <Button
+                onPress={this.handleDeleteText}
+                style={styles.modalButton}>
+                Clear
+              </Button>
+              <Button
                 onPress={this.handleUpdate}
                 style={styles.modalButton}>
-                Update
+                Save
               </Button>
               <Button 
                 onPress={this.props.hideModal}
