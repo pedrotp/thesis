@@ -16,9 +16,9 @@ var calendarLabel = require('../lib/calendar').calendarLabel;
 var Note = require('./Note');
 var Icon = require('react-native-vector-icons/FontAwesome');
 
-
-// var Icon = require('react-native-vector-icons/MaterialIcons');
-// var doneIcon = <Icon name="done" size={30} color="#90" />;
+// global variables
+var _habitInstances;
+var _habit;
 
 var HabitDetails = React.createClass({
   getInitialState: function () {
@@ -74,6 +74,10 @@ var HabitDetails = React.createClass({
         instances: responseData,
         dataSource: this.state.dataSource.cloneWithRows(days)
       });
+      
+      _habitInstances = responseData;
+      _habit = this.props.habit;
+      
     }).bind(this))
     .catch(function (err) {
       console.warn(err);
@@ -92,14 +96,6 @@ var HabitDetails = React.createClass({
       date: rowData.ISOString,
       note: rowData.note
     });
-  },
-  
-  goToHistory: function () {
-    this.props.navigator.push({
-      id: 'InstanceHistory',
-      instances: this.state.instances,
-      habit: this.props.habit
-    })
   },
 
   renderRow: function (rowData, sectionID, rowID) {
@@ -234,9 +230,6 @@ var HabitDetails = React.createClass({
           automaticallyAdjustContentInsets={false}
         />
         <View style={styles.count}>
-          <TouchableOpacity onPress={this.goToHistory}>
-            <Text>History</Text>
-          </TouchableOpacity>
           <Text style={styles.text}>Current Streak: { moment(new Date(this.props.habit.lastDone)).isSame(Date.now(), 'week') ? this.props.habit.streak.current : 0 }</Text>
           <Text style={styles.text}>Longest Streak: {this.props.habit.streak.max}</Text>
           <Text style={styles.text}>Total Completed: {this.props.habit.instanceCount}</Text>
@@ -270,9 +263,18 @@ var NavigationBarRouteMapper = {
       </TouchableOpacity>
     );
   },
+  
 
   RightButton(route, navigator, index, navState) {
-    return null;
+    return (
+      <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
+          onPress={function () {navigator.parentNavigator.push({id: 'InstanceHistory', instances: _habitInstances, habit: _habit})} }
+      >
+        <Text style={{color: 'white', margin: 10}}>
+          History
+        </Text>
+      </TouchableOpacity>
+    );
   },
 
   Title(route, navigator, index, navState) {

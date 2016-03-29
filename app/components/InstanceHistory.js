@@ -96,7 +96,6 @@ var InstanceHistory = React.createClass({
         <ListView 
           dataSource={this.state.dataSource}
           renderRow={this.renderRow}
-          renderSeparator={ (sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator} />}
           renderHeader={ function () { return (<View><Text style={styles.header}>{_this.props.habit.action}</Text></View>)}}
         />
       </View>
@@ -143,11 +142,9 @@ var styles = StyleSheet.create({
       flexDirection: 'row',
       // justifyContent: 'center',
       padding: 10,
+      borderBottomWidth: 1,
+      borderColor: '#CCCCCC',
       backgroundColor: '#F6F6F6'
-    },
-  separator: {
-    height: 1,
-    backgroundColor: '#CCCCCC'
   },
   header: {
     padding: 10,
