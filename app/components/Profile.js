@@ -23,7 +23,6 @@ var Profile = React.createClass({
     }
   },
   componentDidMount: function () {
-
     // Progress bar doesn't appear filled unless it's changed
     // so upon component mount, add and subtract trivial amount
     console.log("Badges:", this.props.user.badges);
