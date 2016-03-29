@@ -9,7 +9,7 @@ var React = require('react-native');
 var api = require('../lib/api');
 var View = React.View;
 var Text = React.Text;
-var Alert = React.Alert;
+var Alert = React.AlertIOS;
 var TextInput = React.TextInput;
 var StyleSheet = React.StyleSheet;
 var Navigator = React.Navigator;
@@ -37,7 +37,7 @@ var HabitSettings = React.createClass({
   },
   onReminderChange: function (bool) {
     var updates = this.state.habit;
-    updates.reminder.set = bool;
+    updates.reminder.active = bool;
     this.setState({ habit: updates });
   },
   gotoInbox: function () {
@@ -70,20 +70,9 @@ var HabitSettings = React.createClass({
       }
     })
     .then(api.handleErrors)
-    .then((function (response) {
-      Alert.alert(
-        'Habit Deleted',
-        null,
-        [
-          {
-            text: 'Ok',
-            onPress: (function () {
-              this.props.navigator.push({ id: 'Habits' });
-            }).bind(this)
-          }
-        ]
-      );
-    }).bind(this))
+    .then(function () {
+      this.props.navigator.push({ id: 'Habits' });
+    })
     .catch(function (err) {
       console.warn(err);
     });
@@ -104,7 +93,8 @@ var HabitSettings = React.createClass({
     );
   },
   renderScene: function (route, navigator) {
-    if (this.state.habit.reminder.set) {
+    var _this = this;
+    if (this.state.habit.reminder.active) {
       return (
         <View style={styles.container}>
           <TextInput
@@ -119,7 +109,7 @@ var HabitSettings = React.createClass({
             <Switch
               onValueChange={this.onReminderChange}
               style={{left: 190, marginBottom: 30}}
-              value={this.state.habit.reminder.set}
+              value={this.state.habit.reminder.active}
             />
           </View>
             <DatePickerIOS
@@ -161,7 +151,7 @@ var HabitSettings = React.createClass({
             <Switch
               onValueChange={this.onReminderChange}
               style={{left: 190, marginBottom: 30}}
-              value={this.state.habit.reminder.set}
+              value={this.state.habit.reminder.active}
             />
           </View>
           <Button

@@ -2,6 +2,7 @@ var Habits = require('../db/models').Habits;
 var Instances = require('../db/models').Instances;
 var User = require('../db/models').User;
 var moment = require('moment');
+var sms = require('./sms');
 
 var getHabits = function (email) {
   return User.findOne({ 'email': email })
@@ -10,7 +11,7 @@ var getHabits = function (email) {
     })
     .then(function (habits) {
       return habits.store;
-    })
+    });
 };
 
 var addHabit = function (email, habitDetails) {
@@ -45,6 +46,9 @@ var deleteHabit = function (email, habitId) {
     })
     .then(function (habits) {
       var habit = habits.store.id(habitId);
+      if (habit.reminder.active) {
+        habit.reminder.stop();
+      }
       Instances.findByIdAndRemove(habit.instancesId, null, function (err, success) {
         if (err) {
           console.error(err);
@@ -56,21 +60,53 @@ var deleteHabit = function (email, habitId) {
     })
 };
 
-var updateHabit = function (email, habitId, habitDetails) {
+var updateHabit = function (email, habitId, newHabit) {
+  var phoneNumber;
+  var oldHabit;
   return User.findOne({ 'email': email } )
     .then(function (user) {
+      phoneNumber = user.phoneNumber || '+16467373049';
       return Habits.findById(user.habitsId);
     })
     .then(function (habits) {
-      var habit = habits.store.id(habitId);
-      if (!habit) {
+      oldHabit = habits.store.id(habitId);
+      if (!oldHabit) {
         throw new Error('Invalid habit ID');
       }
-      var i = habits.store.indexOf(habit);
-      habits.store.set(i, habitDetails);
+      var i = habits.store.indexOf(oldHabit);
+      habits.store.set(i, newHabit);
       habits.save();
       return habits.store[i];
     })
+    .then(function (habit) {
+      if (!oldHabit.reminder.active && habit.reminder.active) {
+        var job = sms.schedule({
+          number: phoneNumber,
+          message: 'Time to ' + habit.action.toLowerCase() + '! - Better'
+        },
+        {
+          hour: habit.reminder.time.getHours(),
+          minute: habit.reminder.time.getMinutes(),
+          days: habit.reminder.days || undefined
+        }, habit._id);
+        habit.set('reminder.stop', job.stop);
+      } else if (oldHabit.reminder.active && !habit.reminder.active) {
+        oldHabit.reminder.stop();
+      } else if (!moment(new Date(oldHabit.reminder.time)).isSame(new Date(habit.reminder.time), 'second')) { //or days changed
+        oldHabit.reminder.stop();
+        var job = sms.schedule({
+          number: '+16467373049',
+          message: 'Time to ' + habit.action.toLowerCase() + '! - Better'
+        },
+        {
+          hour: habit.reminder.time.getHours(),
+          minute: habit.reminder.time.getMinutes(),
+          days: habit.reminder.days || undefined
+        }, habit._id);
+        habit.set('reminder.stop', job.stop);
+      } 
+      return habit;
+    });
 };
 
 var toggleInstance = function (email, habitId) {

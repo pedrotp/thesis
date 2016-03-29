@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+require('mongoose-function')(mongoose);
 
 // Instance
 var instanceSchema = mongoose.Schema({}, { timestamps: true });
@@ -22,8 +23,10 @@ var habitSchema = mongoose.Schema({
   },
   lastDone: { type: Date },
   reminder: {
-    set: { type: Boolean, default: false },
-    time: { type: Date, default: Date.now() }
+    active: { type: Boolean, default: false },
+    time: { type: Date, default: Date.now() },
+    days: { type: String },
+    stop: { type: Function }
   }
 },
 {
@@ -40,7 +43,8 @@ var userSchema = mongoose.Schema({
   email: { type: String, required: true, unique: true },
   userName: { type: String },
   habitsId: { type: mongoose.Schema.Types.ObjectId, ref: Habits },
-  badges: { type: Array, default: []}
+  badges: { type: Array, default: []},
+  phoneNumber: { type: String }
 },
 {
   timestamps: true
