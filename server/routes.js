@@ -164,7 +164,6 @@ var routes = [
       var habitid = req.params.habitid;
       var instanceid = req.params.instanceid;
       var instanceNote = req.body;
-      console.log('INSTANCENOTE:', instanceNote);
       helpers.updateInstance(userEmail, habitid, instanceid, instanceNote)
         .then(function (instance) {
           res.status(200).json(instance);
@@ -182,11 +181,11 @@ var routes = [
 module.exports = function (app, express) {
   // require auth on all routes in authReqRoutes
   // skip if we are testing
-  // if (!testing) {
-  //   authReqRoutes.forEach(function (route) {
-  //     app.use(route, jwtCheck);
-  //   });
-  // }
+  if (!testing) {
+    authReqRoutes.forEach(function (route) {
+      app.use(route, jwtCheck);
+    });
+  }
 
   // export routes
   routes.forEach(function (route) {
