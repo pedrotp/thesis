@@ -119,15 +119,15 @@ var updateHabit = function (email, habitId, newHabit) {
     });
 };
 
-var updateUser = function (userId, updates) {
-  return User.findOneAndUpdate({ email: userId }, updates)
+var updateUser = function (email, updates) {
+  return User.findOneAndUpdate({ 'email': email }, updates, { 'new': true })
     .then(function (user) {
       return user;
     });
 };
 
-var getUser = function (userId) {
-  return User.findById(userId)
+var getUser = function (email) {
+  return User.findOne({ 'email': email })
     .then(function (user) {
       return user;
     });
