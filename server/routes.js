@@ -55,8 +55,8 @@ var routes = [
       var habit = req.body;
       if (habit.action) {
         helpers.addHabit(userEmail, habit)
-        .then(function (habit) {
-          res.status(201).json(habit);
+        .then(function (data) {
+          res.status(201).json(data);
         })
         .catch(function (err) {
           if (!testing) {
