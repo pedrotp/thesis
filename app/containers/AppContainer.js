@@ -18,7 +18,8 @@ var AppContainer = React.createClass({
   getInitialState: function () {
     return {
       token: this.props.token,
-      profile: this.props.profile
+      profile: this.props.profile,
+      user: this.props.user
     };
   },
   render: function () {
@@ -39,6 +40,7 @@ var AppContainer = React.createClass({
           navigator={navigator}
           token={this.state.token}
           profile={this.state.profile}
+          user={this.state.user}
         />
       );
     }

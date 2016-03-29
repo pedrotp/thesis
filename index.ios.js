@@ -30,14 +30,16 @@ var TabContainer = React.createClass({
       selectedTab: 'inbox',
       auth: false,
       profile: null,
-      token: null
+      token: null,
+      user: null
     }
   },
   handleLogout: function () {
     this.setState({
       auth: false,
       token: null,
-      profile: null
+      profile: null,
+      user: null
     });
     this.showLock();
   },
@@ -59,7 +61,10 @@ var TabContainer = React.createClass({
         body: JSON.stringify(profile)
       })
       .then(api.handleErrors)
-      .then((function (res) {
+      .then(function (res) {
+        return res.json();
+      })
+      .then((function (user) {
         // On successful login + store user
         // Set user info on state
         this.setState({
@@ -67,6 +72,7 @@ var TabContainer = React.createClass({
           auth: true,
           token: token,
           profile: profile,
+          user: user
         });
       }).bind(this))
       .catch(function (err) {
@@ -97,6 +103,7 @@ var TabContainer = React.createClass({
             <AppContainer
               token={this.state.token}
               profile={this.state.profile}
+              user={this.state.user}
             />
           </Icon.TabBarItemIOS>
           <Icon.TabBarItemIOS
@@ -112,6 +119,7 @@ var TabContainer = React.createClass({
             <ProfileContainer
               token={this.state.token}
               profile={this.state.profile}
+              user={this.state.user}
               handleLogout={this.handleLogout}
             />
           </Icon.TabBarItemIOS>
