@@ -36,6 +36,36 @@ var routes = [
     }
   },
   {
+    path: '/user/:id',
+    get: function (req, res) {
+      var userId = req.params.id;
+      helpers.getUser(userId)
+        .then(function (user) {
+          res.status(200).json(user);
+        })
+        .catch(function (err) {
+          if (!testing) {
+            console.error('Server error:', err)
+          }
+          res.sendStatus(404);
+        });        
+    },
+    post: function (req, res) {
+      var userId = req.params.id;
+      var updates = req.body;
+      helpers.updateUser(userId, updates)
+        .then(function (user) {
+          res.status(200).json(user);
+        })
+        .catch(function (err) {
+          if (!testing) {
+            console.error('Server error:', err)
+          }
+          res.sendStatus(400);
+        });
+    }
+  },
+  {
     path: '/habits/:user',
     get: function (req, res) {
       var userEmail = req.params.user;

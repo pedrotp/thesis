@@ -22,7 +22,8 @@ var Button = require('react-native-button');
 var HabitSettings = React.createClass({
   getInitialState: function () {
     return {
-      habit: this.props.habit
+      habit: this.props.habit,
+      user: this.props.user
     };
   },
   onDateChange: function (date) {
@@ -35,15 +36,56 @@ var HabitSettings = React.createClass({
     updates.action = text;
     this.setState({ habit: updates });
   },
-  onReminderChange: function (bool) {
+  onReminderChange: function (bool) {  
     var updates = this.state.habit;
     updates.reminder.active = bool;
     this.setState({ habit: updates });
+
+    var user = this.state.user;
+    var _this = this;
+    if (bool && !user.phoneNumber) {
+      Alert.prompt(
+        'Update Phone #',
+        'We need your phone number to send you SMS reminders!',
+        [
+          {
+            text: 'Cancel', 
+            onPress: function () { 
+              updates.reminder.active = false;
+              _this.setState({ habit: updates });
+            }, 
+            style: 'cancel'
+          },
+          {
+            text: 'Save', 
+            onPress: function(number) { 
+              number = number.replace(/\D/g,'');
+              fetch(process.env.SERVER + '/user/' + user._id, {
+                method: 'POST',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                  'Authorization': 'Bearer ' + _this.props.token.idToken
+                },
+                body: JSON.stringify({
+                  phoneNumber: number
+                })
+              })
+              .then(api.handleErrors)
+              .catch(function (err) {
+                console.error(err);
+              });
+            } 
+          }
+        ]
+      );
+    }
   },
   gotoInbox: function () {
     this.props.navigator.push({ id: 'Habits' });
   },
   updateHabit: function (habitId) {
+    var _this = this;
     fetch(process.env.SERVER + '/habits/' + this.props.profile.email + '/' + habitId, {
       method: 'PUT',
       headers: {
@@ -54,9 +96,13 @@ var HabitSettings = React.createClass({
       body: JSON.stringify(this.state.habit)
     })
     .then(api.handleErrors)
-    .then((function (response) {
-      this.gotoInbox();
-    }).bind(this))
+    .then(function (res) {
+      return res.json();
+    })
+    .then(function (habit) {
+      console.log(habit);
+      _this.gotoInbox();
+    })
     .catch(function (err) {
       console.warn(err);
     });
@@ -104,7 +150,7 @@ var HabitSettings = React.createClass({
           />
           <View style={{ flexDirection: 'row', marginTop: 60 }}>
             <Text style={{fontSize: 22}}>
-              Reminder
+              SMS Reminder
             </Text>
             <Switch
               onValueChange={this.onReminderChange}
@@ -240,4 +286,5 @@ var styles = StyleSheet.create({
     marginTop: 20
   },
 });
+
 module.exports = HabitSettings;

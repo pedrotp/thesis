@@ -61,8 +61,8 @@ var TabContainer = React.createClass({
         body: JSON.stringify(profile)
       })
       .then(api.handleErrors)
-      .then(function (res) {
-        return res.json();
+      .then(function (response) {
+        return response.json();
       })
       .then((function (user) {
         // On successful login + store user
