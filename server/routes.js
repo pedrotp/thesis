@@ -22,7 +22,8 @@ var routes = [
     path: '/user',
     post: function (req, res) {
       var userEmail = req.body.email;
-      helpers.addUser(userEmail)
+      var userName = req.body.nickname;
+      helpers.addUser(userEmail, userName)
         .then(function (user) {
           res.status(200).json(user);
         })

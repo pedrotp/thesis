@@ -114,7 +114,7 @@ var updateHabit = function (email, habitId, newHabit) {
           days: habit.reminder.days || undefined
         }, habit._id);
         habit.set('reminder.stop', job.stop);
-      } 
+      }
       return habit;
     });
 };
@@ -197,10 +197,13 @@ var toggleInstance = function (email, habitId) {
     })
 };
 
-var addUser = function (email) {
+var addUser = function (email, userName) {
   // findOneAndUpdate along with upsert set to true
   // allows for a user to be created if they don't exist
-  return User.findOneAndUpdate({ 'email': email }, { 'email': email }, { 'upsert': true, 'new': true })
+  return User.findOneAndUpdate(
+    { 'email': email },
+    { 'email': email, 'userName': userName },
+    { 'upsert': true, 'new': true })
     .then(function (dbUser) {
       if (dbUser.habitsId === undefined) {
         var habits = new Habits;
