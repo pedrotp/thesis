@@ -89,6 +89,7 @@ var Note = React.createClass({
                 placeholder="Write a note.."
                 onChangeText={this.onTextChange}
                 multiline={true}
+                maxLength={200}
               />
               <Button
                 onPress={this.handleDeleteText}
