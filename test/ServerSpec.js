@@ -17,7 +17,7 @@ var User = require('../db/models').User;
 var Habits = require('../db/models').Habits;
 var Instances = require('../db/models').Instances;
 
-describe('Basic Server', function () {
+xdescribe('Basic Server', function () {
 
   // Example user
   var user = {

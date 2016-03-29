@@ -1,6 +1,7 @@
 var Habits = require('../db/models').Habits;
 var Instances = require('../db/models').Instances;
 var User = require('../db/models').User;
+var Badges = require('./badges')
 var moment = require('moment');
 var sms = require('./sms');
 
@@ -15,17 +16,23 @@ var getHabits = function (email) {
 };
 
 var addHabit = function (email, habitDetails) {
+  var user;
   return User.findOne({ 'email': email })
-    .then(function (user) {
-
+    .then(function (foundUser) {
+      user = foundUser;
       // Error has to be thrown inside the success function
       // in order to be caught by catch in routes.js
       if (!habitDetails.action) {
         throw new Error('Required field missing');
       }
-      return Habits.findById(user.habitsId);
+      return Habits.findById(foundUser.habitsId);
     })
     .then(function (habits) {
+      if (habits.store.length === 0 && user.newUser === true) {
+        user.newUser = false;
+        user.save();
+        var toast = Badges.awardBadge(user, 'firstHabit');
+      }
       var habit = habits.store.create(habitDetails);
       var instances = new Instances;
       habit.instancesId = instances.id;
@@ -35,7 +42,10 @@ var addHabit = function (email, habitDetails) {
       instances.save();
       habits.store.push(habit);
       habits.save();
-      return habit;
+      return {
+        toast: toast,
+        habit: habit
+      }
     })
 };
 
@@ -116,6 +126,7 @@ var toggleInstance = function (email, habitId) {
       return Habits.findById(user.habitsId);
     })
     .then(function (habits) {
+      // get the specific habit from the user's collection of habits
       var habit = habits.store.id(habitId);
       if (!habit) {
         throw new Error('Invalid habit ID');
@@ -164,7 +175,16 @@ var toggleInstance = function (email, habitId) {
               habit.streak.maxDate = last;
             }
             habits.save();
-            return instances.store[instances.store.length - 1];
+
+            // check if this instance triggers any badges earned
+            return Badges.checkBadges(email, habit)
+              .then(function (earnedBadge) {
+                return {
+                  instance: instances.store[instances.store.length - 1],
+                  toast: earnedBadge
+                }
+              })
+
           } else {
             habit.streak.max = 0;
             habit.instanceCount = 0;

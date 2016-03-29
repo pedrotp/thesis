@@ -6,28 +6,6 @@ var Navigator = React.Navigator;
 var Loading = require('../components/Loading');
 
 var LoadingContainer = React.createClass({
-  getHabits: function () {
-    fetch(process.env.SERVER + '/habits/' + this.props.profile.email, {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + this.props.token.idToken
-      }
-    })
-    .then(api.handleErrors)
-    .then(function (response) {
-      return response.json();
-    })
-    .then((function (responseData) {
-      if (!responseData.length) {
-        this.goToOnboard();
-      } else {
-        this.goToInbox();
-      }
-    }).bind(this))
-    .catch(function (err) {
-      console.warn(err);
-    });
-  },
   goToOnboard: function () {
     this.props.navigator.push({id: 'Onboard'})
   },
@@ -35,7 +13,11 @@ var LoadingContainer = React.createClass({
     this.props.navigator.push({id: 'Habits'})
   },
   componentDidMount: function () {
-    this.getHabits();
+    if (this.props.user.newUser) {
+      this.goToOnboard();
+    } else {
+      this.goToInbox();
+    }
   },
   render: function () {
     return (
