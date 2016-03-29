@@ -42,7 +42,7 @@ var HabitSettings = React.createClass({
     this.setState({ habit: updates });
 
     var user = this.state.user;
-    var _this = this;
+    console.log(user);
     if (bool && !user.phoneNumber) {
       Alert.prompt(
         'Update Phone #',
@@ -50,32 +50,32 @@ var HabitSettings = React.createClass({
         [
           {
             text: 'Cancel', 
-            onPress: function () { 
+            onPress: (function () { 
               updates.reminder.active = false;
-              _this.setState({ habit: updates });
-            }, 
+              this.setState({ habit: updates });
+            }).bind(this), 
             style: 'cancel'
           },
           {
             text: 'Save', 
-            onPress: function(number) { 
+            onPress: (function(number) { 
               number = number.replace(/\D/g,'');
               fetch(process.env.SERVER + '/user/' + user._id, {
                 method: 'POST',
                 headers: {
                   'Accept': 'application/json',
                   'Content-Type': 'application/json',
-                  'Authorization': 'Bearer ' + _this.props.token.idToken
+                  'Authorization': 'Bearer ' + this.props.token.idToken
                 },
                 body: JSON.stringify({
-                  phoneNumber: number
+                  phoneNumber: ""+number
                 })
               })
               .then(api.handleErrors)
               .catch(function (err) {
                 console.error(err);
               });
-            } 
+            }).bind(this)
           }
         ]
       );
@@ -85,7 +85,6 @@ var HabitSettings = React.createClass({
     this.props.navigator.push({ id: 'Habits' });
   },
   updateHabit: function (habitId) {
-    var _this = this;
     fetch(process.env.SERVER + '/habits/' + this.props.profile.email + '/' + habitId, {
       method: 'PUT',
       headers: {
@@ -99,10 +98,10 @@ var HabitSettings = React.createClass({
     .then(function (res) {
       return res.json();
     })
-    .then(function (habit) {
+    .then((function (habit) {
       console.log(habit);
-      _this.gotoInbox();
-    })
+      this.gotoInbox();
+    }).bind(this))
     .catch(function (err) {
       console.warn(err);
     });
@@ -139,7 +138,6 @@ var HabitSettings = React.createClass({
     );
   },
   renderScene: function (route, navigator) {
-    var _this = this;
     if (this.state.habit.reminder.active) {
       return (
         <View style={styles.container}>
