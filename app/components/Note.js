@@ -10,6 +10,8 @@ var api = require('../lib/api');
 var moment = require('moment');
 var Button = require('react-native-button');
 
+var Icon = require('react-native-vector-icons/FontAwesome');
+
 var Note = React.createClass({
   getInitialState: function () {
     return {
@@ -91,21 +93,20 @@ var Note = React.createClass({
                 multiline={true}
                 maxLength={200}
               />
-              <Button
-                onPress={this.handleDeleteText}
-                style={styles.modalButton}>
-                Clear
-              </Button>
-              <Button
-                onPress={this.handleUpdate}
-                style={styles.modalButton}>
-                Save
-              </Button>
-              <Button 
-                onPress={this.props.hideModal}
-                style={styles.modalButton}>
-                Close
-              </Button>
+              <View style={styles.formControls}>
+                <Icon.Button name="times-circle" size={20} iconStyle={{color:"#FFFFFF"}}
+                  onPress={this.handleDeleteText}
+                  style={styles.modalButton}>
+                </Icon.Button>
+                <Icon.Button name="save" size={20} iconStyle={{color:"#FFFFFF"}}
+                  onPress={this.handleUpdate}
+                  style={styles.modalButton}>
+                </Icon.Button>
+                <Icon.Button name="close" size={20} iconStyle={{color:"#FFFFFF"}}
+                  onPress={this.props.hideModal}
+                  style={styles.modalButton}>
+                </Icon.Button>
+              </View>
             </View>
           </View>
         </Modal>
@@ -119,7 +120,7 @@ var styles = StyleSheet.create({
   container: {
       flex: 1,
       justifyContent: 'center',
-      padding: 20,
+      padding: 20
     },
     innerContainer: {
       borderRadius: 10,
@@ -128,6 +129,10 @@ var styles = StyleSheet.create({
     },
     modalButton: {
       marginTop: 10
+    },
+    formControls: {
+      flexDirection: 'row',
+      padding: 10,
     }
 });
 

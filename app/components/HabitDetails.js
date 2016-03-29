@@ -14,6 +14,7 @@ var getDaysArray = require('../lib/calendar').getDaysArray;
 var calendarLabel = require('../lib/calendar').calendarLabel;
 
 var Note = require('./Note');
+var Icon = require('react-native-vector-icons/FontAwesome');
 
 
 // var Icon = require('react-native-vector-icons/MaterialIcons');
@@ -119,13 +120,11 @@ var HabitDetails = React.createClass({
     if (moment(rowData.ISOString).isSame(this.state.currentDate, 'day') && rowData.done && rowData.note.note) {
       return (
         <TouchableOpacity onPress={function () {_this.handleInstancePress(rowData)}} underlayColor="transparent">
-          <View style={styles.doneRowNote}>
+          <View style={styles.presentDoneRow}>
             <Text style={styles.rowText}>
               {rowData.date}
             </Text>
-            <Text style={styles.rowText}>
-              Note
-            </Text>
+            <Icon name='sticky-note-o' size={10} color="#000000" />
           </View>
         </TouchableOpacity>
       );
@@ -158,13 +157,11 @@ var HabitDetails = React.createClass({
     if (rowData.done && rowData.note.note) {
       return (
         <TouchableOpacity onPress={function () {_this.handleInstancePress(rowData)}} underlayColor="transparent">
-          <View style={styles.doneRowNote}>
+          <View style={styles.doneRow}>
             <Text style={styles.rowText}>
               {rowData.date}
             </Text>
-            <Text style={styles.rowText}>
-              Note
-            </Text>
+            <Icon name='sticky-note-o' size={10} color="#000000" />
           </View>
         </TouchableOpacity>
       );
@@ -297,8 +294,7 @@ var styles = StyleSheet.create({
   heading: {
     top: 80,
     alignSelf: 'center',
-    fontSize: 40,
-    fontWeight: 'bold'
+    fontSize: 34,
   },
   list: {
     top: 90,
@@ -317,18 +313,6 @@ var styles = StyleSheet.create({
     alignItems: 'center'
   },
   doneRow: {
-    justifyContent: 'center',
-    padding: 1,
-    margin: 1,
-    width: 50,
-    height: 50,
-    backgroundColor: '#419648',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: '#CCC'
-  },
-  doneRowNote: {
     justifyContent: 'center',
     padding: 1,
     margin: 1,
