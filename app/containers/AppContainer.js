@@ -22,10 +22,14 @@ var AppContainer = React.createClass({
       user: this.props.user
     };
   },
+  configureScene: function (route, routeStack) {
+    return Navigator.SceneConfigs.VerticalUpSwipeJump;
+  },
   render: function () {
     return (
       <View style={{ flex: 1 }}>
         <Navigator
+          configureScene={this.configureScene}
           initialRoute = {{id: 'Loading'}}
           renderScene = {this.renderScene}
         />
