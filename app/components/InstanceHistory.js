@@ -23,31 +23,22 @@ var InstanceHistory = React.createClass({
   },
   
   componentDidMount: function () {
-    var _this = this;
-    console.log('PROPS', this.props);
-    // generate period
-    // console.log('habitcreated', this.props.habit.createdAt, 'moment', moment().format());
     var days = getInstancePeriod(this.props.habit.createdAt, moment().format());
-    console.log('DAY', this.props.habit.createdAt, moment().format());
     days.forEach(function(day) {
-      _this.props.instances.forEach(function (instance) {
+      this.props.instances.forEach(function (instance) {
         if(moment(day.ISOString).isSame(instance.createdAt, 'day')) {
           day.note = instance.note;
           day.done = true;
         }
       });
-    })
-    console.log('DAYS', days);
-    // compare with this.props.instances and create new data
+    }.bind(this));
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(days)
     })
   },
   
   //<Text>Note ></Text>
-  renderRow: function (rowData, sectionID, rowID) {
-    console.log('ROWDATA', rowData)
-    
+  renderRow: function (rowData, sectionID, rowID) {    
     if(rowData.done) {
       return (
         <View style={styles.row} >
@@ -136,7 +127,7 @@ var styles = StyleSheet.create({
     flex: 0.90,
     justifyContent: 'center',
     marginTop: 54,
-    paddingTop: 10,
+    paddingTop: 10
   },
   row: {
       flexDirection: 'row',

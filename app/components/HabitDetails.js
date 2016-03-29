@@ -99,7 +99,6 @@ var HabitDetails = React.createClass({
   },
 
   renderRow: function (rowData, sectionID, rowID) {
-    var _this = this;
     // Renders DAYS OF WEEK in the calendar
     if (rowData.calendarHeading) {
       return (
@@ -115,7 +114,7 @@ var HabitDetails = React.createClass({
     // renders PRESENT DAY, DONE with NOTE box
     if (moment(rowData.ISOString).isSame(this.state.currentDate, 'day') && rowData.done && rowData.note.note) {
       return (
-        <TouchableOpacity onPress={function () {_this.handleInstancePress(rowData)}} underlayColor="transparent">
+        <TouchableOpacity onPress={function () {this.handleInstancePress(rowData)}.bind(this)} underlayColor="transparent">
           <View style={styles.presentDoneRow}>
             <Text style={styles.rowText}>
               {rowData.date}
@@ -128,7 +127,7 @@ var HabitDetails = React.createClass({
     // renders PRESENT DAY, DONE box
     if (moment(rowData.ISOString).isSame(this.state.currentDate, 'day') && rowData.done) {
       return (
-        <TouchableOpacity onPress={function () {_this.handleInstancePress(rowData)}} underlayColor="transparent">
+        <TouchableOpacity onPress={function () {this.handleInstancePress(rowData)}.bind(this)} underlayColor="transparent">
           <View style={styles.presentDoneRow}>
             <Text style={styles.rowText}>
               {rowData.date}
@@ -152,7 +151,7 @@ var HabitDetails = React.createClass({
     // renders DONE with NOTE boxes
     if (rowData.done && rowData.note.note) {
       return (
-        <TouchableOpacity onPress={function () {_this.handleInstancePress(rowData)}} underlayColor="transparent">
+        <TouchableOpacity onPress={function () {this.handleInstancePress(rowData)}.bind(this)} underlayColor="transparent">
           <View style={styles.doneRow}>
             <Text style={styles.rowText}>
               {rowData.date}
@@ -165,7 +164,7 @@ var HabitDetails = React.createClass({
     // renders DONE boxes
     if (rowData.done) {
       return (
-        <TouchableOpacity onPress={function () {_this.handleInstancePress(rowData)}} underlayColor="transparent">
+        <TouchableOpacity onPress={function () {this.handleInstancePress(rowData)}.bind(this)} underlayColor="transparent">
           <View style={styles.doneRow}>
             <Text style={styles.rowText}>
               {rowData.date}
