@@ -14,10 +14,11 @@ var getDaysArray = require('../lib/calendar').getDaysArray;
 var calendarLabel = require('../lib/calendar').calendarLabel;
 
 var Note = require('./Note');
+var Icon = require('react-native-vector-icons/FontAwesome');
 
-
-// var Icon = require('react-native-vector-icons/MaterialIcons');
-// var doneIcon = <Icon name="done" size={30} color="#90" />;
+// global variables
+var _habitInstances;
+var _habit;
 
 var HabitDetails = React.createClass({
   getInitialState: function () {
@@ -29,6 +30,7 @@ var HabitDetails = React.createClass({
         }
       }),
       modalVisible: false,
+      instances: null,
       rowData: null,
       instanceId: null,
       date: null,
@@ -69,8 +71,13 @@ var HabitDetails = React.createClass({
       days = calendarLabel().concat(days);
 
       this.setState({
+        instances: responseData,
         dataSource: this.state.dataSource.cloneWithRows(days)
       });
+      
+      _habitInstances = responseData;
+      _habit = this.props.habit;
+      
     }).bind(this))
     .catch(function (err) {
       console.warn(err);
@@ -92,7 +99,6 @@ var HabitDetails = React.createClass({
   },
 
   renderRow: function (rowData, sectionID, rowID) {
-    var _this = this;
     // Renders DAYS OF WEEK in the calendar
     if (rowData.calendarHeading) {
       return (
@@ -108,14 +114,12 @@ var HabitDetails = React.createClass({
     // renders PRESENT DAY, DONE with NOTE box
     if (moment(rowData.ISOString).isSame(this.state.currentDate, 'day') && rowData.done && rowData.note.note) {
       return (
-        <TouchableOpacity onPress={function () {_this.handleInstancePress(rowData)}} underlayColor="transparent">
-          <View style={styles.doneRowNote}>
+        <TouchableOpacity onPress={function () {this.handleInstancePress(rowData)}.bind(this)} underlayColor="transparent">
+          <View style={styles.presentDoneRow}>
             <Text style={styles.rowText}>
               {rowData.date}
             </Text>
-            <Text style={styles.rowText}>
-              Note
-            </Text>
+            <Icon name='sticky-note-o' size={10} color="#000000" />
           </View>
         </TouchableOpacity>
       );
@@ -123,7 +127,7 @@ var HabitDetails = React.createClass({
     // renders PRESENT DAY, DONE box
     if (moment(rowData.ISOString).isSame(this.state.currentDate, 'day') && rowData.done) {
       return (
-        <TouchableOpacity onPress={function () {_this.handleInstancePress(rowData)}} underlayColor="transparent">
+        <TouchableOpacity onPress={function () {this.handleInstancePress(rowData)}.bind(this)} underlayColor="transparent">
           <View style={styles.presentDoneRow}>
             <Text style={styles.rowText}>
               {rowData.date}
@@ -147,14 +151,12 @@ var HabitDetails = React.createClass({
     // renders DONE with NOTE boxes
     if (rowData.done && rowData.note.note) {
       return (
-        <TouchableOpacity onPress={function () {_this.handleInstancePress(rowData)}} underlayColor="transparent">
-          <View style={styles.doneRowNote}>
+        <TouchableOpacity onPress={function () {this.handleInstancePress(rowData)}.bind(this)} underlayColor="transparent">
+          <View style={styles.doneRow}>
             <Text style={styles.rowText}>
               {rowData.date}
             </Text>
-            <Text style={styles.rowText}>
-              Note
-            </Text>
+            <Icon name='sticky-note-o' size={10} color="#000000" />
           </View>
         </TouchableOpacity>
       );
@@ -162,7 +164,7 @@ var HabitDetails = React.createClass({
     // renders DONE boxes
     if (rowData.done) {
       return (
-        <TouchableOpacity onPress={function () {_this.handleInstancePress(rowData)}} underlayColor="transparent">
+        <TouchableOpacity onPress={function () {this.handleInstancePress(rowData)}.bind(this)} underlayColor="transparent">
           <View style={styles.doneRow}>
             <Text style={styles.rowText}>
               {rowData.date}
@@ -217,8 +219,6 @@ var HabitDetails = React.createClass({
     return (
       <View style={styles.container}>
         <Text style={styles.heading} onPress={this.onPress}>{ this.props.habit.action }</Text>
-        <TouchableOpacity>
-        </TouchableOpacity>
         <ListView
           contentContainerStyle={styles.list}
           dataSource={this.state.dataSource}
@@ -262,9 +262,18 @@ var NavigationBarRouteMapper = {
       </TouchableOpacity>
     );
   },
+  
 
   RightButton(route, navigator, index, navState) {
-    return null;
+    return (
+      <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
+          onPress={function () {navigator.parentNavigator.push({id: 'InstanceHistory', instances: _habitInstances, habit: _habit})} }
+      >
+        <Text style={{color: 'white', margin: 10}}>
+          History
+        </Text>
+      </TouchableOpacity>
+    );
   },
 
   Title(route, navigator, index, navState) {
@@ -286,8 +295,7 @@ var styles = StyleSheet.create({
   heading: {
     top: 80,
     alignSelf: 'center',
-    fontSize: 40,
-    fontWeight: 'bold'
+    fontSize: 34,
   },
   list: {
     top: 90,
@@ -306,18 +314,6 @@ var styles = StyleSheet.create({
     alignItems: 'center'
   },
   doneRow: {
-    justifyContent: 'center',
-    padding: 1,
-    margin: 1,
-    width: 50,
-    height: 50,
-    backgroundColor: '#419648',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: '#CCC'
-  },
-  doneRowNote: {
     justifyContent: 'center',
     padding: 1,
     margin: 1,
