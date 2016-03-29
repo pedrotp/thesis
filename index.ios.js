@@ -15,7 +15,7 @@ var Auth0Lock = require('react-native-lock-ios');
 
 var localServer = false;
 
-if (localServer === true) {
+if (localServer === false) {
   process.env.SERVER = 'http://localhost:3000'
 } else {
   process.env.SERVER = 'http://better-habits.herokuapp.com'
@@ -113,7 +113,7 @@ var TabContainer = React.createClass({
             onPress={(function () {
               this.setState({
                 selectedTab: 'profile',
-              })
+              });
             }).bind(this)}
           >
             <ProfileContainer

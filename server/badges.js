@@ -25,13 +25,19 @@ var _badges = {
     check: function (habit, store) {
       if (store.length > 2) {
         for (var i = 0; i < store.length; i++) {
-          console.log('Last Done:', store[i].lastDone);
           if (store[i].lastDone === undefined || !moment(store[i].lastDone).isSame(Date.now(), 'day')) {
             return false;
           }
         }
         return true;
       }
+      return false;
+    }
+  },
+  fiveStreak: {
+    toastText: 'You earned the 5 Streak badge!',
+    uri: 'https://better-habits.herokuapp.com/assets/Badges/.png',
+    check: function () {
       return false;
     }
   },

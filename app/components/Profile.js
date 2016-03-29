@@ -7,36 +7,68 @@ var Image = React.Image;
 var ListView = React.ListView;
 var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
+var api = require('../lib/api')
 
 var Profile = React.createClass({
   getInitialState: function () {
-    var ds = new ListView.DataSource({
-      rowHasChanged: function (row1, row2) {
-        return row1 !== row2;
-      }
-    });
     return {
+      dataSource: new ListView.DataSource({
+        rowHasChanged: function (row1, row2) {
+          return row1 !== row2
+        }
+      }),
       userName: this.props.user.userName,
       photo: this.props.profile.picture,
-      progress: 0.75,
-      dataSource: ds.cloneWithRows(this.props.user.badges)
+      progress: 0,
+      badgeURIs: [],
+      user: this.props.user
     }
   },
   componentDidMount: function () {
-
     // Progress bar doesn't appear filled unless it's changed
     // so upon component mount, add and subtract trivial amount
-    this.setState({ progress: this.state.progress + 0.00001 });
-    this.setState({ progress: this.state.progress - 0.00001 });
+    this.refreshUserData();
+    this.setState({
+      progress: this.state.progress + this.props.progress,
+    });
   },
-  renderRow: function (rowData, sectionID, rowID) {
+  componentWillReceiveProps: function () {
+    this.refreshUserData();
+  },
+  refreshUserData: function () {
+    fetch(process.env.SERVER + '/user/' + this.props.user.email, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + this.props.token.idToken
+      }
+    })
+    .then(api.handleErrors)
+    .then(function (response) {
+      return response.json();
+    })
+    .then((function (user) {
+      this.setState({
+        user: user,
+      });
+      var badgeURIs = this.state.user.badges.map(function (badge) {
+        return badge[Object.keys(badge)[0]];
+      })
+      this.setState({
+        badgeURIs: badgeURIs,
+        dataSource: this.state.dataSource.cloneWithRows(badgeURIs)
+      });
+    }).bind(this))
+    .catch(function (err) {
+      console.warn(err);
+    });
+  },
+  renderRow: function (badgeURI) {
     return (
       <TouchableOpacity>
-        <View style={styles.recentlyEarned}>
-          <Text>
-            {rowData}
-          </Text>
-        </View>
+        <Image
+          source={{uri: badgeURI}}
+          style={styles.badges}
+        />
       </TouchableOpacity>
     );
   },
@@ -60,10 +92,11 @@ var Profile = React.createClass({
           </Text>
           <ListView
             dataSource={this.state.dataSource}
-            initialListSize={4}
-            pageSize={4}
+            // initialListSize={4}
+            // pageSize={4}
             renderRow={this.renderRow}
             scrollEnabled={false}
+            automaticallyAdjustContentInsets={false}
             contentContainerStyle={styles.recentBadges}
           />
         </View>
@@ -131,18 +164,16 @@ var styles = StyleSheet.create({
   recent: {
     marginBottom: 30,
   },
-  recentlyEarned: {
-    justifyContent: 'center',
-    backgroundColor: '#eee',
-    alignItems: 'center',
-    marginHorizontal: 10,
-    borderRadius: 4,
-    height: 60,
-    width: 60,
+  badges: {
+    height: 75,
+    width: 75,
+    marginHorizontal: 7
   },
   recentBadges: {
+    justifyContent: 'center',
+    alignItems: 'center',
     flexDirection: 'row',
-    marginHorizontal: 5,
+    height: 90
   },
   streaks: {
     marginVertical: 40,

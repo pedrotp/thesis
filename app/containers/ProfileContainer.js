@@ -2,13 +2,15 @@ var React = require('react-native');
 var View = React.View;
 var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
+var api = require('../lib/api');
 
 var Profile = require('../components/Profile')
 
 var ProfileContainer = React.createClass({
   getInitialState: function () {
     return {
-    }
+      progress: 0.75,
+    };
   },
   render: function () {
     return (
@@ -17,6 +19,9 @@ var ProfileContainer = React.createClass({
           handleLogout={this.props.handleLogout}
           profile={this.props.profile}
           user={this.props.user}
+          progress={this.state.progress}
+          token={this.props.token}
+          badgeURIs={this.props.badgeURIs}
         />
       </View>
     );

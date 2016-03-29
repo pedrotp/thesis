@@ -36,10 +36,10 @@ var routes = [
     }
   },
   {
-    path: '/user/:id',
+    path: '/user/:email',
     get: function (req, res) {
-      var userId = req.params.id;
-      helpers.getUser(userId)
+      var userEmail = req.params.email;
+      helpers.getUser(userEmail)
         .then(function (user) {
           res.status(200).json(user);
         })
@@ -48,12 +48,12 @@ var routes = [
             console.error('Server error:', err)
           }
           res.sendStatus(404);
-        });        
+        });
     },
     post: function (req, res) {
-      var userId = req.params.id;
+      var userEmail = req.params.email;
       var updates = req.body;
-      helpers.updateUser(userId, updates)
+      helpers.updateUser(userEmail, updates)
         .then(function (user) {
           res.status(200).json(user);
         })

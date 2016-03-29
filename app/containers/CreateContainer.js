@@ -34,7 +34,7 @@ var AddHabit = React.createClass({
     })
     .then((function (resJSON) {
       if (resJSON.toast !== undefined && resJSON.toast.length > 0) {
-        Alert.alert('Badge Earned', resJSON.toast, [{text: 'Ok', onPress: this.goToInbox}]);
+        Alert.alert('Badge Earned', '' + resJSON.toast, [{text: 'Ok', onPress: this.goToInbox}]);
       } else {
         this.goToInbox();
       }
