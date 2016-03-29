@@ -83,7 +83,6 @@ var HabitDetails = React.createClass({
   },
   
   handleInstancePress: function (rowData) {
-    console.log('ROWDATA', rowData);
     this.setState({
       modalVisible: true,
       rowData: rowData,
@@ -94,7 +93,6 @@ var HabitDetails = React.createClass({
   },
 
   renderRow: function (rowData, sectionID, rowID) {
-    // console.log('ROWDATA:', rowData, 'SECTIONID:', sectionID, 'ROWID:', rowID);
     var _this = this;
     // Renders DAYS OF WEEK in the calendar
     if (rowData.calendarHeading) {
@@ -103,6 +101,21 @@ var HabitDetails = React.createClass({
           <View style={styles.weekRow}>
             <Text>
               {rowData.calendarHeading}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      );
+    }
+    // renders PRESENT DAY, DONE with NOTE box
+    if (moment(rowData.ISOString).isSame(this.state.currentDate, 'day') && rowData.done && rowData.note.note) {
+      return (
+        <TouchableOpacity onPress={function () {_this.handleInstancePress(rowData)}} underlayColor="transparent">
+          <View style={styles.doneRowNote}>
+            <Text style={styles.rowText}>
+              {rowData.date}
+            </Text>
+            <Text style={styles.rowText}>
+              Note
             </Text>
           </View>
         </TouchableOpacity>
@@ -127,6 +140,21 @@ var HabitDetails = React.createClass({
           <View style={styles.presentNotDoneRow}>
             <Text style={styles.rowText}>
               {rowData.date}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      );
+    }
+    // renders DONE with NOTE boxes
+    if (rowData.done && rowData.note.note) {
+      return (
+        <TouchableOpacity onPress={function () {_this.handleInstancePress(rowData)}} underlayColor="transparent">
+          <View style={styles.doneRowNote}>
+            <Text style={styles.rowText}>
+              {rowData.date}
+            </Text>
+            <Text style={styles.rowText}>
+              Note
             </Text>
           </View>
         </TouchableOpacity>
@@ -279,6 +307,18 @@ var styles = StyleSheet.create({
     alignItems: 'center'
   },
   doneRow: {
+    justifyContent: 'center',
+    padding: 1,
+    margin: 1,
+    width: 50,
+    height: 50,
+    backgroundColor: '#419648',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: '#CCC'
+  },
+  doneRowNote: {
     justifyContent: 'center',
     padding: 1,
     margin: 1,

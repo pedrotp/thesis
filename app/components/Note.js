@@ -22,7 +22,6 @@ var Note = React.createClass({
   },
   
   componentWillReceiveProps: function (props) {
-    console.log('PROP', props);
     this.setState({
       modalVisible: props.visible,
       instanceId: props.instanceId,
