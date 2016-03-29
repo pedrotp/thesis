@@ -35,11 +35,11 @@ var HabitDetails = React.createClass({
       note: { note: '' }
     }
   },
-  
+
   hideModal: function () {
     this.setState({modalVisible: false});
   },
-  
+
   getRowData: function () {
     var habitId = this.props.habit._id;
     fetch(process.env.SERVER + '/habits/' + this.props.profile.email + '/' + habitId, {
@@ -58,17 +58,16 @@ var HabitDetails = React.createClass({
 
       days.forEach(function(day) {
         responseData.forEach(function(instance) {
-          // console.log('INSTANCE', instance);
           if(moment(day.ISOString).isSame(instance.createdAt, 'day')) {
             day.instanceId = instance._id;
             day.note = { note: instance.note };
             day.done = true;
           }
         });
-      }); 
-      
+      });
+
       days = calendarLabel().concat(days);
-      
+
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(days)
       });
@@ -81,7 +80,7 @@ var HabitDetails = React.createClass({
   componentDidMount: function () {
     this.getRowData();
   },
-  
+
   handleInstancePress: function (rowData) {
     this.setState({
       modalVisible: true,
@@ -89,7 +88,7 @@ var HabitDetails = React.createClass({
       instanceId: rowData.instanceId,
       date: rowData.ISOString,
       note: rowData.note
-    }); 
+    });
   },
 
   renderRow: function (rowData, sectionID, rowID) {
@@ -234,10 +233,10 @@ var HabitDetails = React.createClass({
           <Text style={styles.text}>Longest Streak: {this.props.habit.streak.max}</Text>
           <Text style={styles.text}>Total Completed: {this.props.habit.instanceCount}</Text>
         </View>
-        <Note 
-          visible={this.state.modalVisible} 
-          rowData={this.state.rowData} 
-          instanceId={this.state.instanceId} 
+        <Note
+          visible={this.state.modalVisible}
+          rowData={this.state.rowData}
+          instanceId={this.state.instanceId}
           note={this.state.note}
           token={this.props.token}
           profile={this.props.profile}
