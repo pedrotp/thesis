@@ -35,6 +35,13 @@ var _badges = {
       return false;
     }
   },
+  fiveStreak: {
+    toastText: 'You earned the 5 Streak badge!',
+    uri: 'https://better-habits.herokuapp.com/assets/Badges/.png',
+    check: function () {
+
+    }
+  },
 };
 
 var awardBadge = function (user, badge) {
