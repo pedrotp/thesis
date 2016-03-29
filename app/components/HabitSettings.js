@@ -42,7 +42,6 @@ var HabitSettings = React.createClass({
     this.setState({ habit: updates });
 
     var user = this.state.user;
-    console.log(user);
     if (bool && !user.phoneNumber) {
       Alert.prompt(
         'Update Phone #',
@@ -60,21 +59,28 @@ var HabitSettings = React.createClass({
             text: 'Save', 
             onPress: (function(number) { 
               number = number.replace(/\D/g,'');
-              fetch(process.env.SERVER + '/user/' + user._id, {
-                method: 'POST',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json',
-                  'Authorization': 'Bearer ' + this.props.token.idToken
-                },
-                body: JSON.stringify({
-                  phoneNumber: ""+number
+              if (number.length === 10) {
+                fetch(process.env.SERVER + '/user/' + user.email, {
+                  method: 'POST',
+                  headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.props.token.idToken
+                  },
+                  body: JSON.stringify({
+                    phoneNumber: '+1' + number
+                  })
                 })
-              })
-              .then(api.handleErrors)
-              .catch(function (err) {
-                console.error(err);
-              });
+                .then(api.handleErrors)
+                .catch(function (err) {
+                  console.error(err);
+                });
+              } else {
+                updates.reminder.active = false;
+                this.setState({ habit: updates });
+                Alert.alert('Please enter a US number', 'Format: (555) 555-1212. Country code not required.')
+              }
+  
             }).bind(this)
           }
         ]
