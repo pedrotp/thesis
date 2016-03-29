@@ -79,6 +79,7 @@ var InstanceHistory = React.createClass({
       </View>
     );
   },
+  
   renderScene: function (route, navigator) {
     return (
       <View style={styles.container}>
