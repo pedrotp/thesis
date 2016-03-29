@@ -32,7 +32,13 @@ var AddHabit = React.createClass({
     .then(function (response) {
       return response.json();
     })
-    .then(this.goToInbox)
+    .then((function (resJSON) {
+      if (resJSON.toast !== undefined && resJSON.toast.length > 0) {
+        Alert.alert('Badge Earned', resJSON.toast, [{text: 'Ok', onPress: this.goToInbox}]);
+      } else {
+        this.goToInbox();
+      }
+    }).bind(this))
     .catch(function (err) {
       console.warn(err);
     });
