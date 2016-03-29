@@ -28,7 +28,9 @@ var addHabit = function (email, habitDetails) {
       return Habits.findById(foundUser.habitsId);
     })
     .then(function (habits) {
-      if (habits.store.length === 0) {
+      if (habits.store.length === 0 && user.newUser === true) {
+        user.newUser = false;
+        user.save();
         var toast = Badges.awardBadge(user, 'firstHabit');
       }
       var habit = habits.store.create(habitDetails);

@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 require('mongoose-function')(mongoose);
 
 // Instance
-var instanceSchema = mongoose.Schema({ 
+var instanceSchema = mongoose.Schema({
   note: { type: String, default: '' }
 }, { timestamps: true });
 
@@ -45,8 +45,9 @@ var userSchema = mongoose.Schema({
   email: { type: String, required: true, unique: true },
   userName: { type: String },
   habitsId: { type: mongoose.Schema.Types.ObjectId, ref: Habits },
-  badges: { type: Array, default: []},
-  phoneNumber: { type: String }
+  phoneNumber: { type: String },
+  badges: { type: Array, default: [] },
+  newUser: { type: Boolean, default: true }
 },
 {
   timestamps: true
