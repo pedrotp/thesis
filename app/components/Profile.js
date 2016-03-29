@@ -37,14 +37,13 @@ var Profile = React.createClass({
       dataSource: this.state.dataSource.cloneWithRows(badgeURIs)
     });
   },
-  renderRow: function (rowData, sectionID, rowID) {
+  renderRow: function (badgeURI) {
     return (
       <TouchableOpacity>
-        <View style={styles.recentlyEarned}>
-          <Text>
-            {rowData}
-          </Text>
-        </View>
+        <Image
+          source={{uri: badgeURI}}
+          style={styles.badges}
+        />
       </TouchableOpacity>
     );
   },
@@ -68,10 +67,11 @@ var Profile = React.createClass({
           </Text>
           <ListView
             dataSource={this.state.dataSource}
-            initialListSize={4}
-            pageSize={4}
+            // initialListSize={4}
+            // pageSize={4}
             renderRow={this.renderRow}
             scrollEnabled={false}
+            automaticallyAdjustContentInsets={false}
             contentContainerStyle={styles.recentBadges}
           />
         </View>
@@ -139,18 +139,16 @@ var styles = StyleSheet.create({
   recent: {
     marginBottom: 30,
   },
-  recentlyEarned: {
-    justifyContent: 'center',
-    backgroundColor: '#eee',
-    alignItems: 'center',
-    marginHorizontal: 10,
-    borderRadius: 4,
-    height: 60,
-    width: 60,
+  badges: {
+    height: 75,
+    width: 75,
+    marginHorizontal: 7
   },
   recentBadges: {
+    justifyContent: 'center',
+    alignItems: 'center',
     flexDirection: 'row',
-    marginHorizontal: 5,
+    height: 90
   },
   streaks: {
     marginVertical: 40,
