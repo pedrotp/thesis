@@ -42,14 +42,25 @@ var InstanceHistory = React.createClass({
     })
   },
   
-  // moment(rowData.ISOString).format('MMMM Do YYYY') 
+  //<Text>Note ></Text>
   renderRow: function (rowData, sectionID, rowID) {
+    console.log('ROWDATA', rowData)
+    
+    if(rowData.done) {
+      return (
+        <View style={styles.row} >
+          <Text style={styles.date} >{ moment(rowData.ISOString).format('MMMM Do YYYY') }</Text>
+          <Text>Done</Text>
+          <TouchableOpacity style={styles.note}>
+          </TouchableOpacity>
+        </View>
+      )
+    }
     return (
-      <View>
-        <Text>{ rowData.ISOString }</Text>
-        <Text>{ rowData.done }</Text>
-        <TouchableOpacity>
-          <Text>Note goes here.</Text>
+      <View style={styles.row} >
+        <Text style={styles.date} >{ moment(rowData.ISOString).format('MMMM Do YYYY') }</Text>
+        <Text>Not Done</Text>
+        <TouchableOpacity style={styles.note}>
         </TouchableOpacity>
       </View>
     )
@@ -76,6 +87,7 @@ var InstanceHistory = React.createClass({
         <ListView 
           dataSource={this.state.dataSource}
           renderRow={this.renderRow}
+          renderSeparator={ (sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator} />}
         />
       </View>
     )
@@ -113,7 +125,25 @@ var NavigationBarRouteMapper = {
 var styles = StyleSheet.create({
   container: {
     flex: 0.90,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginTop: 54,
+    paddingTop: 10,
+  },
+  row: {
+      flexDirection: 'row',
+      // justifyContent: 'center',
+      padding: 10,
+      backgroundColor: '#F6F6F6'
+    },
+  separator: {
+    height: 1,
+    backgroundColor: '#CCCCCC'
+  },
+  date: {
+    // flex: 1
+    marginTop: 10,
+    marginBottom: 10,
+    fontSize: 18
   }
 });
 
