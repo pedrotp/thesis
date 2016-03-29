@@ -120,7 +120,7 @@ var updateHabit = function (email, habitId, newHabit) {
 };
 
 var updateUser = function (userId, updates) {
-  return User.findByIdAndUpdate(userId, updates)
+  return User.findOneAndUpdate({ email: userId }, updates)
     .then(function (user) {
       return user;
     });
