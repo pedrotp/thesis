@@ -13,7 +13,6 @@ var LoadingContainer = React.createClass({
     this.props.navigator.push({id: 'Habits'})
   },
   componentDidMount: function () {
-    console.log('this.props.user:', this.props.user);
     if (this.props.user.newUser) {
       this.goToOnboard();
     } else {

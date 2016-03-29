@@ -70,9 +70,9 @@ var HabitSettings = React.createClass({
       }
     })
     .then(api.handleErrors)
-    .then(function () {
+    .then((function () {
       this.props.navigator.push({ id: 'Habits' });
-    })
+    }).bind(this))
     .catch(function (err) {
       console.warn(err);
     });
