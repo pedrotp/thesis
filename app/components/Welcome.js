@@ -12,7 +12,8 @@ var Button = require('react-native-button');
 var Welcome = React.createClass({
   onPressButton: function () {
     this.props.navigator.push({
-      id: 'AddHabit'
+      id: 'AddHabit',
+      onboard: true
     });
   },
   render: function () {
@@ -71,11 +72,11 @@ var styles = StyleSheet.create({
     fontSize: 20, color: 'white'
   },
   buttonContainer: {
-    padding:10, 
-    height:45, 
-    overflow:'hidden', 
-    borderRadius:4, 
-    backgroundColor: '#6399DC', 
+    padding:10,
+    height:45,
+    overflow:'hidden',
+    borderRadius:4,
+    backgroundColor: '#6399DC',
     marginTop: 20,
     marginLeft: 10,
     marginRight: 10
