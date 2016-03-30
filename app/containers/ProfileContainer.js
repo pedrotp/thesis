@@ -9,12 +9,6 @@ var Profile = require('../components/Profile');
 var Badges = require('../components/Badges');
 
 var ProfileContainer = React.createClass({
-  getInitialState: function () {
-    return {
-      progress: 0.75,
-    };
-  },
-  
   configureScene: function (route, routeStack) {
     return Navigator.SceneConfigs.VerticalUpSwipeJump;
   },
