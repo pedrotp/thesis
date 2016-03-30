@@ -19,18 +19,16 @@ var Profile = React.createClass({
       }),
       userName: this.props.user.userName,
       photo: this.props.profile.picture,
-      progress: 0,
+      user: this.props.user,
+      currentStreak: null,
+      currentGoal: null,
+      progress: null,
+      habits: null,
       badgeURIs: [],
-      user: this.props.user
     }
   },
   componentDidMount: function () {
-    // Progress bar doesn't appear filled unless it's changed
-    // so upon component mount, add and subtract trivial amount
     this.refreshUserData();
-    this.setState({
-      progress: this.state.progress + this.props.progress,
-    });
   },
   componentWillReceiveProps: function () {
     this.refreshUserData();
@@ -46,21 +44,66 @@ var Profile = React.createClass({
     .then(function (response) {
       return response.json();
     })
-    .then((function (user) {
-      this.setState({
-        user: user,
-      });
-      var badgeURIs = this.state.user.badges.map(function (badge) {
-        return badge[Object.keys(badge)[0]];
-      })
-      this.setState({
-        badgeURIs: badgeURIs,
-        dataSource: this.state.dataSource.cloneWithRows(badgeURIs)
-      });
-    }).bind(this))
+    .then(this.parseUserData)
     .catch(function (err) {
       console.warn(err);
     });
+  },
+  parseUserData: function (newData) {
+    var user = newData.user;
+    var habits = newData.habits;
+    var badges = user.badges;
+    var badgeURIs = [];
+    var earned = 0;
+    var streaks = {
+      'fiveStreak': 5,
+      'tenStreak': 10,
+      'fifteenStreak': 15,
+    };
+
+    badges.forEach(function (badge) {
+      var badgeTitle = Object.keys(badge)[0];
+      badgeURIs.push(badge[badgeTitle]);
+      if (badgeTitle in streaks) {
+        earned++;
+      }
+    });
+
+    var current = this.calculateProgress(earned, habits);
+    console.log('CUR:', current);
+    this.setState({
+      // Progress bar fill unless some sort of change occurs so
+      // upon DidMount and WillReceiveProps, add trivial amount
+      dataSource: this.state.dataSource.cloneWithRows(badgeURIs),
+      user: user,
+      currentStreak: current.progress,
+      currentGoal: current.goal,
+      progress: current.progress/current.goal,
+      habits: newData.habits,
+      badgeURIs: badgeURIs,
+    });
+  },
+  calculateProgress: function (earnedStreaks, userHabits) {
+    var progress = userHabits.reduce(function (acc, cur) {
+      if (cur.streak.current > acc) {
+        acc = cur.streak.current;
+      }
+      return acc;
+    }, 0);
+    var goal;
+    if (earnedStreaks === 3) {
+      goal = 20;
+    } else if (earnedStreaks === 2) {
+      goal = 15;
+    } else if (earnedStreaks === 1) {
+      goal = 10;
+    } else if (earnedStreaks === 0) {
+      goal = 5;
+    }
+    return {
+      progress: progress,
+      goal: goal
+    };
   },
   renderRow: function (badgeURI) {
     return (
@@ -92,8 +135,6 @@ var Profile = React.createClass({
           </Text>
           <ListView
             dataSource={this.state.dataSource}
-            // initialListSize={4}
-            // pageSize={4}
             renderRow={this.renderRow}
             scrollEnabled={false}
             automaticallyAdjustContentInsets={false}
@@ -102,7 +143,7 @@ var Profile = React.createClass({
         </View>
         <View>
           <Text style={styles.header}>
-            1 more completion for (insert awesome badge)
+            Next badge in {this.state.currentGoal - this.state.currentStreak} consecutive completions
           </Text>
           <ProgressBar
             fillStyle={styles.progressFill}
@@ -113,10 +154,7 @@ var Profile = React.createClass({
         </View>
         <View style={styles.streaks}>
           <Text>
-            Current Streak: 3
-          </Text>
-          <Text>
-            Perfect day streak: 2
+            Best Current Streak: {this.state.currentStreak}
           </Text>
         </View>
         <Button
@@ -140,8 +178,8 @@ var styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 80,
-    height: 80,
+    width: 100,
+    height: 100,
     backgroundColor: '#EEE',
     borderRadius: 20,
     borderColor: '#FFF',
