@@ -24,7 +24,7 @@ var AppContainer = React.createClass({
     };
   },
   configureScene: function (route, routeStack) {
-    return Navigator.SceneConfigs.VerticalUpSwipeJump;
+    return Navigator.SceneConfigs.FadeAndroid;
   },
   render: function () {
     return (
