@@ -31,8 +31,8 @@ var AppContainer = React.createClass({
       <View style={{ flex: 1 }}>
         <Navigator
           configureScene={this.configureScene}
-          initialRoute = {{id: 'Loading'}}
-          renderScene = {this.renderScene}
+          initialRoute={{id: 'Loading'}}
+          renderScene={this.renderScene}
         />
       </View>
     );
