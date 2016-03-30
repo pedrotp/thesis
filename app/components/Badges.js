@@ -36,17 +36,16 @@ var BADGE_URLS = [
 
 var Badges = React.createClass({
   getInitialState: function () {
-     var ds = new ListView.DataSource({
-        rowHasChanged: function (row1, row2) {
-          return row1 !== row2
-        }
-     });
-     return {
-        dataSource: ds.cloneWithRows(BADGE_URLS)
-     };
+    var ds = new ListView.DataSource({
+      rowHasChanged: function (row1, row2) {
+        return row1 !== row2
+      }
+    });
+    return {
+      dataSource: ds.cloneWithRows(BADGE_URLS)
+    };
   },
-  
-  
+
   renderRow: function (rowData, sectionID, rowID) {
     return (
       <View>
@@ -57,27 +56,27 @@ var Badges = React.createClass({
         </View>
         </TouchableOpacity>
       </View>
-    )
-  },
-  
-  render: function () {
-    return (
-        <Navigator
-          renderScene={this.renderScene}
-          navigator={this.props.navigator}
-          navigationBar={
-            <Navigator.NavigationBar style={{backgroundColor: '#6399DC', alignItems: 'center'}}
-              routeMapper={NavigationBarRouteMapper}
-            />
-          }
-        />
     );
   },
-  
+
+  render: function () {
+    return (
+      <Navigator
+        renderScene={this.renderScene}
+        navigator={this.props.navigator}
+        navigationBar={
+          <Navigator.NavigationBar style={{backgroundColor: '#6399DC', alignItems: 'center'}}
+            routeMapper={NavigationBarRouteMapper}
+          />
+        }
+      />
+    );
+  },
+
   renderScene: function (route, navigator) {
     return (
       <View style={styles.container}>
-        <ListView 
+        <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderRow}
           // scrollEnabled={false}
@@ -88,10 +87,8 @@ var Badges = React.createClass({
       </View>
     )
   }
-  
+
 });
-
-
 
 var NavigationBarRouteMapper = {
   LeftButton(route, navigator, index, navState) {

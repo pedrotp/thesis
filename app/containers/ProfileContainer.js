@@ -1,18 +1,19 @@
 var React = require('react-native');
 var View = React.View;
+var Text = React.Text;
 var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
-var api = require('../lib/api');
 var Navigator = React.Navigator;
+var api = require('../lib/api');
 
 var Profile = require('../components/Profile');
 var Badges = require('../components/Badges');
 
 var ProfileContainer = React.createClass({
   configureScene: function (route, routeStack) {
-    return Navigator.SceneConfigs.VerticalUpSwipeJump;
+    return Navigator.SceneConfigs.FadeAndroid;
   },
-  
+
   render: function () {
     return (
       <View style={{ flex: 1 }}>
@@ -24,10 +25,10 @@ var ProfileContainer = React.createClass({
       </View>
     );
   },
-  
+
   renderScene: function (route, navigator) {
     var routeId = route.id;
-    if(routeId === 'Profile') {
+    if (routeId === 'Profile') {
       return (
         <Profile
           navigator={navigator}
@@ -39,11 +40,11 @@ var ProfileContainer = React.createClass({
         />
       );
     }
-    if(routeId == 'Badges') {
+    if (routeId == 'Badges') {
       return (
-        <Badges 
+        <Badges
           navigator={navigator}
-          // badgeURIs={route.badgesURI}
+          earnedBadges={route.earnedBadges}
         />
       );
     }
