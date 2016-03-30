@@ -47,6 +47,13 @@ var _badges = {
     check: function (habit) {
       return habit.streak.current === 10;
     }
+  },
+  fifteenStreak: {
+    toastText: 'You earned the 15 Streak badge!',
+    uri: 'https://better-habits.herokuapp.com/assets/Badges/Hot_Air_Balloon.png',
+    check: function (habit) {
+      return habit.streak.current === 15;
+    }
   }
 };
 
