@@ -1,5 +1,3 @@
-var Habits = require('../db/models').Habits;
-var Instances = require('../db/models').Instances;
 var User = require('../db/models').User;
 var moment = require('moment');
 
