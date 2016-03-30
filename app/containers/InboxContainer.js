@@ -10,6 +10,7 @@ var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
 var Linking = React.Linking;
 var moment = require('moment');
+var Icon = require('react-native-vector-icons/FontAwesome');
 
 var Inbox = require('../components/Inbox');
 var Welcome = require('../components/Welcome');
@@ -91,7 +92,13 @@ var Habits = React.createClass({
   },
   // Render each row of the inbox as an Inbox component
   renderInboxRow: function (habit) {
-    return <Inbox habit={habit} deleteHabit={this.deleteHabit} gotoDetails={this.gotoDetails} editHabit={this.editHabit} toggleInstance={this.toggleInstance}/>
+    return <Inbox
+      habit={habit}
+      deleteHabit={this.deleteHabit}
+      gotoDetails={this.gotoDetails}
+      editHabit={this.editHabit}
+      toggleInstance={this.toggleInstance}
+    />
   },
   render: function () {
     return (
@@ -118,13 +125,8 @@ var Habits = React.createClass({
           refreshDescription="Refreshing your habits"
         />
         <TouchableOpacity style={styles.circleButton} onPress={this.handlePress}>
-            <Text style={styles.buttonText}>New</Text>
+          <Icon name='plus' size={25} color='#ffffff' />
         </TouchableOpacity>
-        {/*<TouchableOpacity onPress={this.props.handleLogout}>
-          <View style={styles.circleButton}>
-            <Text style={styles.buttonText}>LO</Text>
-          </View>
-        </TouchableOpacity>*/}
       </View>
     );
   }
@@ -164,20 +166,18 @@ var styles = StyleSheet.create({
     textAlign: 'center',
   },
   circleButton: {
-    height: 50,
-    width: 50,
-    borderWidth: 0,
-    borderRadius: 25,
-    borderColor: '#090f16',
+    position: 'absolute',
+    top: 485,
+    right: 20,
+    height: 60,
+    width: 60,
+    borderRadius: 30,
     alignItems: 'center',
     justifyContent: 'center',
-    alignSelf: 'flex-end',
-    padding: 5,
-    margin: 20,
     backgroundColor: '#6399DC',
     shadowColor: '#000000',
     shadowOpacity: 0.6,
-    shadowRadius: 3,
+    shadowRadius: 4,
     shadowOffset: {
       height: 3.5,
       width: 2
