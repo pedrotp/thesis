@@ -104,7 +104,6 @@ var HabitSettings = React.createClass({
       return res.json();
     })
     .then((function (habit) {
-      console.log(habit);
       this.gotoInbox();
     }).bind(this))
     .catch(function (err) {
@@ -309,7 +308,7 @@ var NavigationBarRouteMapper = {
   Title: function (route, navigator, index, navState) {
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
-        <Text style={{color: 'white', margin: 10, fontSize: 16}}>
+        <Text style={{color: 'white', margin: 10, fontSize: 18}}>
           Habit Settings
         </Text>
       </TouchableOpacity>
