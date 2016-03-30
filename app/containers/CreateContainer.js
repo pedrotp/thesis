@@ -13,7 +13,7 @@ var AddHabit = React.createClass({
   getInitialState: function () {
     return {
       fields: {
-        action: null
+        action: null,
       }
     }
   },
@@ -44,7 +44,11 @@ var AddHabit = React.createClass({
     });
   },
   goToInbox: function () {
-    this.props.navigator.push({ id: 'Habits' });
+    if (this.props.onboard === true) {
+      this.props.resetToTabs();
+    } else {
+      this.props.navigator.push({ id: 'Habits' });
+    }
   },
   handleClick: function () {
     // Values stored to be sent to server

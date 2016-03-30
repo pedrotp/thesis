@@ -20,7 +20,8 @@ var AppContainer = React.createClass({
     return {
       token: this.props.token,
       profile: this.props.profile,
-      user: this.props.user
+      user: this.props.user,
+      resetToTabs: this.props.resetToTabs
     };
   },
   configureScene: function (route, routeStack) {
@@ -63,6 +64,8 @@ var AppContainer = React.createClass({
           habit={route.habit}
           token={this.state.token}
           profile={this.state.profile}
+          onboard={this.props.onboard}
+          resetToTabs={this.state.resetToTabs}
         />
       );
     }

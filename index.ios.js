@@ -13,8 +13,10 @@ var ProfileContainer = require('./app/containers/ProfileContainer');
 var Auth0credentials = require('./auth0_credentials');
 var Auth0Lock = require('react-native-lock-ios');
 
+// EDIT THIS VARIABLE FOR LOCAL TESTING
 var localServer = false;
 
+// DO NOT EDIT THIS
 if (localServer === true) {
   process.env.SERVER = 'http://localhost:3000'
 } else {
@@ -31,7 +33,8 @@ var TabContainer = React.createClass({
       auth: false,
       profile: null,
       token: null,
-      user: null
+      user: null,
+      onboard: null
     }
   },
   handleLogout: function () {
@@ -39,7 +42,8 @@ var TabContainer = React.createClass({
       auth: false,
       token: null,
       profile: null,
-      user: null
+      user: null,
+      onboard: null
     });
     this.showLock();
   },
@@ -67,18 +71,44 @@ var TabContainer = React.createClass({
       .then((function (user) {
         // On successful login + store user
         // Set user info on state
+        var onboardState = user.newUser;
+
         this.setState({
           selectedTab: 'inbox',
           auth: true,
           token: token,
           profile: profile,
-          user: user
+          user: user,
+          onboard: onboardState
         });
       }).bind(this))
       .catch(function (err) {
         console.warn(err);
       });
     }).bind(this));
+  },
+  resetToTabs: function () {
+    fetch(process.env.SERVER + '/user/' + this.state.user.email, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + this.state.token.idToken
+        },
+      })
+      .then(api.handleErrors)
+      .then(function (response) {
+        return response.json();
+      })
+      .then((function (response) {
+        this.setState({
+          user: response.user,
+          onboard: false
+        })
+      }).bind(this))
+      .catch(function (err) {
+        console.warn(err);
+      });
   },
   componentDidMount: function () {
     // If user not logged in
@@ -88,45 +118,57 @@ var TabContainer = React.createClass({
   },
   render: function () {
     if (this.state.auth) {
-      return (
-        <TabBarIOS tintColor='#6399DC' selectedTab={this.state.selectedTab}>
-          <Icon.TabBarItemIOS
-            selected={this.state.selectedTab === 'inbox'}
-            title='Habits'
-            iconName='mountains'
-            iconSize={30}
-            onPress={(function () {
-              this.setState({
-                selectedTab: 'inbox',
-              });
-            }).bind(this)}
-          >
-            <AppContainer
-              token={this.state.token}
-              profile={this.state.profile}
-              user={this.state.user}
-            />
-          </Icon.TabBarItemIOS>
-          <Icon.TabBarItemIOS
-            selected={this.state.selectedTab === 'profile'}
-            title='Profile'
-            iconName='torso'
-            iconSize={30}
-            onPress={(function () {
-              this.setState({
-                selectedTab: 'profile',
-              });
-            }).bind(this)}
-          >
-            <ProfileContainer
-              token={this.state.token}
-              profile={this.state.profile}
-              user={this.state.user}
-              handleLogout={this.handleLogout}
-            />
-          </Icon.TabBarItemIOS>
-        </TabBarIOS>
-      );
+      if (this.state.onboard === true) {
+        return (
+          <AppContainer
+            token={this.state.token}
+            profile={this.state.profile}
+            user={this.state.user}
+            resetToTabs={this.resetToTabs}
+            onboard={true}
+          />
+        )
+      } else {
+        return (
+          <TabBarIOS tintColor='#6399DC' selectedTab={this.state.selectedTab}>
+            <Icon.TabBarItemIOS
+              selected={this.state.selectedTab === 'inbox'}
+              title='Habits'
+              iconName='mountains'
+              iconSize={30}
+              onPress={(function () {
+                this.setState({
+                  selectedTab: 'inbox',
+                });
+              }).bind(this)}
+            >
+              <AppContainer
+                token={this.state.token}
+                profile={this.state.profile}
+                user={this.state.user}
+              />
+            </Icon.TabBarItemIOS>
+            <Icon.TabBarItemIOS
+              selected={this.state.selectedTab === 'profile'}
+              title='Profile'
+              iconName='torso'
+              iconSize={30}
+              onPress={(function () {
+                this.setState({
+                  selectedTab: 'profile',
+                });
+              }).bind(this)}
+            >
+              <ProfileContainer
+                token={this.state.token}
+                profile={this.state.profile}
+                user={this.state.user}
+                handleLogout={this.handleLogout}
+              />
+            </Icon.TabBarItemIOS>
+          </TabBarIOS>
+        );
+      }
     } else {
       return (
         <View></View>
