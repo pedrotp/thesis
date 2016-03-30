@@ -36,11 +36,18 @@ var _badges = {
   },
   fiveStreak: {
     toastText: 'You earned the 5 Streak badge!',
-    uri: 'https://better-habits.herokuapp.com/assets/Badges/.png',
-    check: function () {
-      return false;
+    uri: 'https://better-habits.herokuapp.com/assets/Badges/Bungee.png',
+    check: function (habit) {
+      return habit.streak.current === 5;
     }
   },
+  tenStreak: {
+    toastText: 'You earned the 10 Streak badge!',
+    uri: 'https://better-habits.herokuapp.com/assets/Badges/Archery.png',
+    check: function (habit) {
+      return habit.streak.current === 10;
+    }
+  }
 };
 
 var awardBadge = function (user, badge) {
@@ -66,30 +73,24 @@ var checkBadges = function (email, habit, habits) {
           // if yes, award it and push toast into awarded
           awarded.push(awardBadge(user, badge));
         }
-      }
+      };
 
       // iterate over all possible badges
       var length = user.badges.length;
       for (var badge in _badges) {
 
         // if user has existing badges
-        // if (user.badges.length !== 0) {
-          var found = false;
-          for(var i = 0; i < length; i++) {
-            // if the user doesn't have current badge, check if it should be awarded
-            if (user.badges[i].hasOwnProperty(badge)) {
-              found = true;
-              break;
-            }
+        var found = false;
+        for(var i = 0; i < length; i++) {
+          // if the user doesn't have current badge, check if it should be awarded
+          if (user.badges[i].hasOwnProperty(badge)) {
+            found = true;
+            break;
           }
-          if (found === false) {
-            doCheck(badge);
-          }
-        // } else {
-
-        //   // if user has no badges, check if they should be awarded current badge
-        //   doCheck(badge);
-        // }
+        }
+        if (found === false) {
+          doCheck(badge);
+        }
       }
       return awarded;
     });
