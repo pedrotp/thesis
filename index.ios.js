@@ -6,7 +6,7 @@ var View = React.View;
 var Text = React.Text;
 var Image = React.Image;
 var api = require('./app/lib/api');
-var Icon = require('react-native-vector-icons/FontAwesome');
+var Icon = require('react-native-vector-icons/Foundation');
 var AppContainer = require('./app/containers/AppContainer');
 var ProfileContainer = require('./app/containers/ProfileContainer');
 var Auth0credentials = require('./auth0_credentials');
@@ -91,8 +91,9 @@ var TabContainer = React.createClass({
         <TabBarIOS tintColor='#6399DC' selectedTab={this.state.selectedTab}>
           <Icon.TabBarItemIOS
             selected={this.state.selectedTab === 'inbox'}
-            title='Inbox'
-            iconName='inbox'
+            title='Habits'
+            iconName='mountains'
+            iconSize={40}
             onPress={(function () {
               this.setState({
                 selectedTab: 'inbox',
@@ -108,7 +109,8 @@ var TabContainer = React.createClass({
           <Icon.TabBarItemIOS
             selected={this.state.selectedTab === 'profile'}
             title='Profile'
-            iconName='user'
+            iconName='torso'
+            iconSize={40}
             onPress={(function () {
               this.setState({
                 selectedTab: 'profile',
