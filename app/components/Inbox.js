@@ -34,7 +34,14 @@ function Inbox (props) {
 
   return (
     <View style={styles.inboxrow}>
-      <Swipeout autoClose={true} right={swipeButtons} backgroundColor={'#fcfcfc'}>
+      <Swipeout
+        autoClose={true}
+        right={swipeButtons}
+        backgroundColor={'#fcfcfc'}
+        scroll={function (event) {
+          props.allowScroll(event)
+        }}
+      >
         <View style={styles.swipe}>
           <TouchableOpacity onPress={function () {props.gotoDetails(props.habit)}}>
             <View>
