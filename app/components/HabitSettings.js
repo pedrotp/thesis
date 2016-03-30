@@ -36,7 +36,7 @@ var HabitSettings = React.createClass({
     updates.action = text;
     this.setState({ habit: updates });
   },
-  onReminderChange: function (bool) {  
+  onReminderChange: function (bool) {
     var updates = this.state.habit;
     updates.reminder.active = bool;
     this.setState({ habit: updates });
@@ -48,16 +48,16 @@ var HabitSettings = React.createClass({
         'We need your phone number to send you SMS reminders!',
         [
           {
-            text: 'Cancel', 
-            onPress: (function () { 
+            text: 'Cancel',
+            onPress: (function () {
               updates.reminder.active = false;
               this.setState({ habit: updates });
-            }).bind(this), 
+            }).bind(this),
             style: 'cancel'
           },
           {
-            text: 'Save', 
-            onPress: (function(number) { 
+            text: 'Save',
+            onPress: (function(number) {
               number = number.replace(/\D/g,'');
               if (number.length === 10) {
                 fetch(process.env.SERVER + '/user/' + user.email, {
@@ -80,7 +80,6 @@ var HabitSettings = React.createClass({
                 this.setState({ habit: updates });
                 Alert.alert('Please enter a US number', 'Format: (555) 555-1212. Country code not required.')
               }
-  
             }).bind(this)
           }
         ]

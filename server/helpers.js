@@ -126,10 +126,20 @@ var updateUser = function (email, updates) {
     });
 };
 
+// TODO: possibly refactor with getHabits since getUser is
+// making the same queries but returning different data
 var getUser = function (email) {
+  var user;
   return User.findOne({ 'email': email })
-    .then(function (user) {
-      return user;
+    .then(function (foundUser) {
+      user = foundUser;
+      return Habits.findById(user.habitsId)
+    })
+    .then(function (habits) {
+      return {
+        user: user,
+        habits: habits.store
+      };
     });
 };
 
