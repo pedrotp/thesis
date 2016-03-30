@@ -70,10 +70,8 @@ var Profile = React.createClass({
     });
 
     var current = this.calculateProgress(earned, habits);
-    console.log('CUR:', current);
+
     this.setState({
-      // Progress bar fill unless some sort of change occurs so
-      // upon DidMount and WillReceiveProps, add trivial amount
       dataSource: this.state.dataSource.cloneWithRows(badgeURIs),
       user: user,
       currentStreak: current.progress,
@@ -84,6 +82,8 @@ var Profile = React.createClass({
     });
   },
   calculateProgress: function (earnedStreaks, userHabits) {
+
+    // Reduces array of userHabits to the longest current streak
     var progress = userHabits.reduce(function (acc, cur) {
       if (cur.streak.current > acc) {
         acc = cur.streak.current;
