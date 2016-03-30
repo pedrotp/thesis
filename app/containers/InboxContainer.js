@@ -24,7 +24,8 @@ var Habits = React.createClass({
         rowHasChanged: function (row1, row2) {
           return row1 !== row2
         }
-      })
+      }),
+      scrollEnabled: true
     }
   },
   // TODO: refactor server call to api library
@@ -90,6 +91,11 @@ var Habits = React.createClass({
   handlePress: function () {
     this.props.navigator.push({id:'AddHabit'});
   },
+  allowScroll: function(scrollEnabled) {
+    if (scrollEnabled !== this.state.scrollEnabled) {
+      this.setState({ scrollEnabled: scrollEnabled })
+    }
+  },
   // Render each row of the inbox as an Inbox component
   renderInboxRow: function (habit) {
     return <Inbox
@@ -98,6 +104,7 @@ var Habits = React.createClass({
       gotoDetails={this.gotoDetails}
       editHabit={this.editHabit}
       toggleInstance={this.toggleInstance}
+      allowScroll={this.allowScroll}
     />
   },
   render: function () {
@@ -118,11 +125,11 @@ var Habits = React.createClass({
   renderScene: function (route, navigator) {
     return (
       <View style={styles.container}>
-        <RefreshableListView
+        <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderInboxRow}
-          loadData={this.getHabits}
-          refreshDescription="Refreshing your habits"
+          automaticallyAdjustContentInsets={false}
+          scrollEnabled={this.state.scrollEnabled}
         />
         <TouchableOpacity style={styles.circleButton} onPress={this.handlePress}>
           <Icon name='plus' size={25} color='#ffffff' />
