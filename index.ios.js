@@ -5,6 +5,7 @@ var TabBarIOS = React.TabBarIOS;
 var View = React.View;
 var Text = React.Text;
 var Image = React.Image;
+
 var api = require('./app/lib/api');
 var Icon = require('react-native-vector-icons/Foundation');
 var AppContainer = require('./app/containers/AppContainer');
@@ -93,7 +94,7 @@ var TabContainer = React.createClass({
             selected={this.state.selectedTab === 'inbox'}
             title='Habits'
             iconName='mountains'
-            iconSize={40}
+            iconSize={30}
             onPress={(function () {
               this.setState({
                 selectedTab: 'inbox',
@@ -110,7 +111,7 @@ var TabContainer = React.createClass({
             selected={this.state.selectedTab === 'profile'}
             title='Profile'
             iconName='torso'
-            iconSize={40}
+            iconSize={30}
             onPress={(function () {
               this.setState({
                 selectedTab: 'profile',
