@@ -5,11 +5,11 @@ var TabBarIOS = React.TabBarIOS;
 var View = React.View;
 var Text = React.Text;
 var Image = React.Image;
+
 var api = require('./app/lib/api');
-var Icon = require('react-native-vector-icons/FontAwesome');
+var Icon = require('react-native-vector-icons/Foundation');
 var AppContainer = require('./app/containers/AppContainer');
 var ProfileContainer = require('./app/containers/ProfileContainer');
-
 var Auth0credentials = require('./auth0_credentials');
 var Auth0Lock = require('react-native-lock-ios');
 
@@ -89,11 +89,12 @@ var TabContainer = React.createClass({
   render: function () {
     if (this.state.auth) {
       return (
-        <TabBarIOS selectedTab={this.state.selectedTab}>
+        <TabBarIOS tintColor='#6399DC' selectedTab={this.state.selectedTab}>
           <Icon.TabBarItemIOS
             selected={this.state.selectedTab === 'inbox'}
-            title='Inbox'
-            iconName='inbox'
+            title='Habits'
+            iconName='mountains'
+            iconSize={30}
             onPress={(function () {
               this.setState({
                 selectedTab: 'inbox',
@@ -109,7 +110,8 @@ var TabContainer = React.createClass({
           <Icon.TabBarItemIOS
             selected={this.state.selectedTab === 'profile'}
             title='Profile'
-            iconName='user'
+            iconName='torso'
+            iconSize={30}
             onPress={(function () {
               this.setState({
                 selectedTab: 'profile',
