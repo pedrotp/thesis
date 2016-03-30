@@ -13,8 +13,6 @@ var ProfileContainer = React.createClass({
     return {
       progress: 0.75,
     };
-      
-    }
   },
   
   configureScene: function (route, routeStack) {
@@ -38,6 +36,7 @@ var ProfileContainer = React.createClass({
     if(routeId === 'Profile') {
       return (
         <Profile
+          navigator={navigator}
           handleLogout={this.props.handleLogout}
           profile={this.props.profile}
           user={this.props.user}
@@ -48,7 +47,10 @@ var ProfileContainer = React.createClass({
     }
     if(routeId == 'Badges') {
       return (
-        <Badges />
+        <Badges 
+          navigator={navigator}
+          // badgeURIs={route.badgesURI}
+        />
       );
     }
   }

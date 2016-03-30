@@ -157,6 +157,9 @@ var Profile = React.createClass({
             Best Current Streak: {this.state.currentStreak}
           </Text>
         </View>
+        <Button onPress={function () { this.props.navigator.push({id: 'Badges'})}.bind(this)}>
+          Go to Badges
+        </Button>
         <Button
           containerStyle={styles.logoutContainer}
           style={styles.logoutText}
