@@ -15,7 +15,7 @@ var Auth0Lock = require('react-native-lock-ios');
 
 var localServer = false;
 
-if (localServer === false) {
+if (localServer === true) {
   process.env.SERVER = 'http://localhost:3000'
 } else {
   process.env.SERVER = 'http://better-habits.herokuapp.com'
