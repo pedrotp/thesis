@@ -102,7 +102,7 @@ var updateHabit = function (email, habitId, newHabit) {
         habit.set('reminder.stop', job.stop);
       } else if (oldHabit.reminder.active && !habit.reminder.active) {
         oldHabit.reminder.stop();
-      } else if (!moment(new Date(oldHabit.reminder.time)).isSame(new Date(habit.reminder.time), 'second')) { //or days changed
+      } else if (!moment(new Date(oldHabit.reminder.time)).isSame(new Date(habit.reminder.time), 'second') || JSON.stringify(oldHabit.reminder.days) !== JSON.stringify(habit.reminder.days)) { //or days changed
         oldHabit.reminder.stop();
         var job = sms.schedule({
           userId: userId,

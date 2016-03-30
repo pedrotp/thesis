@@ -27,7 +27,15 @@ var habitSchema = mongoose.Schema({
   reminder: {
     active: { type: Boolean, default: false },
     time: { type: Date, default: Date.now() },
-    days: { type: String },
+    days: { 
+      sun: { type: Boolean, default: false },
+      mon: { type: Boolean, default: false },
+      tue: { type: Boolean, default: false },
+      wed: { type: Boolean, default: false },
+      thu: { type: Boolean, default: false },
+      fri: { type: Boolean, default: false },
+      sat: { type: Boolean, default: false }
+    },
     stop: { type: Function }
   }
 },
