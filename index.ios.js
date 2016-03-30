@@ -13,7 +13,7 @@ var ProfileContainer = require('./app/containers/ProfileContainer');
 var Auth0credentials = require('./auth0_credentials');
 var Auth0Lock = require('react-native-lock-ios');
 
-var localServer = false;
+var localServer = true;
 
 if (localServer === true) {
   process.env.SERVER = 'http://localhost:3000'
