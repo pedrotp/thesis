@@ -45,8 +45,8 @@ var Badges = React.createClass({
         dataSource: ds.cloneWithRows(BADGE_URLS)
      };
   },
-  
-  
+
+
   renderRow: function (rowData, sectionID, rowID) {
     return (
       <View>
@@ -59,25 +59,25 @@ var Badges = React.createClass({
       </View>
     )
   },
-  
+
   render: function () {
     return (
-        <Navigator
-          renderScene={this.renderScene}
-          navigator={this.props.navigator}
-          navigationBar={
-            <Navigator.NavigationBar style={{backgroundColor: '#6399DC', alignItems: 'center'}}
-              routeMapper={NavigationBarRouteMapper}
-            />
-          }
-        />
+      <Navigator
+        renderScene={this.renderScene}
+        navigator={this.props.navigator}
+        navigationBar={
+          <Navigator.NavigationBar style={{backgroundColor: '#6399DC', alignItems: 'center'}}
+            routeMapper={NavigationBarRouteMapper}
+          />
+        }
+      />
     );
   },
-  
+
   renderScene: function (route, navigator) {
     return (
       <View style={styles.container}>
-        <ListView 
+        <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderRow}
           // scrollEnabled={false}
@@ -88,10 +88,8 @@ var Badges = React.createClass({
       </View>
     )
   }
-  
+
 });
-
-
 
 var NavigationBarRouteMapper = {
   LeftButton(route, navigator, index, navState) {

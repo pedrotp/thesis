@@ -5,6 +5,7 @@ var View = React.View;
 var Text = React.Text;
 var Image = React.Image;
 var ListView = React.ListView;
+var Navigator = React.Navigator;
 var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
 var api = require('../lib/api')
@@ -117,6 +118,19 @@ var Profile = React.createClass({
   },
   render: function () {
     return (
+      <Navigator
+        renderScene={this.renderScene}
+        navigator={this.props.navigator}
+        navigationBar={
+          <Navigator.NavigationBar style={{backgroundColor: '#6399DC', alignItems: 'center'}}
+            routeMapper={NavigationBarRouteMapper}
+          />
+        }
+      />
+    );
+  },
+  renderScene: function () {
+    return (
       <View>
         <View style={styles.avatar}>
           <TouchableOpacity>
@@ -157,24 +171,51 @@ var Profile = React.createClass({
             Best Current Streak: {this.state.currentStreak}
           </Text>
         </View>
-        <Button onPress={function () { this.props.navigator.push({id: 'Badges'})}.bind(this)}>
-          Go to Badges
-        </Button>
-        <Button
-          containerStyle={styles.logoutContainer}
-          style={styles.logoutText}
-          onPress={this.props.handleLogout}
-        >
-          Logout
-        </Button>
+        <View>
+          <Button
+            containerStyle={styles.logoutContainer}
+            style={styles.logoutText}
+            onPress={function () { this.props.navigator.push({id: 'Badges'})}.bind(this)}
+          >
+            Go to Badges
+          </Button>
+          <Button
+            containerStyle={styles.logoutContainer}
+            style={styles.logoutText}
+            onPress={this.props.handleLogout}
+          >
+            Logout
+          </Button>
+        </View>
       </View>
     );
-  },
+  }
 });
+
+var NavigationBarRouteMapper = {
+  LeftButton(route, navigator, index, navState) {
+    return null;
+  },
+
+  RightButton(route, navigator, index, navState) {
+    return null;
+  },
+
+  Title(route, navigator, index, navState) {
+    return (
+      <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
+        <Text style={{color: 'white', margin: 10, fontSize: 16}}>
+          Profile
+        </Text>
+      </TouchableOpacity>
+    );
+  }
+};
 
 var styles = StyleSheet.create({
   avatar: {
-    marginBottom: 45,
+    marginTop: 90,
+    marginBottom: 35,
   },
   avatarPhoto: {
     flexDirection: 'row',
@@ -220,12 +261,14 @@ var styles = StyleSheet.create({
     marginVertical: 40,
   },
   logoutContainer: {
+    alignSelf: 'center',
     height: 35,
+    width: 300,
     padding: 10,
     overflow: 'hidden',
     borderRadius: 4,
     backgroundColor: '#6399DC',
-    marginTop: 60
+    marginTop: 10,
   },
   logoutText: {
     fontSize: 14,
