@@ -36,16 +36,15 @@ var BADGE_URLS = [
 
 var Badges = React.createClass({
   getInitialState: function () {
-     var ds = new ListView.DataSource({
-        rowHasChanged: function (row1, row2) {
-          return row1 !== row2
-        }
-     });
-     return {
-        dataSource: ds.cloneWithRows(BADGE_URLS)
-     };
+    var ds = new ListView.DataSource({
+      rowHasChanged: function (row1, row2) {
+        return row1 !== row2
+      }
+    });
+    return {
+      dataSource: ds.cloneWithRows(BADGE_URLS)
+    };
   },
-
 
   renderRow: function (rowData, sectionID, rowID) {
     return (
@@ -57,7 +56,7 @@ var Badges = React.createClass({
         </View>
         </TouchableOpacity>
       </View>
-    )
+    );
   },
 
   render: function () {

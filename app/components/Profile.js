@@ -106,6 +106,12 @@ var Profile = React.createClass({
       goal: goal
     };
   },
+  goToBadges: function () {
+    this.props.navigator.push({
+      id: 'Badges',
+      earnedBadges: this.state.user.badges
+    });
+  },
   renderRow: function (badgeURI) {
     return (
       <TouchableOpacity>
@@ -162,7 +168,7 @@ var Profile = React.createClass({
           <ProgressBar
             fillStyle={styles.progressFill}
             backgroundStyle={styles.progress}
-            style={{marginTop: 10, width: 300, height: 10}}
+            style={{marginTop: 10, width: 300, height: 15}}
             progress={this.state.progress}
           />
         </View>
@@ -175,7 +181,7 @@ var Profile = React.createClass({
           <Button
             containerStyle={styles.logoutContainer}
             style={styles.logoutText}
-            onPress={function () { this.props.navigator.push({id: 'Badges'})}.bind(this)}
+            onPress={this.goToBadges}
           >
             Go to Badges
           </Button>
@@ -232,11 +238,11 @@ var styles = StyleSheet.create({
   },
   header: {
     textAlign: 'center',
-    fontSize: 16
+    fontSize: 18
   },
   progressFill: {
     backgroundColor: '#6399DC',
-    height: 10
+    height: 15
   },
   progress: {
     backgroundColor: '#aaa',

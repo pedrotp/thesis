@@ -28,7 +28,7 @@ var ProfileContainer = React.createClass({
 
   renderScene: function (route, navigator) {
     var routeId = route.id;
-    if(routeId === 'Profile') {
+    if (routeId === 'Profile') {
       return (
         <Profile
           navigator={navigator}
@@ -40,11 +40,11 @@ var ProfileContainer = React.createClass({
         />
       );
     }
-    if(routeId == 'Badges') {
+    if (routeId == 'Badges') {
       return (
         <Badges
           navigator={navigator}
-          // badgeURIs={route.badgesURI}
+          earnedBadges={route.earnedBadges}
         />
       );
     }
