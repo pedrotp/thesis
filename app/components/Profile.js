@@ -184,7 +184,7 @@ var Profile = React.createClass({
             progress={this.state.progress}
           />
           <Text>
-            {this.state.nextGoalName} badge in {this.state.nextGoalCount - this.state.currentStreakCount} completions
+            {this.state.nextGoalName} badge in {this.state.nextGoalCount - this.state.currentStreakCount} more completions
           </Text>
         </View>
         <View>
