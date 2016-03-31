@@ -58,7 +58,7 @@ var badges = {
       return habit.streak.current === 20;
     }
   },
-  'Dangerous': {
+  'En Garde': {
     toastText: 'You earned the Twenty-Five Streak badge!',
     uri: 'https://better-habits.herokuapp.com/assets/Badges/Duel.png',
     check: function () {
