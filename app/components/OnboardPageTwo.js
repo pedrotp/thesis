@@ -35,6 +35,7 @@ var OnboardPageTwo = React.createClass({
 var styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingHorizontal: 20,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#EDBE40'
@@ -61,25 +62,6 @@ var styles = StyleSheet.create({
     height: 64,
     marginTop: 20
   },
-  button: {
-    height: 30,
-    width: 100,
-    alignItems: 'center',
-    alignSelf: 'center',
-    borderColor: '#FFF',
-    borderWidth: 0,
-    borderRadius: 5,
-    padding: 5,
-    margin: 20,
-    backgroundColor: '#6399DC',
-    shadowColor: '#000000',
-    shadowOpacity: 0.6,
-    shadowRadius: 3,
-    shadowOffset: {
-      height: 3.5,
-      width: 2
-    }
-  }
 });
 
 module.exports = OnboardPageTwo;

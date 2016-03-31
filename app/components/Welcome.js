@@ -52,8 +52,8 @@ var Welcome = React.createClass({
 var styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingHorizontal: 20,
     justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#EDBE40'
   },
   welcome: {
@@ -77,14 +77,14 @@ var styles = StyleSheet.create({
     fontSize: 20, color: 'white'
   },
   buttonContainer: {
-    padding:10,
-    height:45,
-    overflow:'hidden',
-    borderRadius:4,
+    padding: 10,
+    height: 45,
+    overflow: 'hidden',
+    borderRadius: 4,
     backgroundColor: '#6399DC',
-    marginTop: 20,
-    marginLeft: 10,
-    marginRight: 10
+    marginTop: 30,
+    marginLeft: 20,
+    marginRight: 20
   },
 });
 

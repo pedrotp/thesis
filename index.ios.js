@@ -14,7 +14,7 @@ var Auth0credentials = require('./auth0_credentials');
 var Auth0Lock = require('react-native-lock-ios');
 
 // EDIT THIS VARIABLE FOR LOCAL TESTING
-var localServer = false;
+var localServer = true;
 
 // DO NOT EDIT THIS
 if (localServer === true) {
