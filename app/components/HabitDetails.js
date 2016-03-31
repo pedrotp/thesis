@@ -104,7 +104,7 @@ var HabitDetails = React.createClass({
       return (
         <TouchableOpacity underlayColor="transparent">
           <View style={styles.weekRow}>
-            <Text>
+            <Text style={styles.calendarHeading}>
               {rowData.calendarHeading}
             </Text>
           </View>
@@ -296,12 +296,18 @@ var styles = StyleSheet.create({
     top: 80,
     alignSelf: 'center',
     fontSize: 34,
+    fontFamily: 'Avenir',
   },
   list: {
     top: 90,
     justifyContent: 'space-around',
     flexDirection: 'row',
     flexWrap: 'wrap'
+  },
+  calendarHeading: {
+    fontFamily: 'Avenir',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   weekRow: {
     top: 4,
@@ -367,7 +373,7 @@ var styles = StyleSheet.create({
     margin: 1,
     width: 50,
     height: 50,
-    backgroundColor: '#B5BFBF',
+    backgroundColor: '#D0D1D0',
     alignItems: 'center',
     borderWidth: 1,
     borderRadius: 5,
@@ -378,10 +384,12 @@ var styles = StyleSheet.create({
     bottom: 120
   },
   rowText: {
+    fontFamily: 'Avenir',
     fontSize: 15,
   },
   text: {
     fontSize: 20,
+    fontFamily: 'Avenir',
     padding: 3,
     marginTop: 5,
     justifyContent: 'center',
