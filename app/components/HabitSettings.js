@@ -156,7 +156,7 @@ var HabitSettings = React.createClass({
             onChangeText={this.onTextChange}
           />
           <View style={{ flexDirection: 'row', marginTop: 25 }}>
-            <Text style={{fontSize: 22}}>
+            <Text style={{fontSize: 22, fontFamily: 'Avenir'}}>
               SMS Reminder
             </Text>
             <Switch
@@ -257,7 +257,7 @@ var HabitSettings = React.createClass({
             onChangeText={this.onTextChange}
           />
           <View style={{ flexDirection: 'row', marginTop: 25, marginBottom: 216 }}>
-            <Text style={{fontSize: 22}}>
+            <Text style={{fontSize: 22, fontFamily: 'Avenir'}}>
               SMS Reminder
             </Text>
             <Switch
@@ -325,11 +325,13 @@ var styles = StyleSheet.create({
   heading: {
     height: 40,
     textAlign: 'center',
-    fontSize: 34
+    fontSize: 34,
+    fontFamily: 'Avenir',
   },
   deleteButtonText: {
     fontSize: 20,
-    color: '#e14f3f'
+    fontFamily: 'Avenir',
+    color: '#e14f3f',
   },
   deleteButtonContainer: {
     padding: 10,
@@ -341,7 +343,8 @@ var styles = StyleSheet.create({
   },
   updateButtonText: {
     fontSize: 20,
-    color: 'white'
+    fontFamily: 'Avenir',
+    color: 'white',
   },
   updateButtonContainer: {
     padding: 10,
@@ -353,7 +356,8 @@ var styles = StyleSheet.create({
   },
   dayButtonText: {
     fontSize: 15,
-    color: 'black'
+    fontFamily: 'Avenir',
+    color: 'black',
   },
   dayInactive: {
     borderRadius: 2,
@@ -377,6 +381,7 @@ var styles = StyleSheet.create({
     paddingBottom: 2
   },
   weekTitle: {
+    fontFamily: 'Avenir',
     fontWeight: 'bold',
     textAlign: 'center',
     padding: 5,
