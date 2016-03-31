@@ -1,5 +1,6 @@
 var React = require('react-native');
 var api = require('../lib/api');
+var badges = require('../lib/badges');
 var View = React.View;
 var Text = React.Text;
 var StyleSheet = React.StyleSheet;
@@ -9,32 +10,31 @@ var ListView = React.ListView;
 var Image = React.Image;
 var ScrollView = React.ScrollView;
 
-
-var _allBadges = [
-  {name:'firstHabit', uri:'https://better-habits.herokuapp.com/assets/Badges/Morning.png', earned: false},
-  {name:'firstCompletion', uri:'https://better-habits.herokuapp.com/assets/Badges/Bon_Voyage.png', earned: false},
-  {name:'firstPerfectDay', uri:'https://better-habits.herokuapp.com/assets/Badges/Mountain_Top.png', earned: false},
-  {name:'fiveStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Bungee.png', earned: false},
-  {name:'tenStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Archery.png', earned: false},
-  {name:'fifteenStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Hot_Air_Balloon.png', earned: false},
-  {name:'twentyStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Duel.png', earned: false},
-  {name:'thirtyStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Empire_State.png', earned: false},
-  {name:'fortyStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Guitar.png', earned: false},
-  {name:'fiftyStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Mona_Lisa.png', earned: false},
-  {name:'sixtyStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Niagara_Falls.png', earned: false},
-  {name:'seventyStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Picnic.png', earned: false},
-  {name:'ninetyStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Skateboard.png', earned: false},
-  {name:'hundredStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Stonehenge.png', earned: false},
-  {name:'thousandStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Sydney.png', earned: false},
-  {name:'millionStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Taj_Mahal.png', earned: false},
-  {name:'threeMillionStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Underwater.png', earned: false},
-  {name:'fourMillionStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Bonjour.png', earned: false}
-];
+// var _allBadges = [
+//   {name:'firstHabit', uri:'https://better-habits.herokuapp.com/assets/Badges/Morning.png', earned: false},
+//   {name:'firstCompletion', uri:'https://better-habits.herokuapp.com/assets/Badges/Bon_Voyage.png', earned: false},
+//   {name:'Top of the World', uri:'https://better-habits.herokuapp.com/assets/Badges/Mountain_Top.png', earned: false},
+//   {name:'fiveStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Bungee.png', earned: false},
+//   {name:'tenStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Archery.png', earned: false},
+//   {name:'fifteenStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Hot_Air_Balloon.png', earned: false},
+//   {name:'twentyStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Duel.png', earned: false},
+//   {name:'thirtyStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Empire_State.png', earned: false},
+//   {name:'fortyStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Guitar.png', earned: false},
+//   {name:'fiftyStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Mona_Lisa.png', earned: false},
+//   {name:'sixtyStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Niagara_Falls.png', earned: false},
+//   {name:'seventyStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Picnic.png', earned: false},
+//   {name:'ninetyStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Skateboard.png', earned: false},
+//   {name:'hundredStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Stonehenge.png', earned: false},
+//   {name:'thousandStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Sydney.png', earned: false},
+//   {name:'millionStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Taj_Mahal.png', earned: false},
+//   {name:'threeMillionStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Underwater.png', earned: false},
+//   {name:'fourMillionStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Bonjour.png', earned: false}
+// ];
   // Extra Badges
   // {name:'eightyStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Pyramids.png', earned: false},
   // {name:'twoMillionStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Traffic.png', earned: false},
 
-var Badges = React.createClass({
+var BadgeView = React.createClass({
   getInitialState: function () {
     return {
       dataSource: new ListView.DataSource({
@@ -44,7 +44,7 @@ var Badges = React.createClass({
       })
     };
   },
-  
+
   componentDidMount: function () {
     var _this = this;
     _allBadges.forEach(function (badge) {
@@ -54,21 +54,21 @@ var Badges = React.createClass({
         }
       });
     });
-    
+
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(_allBadges)
     });
   },
 
   renderRow: function (rowData, sectionID, rowID) {
-    
-    if(rowData.earned) {
+
+    if (rowData.earned) {
       return (
         <View>
           <TouchableOpacity underlayColor="transparent">
           <View style={styles.row}>
             <Image style={styles.badges} source={{uri: rowData.uri}} />
-            <Text sytle={styles.names}>{rowData.name}</Text>
+            <Text style={styles.names}>{rowData.name}</Text>
           </View>
           </TouchableOpacity>
         </View>
@@ -79,7 +79,7 @@ var Badges = React.createClass({
         <TouchableOpacity underlayColor="transparent">
         <View style={styles.row}>
           <Image style={styles.unearnedBadges} source={{uri: rowData.uri}} />
-          <Text sytle={styles.names}>{rowData.name}</Text>
+          <Text style={styles.names}>{rowData.name}</Text>
         </View>
         </TouchableOpacity>
       </View>
@@ -106,13 +106,12 @@ var Badges = React.createClass({
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderRow}
-          // scrollEnabled={false}
           contentContainerStyle={styles.list}
           initialListSize={21}
           pageSize={3}
         />
       </View>
-    )
+    );
   }
 
 });
@@ -136,7 +135,7 @@ var NavigationBarRouteMapper = {
   Title(route, navigator, index, navState) {
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
-        <Text style={{color: 'white', margin: 10, fontSize: 16}}>
+        <Text style={{color: 'white', margin: 10, fontSize: 18}}>
           All Badges
         </Text>
       </TouchableOpacity>
@@ -175,8 +174,10 @@ var styles = StyleSheet.create({
     opacity: 0.2
   },
   names: {
-    color: '#B3B9B9'
-  }
+    color: '#B3B9B9',
+    width: 120,
+    textAlign: 'center',
+  },
 });
 
-module.exports = Badges;
+module.exports = BadgeView;

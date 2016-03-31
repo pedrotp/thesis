@@ -74,10 +74,10 @@ var HabitDetails = React.createClass({
         instances: responseData,
         dataSource: this.state.dataSource.cloneWithRows(days)
       });
-      
+
       _habitInstances = responseData;
       _habit = this.props.habit;
-      
+
     }).bind(this))
     .catch(function (err) {
       console.warn(err);
@@ -262,7 +262,6 @@ var NavigationBarRouteMapper = {
       </TouchableOpacity>
     );
   },
-  
 
   RightButton(route, navigator, index, navState) {
     return (
@@ -279,7 +278,7 @@ var NavigationBarRouteMapper = {
   Title(route, navigator, index, navState) {
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
-        <Text style={{color: 'white', margin: 10, fontSize: 16}}>
+        <Text style={{color: 'white', margin: 10, fontSize: 18}}>
           Habit Details
         </Text>
       </TouchableOpacity>
