@@ -1,6 +1,7 @@
 var React = require('react-native');
 var ProgressBar = require('react-native-progress-bar');
 var Button = require('react-native-button');
+var api = require('../lib/api')
 var View = React.View;
 var Text = React.Text;
 var Image = React.Image;
@@ -8,7 +9,6 @@ var ListView = React.ListView;
 var Navigator = React.Navigator;
 var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
-var api = require('../lib/api')
 
 var Profile = React.createClass({
   getInitialState: function () {
@@ -21,8 +21,10 @@ var Profile = React.createClass({
       userName: this.props.user.userName,
       photo: this.props.profile.picture,
       user: this.props.user,
-      currentStreak: null,
-      currentGoal: null,
+      currentStreakCount: null,
+      currentStreakHabit: null,
+      nextGoalCount: null,
+      nextGoalName: null,
       progress: null,
       habits: null,
       badgeURIs: [],
@@ -75,35 +77,44 @@ var Profile = React.createClass({
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(badgeURIs),
       user: user,
-      currentStreak: current.progress,
-      currentGoal: current.goal,
-      progress: current.progress/current.goal,
+      currentStreakCount: current.progress.count,
+      currentStreakHabit: current.progress.habit,
+      nextGoalCount: current.goal,
+      nextGoalName: current.goalName,
+      progress: current.progress.count/current.goal,
       habits: newData.habits,
       badgeURIs: badgeURIs,
     });
   },
   calculateProgress: function (earnedStreaks, userHabits) {
+    var goal;
+    var goalName;
 
     // Reduces array of userHabits to the longest current streak
     var progress = userHabits.reduce(function (acc, cur) {
-      if (cur.streak.current > acc) {
-        acc = cur.streak.current;
+      if (cur.streak.current > acc.count) {
+        acc.count = cur.streak.current;
+        acc.habit = cur.action;
       }
       return acc;
-    }, 0);
-    var goal;
+    }, {count: 0});
     if (earnedStreaks === 3) {
       goal = 20;
+      goalName = 'Twenty Streak';
     } else if (earnedStreaks === 2) {
       goal = 15;
+      goalName = 'Fifteen Streak';
     } else if (earnedStreaks === 1) {
       goal = 10;
+      goalName = 'Ten Streak';
     } else if (earnedStreaks === 0) {
       goal = 5;
+      goalName = 'Five Streak';
     }
     return {
       progress: progress,
-      goal: goal
+      goal: goal,
+      goalName: goalName,
     };
   },
   goToBadges: function () {
@@ -139,18 +150,16 @@ var Profile = React.createClass({
     return (
       <View>
         <View style={styles.avatar}>
-          <TouchableOpacity>
-            <Image
-              style={styles.avatarPhoto}
-              source={{uri: this.state.photo}}
-            />
-          </TouchableOpacity>
-          <Text style={styles.header}>
+          <Image
+            style={styles.avatarPhoto}
+            source={{uri: this.state.photo}}
+          />
+          <Text style={styles.userName}>
             {this.state.userName}
           </Text>
         </View>
-        <View style={styles.recent}>
-          <Text style={styles.header}>
+        <View style={styles.recentContainer}>
+          <Text style={styles.recentBadgesHeader}>
             Recently Earned Badges
           </Text>
           <ListView
@@ -161,29 +170,30 @@ var Profile = React.createClass({
             contentContainerStyle={styles.recentBadges}
           />
         </View>
-        <View>
-          <Text style={styles.header}>
-            Next badge in {this.state.currentGoal - this.state.currentStreak} consecutive completions
+        <View style={styles.streaks}>
+          <Text style={styles.progressHeader}>
+            {this.state.currentStreakHabit}
+          </Text>
+          <Text>
+            Current streak: {this.state.currentStreakCount}
           </Text>
           <ProgressBar
             fillStyle={styles.progressFill}
             backgroundStyle={styles.progress}
-            style={{marginTop: 10, width: 300, height: 15}}
+            style={{marginVertical: 10, width: 300, height: 15}}
             progress={this.state.progress}
           />
-        </View>
-        <View style={styles.streaks}>
           <Text>
-            Best Current Streak: {this.state.currentStreak}
+            {this.state.nextGoalName} badge in {this.state.nextGoalCount - this.state.currentStreakCount} completions
           </Text>
         </View>
         <View>
           <Button
-            containerStyle={styles.logoutContainer}
-            style={styles.logoutText}
+            containerStyle={styles.badgeViewContainer}
+            style={styles.badgeViewText}
             onPress={this.goToBadges}
           >
-            Go to Badges
+            View All Badges
           </Button>
           <Button
             containerStyle={styles.logoutContainer}
@@ -210,7 +220,7 @@ var NavigationBarRouteMapper = {
   Title(route, navigator, index, navState) {
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
-        <Text style={{color: 'white', margin: 10, fontSize: 16}}>
+        <Text style={{color: 'white', margin: 10, fontSize: 18}}>
           Profile
         </Text>
       </TouchableOpacity>
@@ -220,8 +230,11 @@ var NavigationBarRouteMapper = {
 
 var styles = StyleSheet.create({
   avatar: {
-    marginTop: 90,
-    marginBottom: 35,
+    top: 65,
+    paddingTop: 25,
+    paddingBottom: 15,
+    marginBottom: 20,
+    backgroundColor: '#eee',
   },
   avatarPhoto: {
     flexDirection: 'row',
@@ -236,9 +249,30 @@ var styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
   },
-  header: {
+  recentContainer: {
+    marginBottom: 15,
+  },
+  recentBadgesHeader: {
     textAlign: 'center',
-    fontSize: 18
+    fontSize: 18,
+    marginTop: 65,
+    marginBottom: 10,
+  },
+  recentBadges: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    height: 90,
+  },
+  progressHeader: {
+    textAlign: 'center',
+    fontSize: 22,
+    marginBottom: 5,
+  },
+  userName: {
+    textAlign: 'center',
+    fontSize: 22,
+    fontWeight: 'bold',
   },
   progressFill: {
     backgroundColor: '#6399DC',
@@ -247,39 +281,42 @@ var styles = StyleSheet.create({
   progress: {
     backgroundColor: '#aaa',
     borderRadius: 7,
-    alignSelf: 'center'
-  },
-  recent: {
-    marginBottom: 30,
   },
   badges: {
-    height: 75,
-    width: 75,
+    height: 70,
+    width: 70,
     marginHorizontal: 7
   },
-  recentBadges: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    height: 90
-  },
   streaks: {
-    marginVertical: 40,
+    marginBottom: 8,
+    alignItems: 'center'
   },
-  logoutContainer: {
+  badgeViewContainer: {
     alignSelf: 'center',
     height: 35,
-    width: 300,
+    width: 275,
     padding: 10,
     overflow: 'hidden',
     borderRadius: 4,
     backgroundColor: '#6399DC',
-    marginTop: 10,
+    marginTop: 15,
+  },
+  badgeViewText: {
+    fontSize: 14,
+    color: '#fff',
+  },
+  logoutContainer: {
+    alignSelf: 'center',
+    height: 35,
+    width: 275,
+    padding: 10,
+    overflow: 'hidden',
+    marginTop: 12,
   },
   logoutText: {
     fontSize: 14,
-    color: '#fff'
-  }
+    color: '#e14f3f',
+  },
 });
 
 module.exports = Profile;

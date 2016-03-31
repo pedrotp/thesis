@@ -263,7 +263,6 @@ var NavigationBarRouteMapper = {
     );
   },
 
-
   RightButton(route, navigator, index, navState) {
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}

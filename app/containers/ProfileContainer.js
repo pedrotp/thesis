@@ -7,7 +7,7 @@ var Navigator = React.Navigator;
 var api = require('../lib/api');
 
 var Profile = require('../components/Profile');
-var Badges = require('../components/Badges');
+var BadgeView = require('../components/BadgeView');
 
 var ProfileContainer = React.createClass({
   configureScene: function (route, routeStack) {
@@ -42,7 +42,7 @@ var ProfileContainer = React.createClass({
     }
     if (routeId == 'Badges') {
       return (
-        <Badges
+        <BadgeView
           navigator={navigator}
           earnedBadges={route.earnedBadges}
         />

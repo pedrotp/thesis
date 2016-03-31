@@ -1,7 +1,7 @@
 var Habits = require('../db/models').Habits;
 var Instances = require('../db/models').Instances;
 var User = require('../db/models').User;
-var Badges = require('./badges')
+var Badges = require('./badgeHelpers');
 var moment = require('moment');
 var sms = require('./sms');
 
@@ -32,7 +32,7 @@ var addHabit = function (email, habitDetails) {
         user.newUser = false;
 
         // user is saved in awardBadge
-        var toast = Badges.awardBadge(user, 'firstHabit');
+        var toast = Badges.awardBadge(user, 'First Step');
       }
       var habit = habits.store.create(habitDetails);
       var instances = new Instances;

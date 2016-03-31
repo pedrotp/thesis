@@ -86,15 +86,15 @@ var routes = [
       var habit = req.body;
       if (habit.action) {
         helpers.addHabit(userEmail, habit)
-        .then(function (data) {
-          res.status(201).json(data);
-        })
-        .catch(function (err) {
-          if (!testing) {
-            console.error('Server error:', err)
-          }
-          res.sendStatus(400);
-        });
+          .then(function (data) {
+            res.status(201).json(data);
+          })
+          .catch(function (err) {
+            if (!testing) {
+              console.error('Server error:', err)
+            }
+            res.sendStatus(400);
+          });
       } else {
         res.sendStatus(400);
       }
