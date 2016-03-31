@@ -177,9 +177,9 @@ var Profile = React.createClass({
         </View>
         <View style={styles.streaks}>
           <Text style={styles.progressHeader}>
-            {this.state.currentStreakHabit || 'Create a habit!'}
+            {this.state.currentStreakHabit || 'Don\'t forget your habits!'}
           </Text>
-          <Text>
+          <Text style={{fontFamily: 'Avenir'}}>
             Current streak: {this.state.currentStreakCount}
           </Text>
           <ProgressBar
@@ -188,9 +188,10 @@ var Profile = React.createClass({
             style={{marginVertical: 10, width: 300, height: 15}}
             progress={this.state.progress}
           />
-          <Text>
-            {this.state.nextGoalName} badge in {this.state.nextGoalCount - this.state.currentStreakCount} more completions
-          </Text>
+        <Text style={{fontFamily: 'Avenir'}}>
+          <Text style={{fontWeight: 'bold'}}>{this.state.nextGoalName} </Text>
+          <Text>badge in {this.state.nextGoalCount - this.state.currentStreakCount} more completions</Text>
+        </Text>
         </View>
         <View>
           <Button
@@ -260,6 +261,7 @@ var styles = StyleSheet.create({
   recentBadgesHeader: {
     textAlign: 'center',
     fontSize: 18,
+    fontFamily: 'Avenir',
     marginTop: 65,
     marginBottom: 10,
   },
@@ -272,12 +274,14 @@ var styles = StyleSheet.create({
   progressHeader: {
     textAlign: 'center',
     fontSize: 22,
+    fontFamily: 'Avenir',
     marginBottom: 5,
   },
   userName: {
     textAlign: 'center',
     fontSize: 22,
     fontWeight: 'bold',
+    fontFamily: 'Avenir',
   },
   progressFill: {
     backgroundColor: '#6399DC',
@@ -308,10 +312,12 @@ var styles = StyleSheet.create({
   },
   badgeViewText: {
     fontSize: 14,
+    fontFamily: 'Avenir',
     color: '#fff',
   },
   badgeTitle: {
     fontSize: 12,
+    fontFamily: 'Avenir',
     alignSelf: 'center',
   },
   logoutContainer: {
@@ -324,6 +330,7 @@ var styles = StyleSheet.create({
   },
   logoutText: {
     fontSize: 14,
+    fontFamily: 'Avenir',
     color: '#e14f3f',
   },
 });
