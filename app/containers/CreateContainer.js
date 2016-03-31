@@ -40,7 +40,7 @@ var AddHabit = React.createClass({
   },
   goToInbox: function (badge) {
     if (this.props.onboard === true) {
-      this.props.resetToTabs();
+      this.props.resetToTabs(badge);
     } else {
       if (badge) {
         this.props.navigator.push({ id: 'Habits', badge: badge});

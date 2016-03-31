@@ -87,7 +87,7 @@ var TabContainer = React.createClass({
       });
     }).bind(this));
   },
-  resetToTabs: function () {
+  resetToTabs: function (badge) {
     fetch(process.env.SERVER + '/user/' + this.state.user.email, {
         method: 'GET',
         headers: {
@@ -103,7 +103,8 @@ var TabContainer = React.createClass({
       .then((function (response) {
         this.setState({
           user: response.user,
-          onboard: false
+          onboard: false,
+          badge: badge
         })
       }).bind(this))
       .catch(function (err) {
@@ -146,6 +147,7 @@ var TabContainer = React.createClass({
                 token={this.state.token}
                 profile={this.state.profile}
                 user={this.state.user}
+                badge={this.state.badge}
               />
             </Icon.TabBarItemIOS>
             <Icon.TabBarItemIOS
