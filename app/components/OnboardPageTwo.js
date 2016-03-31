@@ -26,7 +26,7 @@ var OnboardPageTwo = React.createClass({
         </Text>
         <Image style={styles.img} source={{uri: 'http://better-habits.herokuapp.com/assets/bars.png'}}/>
         <Text style={styles.instructions}>
-          Pick a habit that will get you closer to your goal, but will be easy to do every day. We will move up together from there. 
+          Pick a habit that will get you closer to your goal, but will be easy to do every day. We will move up together from there.
         </Text>
       </View>
     );
@@ -41,14 +41,16 @@ var styles = StyleSheet.create({
     backgroundColor: '#EDBE40'
   },
   welcome: {
-    fontSize: 30,
+    fontFamily: 'Avenir',
+    fontSize: 34,
     fontWeight: 'bold',
     textAlign: 'center',
     margin: 10,
     color: '#FFF'
   },
   instructions: {
-    fontSize: 20,
+    fontFamily: 'Avenir',
+    fontSize: 22,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 5,

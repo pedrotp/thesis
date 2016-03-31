@@ -111,31 +111,34 @@ var styles = StyleSheet.create({
     alignSelf: 'center'
   },
   welcome: {
-    fontSize: 24,
+    fontSize: 27,
+    fontFamily: 'Avenir',
     fontWeight: 'bold',
     textAlign: 'center',
     margin: 10,
     color: '#FFFFFF'
   },
   textInput: {
-    padding:10, 
-    height:45, 
-    overflow:'hidden', 
-    borderRadius:4, 
-    backgroundColor: 'white', 
+    padding:10,
+    height:45,
+    overflow:'hidden',
+    borderRadius:4,
+    backgroundColor: 'white',
     marginTop: 20,
     marginLeft: 20,
-    marginRight: 20
+    marginRight: 20,
+    fontFamily: 'Avenir',
   },
   buttonText: {
-    fontSize: 20, color: 'white'
+    fontSize: 20, color: 'white',
+    fontFamily: 'Avenir'
   },
   buttonContainer: {
-    padding:10, 
-    height:45, 
-    overflow:'hidden', 
-    borderRadius:4, 
-    backgroundColor: '#6399DC', 
+    padding:10,
+    height:45,
+    overflow:'hidden',
+    borderRadius:4,
+    backgroundColor: '#6399DC',
     marginTop: 20,
     marginLeft: 20,
     marginRight: 20
@@ -143,17 +146,19 @@ var styles = StyleSheet.create({
   tips: {
     alignSelf: 'center',
     width: 250,
-    marginTop: 75,
+    marginTop: 40,
   },
   tipheader: {
     color: '#ffffff',
-    fontSize: 24,
+    fontSize: 27,
+    fontFamily: 'Avenir',
     fontWeight: 'bold',
     textAlign: 'left',
   },
   tiptext: {
     color: '#ffffff',
-    fontSize: 20,
+    fontFamily: 'Avenir',
+    fontSize: 22,
     fontWeight: 'bold',
     textAlign: 'left',
   }

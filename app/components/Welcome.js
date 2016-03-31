@@ -55,20 +55,23 @@ var styles = StyleSheet.create({
     backgroundColor: '#EDBE40'
   },
   welcome: {
-    fontSize: 30,
+    fontFamily: 'Avenir',
+    fontSize: 34,
     fontWeight: 'bold',
     textAlign: 'center',
     margin: 10,
     color: '#FFF'
   },
   instructions: {
-    fontSize: 18,
+    fontFamily: 'Avenir',
+    fontSize: 22,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 5,
     color: '#FFF'
   },
   buttonText: {
+    fontFamily: 'Avenir',
     fontSize: 20, color: 'white'
   },
   buttonContainer: {

@@ -167,7 +167,7 @@ var styles = StyleSheet.create({
   },
   circleButton: {
     position: 'absolute',
-    top: 485,
+    top: 480,
     right: 20,
     height: 60,
     width: 60,
@@ -179,8 +179,8 @@ var styles = StyleSheet.create({
     shadowOpacity: 0.6,
     shadowRadius: 4,
     shadowOffset: {
-      height: 3.5,
-      width: 2
+      height: 4,
+      width: 3
     }
   },
 });
