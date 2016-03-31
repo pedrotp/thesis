@@ -30,12 +30,15 @@ var Profile = React.createClass({
       badgeURIs: [],
     }
   },
+
   componentDidMount: function () {
     this.refreshUserData();
   },
+
   componentWillReceiveProps: function () {
     this.refreshUserData();
   },
+
   refreshUserData: function () {
     fetch(process.env.SERVER + '/user/' + this.props.user.email, {
       method: 'GET',
@@ -52,6 +55,7 @@ var Profile = React.createClass({
       console.warn(err);
     });
   },
+
   parseUserData: function (newData) {
     var user = newData.user;
     var habits = newData.habits;
@@ -64,9 +68,11 @@ var Profile = React.createClass({
       'Top of the World': true
     };
 
-    badges.forEach(function (badge) {
+    badges.forEach(function (badge, i) {
       var badgeTitle = Object.keys(badge)[0];
-      badgeURIs.push({ name: badgeTitle, uri: badge[badgeTitle] });
+      if (i >= badges.length - 3) {
+        badgeURIs.push({ name: badgeTitle, uri: badge[badgeTitle] });
+      }
       if (!nonStreakBadges.hasOwnProperty(badgeTitle)) {
         earned++;
       }
@@ -86,6 +92,7 @@ var Profile = React.createClass({
       badgeURIs: badgeURIs,
     });
   },
+
   calculateProgress: function (earnedStreaks, userHabits) {
     var goal;
     var goalName;
@@ -117,12 +124,14 @@ var Profile = React.createClass({
       goalName: goalName,
     };
   },
+
   goToBadges: function () {
     this.props.navigator.push({
       id: 'Badges',
       earnedBadges: this.state.user.badges
     });
   },
+
   renderRow: function (badges) {
     return (
       <View>
@@ -138,6 +147,7 @@ var Profile = React.createClass({
       </View>
     );
   },
+
   render: function () {
     return (
       <Navigator
@@ -151,6 +161,7 @@ var Profile = React.createClass({
       />
     );
   },
+
   renderScene: function () {
     return (
       <View>
