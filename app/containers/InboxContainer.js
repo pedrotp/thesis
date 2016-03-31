@@ -167,7 +167,7 @@ var styles = StyleSheet.create({
   },
   circleButton: {
     position: 'absolute',
-    top: 485,
+    top: 480,
     right: 20,
     height: 60,
     width: 60,
