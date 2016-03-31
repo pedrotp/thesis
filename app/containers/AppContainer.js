@@ -75,6 +75,7 @@ var AppContainer = React.createClass({
           navigator={navigator}
           token={this.state.token}
           profile={this.state.profile}
+          route={route}
         />
       );
     }

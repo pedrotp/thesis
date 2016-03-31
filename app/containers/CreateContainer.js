@@ -17,7 +17,6 @@ var AddHabit = React.createClass({
       }
     }
   },
-
   sendHabit: function (reqbody) {
     fetch(process.env.SERVER + '/habits/' + this.props.profile.email, {
       method: 'POST',
@@ -33,21 +32,21 @@ var AddHabit = React.createClass({
       return response.json();
     })
     .then((function (resJSON) {
-      if (resJSON.toast !== undefined && resJSON.toast.length > 0) {
-        Alert.alert('Badge Earned', '' + resJSON.toast, [{text: 'Ok', onPress: this.goToInbox}]);
-      } else {
-        this.goToInbox();
-      }
+      this.goToInbox(resJSON.badge);
     }).bind(this))
     .catch(function (err) {
       console.warn(err);
     });
   },
-  goToInbox: function () {
+  goToInbox: function (badge) {
     if (this.props.onboard === true) {
       this.props.resetToTabs();
     } else {
-      this.props.navigator.push({ id: 'Habits' });
+      if (badge) {
+        this.props.navigator.push({ id: 'Habits', badge: badge});
+      } else {
+        this.props.navigator.push({ id: 'Habits'});
+      }
     }
   },
   handleClick: function () {

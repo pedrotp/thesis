@@ -9,7 +9,11 @@ var awardBadge = function (user, badge) {
   user.badges.push(newBadge);
   user.save();
   // if badge is being awarded, setup toast return
-  return _badges[badge].toastText;
+  return {
+    name: badge,
+    toast: _badges[badge].toast,
+    icon: _badges[badge].uri;
+  } 
 };
 
 var checkBadges = function (email, habit, habits) {

@@ -19,7 +19,7 @@ function Inbox (props) {
     },
   ];
 
-  var done = props.habit.lastDone && moment(props.habit.lastDone).isSame(Date.now(), 'day');
+  var done = props.habit.lastDone && moment().isSame(props.habit.lastDone, 'day');
 
   return (
     <View style={styles.swipeContainer}>
