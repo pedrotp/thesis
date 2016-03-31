@@ -280,7 +280,7 @@ var HabitSettings = React.createClass({
             styleDisabled={{color: 'red'}}
             onPress={(function () { this.deleteHabit(this.state.habit._id); }).bind(this)}
           >
-            Delete Habit
+            Delete
           </Button>
         </View>
       );
@@ -329,26 +329,30 @@ var styles = StyleSheet.create({
     fontFamily: 'Avenir',
   },
   deleteButtonText: {
-    fontSize: 20,
+    fontSize: 14,
     fontFamily: 'Avenir',
     color: '#e14f3f',
   },
   deleteButtonContainer: {
+    alignSelf: 'center',
     padding: 10,
-    height: 45,
+    height: 35,
+    width: 275,
     overflow:'hidden',
     borderRadius: 4,
     backgroundColor: 'white',
     marginTop: 15
   },
   updateButtonText: {
-    fontSize: 20,
+    fontSize: 14,
     fontFamily: 'Avenir',
     color: 'white',
   },
   updateButtonContainer: {
+    alignSelf: 'center',
     padding: 10,
-    height: 45,
+    height: 35,
+    width: 275,
     overflow:'hidden',
     borderRadius: 4,
     backgroundColor: '#6399DC',
