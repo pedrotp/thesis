@@ -28,7 +28,8 @@ var Habits = React.createClass({
         }
       }),
       scrollEnabled: true,
-      alert: false
+      alert: false,
+      badge: {}
     }
   },
   // TODO: refactor server call to api library
@@ -61,14 +62,15 @@ var Habits = React.createClass({
   showAlert: function (badge) {
     setTimeout((function () {
       this.setState({
-        alert: badge,
+        alert: true,
+        badge: badge
       });
-    }).bind(this), 600); 
+    }).bind(this), 500); 
     setTimeout((function () {
       this.setState({
         alert: false,
       });
-    }).bind(this), 2000);  
+    }).bind(this), 3200);  
   },
   toggleInstance: function (habitId) {
     // TODO: refactor server call to api library
@@ -149,10 +151,7 @@ var Habits = React.createClass({
           automaticallyAdjustContentInsets={false}
           scrollEnabled={this.state.scrollEnabled}
         />
-        <Notification visible={!!this.state.alert}>
-          <Text style={styles.alertTitle}>You crushed a badge!</Text>
-          <Image style={{ height: 70, width: 70}} source={{uri: this.state.alert ? this.state.alert.icon : null}} />
-          <Text style={styles.alertText}>{this.state.alert ? this.state.alert.name : null}</Text>
+        <Notification visible={this.state.alert} name={ this.state.badge ? this.state.badge.name : null } icon={ this.state.badge ? this.state.badge.icon : null }>
         </Notification>
         <TouchableOpacity style={styles.circleButton} onPress={this.handlePress}>
           <Icon name='plus' size={25} color='#ffffff' />
@@ -205,7 +204,7 @@ var styles = StyleSheet.create({
       height: 4,
       width: 3
     }
-  }
+  },
 });
 
 module.exports = Habits;

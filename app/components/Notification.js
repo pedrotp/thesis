@@ -65,30 +65,32 @@ var Notification = React.createClass({
   },
 
   render: function () {
-    var contents = this.props.children;
-
-    if (!contents) {
-      return null;
-    }
+    if (this.props.icon) var icon = this.props.icon.substring(0);
+    if (this.props.name) var name = this.props.name.substring(0);
 
     return (
       <Animated.View style={[Notification.styles.container, {opacity: this.state.opacityValue}]}>
-        <View style={Notification.styles.contents}>{contents}</View>
+        <Animated.View style={[Notification.styles.contents, {opacity: this.state.opacityValue}]}>
+          <Animated.Text style={[Notification.styles.alertTitle, {opacity: this.state.opacityValue}]}>You crushed a badge!</Animated.Text>
+          <Animated.Image style={[Notification.styles.alertImage, {opacity: this.state.opacityValue}]} source={{uri: icon }} />
+          <Animated.Text style={[Notification.styles.alertText, {opacity: this.state.opacityValue}]}>{name}</Animated.Text>
+        </Animated.View>
       </Animated.View>
     );
   },
 });
 
 Notification.propTypes = {
-  children: PropTypes.node,
   visible: PropTypes.bool,
+  icon: PropTypes.string,
+  name: PropTypes.string
 };
 
 Notification.defaultProps = {
-  visible: true,
+  visible: false,
 };
 
-Notification.fadeTime = 500;
+Notification.fadeTime = 600;
 Notification.minOpacity = 0.0;
 Notification.maxOpacity = 0.9;
 
@@ -115,7 +117,26 @@ Notification.styles = {
     flexDirection: 'column',
     alignItems: 'center',
     padding: 10,
+    opacity: Notification.minOpacity
   },
+  alertTitle: {
+    fontSize: 16,
+    color: '#6b6b6b',
+    fontWeight: 'bold',
+    marginBottom: 5,
+    opacity: Notification.minOpacity
+  },
+  alertText: {
+    fontSize: 14,
+    color: '#6b6b6b',
+    marginTop: 5,
+    opacity: Notification.minOpacity
+  },
+  alertImage: {
+    height: 70,
+    width: 70,
+    opacity: Notification.minOpacity
+  }
 };
 
 module.exports = Notification;
