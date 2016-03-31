@@ -1,5 +1,5 @@
+// React Native components
 var React = require('react-native');
-var api = require('../lib/api');
 var View = React.View;
 var Text = React.Text;
 var StyleSheet = React.StyleSheet;
@@ -7,14 +7,16 @@ var Navigator = React.Navigator;
 var TouchableOpacity = React.TouchableOpacity;
 var ListView = React.ListView;
 
+// external libraries and components
 var moment = require('moment');
+var Icon = require('react-native-vector-icons/FontAwesome');
 
+// custom components and methods
 var getPeriodArray = require('../lib/calendar').getPeriodArray;
 var getDaysArray = require('../lib/calendar').getDaysArray;
 var calendarLabel = require('../lib/calendar').calendarLabel;
-
+var api = require('../lib/api');
 var Note = require('./Note');
-var Icon = require('react-native-vector-icons/FontAwesome');
 
 // global variables
 var _habitInstances;
@@ -57,7 +59,6 @@ var HabitDetails = React.createClass({
     .then((function (responseData) {
       var period = getPeriodArray();
       var days = getDaysArray(period);
-
       days.forEach(function(day) {
         responseData.forEach(function(instance) {
           if(moment(day.ISOString).isSame(instance.createdAt, 'day')) {
@@ -67,17 +68,13 @@ var HabitDetails = React.createClass({
           }
         });
       });
-
       days = calendarLabel().concat(days);
-
       this.setState({
         instances: responseData,
         dataSource: this.state.dataSource.cloneWithRows(days)
       });
-
       _habitInstances = responseData;
       _habit = this.props.habit;
-
     }).bind(this))
     .catch(function (err) {
       console.warn(err);
@@ -412,4 +409,5 @@ var styles = StyleSheet.create({
     alignItems: 'center'
   }
 });
+
 module.exports = HabitDetails;
