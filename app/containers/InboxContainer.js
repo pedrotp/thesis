@@ -179,8 +179,8 @@ var styles = StyleSheet.create({
     shadowOpacity: 0.6,
     shadowRadius: 4,
     shadowOffset: {
-      height: 3.5,
-      width: 2
+      height: 4,
+      width: 3
     }
   },
 });
