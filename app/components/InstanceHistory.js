@@ -21,7 +21,7 @@ var InstanceHistory = React.createClass({
         })
       }
   },
-  
+
   componentDidMount: function () {
     var days = getInstancePeriod(this.props.habit.createdAt, moment().format());
     days.forEach(function(day) {
@@ -36,8 +36,8 @@ var InstanceHistory = React.createClass({
       dataSource: this.state.dataSource.cloneWithRows(days)
     })
   },
-  
-  renderRow: function (rowData, sectionID, rowID) {    
+
+  renderRow: function (rowData, sectionID, rowID) {
     if(rowData.done) {
       return (
         <View style={styles.row} >
@@ -63,7 +63,7 @@ var InstanceHistory = React.createClass({
       </View>
     )
   },
-  
+
   render: function () {
     return (
       <View style={{ flex: 1 }}>
@@ -79,11 +79,11 @@ var InstanceHistory = React.createClass({
       </View>
     );
   },
-  
+
   renderScene: function (route, navigator) {
     return (
       <View style={styles.container}>
-        <ListView 
+        <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderRow}
           renderHeader={ function () { return (<View><Text style={styles.header}>{this.props.habit.action}</Text></View>)}.bind(this)}
@@ -112,7 +112,7 @@ var NavigationBarRouteMapper = {
   Title(route, navigator, index, navState) {
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
-        <Text style={{color: 'white', margin: 10, fontSize: 16}}>
+        <Text style={{color: 'white', margin: 10, fontSize: 18}}>
           History
         </Text>
       </TouchableOpacity>
@@ -129,12 +129,11 @@ var styles = StyleSheet.create({
     paddingTop: 10
   },
   row: {
-      flexDirection: 'row',
-      // justifyContent: 'center',
-      padding: 10,
-      borderBottomWidth: 1,
-      borderColor: '#CCCCCC',
-      backgroundColor: '#F6F6F6'
+    flexDirection: 'row',
+    padding: 10,
+    borderBottomWidth: 1,
+    borderColor: '#CCCCCC',
+    backgroundColor: '#F6F6F6'
   },
   header: {
     padding: 10,
@@ -143,7 +142,6 @@ var styles = StyleSheet.create({
     textAlign: 'center'
   },
   date: {
-    // flex: 1
     marginTop: 10,
     marginBottom: 10,
     fontSize: 18

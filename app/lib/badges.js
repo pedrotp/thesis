@@ -30,30 +30,30 @@ var badges = {
       return false;
     }
   },
-  'On a Roll': {
+  'Gone Streaking': {
     toastText: 'You\'re On a Roll!',
-    uri: 'https://better-habits.herokuapp.com/assets/Badges/Skateboard.png',
+    uri: 'https://better-habits.herokuapp.com/assets/Badges/Bon_Voyage.png',
     check: function (habit) {
       return habit.streak.current === 5;
     }
   },
-  'On Point': {
+  'On a Roll': {
     toastText: 'Ten in a row! You\'re amazing!',
-    uri: 'https://better-habits.herokuapp.com/assets/Badges/Archery.png',
+    uri: 'https://better-habits.herokuapp.com/assets/Badges/Skateboard.png',
     check: function (habit) {
       return habit.streak.current === 10;
     }
   },
-  'Soaring': {
+  'On Point': {
     toastText: 'Fifteen in a row? You\'re on another level!',
-    uri: 'https://better-habits.herokuapp.com/assets/Badges/Hot_Air_Balloon.png',
+    uri: 'https://better-habits.herokuapp.com/assets/Badges/Archery.png',
     check: function (habit) {
       return habit.streak.current === 15;
     }
   },
-  'Gone Streaking': {
+  'Soaring': {
     toastText: 'You earned the Twenty Streak badge!',
-    uri: 'https://better-habits.herokuapp.com/assets/Badges/Bon_Voyage.png',
+    uri: 'https://better-habits.herokuapp.com/assets/Badges/Hot_Air_Balloon.png',
     check: function () {
       return false;
     }
@@ -72,7 +72,7 @@ var badges = {
       return false;
     }
   },
-  'Guitar': {
+  'Music to my Ears': {
     toastText: 'You earned the Thirty-Five Streak badge!',
     uri: 'https://better-habits.herokuapp.com/assets/Badges/Guitar.png',
     check: function () {

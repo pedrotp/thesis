@@ -22,12 +22,12 @@ var BadgeView = React.createClass({
   },
 
   componentDidMount: function () {
-    
+
     var allBadges = [];
     for(var key in badges) {
       allBadges.push({name: key, uri: badges[key].uri, earned: false});
     }
-    
+
     allBadges.forEach(function (badge) {
       this.props.earnedBadges.forEach(function (userBadge) {
         if(userBadge.hasOwnProperty(badge.name)) {
@@ -127,7 +127,8 @@ var NavigationBarRouteMapper = {
 var styles = StyleSheet.create({
   container: {
     flex: 0.90,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginBottom: 50,
   },
   list: {
     top: 90,
