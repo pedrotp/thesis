@@ -162,15 +162,8 @@ var NavigationBarRouteMapper = {
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 54,
-    paddingTop: 10,
-    paddingBottom: 10,
-    backgroundColor: '#ffffff',
-  },
-  header: {
-    fontSize: 25,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    marginTop: 60,
+    backgroundColor: '#EDBE40',
   },
   circleButton: {
     position: 'absolute',
@@ -190,10 +183,6 @@ var styles = StyleSheet.create({
       width: 2
     }
   },
-  buttonText: {
-    fontSize: 15,
-    color: '#FFFFFF',
-  }
 });
 
 module.exports = Habits;

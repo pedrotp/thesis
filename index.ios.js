@@ -130,7 +130,7 @@ var TabContainer = React.createClass({
         )
       } else {
         return (
-          <TabBarIOS tintColor='#6399DC' selectedTab={this.state.selectedTab}>
+          <TabBarIOS tintColor='#6399DC' transluscent={false} barTintColor='#fff' selectedTab={this.state.selectedTab}>
             <Icon.TabBarItemIOS
               selected={this.state.selectedTab === 'inbox'}
               title='Habits'
