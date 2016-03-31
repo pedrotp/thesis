@@ -38,7 +38,7 @@ var InstanceHistory = React.createClass({
   },
 
   renderRow: function (rowData, sectionID, rowID) {
-    if(rowData.done) {
+    if (rowData.done) {
       return (
         <View style={styles.row} >
           <Text style={styles.date} >{ moment(rowData.ISOString).format('MMMM Do YYYY') }</Text>
@@ -54,12 +54,10 @@ var InstanceHistory = React.createClass({
         <Text style={styles.date}>
           {moment(rowData.ISOString).format('MMMM Do YYYY')}
         </Text>
-        <TouchableOpacity style={styles.touch}>
           <Image
             source={ {uri: 'http://better-habits.herokuapp.com/assets/done_gray.png'} }
             style={ styles.img }
           />
-        </TouchableOpacity>
       </View>
     );
   },

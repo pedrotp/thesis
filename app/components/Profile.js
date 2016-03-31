@@ -234,7 +234,7 @@ var Profile = React.createClass({
           <Text>badge in {this.state.nextGoalCount - this.state.currentStreakCount} more completions</Text>
         </Text>
         </View>
-        <View>
+        <View style={styles.container}>
           <Button
             containerStyle={styles.badgeViewContainer}
             style={styles.badgeViewText}
@@ -276,6 +276,9 @@ var NavigationBarRouteMapper = {
 };
 
 var styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 20,
+  },
   avatar: {
     top: 65,
     paddingTop: 25,
@@ -297,13 +300,13 @@ var styles = StyleSheet.create({
     marginBottom: 10,
   },
   recentContainer: {
-    marginBottom: 15,
+    marginBottom: 10,
   },
   recentBadgesHeader: {
     textAlign: 'center',
     fontSize: 18,
     fontFamily: 'Avenir',
-    marginTop: 65,
+    marginTop: 55,
     marginBottom: 10,
   },
   recentBadges: {
@@ -316,7 +319,7 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 22,
     fontFamily: 'Avenir',
-    marginBottom: 5,
+    // marginBottom: 5,
   },
   userName: {
     textAlign: 'center',
@@ -338,13 +341,11 @@ var styles = StyleSheet.create({
     marginHorizontal: 14,
   },
   streaks: {
-    marginBottom: 8,
+    // marginBottom: 8,
     alignItems: 'center'
   },
   badgeViewContainer: {
-    alignSelf: 'center',
-    height: 35,
-    width: 275,
+    height: 45,
     padding: 10,
     overflow: 'hidden',
     borderRadius: 4,
@@ -352,7 +353,7 @@ var styles = StyleSheet.create({
     marginTop: 15,
   },
   badgeViewText: {
-    fontSize: 14,
+    fontSize: 20,
     fontFamily: 'Avenir',
     color: '#fff',
   },
@@ -362,15 +363,13 @@ var styles = StyleSheet.create({
     alignSelf: 'center',
   },
   logoutContainer: {
-    alignSelf: 'center',
-    height: 35,
-    width: 275,
+    height: 45,
     padding: 10,
     overflow: 'hidden',
     marginTop: 12,
   },
   logoutText: {
-    fontSize: 14,
+    fontSize: 20,
     fontFamily: 'Avenir',
     color: '#e14f3f',
   },
