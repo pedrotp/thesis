@@ -51,9 +51,9 @@ var badges = {
       return habit.streak.current === 5;
     }
   },
-  'On a Roll': {
-    toastText: 'Ten in a row! You\'re on a roll!',
-    uri: 'https://better-habits.herokuapp.com/assets/Badges/Skateboard.png',
+  'HOOOOOO': {
+    toastText: 'Thundercats!',
+    uri: 'https://better-habits.herokuapp.com/assets/Badges/Thundercats.png',
     check: function (habit) {
       return habit.streak.current === 10;
     }
