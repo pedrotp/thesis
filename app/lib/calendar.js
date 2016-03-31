@@ -58,7 +58,7 @@ var getDaysArray = function (array) {
 };
 
 var getInstancePeriod = function (startDate, endDate) {
-  var timeInterval = startDate + '/' + endDate;
+  var timeInterval = moment(startDate).startOf('day').format() + '/' + moment(endDate).startOf('day').format();
   var dr = moment.range(timeInterval);
   
   var instanceArray = dr.toArray('days');
@@ -71,10 +71,11 @@ var getInstancePeriod = function (startDate, endDate) {
   return transform;
 };
 
+// var days = getInstancePeriod('2016-03-29T22:54:48.771Z', '2016-04-01T12:04:29+08:00');
+
 module.exports.getPeriodArray = getPeriodArray;
 module.exports.getDaysArray = getDaysArray;
 module.exports.calendarLabel = calendarLabel;
-
 module.exports.getInstancePeriod = getInstancePeriod;
 
 
