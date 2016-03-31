@@ -289,6 +289,7 @@ var NavigationBarRouteMapper = {
 var styles = StyleSheet.create({
   container: {
     flex: 0.90,
+    paddingHorizontal: 5,
     justifyContent: 'center'
   },
   heading: {
