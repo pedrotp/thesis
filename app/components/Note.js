@@ -19,10 +19,10 @@ var Note = React.createClass({
       instanceId: null,
       rowData: null,
       date: null,
-      note: { note: '' } 
+      note: { note: '' }
     };
   },
-  
+
   componentWillReceiveProps: function (props) {
     this.setState({
       modalVisible: props.visible,
@@ -32,7 +32,7 @@ var Note = React.createClass({
       note: props.note
     });
   },
-  
+
   updateHabit: function () {
     var _this = this;
     fetch(process.env.SERVER + '/habits/' + this.props.profile.email + '/' + this.props.habit._id + '/' + this.props.instanceId, {
@@ -47,7 +47,7 @@ var Note = React.createClass({
     .then(api.handleErrors)
     .then(function (response) {
       _this.props.hideModal();
-      
+
     })
     .then(function () {
       _this.props.getRowData();
@@ -56,28 +56,33 @@ var Note = React.createClass({
       console.warn(err);
     });
   },
-  
+
   handleUpdate: function () {
     this.updateHabit();
   },
-  
-  handleDeleteText: function () {
+
+  handleClearText: function () {
     this.setState( { note: { note: ''}} )
   },
-  
+
+  handleDeleteNote: function () {
+    this.handleClearText();
+    this.handleUpdate();
+  },
+
   onTextChange: function (text) {
     this.setState({
       note: { note: text}
     });
   },
-  
+
   render: function () {
     var modalBackgroundStyle = {backgroundColor: 'rgba(0, 0, 0, 0.5)'};
     var innerContainerTransparentStyle = {backgroundColor: '#fff', padding: 20};
 
     return (
       <View>
-        <Modal 
+        <Modal
           animated={true}
           transparent={true}
           visible={this.state.modalVisible} >
@@ -94,18 +99,15 @@ var Note = React.createClass({
                 maxLength={200}
               />
               <View style={styles.formControls}>
-                <Icon.Button name="times-circle" size={20} iconStyle={{color:"#FFFFFF"}}
-                  onPress={this.handleDeleteText}
-                  style={styles.modalButton}>
-                </Icon.Button>
-                <Icon.Button name="save" size={20} iconStyle={{color:"#FFFFFF"}}
-                  onPress={this.handleUpdate}
-                  style={styles.modalButton}>
-                </Icon.Button>
-                <Icon.Button name="close" size={20} iconStyle={{color:"#FFFFFF"}}
-                  onPress={this.props.hideModal}
-                  style={styles.modalButton}>
-                </Icon.Button>
+                <TouchableOpacity style={styles.modalButton} onPress={this.handleUpdate}>
+                  <Icon name='save' size={25} color='#ffffff' />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.modalButton} onPress={this.handleClearText}>
+                  <Icon name='times-circle-o' size={25} color='#ffffff' />
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.modalButton, styles.deleteButton]} onPress={this.handleDeleteNote}>
+                  <Icon name='trash-o' size={25} color='#ffffff' />
+                </TouchableOpacity>
               </View>
             </View>
           </View>
@@ -113,7 +115,7 @@ var Note = React.createClass({
       </View>
     );
   }
-  
+
 });
 
 var styles = StyleSheet.create({
@@ -128,11 +130,18 @@ var styles = StyleSheet.create({
       alignItems: 'center'
     },
     modalButton: {
-      marginTop: 10
+      marginHorizontal: 5,
+      padding: 10,
+      borderRadius: 5,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: "#6399DC",
+    },
+    deleteButton: {
+      backgroundColor: "red",
     },
     formControls: {
       flexDirection: 'row',
-      padding: 10,
     }
 });
 
