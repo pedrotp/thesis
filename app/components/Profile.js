@@ -58,16 +58,16 @@ var Profile = React.createClass({
     var badges = user.badges;
     var badgeURIs = [];
     var earned = 0;
-    var streaks = {
-      'fiveStreak': 5,
-      'tenStreak': 10,
-      'fifteenStreak': 15,
+    var nonStreakBadges = {
+      'First Step': true,
+      'Better Already': true,
+      'Top of the World': true
     };
 
     badges.forEach(function (badge) {
       var badgeTitle = Object.keys(badge)[0];
-      badgeURIs.push(badge[badgeTitle]);
-      if (badgeTitle in streaks) {
+      badgeURIs.push({ name: badgeTitle, uri: badge[badgeTitle] });
+      if (!nonStreakBadges.hasOwnProperty(badgeTitle)) {
         earned++;
       }
     });
@@ -100,16 +100,16 @@ var Profile = React.createClass({
     }, {count: 0});
     if (earnedStreaks === 3) {
       goal = 20;
-      goalName = 'Twenty Streak';
+      goalName = 'Soaring';
     } else if (earnedStreaks === 2) {
       goal = 15;
-      goalName = 'Fifteen Streak';
+      goalName = 'On Point';
     } else if (earnedStreaks === 1) {
       goal = 10;
-      goalName = 'Ten Streak';
+      goalName = 'On a Roll';
     } else if (earnedStreaks === 0) {
       goal = 5;
-      goalName = 'Five Streak';
+      goalName = 'Gone Streaking';
     }
     return {
       progress: progress,
@@ -123,14 +123,19 @@ var Profile = React.createClass({
       earnedBadges: this.state.user.badges
     });
   },
-  renderRow: function (badgeURI) {
+  renderRow: function (badges) {
     return (
-      <TouchableOpacity>
-        <Image
-          source={{uri: badgeURI}}
-          style={styles.badges}
-        />
-      </TouchableOpacity>
+      <View>
+        <TouchableOpacity>
+          <Image
+            source={{uri: badges.uri}}
+            style={styles.badges}
+            />
+        </TouchableOpacity>
+        <Text style={styles.badgeTitle}>
+          {badges.name}
+        </Text>
+      </View>
     );
   },
   render: function () {
@@ -172,7 +177,7 @@ var Profile = React.createClass({
         </View>
         <View style={styles.streaks}>
           <Text style={styles.progressHeader}>
-            {this.state.currentStreakHabit}
+            {this.state.currentStreakHabit || 'Create a habit!'}
           </Text>
           <Text>
             Current streak: {this.state.currentStreakCount}
@@ -285,7 +290,7 @@ var styles = StyleSheet.create({
   badges: {
     height: 70,
     width: 70,
-    marginHorizontal: 7
+    marginHorizontal: 14,
   },
   streaks: {
     marginBottom: 8,
@@ -304,6 +309,10 @@ var styles = StyleSheet.create({
   badgeViewText: {
     fontSize: 14,
     color: '#fff',
+  },
+  badgeTitle: {
+    fontSize: 12,
+    alignSelf: 'center',
   },
   logoutContainer: {
     alignSelf: 'center',
