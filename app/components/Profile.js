@@ -30,7 +30,9 @@ var Profile = React.createClass({
       badgeURIs: [],
     }
   },
-
+  // invoking refreshUserData in both componentDidMount
+  // and componentWillReceiveProps ensures user data is
+  // current each time the profile page is accessed
   componentDidMount: function () {
     this.refreshUserData();
   },
@@ -57,11 +59,25 @@ var Profile = React.createClass({
   },
 
   parseUserData: function (newData) {
+    // user will be set as state in order to
+    // populate the avatar portion of the view
     var user = newData.user;
+
+    // User's habits are required to determine the best current
+    // streak which is used in the progress bar portion of the view
     var habits = newData.habits;
+
+    // user.badges contains all badges the user has earned and
+    // will be iterated through to extract each badge's URI for
+    // rendering in the 'Recently Earned Badges' section
     var badges = user.badges;
     var badgeURIs = [];
+
+    // earned will determine how many 'streak' badges the user
+    // has earned which will help determine what the next badge is
     var earned = 0;
+
+    // At the moment, only three non-streak badges exist
     var nonStreakBadges = {
       'First Step': true,
       'Better Already': true,
@@ -69,7 +85,13 @@ var Profile = React.createClass({
     };
 
     badges.forEach(function (badge, i) {
+      // Since each object in the badges array consists of a single
+      // key-value pair, we can extract the badge name this way
       var badgeTitle = Object.keys(badge)[0];
+
+      // Conditional to ensure only the three badges most recent
+      // badges are collected and rendered. The way earned badges
+      // are stored in an array in the back-end ensures chronological order
       if (i >= badges.length - 3) {
         badgeURIs.push({ name: badgeTitle, uri: badge[badgeTitle] });
       }
@@ -78,6 +100,9 @@ var Profile = React.createClass({
       }
     });
 
+    // calculateProgress returns an object including the user's
+    // best current streak, the streak's habit name and the next
+    // attainable streak badge
     var current = this.calculateProgress(earned, habits);
 
     this.setState({
@@ -88,7 +113,7 @@ var Profile = React.createClass({
       nextGoalCount: current.goal,
       nextGoalName: current.goalName,
       progress: current.progress.count/current.goal,
-      habits: newData.habits,
+      habits: habits,
       badgeURIs: badgeURIs,
     });
   },
@@ -97,7 +122,8 @@ var Profile = React.createClass({
     var goal;
     var goalName;
 
-    // Reduces array of userHabits to the longest current streak
+    // Reduces array of userHabits to an object containing
+    // the habit with the longest current streak
     var progress = userHabits.reduce(function (acc, cur) {
       if (cur.streak.current > acc.count) {
         acc.count = cur.streak.current;
@@ -105,6 +131,9 @@ var Profile = React.createClass({
       }
       return acc;
     }, {count: 0});
+
+    // At the moment, the conditionals below are hard coding
+    // the next badge name based on the user's current streak count
     if (earnedStreaks === 3) {
       goal = 20;
       goalName = 'Soaring';
@@ -118,6 +147,7 @@ var Profile = React.createClass({
       goal = 5;
       goalName = 'Gone Streaking';
     }
+
     return {
       progress: progress,
       goal: goal,
@@ -126,6 +156,8 @@ var Profile = React.createClass({
   },
 
   goToBadges: function () {
+    // earnedBadges is passed to the BadgeView component so
+    // earned and unearned badges can be differentiated
     this.props.navigator.push({
       id: 'Badges',
       earnedBadges: this.state.user.badges
@@ -135,12 +167,10 @@ var Profile = React.createClass({
   renderRow: function (badges) {
     return (
       <View>
-        <TouchableOpacity>
-          <Image
-            source={{uri: badges.uri}}
-            style={styles.badges}
-            />
-        </TouchableOpacity>
+        <Image
+          source={{uri: badges.uri}}
+          style={styles.badges}
+        />
         <Text style={styles.badgeTitle}>
           {badges.name}
         </Text>
