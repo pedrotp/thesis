@@ -1,15 +1,19 @@
 var User = require('../db/models').User;
 var _badges = require('../app/lib/badges');
 
-
 var awardBadge = function (user, badge) {
+
   // save badge to user's DB entry
   var newBadge = {};
   newBadge[badge] = _badges[badge].uri;
   user.badges.push(newBadge);
   user.save();
   // if badge is being awarded, setup toast return
-  return _badges[badge].toastText;
+  return {
+    name: badge,
+    toast: _badges[badge].toast,
+    icon: _badges[badge].uri
+  } 
 };
 
 var checkBadges = function (email, habit, habits) {

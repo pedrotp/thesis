@@ -32,7 +32,7 @@ var addHabit = function (email, habitDetails) {
         user.newUser = false;
 
         // user is saved in awardBadge
-        var toast = Badges.awardBadge(user, 'First Step');
+        var badge = Badges.awardBadge(user, 'First Step');
       }
       var habit = habits.store.create(habitDetails);
       var instances = new Instances;
@@ -43,7 +43,7 @@ var addHabit = function (email, habitDetails) {
       habits.store.push(habit);
       habits.save();
       return {
-        toast: toast,
+        badge: badge,
         habit: habit
       }
     })
@@ -202,10 +202,10 @@ var toggleInstance = function (email, habitId) {
 
             // check if this instance triggers any badges earned
             return Badges.checkBadges(email, habit, habits)
-              .then(function (earnedBadge) {
+              .then(function (badges) {
                 return {
                   instance: instances.store[instances.store.length - 1],
-                  toast: earnedBadge
+                  badges: badges
                 };
               });
 

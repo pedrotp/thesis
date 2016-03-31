@@ -9,13 +9,15 @@ var Navigator = React.Navigator;
 var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
 var Linking = React.Linking;
+var Image = React.Image;
+var Dimensions = React.Dimensions;
+
 var moment = require('moment');
 var Icon = require('react-native-vector-icons/FontAwesome');
+var Notification = require('../components/Notification');
 
 var Inbox = require('../components/Inbox');
 var Welcome = require('../components/Welcome');
-
-var RefreshableListView = require('react-native-refreshable-listview')
 
 var Habits = React.createClass({
   getInitialState: function () {
@@ -25,7 +27,9 @@ var Habits = React.createClass({
           return row1 !== row2
         }
       }),
-      scrollEnabled: true
+      scrollEnabled: true,
+      alert: false,
+      badge: {}
     }
   },
   // TODO: refactor server call to api library
@@ -55,6 +59,19 @@ var Habits = React.createClass({
       habit: habit
     });
   },
+  showAlert: function (badge) {
+    setTimeout((function () {
+      this.setState({
+        alert: true,
+        badge: badge
+      });
+    }).bind(this), 500); 
+    setTimeout((function () {
+      this.setState({
+        alert: false,
+      });
+    }).bind(this), 3200);  
+  },
   toggleInstance: function (habitId) {
     // TODO: refactor server call to api library
     // Ask server to create a new instance of this habit
@@ -68,9 +85,9 @@ var Habits = React.createClass({
     .then(function (response) {
       return response.json();
     })
-    .then((function (resJSON) {
-      if (resJSON.toast !== undefined && resJSON.toast.length > 0) {
-        Alert.alert('Badge Earned', '' + resJSON.toast, [{text: 'Ok'}])
+    .then((function (res) {
+      if (res.badges && res.badges.length) {
+        this.showAlert(res.badges[0]);
       }
       this.getHabits();
     }).bind(this))
@@ -86,6 +103,9 @@ var Habits = React.createClass({
     });
   },
   componentDidMount: function () {
+    if (this.props.route.badge) {
+      this.showAlert(this.props.route.badge);
+    }
     this.getHabits();
   },
   handlePress: function () {
@@ -131,6 +151,8 @@ var Habits = React.createClass({
           automaticallyAdjustContentInsets={false}
           scrollEnabled={this.state.scrollEnabled}
         />
+        <Notification visible={this.state.alert} name={ this.state.badge ? this.state.badge.name : null } icon={ this.state.badge ? this.state.badge.icon : null }>
+        </Notification>
         <TouchableOpacity style={styles.circleButton} onPress={this.handlePress}>
           <Icon name='plus' size={25} color='#ffffff' />
         </TouchableOpacity>
