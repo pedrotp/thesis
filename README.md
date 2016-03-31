@@ -38,11 +38,18 @@ From within the root directory:
 ```sh
 npm install
 ```
+
+From the ios directory:
+
+```sh
+pod install
+```
+
 Once all dependencies are finished installing, set the `localServer` flag on line 17 in `index.ios.js` to `true`. This enables development on http://localhost:3000. Then enter:
 
 ```sh
 mongod
-nodemon server/server.js
+npm run local
 react-native start
 react-native run-ios
 ```
