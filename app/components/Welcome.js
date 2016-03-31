@@ -16,6 +16,7 @@ var Welcome = React.createClass({
       onboard: true
     });
   },
+
   render: function () {
     return (
       <View style={{ flex: 1 }}>
@@ -25,6 +26,7 @@ var Welcome = React.createClass({
       </View>
     );
   },
+
   renderScene: function (route, navigator) {
     return (
       <View style={styles.container}>

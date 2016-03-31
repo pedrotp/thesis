@@ -24,9 +24,11 @@ var AppContainer = React.createClass({
       resetToTabs: this.props.resetToTabs
     };
   },
+
   configureScene: function (route, routeStack) {
     return Navigator.SceneConfigs.FadeAndroid;
   },
+
   render: function () {
     return (
       <View style={{ flex: 1 }}>
@@ -38,6 +40,7 @@ var AppContainer = React.createClass({
       </View>
     );
   },
+
   renderScene: function (route, navigator) {
     var routeId = route.id;
     if (routeId === 'Loading') {

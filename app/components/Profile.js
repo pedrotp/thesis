@@ -256,15 +256,15 @@ var Profile = React.createClass({
 });
 
 var NavigationBarRouteMapper = {
-  LeftButton(route, navigator, index, navState) {
+  LeftButton: function (route, navigator, index, navState) {
     return null;
   },
 
-  RightButton(route, navigator, index, navState) {
+  RightButton: function (route, navigator, index, navState) {
     return null;
   },
 
-  Title(route, navigator, index, navState) {
+  Title: function (route, navigator, index, navState) {
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
         <Text style={{color: 'white', margin: 10, fontSize: 18}}>

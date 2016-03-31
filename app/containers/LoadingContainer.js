@@ -9,9 +9,11 @@ var LoadingContainer = React.createClass({
   goToOnboard: function () {
     this.props.navigator.push({id: 'Onboard'})
   },
+
   goToInbox: function () {
     this.props.navigator.push({id: 'Habits'})
   },
+
   componentDidMount: function () {
     if (this.props.user.newUser) {
       this.goToOnboard();
@@ -19,6 +21,7 @@ var LoadingContainer = React.createClass({
       this.goToInbox();
     }
   },
+
   render: function () {
     return (
       <View style={{ flex: 1 }}>
@@ -28,6 +31,7 @@ var LoadingContainer = React.createClass({
       </View>
     );
   },
+
   renderScene: function (route, navigator) {
     return (
       <Loading

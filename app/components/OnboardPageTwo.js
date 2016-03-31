@@ -6,7 +6,6 @@ var Component = React.Component;
 var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
 var Image = React.Image;
-// App components
 
 var OnboardPageTwo = React.createClass({
   render: function () {

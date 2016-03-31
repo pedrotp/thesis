@@ -34,7 +34,6 @@ var Note = React.createClass({
   },
 
   updateHabit: function () {
-    var _this = this;
     fetch(process.env.SERVER + '/habits/' + this.props.profile.email + '/' + this.props.habit._id + '/' + this.props.instanceId, {
       method: 'PUT',
       headers: {
@@ -45,13 +44,12 @@ var Note = React.createClass({
       body: JSON.stringify(this.state.note)
     })
     .then(api.handleErrors)
-    .then(function (response) {
-      _this.props.hideModal();
-
-    })
-    .then(function () {
-      _this.props.getRowData();
-    })
+    .then((function (response) {
+      this.props.hideModal();
+    }).bind(this))
+    .then((function () {
+      this.props.getRowData();
+    }).bind(this))
     .catch(function (err) {
       console.warn(err);
     });
@@ -72,7 +70,7 @@ var Note = React.createClass({
 
   onTextChange: function (text) {
     this.setState({
-      note: { note: text}
+      note: { note: text }
     });
   },
 
@@ -115,7 +113,6 @@ var Note = React.createClass({
       </View>
     );
   }
-
 });
 
 var styles = StyleSheet.create({

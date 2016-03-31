@@ -40,8 +40,8 @@ function Inbox (props) {
           <View style={{flex: 1}}></View>
           <TouchableOpacity onPress={function () {props.toggleInstance(props.habit._id)}}>
             <Image
-                source={ done ? {uri: 'http://better-habits.herokuapp.com/assets/done_green.png'} : {uri: 'http://better-habits.herokuapp.com/assets/done_gray.png'} }
-                style={ styles.img }
+              source={ done ? {uri: 'http://better-habits.herokuapp.com/assets/done_green.png'} : {uri: 'http://better-habits.herokuapp.com/assets/done_gray.png'} }
+              style={ styles.img }
             />
           </TouchableOpacity>
         </View>
@@ -54,10 +54,8 @@ var styles = StyleSheet.create({
   habitText: {
     fontFamily: 'Avenir',
     fontSize: 20,
-    // fontWeight: 'bold',
   },
   swipeContainer: {
-    // flexDirection: 'row',
     height: 60,
     marginTop: 10,
     marginHorizontal: 10,
@@ -77,9 +75,6 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 10,
-    // backgroundColor: '#fff',
-    // borderWidth: 0,
-    // borderRadius: 10,
   },
   img: {
     width: 30,

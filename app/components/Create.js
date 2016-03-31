@@ -7,12 +7,6 @@ var PropTypes = React.PropTypes;
 var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
 var Button = require('react-native-button');
-var freq = {
-  'Hourly': 'hour',
-  'Daily': 'day',
-  'Weekly': 'week',
-  'Monthly': 'month'
-};
 
 function Create (props) {
   return (

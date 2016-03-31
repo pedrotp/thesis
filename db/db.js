@@ -7,9 +7,6 @@ var testing = process.env.NODE_ENV === 'test';
 mongoose.connect(uri);
 mongoose.Promise = require('bluebird');
 
-// test mongoose bluebird import
-// assert.equal(query.exec().constructor, require('bluebird'));
-
 var db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));
