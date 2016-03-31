@@ -1,3 +1,17 @@
+/**
+ * The badges hash contains all the possible badges a user can earn.
+ *
+ * Each badge has a 'toastText', 'uri', and 'check' key:
+ *
+ * toastText contains the message the user receives on the front-end
+ * once the badge is earned.
+ *
+ * uri is used to render the badge image to various parts of the front-end
+ *
+ * check is a function which contains logic which can be considered the
+ * requirements to earn each badge
+ */
+
 var moment = require('moment');
 
 var badges = {
