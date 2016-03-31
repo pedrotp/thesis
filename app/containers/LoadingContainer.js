@@ -11,7 +11,10 @@ var LoadingContainer = React.createClass({
   },
 
   goToInbox: function () {
-    this.props.navigator.push({id: 'Habits'})
+    this.props.navigator.push({
+      id: 'Habits',
+      badge: this.props.badge
+    })
   },
 
   componentDidMount: function () {

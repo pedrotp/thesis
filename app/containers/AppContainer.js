@@ -50,6 +50,7 @@ var AppContainer = React.createClass({
           token={this.state.token}
           profile={this.state.profile}
           user={this.state.user}
+          badge={this.props.badge}
         />
       );
     }
