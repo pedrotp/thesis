@@ -7,12 +7,6 @@ var PropTypes = React.PropTypes;
 var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
 var Button = require('react-native-button');
-var freq = {
-  'Hourly': 'hour',
-  'Daily': 'day',
-  'Weekly': 'week',
-  'Monthly': 'month'
-};
 
 function Create (props) {
   return (
@@ -130,16 +124,17 @@ var styles = StyleSheet.create({
     fontFamily: 'Avenir',
   },
   buttonText: {
-    fontSize: 20, color: 'white',
+    fontSize: 20,
+    color: 'white',
     fontFamily: 'Avenir'
   },
   buttonContainer: {
-    padding:10,
-    height:45,
-    overflow:'hidden',
-    borderRadius:4,
+    padding: 10,
+    height: 45,
+    overflow: 'hidden',
+    borderRadius: 4,
     backgroundColor: '#6399DC',
-    marginTop: 20,
+    marginTop: 30,
     marginLeft: 20,
     marginRight: 20
   },

@@ -13,20 +13,20 @@ var getInstancePeriod = require('../lib/calendar').getInstancePeriod;
 
 var InstanceHistory = React.createClass({
   getInitialState: function () {
-      return {
-        dataSource: new ListView.DataSource({
-          rowHasChanged: function (row1, row2) {
-            return row1 !== row2
-          }
-        })
-      }
+    return {
+      dataSource: new ListView.DataSource({
+        rowHasChanged: function (row1, row2) {
+          return row1 !== row2
+        }
+      })
+    };
   },
 
   componentDidMount: function () {
     var days = getInstancePeriod(this.props.habit.createdAt, moment().format());
     days.forEach(function(day) {
       this.props.instances.forEach(function (instance) {
-        if(moment(day.ISOString).isSame(instance.createdAt, 'day')) {
+        if (moment(day.ISOString).isSame(instance.createdAt, 'day')) {
           day.note = instance.note;
           day.done = true;
         }
@@ -38,28 +38,28 @@ var InstanceHistory = React.createClass({
   },
 
   renderRow: function (rowData, sectionID, rowID) {
-    if(rowData.done) {
+    if (rowData.done) {
       return (
         <View style={styles.row} >
           <Text style={styles.date} >{ moment(rowData.ISOString).format('MMMM Do YYYY') }</Text>
           <Image
-              source={ {uri: 'http://better-habits.herokuapp.com/assets/done_green.png'} }
-              style={ styles.img }
+            source={{uri: 'http://better-habits.herokuapp.com/assets/done_green.png'}}
+            style={styles.img}
           />
         </View>
-      )
+      );
     }
     return (
-      <View style={styles.row} >
-        <Text style={styles.date} >{ moment(rowData.ISOString).format('MMMM Do YYYY') }</Text>
-        <TouchableOpacity style={ styles.touch }>
+      <View style={styles.row}>
+        <Text style={styles.date}>
+          {moment(rowData.ISOString).format('MMMM Do YYYY')}
+        </Text>
           <Image
-              source={ {uri: 'http://better-habits.herokuapp.com/assets/done_gray.png'} }
-              style={ styles.img }
+            source={ {uri: 'http://better-habits.herokuapp.com/assets/done_gray.png'} }
+            style={ styles.img }
           />
-        </TouchableOpacity>
       </View>
-    )
+    );
   },
 
   render: function () {
@@ -87,15 +87,17 @@ var InstanceHistory = React.createClass({
           renderHeader={ function () { return (<View><Text style={styles.header}>{this.props.habit.action}</Text></View>)}.bind(this)}
         />
       </View>
-    )
+    );
   }
 });
 
 var NavigationBarRouteMapper = {
-  LeftButton(route, navigator, index, navState) {
+  LeftButton: function (route, navigator, index, navState) {
     return (
-      <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-          onPress={function () {navigator.parentNavigator.pop()}}>
+      <TouchableOpacity
+        style={{flex: 1, justifyContent: 'center'}}
+        onPress={function () {navigator.parentNavigator.pop()}}
+      >
         <Text style={{color: 'white', margin: 10}}>
           Back
         </Text>
@@ -103,11 +105,11 @@ var NavigationBarRouteMapper = {
     );
   },
 
-  RightButton(route, navigator, index, navState) {
+  RightButton: function (route, navigator, index, navState) {
     return null;
   },
 
-  Title(route, navigator, index, navState) {
+  Title: function (route, navigator, index, navState) {
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
         <Text style={{color: 'white', margin: 10, fontSize: 18}}>

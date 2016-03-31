@@ -114,7 +114,10 @@ var HabitDetails = React.createClass({
     // renders PRESENT DAY, DONE with NOTE box
     if (moment(rowData.ISOString).isSame(this.state.currentDate, 'day') && rowData.done && rowData.note.note) {
       return (
-        <TouchableOpacity onPress={function () {this.handleInstancePress(rowData)}.bind(this)} underlayColor="transparent">
+        <TouchableOpacity
+          onPress={function () {this.handleInstancePress(rowData)}.bind(this)}
+          underlayColor="transparent"
+        >
           <View style={styles.presentDoneRow}>
             <Text style={styles.rowText}>
               {rowData.date}
@@ -127,7 +130,10 @@ var HabitDetails = React.createClass({
     // renders PRESENT DAY, DONE box
     if (moment(rowData.ISOString).isSame(this.state.currentDate, 'day') && rowData.done) {
       return (
-        <TouchableOpacity onPress={function () {this.handleInstancePress(rowData)}.bind(this)} underlayColor="transparent">
+        <TouchableOpacity
+          onPress={function () {this.handleInstancePress(rowData)}.bind(this)}
+          underlayColor="transparent"
+        >
           <View style={styles.presentDoneRow}>
             <Text style={styles.rowText}>
               {rowData.date}
@@ -151,7 +157,10 @@ var HabitDetails = React.createClass({
     // renders DONE with NOTE boxes
     if (rowData.done && rowData.note.note) {
       return (
-        <TouchableOpacity onPress={function () {this.handleInstancePress(rowData)}.bind(this)} underlayColor="transparent">
+        <TouchableOpacity
+          onPress={function () {this.handleInstancePress(rowData)}.bind(this)}
+          underlayColor="transparent"
+        >
           <View style={styles.doneRow}>
             <Text style={styles.rowText}>
               {rowData.date}
@@ -164,7 +173,10 @@ var HabitDetails = React.createClass({
     // renders DONE boxes
     if (rowData.done) {
       return (
-        <TouchableOpacity onPress={function () {this.handleInstancePress(rowData)}.bind(this)} underlayColor="transparent">
+        <TouchableOpacity
+          onPress={function () {this.handleInstancePress(rowData)}.bind(this)}
+          underlayColor="transparent"
+        >
           <View style={styles.doneRow}>
             <Text style={styles.rowText}>
               {rowData.date}
@@ -182,7 +194,6 @@ var HabitDetails = React.createClass({
               {rowData.date}
             </Text>
           </View>
-
         </TouchableOpacity>
       );
     }
@@ -194,7 +205,6 @@ var HabitDetails = React.createClass({
             {rowData.date}
           </Text>
         </View>
-
       </TouchableOpacity>
     );
   },
@@ -229,9 +239,15 @@ var HabitDetails = React.createClass({
           automaticallyAdjustContentInsets={false}
         />
         <View style={styles.count}>
-          <Text style={styles.text}>Current Streak: { moment(new Date(this.props.habit.lastDone)).isSame(Date.now(), 'week') ? this.props.habit.streak.current : 0 }</Text>
-          <Text style={styles.text}>Longest Streak: {this.props.habit.streak.max}</Text>
-          <Text style={styles.text}>Total Completed: {this.props.habit.instanceCount}</Text>
+          <Text style={styles.text}>
+            Current Streak: {moment(new Date(this.props.habit.lastDone)).isSame(Date.now(), 'week') ? this.props.habit.streak.current : 0 }
+          </Text>
+          <Text style={styles.text}>
+            Longest Streak: {this.props.habit.streak.max}
+          </Text>
+          <Text style={styles.text}>
+            Total Completed: {this.props.habit.instanceCount}
+          </Text>
         </View>
         <Note
           visible={this.state.modalVisible}
@@ -244,15 +260,15 @@ var HabitDetails = React.createClass({
           getRowData={this.getRowData}
           hideModal={this.hideModal}
           date={this.state.date}
-          >
+        >
         </Note>
       </View>
-    )
+    );
   }
 });
 
 var NavigationBarRouteMapper = {
-  LeftButton(route, navigator, index, navState) {
+  LeftButton: function (route, navigator, index, navState) {
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
           onPress={function () {navigator.parentNavigator.pop()}}>
@@ -263,10 +279,10 @@ var NavigationBarRouteMapper = {
     );
   },
 
-  RightButton(route, navigator, index, navState) {
+  RightButton: function (route, navigator, index, navState) {
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-          onPress={function () {navigator.parentNavigator.push({id: 'InstanceHistory', instances: _habitInstances, habit: _habit})} }
+        onPress={function () {navigator.parentNavigator.push({id: 'InstanceHistory', instances: _habitInstances, habit: _habit})}}
       >
         <Text style={{color: 'white', margin: 10}}>
           History

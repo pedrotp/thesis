@@ -1,9 +1,13 @@
 var React = require('react-native');
+var moment = require('moment');
 var api = require('../lib/api');
 var Auth0credentials = require('../../auth0_credentials');
+var Icon = require('react-native-vector-icons/FontAwesome');
+var RefreshableListView = require('react-native-refreshable-listview')
 var View = React.View;
 var Text = React.Text;
 var Alert = React.Alert;
+var Linking = React.Linking;
 var ListView = React.ListView;
 var Navigator = React.Navigator;
 var StyleSheet = React.StyleSheet;
@@ -32,6 +36,7 @@ var Habits = React.createClass({
       badge: {}
     }
   },
+
   // TODO: refactor server call to api library
   getHabits: function () {
     fetch(process.env.SERVER + '/habits/' + this.props.profile.email, {
@@ -53,25 +58,28 @@ var Habits = React.createClass({
       console.warn(err);
     });
   },
+
   editHabit: function (habit) {
     this.props.navigator.push({
       id: 'HabitSettings',
       habit: habit
     });
   },
+
   showAlert: function (badge) {
     setTimeout((function () {
       this.setState({
         alert: true,
         badge: badge
       });
-    }).bind(this), 500); 
+    }).bind(this), 500);
     setTimeout((function () {
       this.setState({
         alert: false,
       });
-    }).bind(this), 3200);  
+    }).bind(this), 3200);
   },
+
   toggleInstance: function (habitId) {
     // TODO: refactor server call to api library
     // Ask server to create a new instance of this habit
@@ -95,27 +103,31 @@ var Habits = React.createClass({
       console.warn(err);
     });
   },
+
   gotoDetails: function (habit) {
-    // TODO: navigate to correct details per habit rather than mock data
     this.props.navigator.push({
       id: 'HabitDetails',
       habit: habit
     });
   },
+
   componentDidMount: function () {
     if (this.props.route.badge) {
       this.showAlert(this.props.route.badge);
     }
     this.getHabits();
   },
+
   handlePress: function () {
     this.props.navigator.push({id:'AddHabit'});
   },
+
   allowScroll: function(scrollEnabled) {
     if (scrollEnabled !== this.state.scrollEnabled) {
       this.setState({ scrollEnabled: scrollEnabled })
     }
   },
+
   // Render each row of the inbox as an Inbox component
   renderInboxRow: function (habit) {
     return <Inbox
@@ -127,6 +139,7 @@ var Habits = React.createClass({
       allowScroll={this.allowScroll}
     />
   },
+
   render: function () {
     return (
       <View style={{ flex: 1 }}>
@@ -141,6 +154,7 @@ var Habits = React.createClass({
       </View>
     );
   },
+
   // handleLogout triggers re-render of AppContainer by calling setState
   renderScene: function (route, navigator) {
     return (
@@ -162,15 +176,15 @@ var Habits = React.createClass({
 });
 
 var NavigationBarRouteMapper = {
-  LeftButton(route, navigator, index, navState) {
+  LeftButton: function (route, navigator, index, navState) {
     return null;
   },
 
-  RightButton(route, navigator, index, navState) {
+  RightButton: function (route, navigator, index, navState) {
     return null;
   },
 
-  Title(route, navigator, index, navState) {
+  Title: function (route, navigator, index, navState) {
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
         <Text style={{color: 'white', margin: 10, fontSize: 18}}>

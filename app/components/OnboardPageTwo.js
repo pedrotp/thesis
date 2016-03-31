@@ -6,7 +6,6 @@ var Component = React.Component;
 var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
 var Image = React.Image;
-// App components
 
 var OnboardPageTwo = React.createClass({
   render: function () {
@@ -26,7 +25,7 @@ var OnboardPageTwo = React.createClass({
         </Text>
         <Image style={styles.img} source={{uri: 'http://better-habits.herokuapp.com/assets/bars.png'}}/>
         <Text style={styles.instructions}>
-          Pick a habit that will get you closer to your goal, but will be easy to do every day. We will move up together from there.
+          Pick a habit that will get you closer to your goal, but will be easy to accomplish every day. We will move up together from there.
         </Text>
       </View>
     );

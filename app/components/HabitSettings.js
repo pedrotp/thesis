@@ -280,7 +280,7 @@ var HabitSettings = React.createClass({
             styleDisabled={{color: 'red'}}
             onPress={(function () { this.deleteHabit(this.state.habit._id); }).bind(this)}
           >
-            Delete Habit
+            Delete
           </Button>
         </View>
       );

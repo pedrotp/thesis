@@ -15,14 +15,13 @@ var BadgeView = React.createClass({
     return {
       dataSource: new ListView.DataSource({
         rowHasChanged: function (row1, row2) {
-          return row1 !== row2
+          return row1 !== row2;
         }
       })
     };
   },
 
   componentDidMount: function () {
-
     var allBadges = [];
     for(var key in badges) {
       allBadges.push({name: key, uri: badges[key].uri, earned: false});
@@ -30,7 +29,7 @@ var BadgeView = React.createClass({
 
     allBadges.forEach(function (badge) {
       this.props.earnedBadges.forEach(function (userBadge) {
-        if(userBadge.hasOwnProperty(badge.name)) {
+        if (userBadge.hasOwnProperty(badge.name)) {
           badge.earned = true;
         }
       });
@@ -42,15 +41,19 @@ var BadgeView = React.createClass({
   },
 
   renderRow: function (rowData, sectionID, rowID) {
-
     if (rowData.earned) {
       return (
         <View>
           <TouchableOpacity underlayColor="transparent">
-          <View style={styles.row}>
-            <Image style={styles.badges} source={{uri: rowData.uri}} />
-            <Text style={styles.names}>{rowData.name}</Text>
-          </View>
+            <View style={styles.row}>
+              <Image
+                style={styles.badges}
+                source={{uri: rowData.uri}}
+              />
+              <Text style={styles.names}>
+                {rowData.name}
+              </Text>
+            </View>
           </TouchableOpacity>
         </View>
       );
@@ -58,10 +61,15 @@ var BadgeView = React.createClass({
     return (
       <View>
         <TouchableOpacity underlayColor="transparent">
-        <View style={styles.row}>
-          <Image style={styles.unearnedBadges} source={{uri: rowData.uri}} />
-          <Text style={styles.names}>{rowData.name}</Text>
-        </View>
+          <View style={styles.row}>
+            <Image
+              style={styles.unearnedBadges}
+              source={{uri: rowData.uri}}
+            />
+            <Text style={styles.names}>
+              {rowData.name}
+            </Text>
+          </View>
         </TouchableOpacity>
       </View>
     );
@@ -98,7 +106,7 @@ var BadgeView = React.createClass({
 });
 
 var NavigationBarRouteMapper = {
-  LeftButton(route, navigator, index, navState) {
+  LeftButton: function (route, navigator, index, navState) {
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
           onPress={function () {navigator.parentNavigator.pop()}}>
@@ -109,11 +117,11 @@ var NavigationBarRouteMapper = {
     );
   },
 
-  RightButton(route, navigator, index, navState) {
+  RightButton: function (route, navigator, index, navState) {
     return null;
   },
 
-  Title(route, navigator, index, navState) {
+  Title: function (route, navigator, index, navState) {
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
         <Text style={{color: 'white', margin: 10, fontSize: 18}}>
@@ -153,10 +161,9 @@ var styles = StyleSheet.create({
   unearnedBadges: {
     height: 75,
     width: 75,
-    opacity: 0.2
+    opacity: 0.3
   },
   names: {
-    color: '#B3B9B9',
     width: 120,
     textAlign: 'center',
   },

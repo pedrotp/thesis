@@ -30,12 +30,17 @@ var Profile = React.createClass({
       badgeURIs: [],
     }
   },
+  // invoking refreshUserData in both componentDidMount
+  // and componentWillReceiveProps ensures user data is
+  // current each time the profile page is accessed
   componentDidMount: function () {
     this.refreshUserData();
   },
+
   componentWillReceiveProps: function () {
     this.refreshUserData();
   },
+
   refreshUserData: function () {
     fetch(process.env.SERVER + '/user/' + this.props.user.email, {
       method: 'GET',
@@ -52,26 +57,52 @@ var Profile = React.createClass({
       console.warn(err);
     });
   },
+
   parseUserData: function (newData) {
+    // user will be set as state in order to
+    // populate the avatar portion of the view
     var user = newData.user;
+
+    // User's habits are required to determine the best current
+    // streak which is used in the progress bar portion of the view
     var habits = newData.habits;
+
+    // user.badges contains all badges the user has earned and
+    // will be iterated through to extract each badge's URI for
+    // rendering in the 'Recently Earned Badges' section
     var badges = user.badges;
     var badgeURIs = [];
+
+    // earned will determine how many 'streak' badges the user
+    // has earned which will help determine what the next badge is
     var earned = 0;
+
+    // At the moment, only three non-streak badges exist
     var nonStreakBadges = {
       'First Step': true,
       'Better Already': true,
       'Top of the World': true
     };
 
-    badges.forEach(function (badge) {
+    badges.forEach(function (badge, i) {
+      // Since each object in the badges array consists of a single
+      // key-value pair, we can extract the badge name this way
       var badgeTitle = Object.keys(badge)[0];
-      badgeURIs.push({ name: badgeTitle, uri: badge[badgeTitle] });
+
+      // Conditional to ensure only the three badges most recent
+      // badges are collected and rendered. The way earned badges
+      // are stored in an array in the back-end ensures chronological order
+      if (i >= badges.length - 3) {
+        badgeURIs.push({ name: badgeTitle, uri: badge[badgeTitle] });
+      }
       if (!nonStreakBadges.hasOwnProperty(badgeTitle)) {
         earned++;
       }
     });
 
+    // calculateProgress returns an object including the user's
+    // best current streak, the streak's habit name and the next
+    // attainable streak badge
     var current = this.calculateProgress(earned, habits);
 
     this.setState({
@@ -82,15 +113,17 @@ var Profile = React.createClass({
       nextGoalCount: current.goal,
       nextGoalName: current.goalName,
       progress: current.progress.count/current.goal,
-      habits: newData.habits,
+      habits: habits,
       badgeURIs: badgeURIs,
     });
   },
+
   calculateProgress: function (earnedStreaks, userHabits) {
     var goal;
     var goalName;
 
-    // Reduces array of userHabits to the longest current streak
+    // Reduces array of userHabits to an object containing
+    // the habit with the longest current streak
     var progress = userHabits.reduce(function (acc, cur) {
       if (cur.streak.current > acc.count) {
         acc.count = cur.streak.current;
@@ -98,6 +131,9 @@ var Profile = React.createClass({
       }
       return acc;
     }, {count: 0});
+
+    // At the moment, the conditionals below are hard coding
+    // the next badge name based on the user's current streak count
     if (earnedStreaks === 3) {
       goal = 20;
       goalName = 'Soaring';
@@ -111,33 +147,37 @@ var Profile = React.createClass({
       goal = 5;
       goalName = 'Gone Streaking';
     }
+
     return {
       progress: progress,
       goal: goal,
       goalName: goalName,
     };
   },
+
   goToBadges: function () {
+    // earnedBadges is passed to the BadgeView component so
+    // earned and unearned badges can be differentiated
     this.props.navigator.push({
       id: 'Badges',
       earnedBadges: this.state.user.badges
     });
   },
+
   renderRow: function (badges) {
     return (
       <View>
-        <TouchableOpacity>
-          <Image
-            source={{uri: badges.uri}}
-            style={styles.badges}
-            />
-        </TouchableOpacity>
+        <Image
+          source={{uri: badges.uri}}
+          style={styles.badges}
+        />
         <Text style={styles.badgeTitle}>
           {badges.name}
         </Text>
       </View>
     );
   },
+
   render: function () {
     return (
       <Navigator
@@ -151,6 +191,7 @@ var Profile = React.createClass({
       />
     );
   },
+
   renderScene: function () {
     return (
       <View>
@@ -177,9 +218,9 @@ var Profile = React.createClass({
         </View>
         <View style={styles.streaks}>
           <Text style={styles.progressHeader}>
-            {this.state.currentStreakHabit || 'Create a habit!'}
+            {this.state.currentStreakHabit || 'Don\'t forget your habits!'}
           </Text>
-          <Text>
+          <Text style={{fontFamily: 'Avenir'}}>
             Current streak: {this.state.currentStreakCount}
           </Text>
           <ProgressBar
@@ -188,11 +229,12 @@ var Profile = React.createClass({
             style={{marginVertical: 10, width: 300, height: 15}}
             progress={this.state.progress}
           />
-          <Text>
-            {this.state.nextGoalName} badge in {this.state.nextGoalCount - this.state.currentStreakCount} more completions
-          </Text>
+        <Text style={{fontFamily: 'Avenir'}}>
+          <Text style={{fontWeight: 'bold'}}>{this.state.nextGoalName} </Text>
+          <Text>badge in {this.state.nextGoalCount - this.state.currentStreakCount} more completions</Text>
+        </Text>
         </View>
-        <View>
+        <View style={styles.container}>
           <Button
             containerStyle={styles.badgeViewContainer}
             style={styles.badgeViewText}
@@ -214,15 +256,15 @@ var Profile = React.createClass({
 });
 
 var NavigationBarRouteMapper = {
-  LeftButton(route, navigator, index, navState) {
+  LeftButton: function (route, navigator, index, navState) {
     return null;
   },
 
-  RightButton(route, navigator, index, navState) {
+  RightButton: function (route, navigator, index, navState) {
     return null;
   },
 
-  Title(route, navigator, index, navState) {
+  Title: function (route, navigator, index, navState) {
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
         <Text style={{color: 'white', margin: 10, fontSize: 18}}>
@@ -234,6 +276,9 @@ var NavigationBarRouteMapper = {
 };
 
 var styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 20,
+  },
   avatar: {
     top: 65,
     paddingTop: 25,
@@ -255,12 +300,13 @@ var styles = StyleSheet.create({
     marginBottom: 10,
   },
   recentContainer: {
-    marginBottom: 15,
+    marginBottom: 10,
   },
   recentBadgesHeader: {
     textAlign: 'center',
     fontSize: 18,
-    marginTop: 65,
+    fontFamily: 'Avenir',
+    marginTop: 55,
     marginBottom: 10,
   },
   recentBadges: {
@@ -272,12 +318,14 @@ var styles = StyleSheet.create({
   progressHeader: {
     textAlign: 'center',
     fontSize: 22,
-    marginBottom: 5,
+    fontFamily: 'Avenir',
+    // marginBottom: 5,
   },
   userName: {
     textAlign: 'center',
     fontSize: 22,
     fontWeight: 'bold',
+    fontFamily: 'Avenir',
   },
   progressFill: {
     backgroundColor: '#6399DC',
@@ -293,13 +341,11 @@ var styles = StyleSheet.create({
     marginHorizontal: 14,
   },
   streaks: {
-    marginBottom: 8,
+    // marginBottom: 8,
     alignItems: 'center'
   },
   badgeViewContainer: {
-    alignSelf: 'center',
-    height: 35,
-    width: 275,
+    height: 45,
     padding: 10,
     overflow: 'hidden',
     borderRadius: 4,
@@ -307,23 +353,24 @@ var styles = StyleSheet.create({
     marginTop: 15,
   },
   badgeViewText: {
-    fontSize: 14,
+    fontSize: 20,
+    fontFamily: 'Avenir',
     color: '#fff',
   },
   badgeTitle: {
     fontSize: 12,
+    fontFamily: 'Avenir',
     alignSelf: 'center',
   },
   logoutContainer: {
-    alignSelf: 'center',
-    height: 35,
-    width: 275,
+    height: 45,
     padding: 10,
     overflow: 'hidden',
     marginTop: 12,
   },
   logoutText: {
-    fontSize: 14,
+    fontSize: 20,
+    fontFamily: 'Avenir',
     color: '#e14f3f',
   },
 });

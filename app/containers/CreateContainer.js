@@ -100,7 +100,7 @@ var AddHabit = React.createClass({
 });
 
 var NavigationBarRouteMapper = {
-  LeftButton(route, navigator, index, navState) {
+  LeftButton: function (route, navigator, index, navState) {
     var routeStack = navigator.parentNavigator.state.routeStack;
     var previousRoute = routeStack[routeStack.length - 2];
     if (previousRoute.id === 'Habits') {
@@ -117,11 +117,11 @@ var NavigationBarRouteMapper = {
     }
   },
 
-  RightButton(route, navigator, index, navState) {
+  RightButton: function (route, navigator, index, navState) {
     return null;
   },
 
-  Title(route, navigator, index, navState) {
+  Title: function (route, navigator, index, navState) {
     var title;
     var routeStack = navigator.parentNavigator.state.routeStack;
     var currentRoute = routeStack[routeStack.length - 1];

@@ -17,6 +17,7 @@ var OnboardContainer = React.createClass({
       </View>
     );
   },
+
   renderScene: function (route, navigator) {
     return (
       <Swiper loop={false}>
