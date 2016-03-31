@@ -10,30 +10,6 @@ var ListView = React.ListView;
 var Image = React.Image;
 var ScrollView = React.ScrollView;
 
-// var _allBadges = [
-//   {name:'firstHabit', uri:'https://better-habits.herokuapp.com/assets/Badges/Morning.png', earned: false},
-//   {name:'firstCompletion', uri:'https://better-habits.herokuapp.com/assets/Badges/Bon_Voyage.png', earned: false},
-//   {name:'Top of the World', uri:'https://better-habits.herokuapp.com/assets/Badges/Mountain_Top.png', earned: false},
-//   {name:'fiveStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Bungee.png', earned: false},
-//   {name:'tenStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Archery.png', earned: false},
-//   {name:'fifteenStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Hot_Air_Balloon.png', earned: false},
-//   {name:'twentyStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Duel.png', earned: false},
-//   {name:'thirtyStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Empire_State.png', earned: false},
-//   {name:'fortyStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Guitar.png', earned: false},
-//   {name:'fiftyStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Mona_Lisa.png', earned: false},
-//   {name:'sixtyStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Niagara_Falls.png', earned: false},
-//   {name:'seventyStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Picnic.png', earned: false},
-//   {name:'ninetyStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Skateboard.png', earned: false},
-//   {name:'hundredStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Stonehenge.png', earned: false},
-//   {name:'thousandStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Sydney.png', earned: false},
-//   {name:'millionStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Taj_Mahal.png', earned: false},
-//   {name:'threeMillionStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Underwater.png', earned: false},
-//   {name:'fourMillionStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Bonjour.png', earned: false}
-// ];
-  // Extra Badges
-  // {name:'eightyStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Pyramids.png', earned: false},
-  // {name:'twoMillionStreak', uri:'https://better-habits.herokuapp.com/assets/Badges/Traffic.png', earned: false},
-
 var BadgeView = React.createClass({
   getInitialState: function () {
     return {
@@ -46,17 +22,22 @@ var BadgeView = React.createClass({
   },
 
   componentDidMount: function () {
-    var _this = this;
-    _allBadges.forEach(function (badge) {
-      _this.props.earnedBadges.forEach(function (userBadge) {
+    
+    var allBadges = [];
+    for(var key in badges) {
+      allBadges.push({name: key, uri: badges[key].uri, earned: false});
+    }
+    
+    allBadges.forEach(function (badge) {
+      this.props.earnedBadges.forEach(function (userBadge) {
         if(userBadge.hasOwnProperty(badge.name)) {
           badge.earned = true;
         }
       });
-    });
+    }.bind(this));
 
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(_allBadges)
+      dataSource: this.state.dataSource.cloneWithRows(allBadges)
     });
   },
 
