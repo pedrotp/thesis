@@ -1,8 +1,8 @@
 var User = require('../db/models').User;
 var _badges = require('../app/lib/badges');
 
-
 var awardBadge = function (user, badge) {
+
   // save badge to user's DB entry
   var newBadge = {};
   newBadge[badge] = _badges[badge].uri;
