@@ -12,7 +12,7 @@ var awardBadge = function (user, badge) {
   return {
     name: badge,
     toast: _badges[badge].toast,
-    icon: _badges[badge].uri;
+    icon: _badges[badge].uri
   } 
 };
 

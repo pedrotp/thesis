@@ -86,7 +86,7 @@ var Habits = React.createClass({
       return response.json();
     })
     .then((function (res) {
-      if (res.badges.length) {
+      if (res.badges && res.badges.length) {
         this.showAlert(res.badges[0]);
       }
       this.getHabits();
