@@ -130,16 +130,19 @@ var styles = StyleSheet.create({
     fontFamily: 'Avenir',
   },
   buttonText: {
-    fontSize: 20, color: 'white',
+    fontSize: 14,
+    color: 'white',
     fontFamily: 'Avenir'
   },
   buttonContainer: {
-    padding:10,
-    height:45,
-    overflow:'hidden',
-    borderRadius:4,
+    alignSelf: 'center',
+    padding: 10,
+    height: 35,
+    width: 275,
+    overflow: 'hidden',
+    borderRadius: 4,
     backgroundColor: '#6399DC',
-    marginTop: 20,
+    marginTop: 30,
     marginLeft: 20,
     marginRight: 20
   },
