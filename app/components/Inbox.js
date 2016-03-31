@@ -5,51 +5,40 @@ var StyleSheet = React.StyleSheet;
 var Image = React.Image;
 var TouchableOpacity = React.TouchableOpacity;
 
-// App components
 var Swipeout = require('react-native-swipeout');
 var moment = require('moment');
+var Icon = require('react-native-vector-icons/FontAwesome')
 
 function Inbox (props) {
   var swipeButtons = [
-    // {
-    //   text: 'Delete',
-    //   backgroundColor: '#FF0000',
-    //   onPress: function () {props.deleteHabit(props.habit._id)},
-    // },
     {
       text: 'Settings',
       color: '#000000',
-      backgroundColor: "#EDBE40",
+      backgroundColor: "#eee",
       onPress: function () {props.editHabit(props.habit)}
     },
-    // {
-    //   text: 'Did It!', // TODO: name this better
-    //   color: '#EDBE40',
-    //   backgroundColor: '#273d58',
-    //   onPress: function () {props.createInstance(props.habit._id)}
-    // }
   ];
 
   var done = props.habit.lastDone && moment(props.habit.lastDone).isSame(Date.now(), 'day');
 
   return (
-    <View style={styles.inboxrow}>
+    <View style={styles.swipeContainer}>
       <Swipeout
         autoClose={true}
         right={swipeButtons}
-        backgroundColor={'#fcfcfc'}
+        backgroundColor='transparent'
         scroll={function (event) {
           props.allowScroll(event)
         }}
       >
-        <View style={styles.swipe}>
+        <View style={styles.swipeContent}>
           <TouchableOpacity onPress={function () {props.gotoDetails(props.habit)}}>
             <View>
-              <Text style={styles.habit}>{props.habit.action}</Text>
-              <Text style={styles.count}>Completed {props.habit.instanceCount} time(s) this week!</Text>
+              <Text style={styles.habitText}>{props.habit.action}</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={ styles.touch } onPress={function () {props.toggleInstance(props.habit._id)}}>
+          <View style={{flex: 1}}></View>
+          <TouchableOpacity onPress={function () {props.toggleInstance(props.habit._id)}}>
             <Image
                 source={ done ? {uri: 'http://better-habits.herokuapp.com/assets/done_green.png'} : {uri: 'http://better-habits.herokuapp.com/assets/done_gray.png'} }
                 style={ styles.img }
@@ -62,35 +51,39 @@ function Inbox (props) {
 };
 
 var styles = StyleSheet.create({
-  count: {
-    fontSize: 12
+  habitText: {
+    fontFamily: 'Avenir',
+    fontSize: 20,
+    // fontWeight: 'bold',
   },
-  habit: {
-    fontSize: 16,
-    fontWeight: 'bold'
+  swipeContainer: {
+    // flexDirection: 'row',
+    height: 60,
+    marginTop: 10,
+    marginHorizontal: 10,
+    backgroundColor: '#fff',
+    borderWidth: 0,
+    borderRadius: 10,
+    shadowColor: '#000000',
+    shadowOpacity: 0.6,
+    shadowRadius: 4,
+    shadowOffset: {
+      height: 3.5,
+      width: 2
+    }
   },
-  habitinfo: {
-  },
-  inboxrow: {
+  swipeContent: {
     flex: 1,
-    borderBottomWidth: 1,
-    borderColor: '#090f16'
-  },
-  swipe: {
-    paddingLeft: 15,
-    paddingRight: 5,
-    paddingTop: 15,
-    paddingBottom: 15,
-    flexDirection: 'row'
-  },
-  touch: {
-    position: 'absolute',
-    right: 20,
-    top: 16
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    // backgroundColor: '#fff',
+    // borderWidth: 0,
+    // borderRadius: 10,
   },
   img: {
-    width: 26,
-    height: 26,
+    width: 30,
+    height: 30,
   }
 });
 
