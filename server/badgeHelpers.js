@@ -8,19 +8,19 @@ var awardBadge = function (user, badge) {
   newBadge[badge] = _badges[badge].uri;
   user.badges.push(newBadge);
   user.save();
+
   // if badge is being awarded, setup toast return
   return {
     name: badge,
     toast: _badges[badge].toast,
-    icon: _badges[badge].uri
-  } 
+    icon: _badges[badge].uri,
+  }
 };
 
 var checkBadges = function (email, habit, habits) {
   return User.findOne({ 'email': email })
     .then(function (user) {
       var awarded = [];
-
       var doCheck = function (badge) {
 
         // check if a badge is to be awarded
@@ -53,5 +53,5 @@ var checkBadges = function (email, habit, habits) {
 
 module.exports = {
   checkBadges: checkBadges,
-  awardBadge: awardBadge
+  awardBadge: awardBadge,
 };
