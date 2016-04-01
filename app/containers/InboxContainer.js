@@ -1,9 +1,5 @@
+// React Native components
 var React = require('react-native');
-var moment = require('moment');
-var api = require('../lib/api');
-var Auth0credentials = require('../../auth0_credentials');
-var Icon = require('react-native-vector-icons/FontAwesome');
-var RefreshableListView = require('react-native-refreshable-listview')
 var View = React.View;
 var Text = React.Text;
 var Alert = React.Alert;
@@ -16,10 +12,16 @@ var Linking = React.Linking;
 var Image = React.Image;
 var Dimensions = React.Dimensions;
 
+// external libraries and components
+var moment = require('moment');
+var api = require('../lib/api');
+var Auth0credentials = require('../../auth0_credentials');
+var Icon = require('react-native-vector-icons/FontAwesome');
 var moment = require('moment');
 var Icon = require('react-native-vector-icons/FontAwesome');
-var Notification = require('../components/Notification');
 
+// custom compoments and methods
+var Notification = require('../components/Notification');
 var Inbox = require('../components/Inbox');
 var Welcome = require('../components/Welcome');
 
@@ -29,11 +31,11 @@ var Habits = React.createClass({
       dataSource: new ListView.DataSource({
         rowHasChanged: function (row1, row2) {
           return row1 !== row2
-        }
+        },
       }),
       scrollEnabled: true,
       alert: false,
-      badge: {}
+      badge: {},
     }
   },
 
@@ -43,7 +45,7 @@ var Habits = React.createClass({
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + this.props.token.idToken
-      }
+      },
     })
     .then(api.handleErrors)
     .then(function (response) {
@@ -62,7 +64,7 @@ var Habits = React.createClass({
   editHabit: function (habit) {
     this.props.navigator.push({
       id: 'HabitSettings',
-      habit: habit
+      habit: habit,
     });
   },
 
@@ -70,7 +72,7 @@ var Habits = React.createClass({
     setTimeout((function () {
       this.setState({
         alert: true,
-        badge: badge
+        badge: badge,
       });
     }).bind(this), 500);
     setTimeout((function () {
@@ -87,7 +89,7 @@ var Habits = React.createClass({
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + this.props.token.idToken
-      }
+      },
     })
     .then(api.handleErrors)
     .then(function (response) {
@@ -107,7 +109,7 @@ var Habits = React.createClass({
   gotoDetails: function (habit) {
     this.props.navigator.push({
       id: 'HabitDetails',
-      habit: habit
+      habit: habit,
     });
   },
 
@@ -119,12 +121,12 @@ var Habits = React.createClass({
   },
 
   handlePress: function () {
-    this.props.navigator.push({id:'AddHabit'});
+    this.props.navigator.push({ id:'AddHabit' });
   },
 
   allowScroll: function(scrollEnabled) {
     if (scrollEnabled !== this.state.scrollEnabled) {
-      this.setState({ scrollEnabled: scrollEnabled })
+      this.setState({ scrollEnabled: scrollEnabled });
     }
   },
 
@@ -142,20 +144,21 @@ var Habits = React.createClass({
 
   render: function () {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{flex: 1}}>
         <Navigator
           renderScene={this.renderScene}
           navigator={this.props.navigator}
           navigationBar={
-            <Navigator.NavigationBar style={{backgroundColor: '#6399DC', alignItems: 'center'}}
-                routeMapper={NavigationBarRouteMapper} />
+            <Navigator.NavigationBar
+              style={{backgroundColor: '#6399DC', alignItems: 'center'}}
+              routeMapper={NavigationBarRouteMapper}
+            />
           }
         />
       </View>
     );
   },
 
-  // handleLogout triggers re-render of AppContainer by calling setState
   renderScene: function (route, navigator) {
     return (
       <View style={styles.container}>
@@ -165,7 +168,11 @@ var Habits = React.createClass({
           automaticallyAdjustContentInsets={false}
           scrollEnabled={this.state.scrollEnabled}
         />
-        <Notification visible={this.state.alert} name={ this.state.badge ? this.state.badge.name : null } icon={ this.state.badge ? this.state.badge.icon : null }>
+        <Notification
+          visible={this.state.alert}
+          name={this.state.badge ? this.state.badge.name : null}
+          icon={this.state.badge ? this.state.badge.icon : null}
+        >
         </Notification>
         <TouchableOpacity style={styles.circleButton} onPress={this.handlePress}>
           <Icon name='plus' size={25} color='#ffffff' />
@@ -216,8 +223,8 @@ var styles = StyleSheet.create({
     shadowRadius: 4,
     shadowOffset: {
       height: 4,
-      width: 3
-    }
+      width: 3,
+    },
   },
 });
 
