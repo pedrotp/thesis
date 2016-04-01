@@ -17,7 +17,7 @@ var User = require('../db/models').User;
 var Habits = require('../db/models').Habits;
 var Instances = require('../db/models').Instances;
 
-xdescribe('Basic Server', function () {
+describe('Basic Server', function () {
 
   // Example user
   var user = {
@@ -54,8 +54,8 @@ xdescribe('Basic Server', function () {
         .send(habit1)
         .expect(201)
         .expect(function (res) {
-          habit1Id = res.body._id;
-          instance1Id = res.body.instancesId;
+          habit1Id = res.body.habit._id;
+          instance1Id = res.body.habit.instancesId;
         })
         .end(function () {
           request(app)
@@ -63,7 +63,7 @@ xdescribe('Basic Server', function () {
           .send(habit2)
           .expect(201)
           .expect(function (res) {
-            habit2Id = res.body._id;
+            habit2Id = res.body.habit._id;
           })
           .end(done);
         });
@@ -131,7 +131,6 @@ xdescribe('Basic Server', function () {
     // Habit to send in POST requests
     var habit3 = {
       action: 'Run',
-      frequency: 'Weekly'
     };
 
     it('should return 201 on success', function (done) {
@@ -157,8 +156,7 @@ xdescribe('Basic Server', function () {
         .send(habit3)
         .expect(201)
         .expect(function (res) {
-          expect(res.body.action).to.equal(habit3.action);
-          expect(res.body.frequency).to.equal(habit3.frequency);
+          expect(res.body.habit.action).to.equal(habit3.action);
         })
         .end(done);
     });
@@ -169,7 +167,7 @@ xdescribe('Basic Server', function () {
         .send(habit3)
         .expect(201)
         .expect(function (res) {
-          instance1Id = res.body.instancesId;
+          instance1Id = res.body.habit.instancesId;
           Instances.findById(instance1Id)
             .then(function (success) {
               expect(instance1Id).to.equal(success._id.toString());
@@ -188,7 +186,6 @@ xdescribe('Basic Server', function () {
     // Updates to be used in request
     var update1 = {
       action: 'Write BETTER tests',
-      frequency: 'Weekly'
     };
 
     it('should return 200 on success', function (done) {
