@@ -16,7 +16,7 @@ var styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#EDBE40'
+    backgroundColor: '#EDBE40',
   },
   text: {
     fontSize: 60,
