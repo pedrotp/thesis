@@ -17,7 +17,7 @@ var User = require('../db/models').User;
 var Habits = require('../db/models').Habits;
 var Instances = require('../db/models').Instances;
 
-xdescribe('Basic Server', function () {
+describe('Basic Server', function () {
 
   // Example user
   var user = {
@@ -131,7 +131,6 @@ xdescribe('Basic Server', function () {
     // Habit to send in POST requests
     var habit3 = {
       action: 'Run',
-      frequency: 'Weekly'
     };
 
     it('should return 201 on success', function (done) {
@@ -157,8 +156,7 @@ xdescribe('Basic Server', function () {
         .send(habit3)
         .expect(201)
         .expect(function (res) {
-          expect(res.body.action).to.equal(habit3.action);
-          expect(res.body.frequency).to.equal(habit3.frequency);
+          expect(res.body.habit.action).to.equal(habit3.action);
         })
         .end(done);
     });
