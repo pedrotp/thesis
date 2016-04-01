@@ -15,6 +15,7 @@ var app = express();
 if (!testing) {
   app.use(morgan('dev'));
 }
+
 app.use(bodyParser());
 app.use(express.static(__dirname + '/../pub'));
 
