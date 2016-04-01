@@ -106,12 +106,12 @@ var updateHabit = function (email, habitId, newHabit) {
         oldHabit.reminder.stop();
         var job = sms.schedule({
           userId: userId,
-          message: 'Time to ' + habit.action.toLowerCase() + '! - Better'
+          message: 'Time to ' + habit.action.toLowerCase() + '! - Better',
         },
         {
           hour: habit.reminder.time.getHours(),
           minute: habit.reminder.time.getMinutes(),
-          days: habit.reminder.days || undefined
+          days: habit.reminder.days || undefined,
         }, habit._id);
         habit.set('reminder.stop', job.stop);
       }
@@ -138,7 +138,7 @@ var getUser = function (email) {
     .then(function (habits) {
       return {
         user: user,
-        habits: habits.store
+        habits: habits.store,
       };
     });
 };
@@ -313,5 +313,5 @@ module.exports = {
   getUser: getUser,
   getInstances: getInstances,
   getInstance: getInstance,
-  updateInstance: updateInstance
+  updateInstance: updateInstance,
 };

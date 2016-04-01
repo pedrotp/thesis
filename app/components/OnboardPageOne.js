@@ -17,6 +17,7 @@ var OnboardPageOne = React.createClass({
       </View>
     );
   },
+
   renderScene: function (route, navigator) {
     return (
       <View style={styles.container}>
@@ -38,7 +39,7 @@ var styles = StyleSheet.create({
     paddingHorizontal: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#EDBE40'
+    backgroundColor: '#EDBE40',
   },
   welcome: {
     fontFamily: 'Avenir',
@@ -46,7 +47,7 @@ var styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     margin: 10,
-    color: '#FFF'
+    color: '#FFF',
   },
   instructions: {
     fontFamily: 'Avenir',
@@ -55,12 +56,12 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 5,
     color: '#FFF',
-    padding: 25
+    padding: 25,
   },
   img: {
     width: 83,
     height: 50,
-    marginTop: 20
+    marginTop: 20,
   },
 });
 

@@ -1,3 +1,4 @@
+// React Native components
 var React = require('react-native');
 var View = React.View;
 var Text = React.Text;
@@ -5,12 +6,14 @@ var StyleSheet = React.StyleSheet;
 var TouchableOpacity = React.TouchableOpacity;
 var Modal = React.Modal;
 var TextInput = React.TextInput;
-var api = require('../lib/api');
 
+// external libraries and components
 var moment = require('moment');
 var Button = require('react-native-button');
-
 var Icon = require('react-native-vector-icons/FontAwesome');
+
+// custome components and methods
+var api = require('../lib/api');
 
 var Note = React.createClass({
   getInitialState: function () {
@@ -19,7 +22,7 @@ var Note = React.createClass({
       instanceId: null,
       rowData: null,
       date: null,
-      note: { note: '' }
+      note: { note: '' },
     };
   },
 
@@ -29,7 +32,7 @@ var Note = React.createClass({
       instanceId: props.instanceId,
       rowData: props.rowData,
       date: props.date,
-      note: props.note
+      note: props.note,
     });
   },
 
@@ -60,7 +63,9 @@ var Note = React.createClass({
   },
 
   handleClearText: function () {
-    this.setState( { note: { note: ''}} )
+    this.setState({
+      note: { note: ''},
+    })
   },
 
   handleDeleteNote: function () {
@@ -70,14 +75,13 @@ var Note = React.createClass({
 
   onTextChange: function (text) {
     this.setState({
-      note: { note: text }
+      note: { note: text },
     });
   },
 
   render: function () {
     var modalBackgroundStyle = {backgroundColor: 'rgba(0, 0, 0, 0.5)'};
     var innerContainerTransparentStyle = {backgroundColor: '#fff', padding: 20};
-
     return (
       <View>
         <Modal
@@ -119,12 +123,12 @@ var styles = StyleSheet.create({
   container: {
       flex: 1,
       justifyContent: 'center',
-      padding: 20
+      padding: 20,
     },
     innerContainer: {
       borderRadius: 10,
       height: 400,
-      alignItems: 'center'
+      alignItems: 'center',
     },
     modalButton: {
       marginHorizontal: 5,

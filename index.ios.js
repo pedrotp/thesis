@@ -1,4 +1,6 @@
 'use strict';
+
+// React Native components
 var React = require('react-native')
 var AppRegistry = React.AppRegistry;
 var TabBarIOS = React.TabBarIOS;
@@ -6,21 +8,24 @@ var View = React.View;
 var Text = React.Text;
 var Image = React.Image;
 
-var api = require('./app/lib/api');
+// external libraries and components
 var Icon = require('react-native-vector-icons/Foundation');
-var AppContainer = require('./app/containers/AppContainer');
-var ProfileContainer = require('./app/containers/ProfileContainer');
 var Auth0credentials = require('./auth0_credentials');
 var Auth0Lock = require('react-native-lock-ios');
+
+// custom components and methods
+var AppContainer = require('./app/containers/AppContainer');
+var ProfileContainer = require('./app/containers/ProfileContainer');
+var api = require('./app/lib/api');
 
 // EDIT THIS VARIABLE FOR LOCAL TESTING
 var localServer = false;
 
 // DO NOT EDIT THIS
 if (localServer === true) {
-  process.env.SERVER = 'http://localhost:3000'
+  process.env.SERVER = 'http://localhost:3000';
 } else {
-  process.env.SERVER = 'http://better-habits.herokuapp.com'
+  process.env.SERVER = 'http://better-habits.herokuapp.com';
 }
 
 // Instantiate a new Lock
@@ -34,19 +39,21 @@ var TabContainer = React.createClass({
       profile: null,
       token: null,
       user: null,
-      onboard: null
+      onboard: null,
     }
   },
+
   handleLogout: function () {
     this.setState({
       auth: false,
       token: null,
       profile: null,
       user: null,
-      onboard: null
+      onboard: null,
     });
     this.showLock();
   },
+
   showLock: function () {
     // Display login widget
     lock.show({}, (function (err, profile, token) {
@@ -60,26 +67,26 @@ var TabContainer = React.createClass({
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + token.idToken
+          'Authorization': 'Bearer ' + token.idToken,
         },
-        body: JSON.stringify(profile)
+        body: JSON.stringify(profile),
       })
       .then(api.handleErrors)
       .then(function (response) {
         return response.json();
       })
       .then((function (user) {
+
         // On successful login + store user
         // Set user info on state
         var onboardState = user.newUser;
-
         this.setState({
           selectedTab: 'inbox',
           auth: true,
           token: token,
           profile: profile,
           user: user,
-          onboard: onboardState
+          onboard: onboardState,
         });
       }).bind(this))
       .catch(function (err) {
@@ -93,7 +100,7 @@ var TabContainer = React.createClass({
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + this.state.token.idToken
+          'Authorization': 'Bearer ' + this.state.token.idToken,
         },
       })
       .then(api.handleErrors)
@@ -104,7 +111,7 @@ var TabContainer = React.createClass({
         this.setState({
           user: response.user,
           onboard: false,
-          badge: badge
+          badge: badge,
         })
       }).bind(this))
       .catch(function (err) {
@@ -112,11 +119,13 @@ var TabContainer = React.createClass({
       });
   },
   componentDidMount: function () {
+
     // If user not logged in
     if (!this.state.auth) {
       this.showLock();
     }
   },
+
   render: function () {
     if (this.state.auth) {
       if (this.state.onboard === true) {
@@ -131,7 +140,12 @@ var TabContainer = React.createClass({
         )
       } else {
         return (
-          <TabBarIOS tintColor='#6399DC' transluscent={false} barTintColor='#fff' selectedTab={this.state.selectedTab}>
+          <TabBarIOS
+            tintColor='#6399DC'
+            transluscent={false}
+            barTintColor='#fff'
+            selectedTab={this.state.selectedTab}
+          >
             <Icon.TabBarItemIOS
               selected={this.state.selectedTab === 'inbox'}
               title='Habits'

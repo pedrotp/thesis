@@ -1,3 +1,4 @@
+// React Native component
 var React = require('react-native');
 var Text = React.Text;
 var View = React.View;
@@ -5,22 +6,19 @@ var StyleSheet = React.StyleSheet;
 var Image = React.Image;
 var TouchableOpacity = React.TouchableOpacity;
 
+// external libraries and components
 var Swipeout = require('react-native-swipeout');
 var moment = require('moment');
-var Icon = require('react-native-vector-icons/FontAwesome')
+var Icon = require('react-native-vector-icons/FontAwesome');
 
 function Inbox (props) {
-  var swipeButtons = [
-    {
-      text: 'Settings',
-      color: '#000000',
-      backgroundColor: "#eee",
-      onPress: function () {props.editHabit(props.habit)}
-    },
-  ];
-
+  var swipeButtons = [{
+    text: 'Settings',
+    color: '#000000',
+    backgroundColor: "#eee",
+    onPress: function () { props.editHabit(props.habit) },
+  },];
   var done = props.habit.lastDone && moment().isSame(props.habit.lastDone, 'day');
-
   return (
     <View style={styles.swipeContainer}>
       <Swipeout
@@ -32,16 +30,18 @@ function Inbox (props) {
         }}
       >
         <View style={styles.swipeContent}>
-          <TouchableOpacity onPress={function () {props.gotoDetails(props.habit)}}>
+          <TouchableOpacity onPress={function () { props.gotoDetails(props.habit) }}>
             <View>
-              <Text style={styles.habitText}>{props.habit.action}</Text>
+              <Text style={styles.habitText}>
+                {props.habit.action}
+              </Text>
             </View>
           </TouchableOpacity>
           <View style={{flex: 1}}></View>
-          <TouchableOpacity onPress={function () {props.toggleInstance(props.habit._id)}}>
+          <TouchableOpacity onPress={function () { props.toggleInstance(props.habit._id) }}>
             <Image
-              source={ done ? {uri: 'http://better-habits.herokuapp.com/assets/done_green.png'} : {uri: 'http://better-habits.herokuapp.com/assets/done_gray.png'} }
-              style={ styles.img }
+              source={done ? {uri: 'http://better-habits.herokuapp.com/assets/done_green.png'} : {uri: 'http://better-habits.herokuapp.com/assets/done_gray.png'}}
+              style={styles.img}
             />
           </TouchableOpacity>
         </View>
@@ -67,8 +67,8 @@ var styles = StyleSheet.create({
     shadowRadius: 4,
     shadowOffset: {
       height: 3.5,
-      width: 2
-    }
+      width: 2,
+    },
   },
   swipeContent: {
     flex: 1,
@@ -79,7 +79,7 @@ var styles = StyleSheet.create({
   img: {
     width: 30,
     height: 30,
-  }
+  },
 });
 
 module.exports = Inbox;
