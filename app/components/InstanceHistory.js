@@ -1,3 +1,4 @@
+// React Native components
 var React = require('react-native');
 var api = require('../lib/api');
 var View = React.View;
@@ -8,9 +9,11 @@ var TouchableOpacity = React.TouchableOpacity;
 var ListView = React.ListView;
 var Image = React.Image;
 
+// external libraries and components
 var moment = require('moment');
 var getInstancePeriod = require('../lib/calendar').getInstancePeriod;
 
+// custom components and methods
 var InstanceHistory = React.createClass({
   getInitialState: function () {
     return {
@@ -126,21 +129,21 @@ var styles = StyleSheet.create({
     flex: 0.90,
     justifyContent: 'center',
     marginTop: 54,
-    paddingTop: 10
+    paddingTop: 10,
   },
   row: {
     flexDirection: 'row',
     padding: 10,
     borderBottomWidth: 1,
     borderColor: '#CCCCCC',
-    backgroundColor: '#F6F6F6'
+    backgroundColor: '#F6F6F6',
   },
   header: {
     padding: 10,
     margin: 5,
     fontSize: 34,
     fontFamily: 'Avenir',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   date: {
     marginTop: 10,
@@ -153,7 +156,7 @@ var styles = StyleSheet.create({
     width: 26,
     height: 26,
     right: 20,
-    top: 16
+    top: 16,
   }
 });
 
