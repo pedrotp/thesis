@@ -54,8 +54,8 @@ describe('Basic Server', function () {
         .send(habit1)
         .expect(201)
         .expect(function (res) {
-          habit1Id = res.body._id;
-          instance1Id = res.body.instancesId;
+          habit1Id = res.body.habit._id;
+          instance1Id = res.body.habit.instancesId;
         })
         .end(function () {
           request(app)
@@ -63,7 +63,7 @@ describe('Basic Server', function () {
           .send(habit2)
           .expect(201)
           .expect(function (res) {
-            habit2Id = res.body._id;
+            habit2Id = res.body.habit._id;
           })
           .end(done);
         });
@@ -167,7 +167,7 @@ describe('Basic Server', function () {
         .send(habit3)
         .expect(201)
         .expect(function (res) {
-          instance1Id = res.body.instancesId;
+          instance1Id = res.body.habit.instancesId;
           Instances.findById(instance1Id)
             .then(function (success) {
               expect(instance1Id).to.equal(success._id.toString());
@@ -186,7 +186,6 @@ describe('Basic Server', function () {
     // Updates to be used in request
     var update1 = {
       action: 'Write BETTER tests',
-      frequency: 'Weekly'
     };
 
     it('should return 200 on success', function (done) {
