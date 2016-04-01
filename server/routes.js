@@ -14,12 +14,13 @@ var jwtCheck = jwt({
 var authReqRoutes = [
   '/habits',
   '/user',
-  '/sms'
+  '/sms',
 ];
 
 var routes = [
   {
     path: '/user',
+
     post: function (req, res) {
       var userEmail = req.body.email;
       var userName = req.body.nickname;
@@ -29,14 +30,15 @@ var routes = [
         })
         .catch(function (err) {
           if (!testing) {
-            console.error('Server error:', err)
+            console.error('Server error:', err);
           }
           res.sendStatus(400);
         });
-    }
+    },
   },
   {
     path: '/user/:email',
+
     get: function (req, res) {
       var userEmail = req.params.email;
       helpers.getUser(userEmail)
@@ -50,6 +52,7 @@ var routes = [
           res.sendStatus(404);
         });
     },
+
     post: function (req, res) {
       var userEmail = req.params.email;
       var updates = req.body;
@@ -59,28 +62,30 @@ var routes = [
         })
         .catch(function (err) {
           if (!testing) {
-            console.error('Server error:', err)
+            console.error('Server error:', err);
           }
           res.sendStatus(400);
         });
-    }
+    },
   },
   {
     path: '/habits/:user',
+
     get: function (req, res) {
       var userEmail = req.params.user;
-      // query db for user's habits
+      // query db for all of a user's habits
       helpers.getHabits(userEmail)
         .then(function (habits) {
           res.status(200).json(habits);
         })
         .catch(function (err) {
           if (!testing) {
-            console.error('Server error:', err)
+            console.error('Server error:', err);
           }
           res.sendStatus(400);
         });
     },
+
     post: function (req, res) {
       var userEmail = req.params.user;
       var habit = req.body;
@@ -91,17 +96,18 @@ var routes = [
           })
           .catch(function (err) {
             if (!testing) {
-              console.error('Server error:', err)
+              console.error('Server error:', err);
             }
             res.sendStatus(400);
           });
       } else {
         res.sendStatus(400);
       }
-    }
+    },
   },
   {
     path: '/habits/:user/:habitid',
+
     get: function (req, res) {
       var userEmail = req.params.user;
       var habitid = req.params.habitid;
@@ -116,6 +122,7 @@ var routes = [
           res.status(400);
         });
     },
+
     post: function (req, res) {
       var userEmail = req.params.user;
       var habitid = req.params.habitid;
@@ -125,11 +132,12 @@ var routes = [
         })
         .catch(function (err) {
           if (!testing) {
-            console.error('Server error:', err)
+            console.error('Server error:', err);
           }
           res.sendStatus(400);
         });
     },
+
     put: function (req, res) {
       var userEmail = req.params.user;
       var habitid = req.params.habitid;
@@ -140,11 +148,12 @@ var routes = [
         })
         .catch(function (err) {
           if (!testing) {
-            console.error('Server error:', err)
+            console.error('Server error:', err);
           }
           res.sendStatus(400);
         });
     },
+
     delete: function (req, res) {
       var userEmail = req.params.user;
       var habitid = req.params.habitid;
@@ -158,10 +167,11 @@ var routes = [
           }
           res.sendStatus(400);
         });
-    }
+    },
   },
   {
     path: '/sms',
+
     post: function (req, res) {
       sms.send(req.body, function (err, received) {
         if (err) {
@@ -171,10 +181,11 @@ var routes = [
           res.status(200).send(received.sid);
         }
       });
-    }
+    },
   },
   {
     path: '/habits/:user/:habitid/:instanceid',
+
     get: function (req, res) {
       var userEmail = req.params.user;
       var habitid = req.params.habitid;
@@ -190,6 +201,7 @@ var routes = [
           res.sendStatus(400);
         });
     },
+
     put: function (req, res) {
       var userEmail = req.params.user;
       var habitid = req.params.habitid;
@@ -205,8 +217,8 @@ var routes = [
           }
           res.sendStatus(400);
         });
-    }
-  }
+    },
+  },
 ];
 
 module.exports = function (app, express) {
