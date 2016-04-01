@@ -19,10 +19,11 @@ var Welcome = React.createClass({
 
   render: function () {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{flex: 1}}>
         <Navigator
           renderScene={this.renderScene}
-          navigator={this.props.navigator} />
+          navigator={this.props.navigator}
+        />
       </View>
     );
   },
@@ -42,7 +43,7 @@ var Welcome = React.createClass({
           styleDisabled={{color: 'red'}}
           onPress={this.onPressButton}
         >
-        Get Started
+          Get Started
         </Button>
       </View>
     );
@@ -54,7 +55,7 @@ var styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 20,
     justifyContent: 'center',
-    backgroundColor: '#EDBE40'
+    backgroundColor: '#EDBE40',
   },
   welcome: {
     fontFamily: 'Avenir',
@@ -62,7 +63,7 @@ var styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     margin: 10,
-    color: '#FFF'
+    color: '#FFF',
   },
   instructions: {
     fontFamily: 'Avenir',
@@ -70,11 +71,11 @@ var styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 5,
-    color: '#FFF'
+    color: '#FFF',
   },
   buttonText: {
     fontFamily: 'Avenir',
-    fontSize: 20, color: 'white'
+    fontSize: 20, color: 'white',
   },
   buttonContainer: {
     padding: 10,
@@ -84,7 +85,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#6399DC',
     marginTop: 30,
     marginLeft: 20,
-    marginRight: 20
+    marginRight: 20,
   },
 });
 
