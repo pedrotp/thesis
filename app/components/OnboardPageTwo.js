@@ -10,10 +10,11 @@ var Image = React.Image;
 var OnboardPageTwo = React.createClass({
   render: function () {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{flex: 1}}>
         <Navigator
           renderScene={this.renderScene}
-          navigator={this.props.navigator} />
+          navigator={this.props.navigator}
+        />
       </View>
     );
   },
@@ -38,7 +39,7 @@ var styles = StyleSheet.create({
     paddingHorizontal: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#EDBE40'
+    backgroundColor: '#EDBE40',
   },
   welcome: {
     fontFamily: 'Avenir',
@@ -46,7 +47,7 @@ var styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     margin: 10,
-    color: '#FFF'
+    color: '#FFF',
   },
   instructions: {
     fontFamily: 'Avenir',
@@ -55,12 +56,12 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 5,
     color: '#FFF',
-    padding: 25
+    padding: 25,
   },
   img: {
     width: 64,
     height: 64,
-    marginTop: 20
+    marginTop: 20,
   },
 });
 
